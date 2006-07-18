@@ -17,20 +17,23 @@
 	
 		http://maven.apache.com
 
-	Be sure to get a version of 2.0.2 or later.
+	Be sure to get a version of 2.0.2 or later. Installation of maven is easy,
+	just follow along with included instructions.
 
-	After you have installed maven, then it is trival to build the package, use
-	the lifecycle target 'install', e.g.
+	After you have installed maven, then it is trivial to build the package, use
+	the life-cycle target 'install', e.g.
 
 	> mvn install
 
 	From the top level of the directory. Other targets of interest are 'compile',
-	'jar' and 'test' which are self-explanitory. Maven also nicely builds the
+	'jar' and 'test' which are self-explanatory. Maven also nicely builds the
 	project files for eclipse, so you may want to run "eclipse:eclipse" target
 	and then use 'import files' in eclipse to see the project that way. 
 
-	Now, for the intrepid, or the masocists out there, I have retained the 
-	old ANT build.xml file (as build.xml.orig). I DONT SUPPORT THIS AND YOU ARE
+	A word for the Old School:
+
+	Now, for the intrepid, or the masochists out there, I have retained the 
+	old ANT build.xml file (as build.xml.orig). I DON'T SUPPORT THIS AND YOU ARE
 	ON YOUR OWN (IT WONT WORK 'OUT OF THE BOX'). I strongly suggest you download
 	maven and use that (!).
 
