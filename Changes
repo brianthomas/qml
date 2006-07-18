@@ -1,6 +1,10 @@
 
+Version 0.21  - Improve installation instructions. 
+ Jul-16-2006  - Add in Doxygen file for running it to document the project.
+
 Version 0.20  - Add in some equivalence check to various datatypes (very buggy).
  Jul-08-2006  
+ (internal)
 
 Version 0.13  - Refactor classes into sub-packages for greater managability.
  Jul-05-2006    Now we have sub-packages of 'app', 'core', 'datatype', 'locator',
