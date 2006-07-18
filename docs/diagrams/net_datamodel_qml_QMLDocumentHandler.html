@@ -1,0 +1,741 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   </head>
+   <body>
+      <table bgcolor="#CCCCFF" border="0" cellpadding="1" cellspacing="3" table-layout="fixed" width="100%">
+         <tr bgColor="#CCCCFF" width="100%">
+            <td width="72" align="center"><b><a href="overview-summary.html">Overview</a></b></td>
+            <td width="72" align="center"><b><a href="net.datamodel.qml.html">Package</a></b></td>
+            <td bgColor="#00008B" width="72" align="center"><span style="color:#FFFFFF; font-weight:bold">Class</span></td>
+            <td width="72" align="center">Diagram</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <hr>
+      <h2><font size="-1"><img src="icons/package.gif">net.datamodel.qml</font></h2><img src="icons/class_public.gif"><span style="font-size:large; font-weight:bold">Class&nbsp;</span><span style="font-size:large; font-weight:bold">QMLDocumentHandler</span><br><br>public <b>QMLDocumentHandler</b><br><p>Contains the core SAX document handler for the Reader. It also contains
+         the basic QML element/charData handlers (as internal classes).
+         
+      </p><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <thead>
+         <tr>
+            <td bgColor="#CCCCFF" colspan="2"><span style="font-size:large; font-weight:bold">Field Summary</span></td>
+         </tr>
+      </thead><tbody>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.util.Hashtable</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#399">QuantityObj</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Component.html">Component</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#400">LastComponent</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public int</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#401">ActualValuesAdded</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#402">AddingAltValues</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#403">ValuesInCDATASection</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#404">HasCSVValues</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#405">HasMultipleValues</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#406">HasVectorDataType</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.StringBuffer</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#407">ValuesBuf</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#408">ReadingCDATASection</a></code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#409">IgnoreWhitespaceOnlyData</a></code><br>          <font>Whether or not to ignore whitespace only char data.</font>&nbsp;
+            										
+         </td>
+      </tr></tbody></table><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <thead>
+         <tr>
+            <td bgColor="#CCCCFF" colspan="2"><span style="font-size:large; font-weight:bold">Constructor Summary</span></td>
+         </tr>
+      </thead><tbody>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#411">QMLDocumentHandler</a>(<a href="net_datamodel_qml_QMLDocument.html">QMLDocument</a> doc)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#412">QMLDocumentHandler</a>(<a href="net_datamodel_qml_QMLDocument.html">QMLDocument</a> doc, java.util.Hashtable options)</code><br>          &nbsp;
+            										
+         </td>
+      </tr></tbody></table><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <thead>
+         <tr>
+            <td bgColor="#CCCCFF" colspan="2"><span style="font-size:large; font-weight:bold">Method Summary</span></td>
+         </tr>
+      </thead><tbody>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_QMLDocument.html">QMLDocument</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#414">getDocument</a>()</code><br>          <font>Get the document the Document that the SAX handler will parse into.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#415">setRelativePath</a>(java.lang.String path)</code><br>          <font>Record the relative path for the inputSource that the content handler
+                is working on.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#416">setDocument</a>(<a href="net_datamodel_qml_QMLDocument.html">QMLDocument</a> doc)</code><br>          <font>Set the document the Document that the handler will parse into.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#417">addStartElementHandlers</a>(java.util.Map m, java.lang.String namespace)</code><br>          <font>Merge in external map to the internal startElement handler Hashtable.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#418">addCharDataHandlers</a>(java.util.Map m, java.lang.String namespace)</code><br>          <font>Merge in external Hashtable into the internal charData handler Hashtable.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#419">addEndElementHandlers</a>(java.util.Map m, java.lang.String namespace)</code><br>          <font>Merge in external map to the internal endElement handler Hashtable.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#420">addElementToComplexTypeAssociation</a>(java.lang.String elementName, java.lang.String elementURI, java.lang.String complexTypeName, java.lang.String complexTypeURI)</code><br>          <font>Add an association between an element of a particular URI namespace
+                 and a complexType of another URI namespace.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#421">setDefaultStartElementHandler</a>(<a href="net_datamodel_qml_StartElementHandlerAction.html">StartElementHandlerAction</a> handler)</code><br>          <font>Set the default Start Element Handler.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#422">setDefaultEndElementHandler</a>(<a href="net_datamodel_qml_EndElementHandlerAction.html">EndElementHandlerAction</a> handler)</code><br>          <font>Set the default End Element Handler.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#423">setDefaultCharDataHandler</a>(<a href="net_datamodel_qml_CharDataHandlerAction.html">CharDataHandlerAction</a> handler)</code><br>          <font>Set the default Character Data Handler.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#424">setForceSetXMLHeaderStuffOnQuantityObject</a>(boolean value)</code><br>          <font>If true it tells this QMLDocumentHandler that it should go ahead and insert XMLHeader
+               stuff even if the current parser doesnt support DTD events using reasonable
+               values.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#425">recordQuantity</a>(<a href="net_datamodel_qml_Quantity.html">Quantity</a> q)</code><br>          <font>In order to look for referenced Quantities, we "record" each that we parse.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Quantity.html">Quantity</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#426">getCurrentQuantity</a>()</code><br>          <font>Get the current quantity we are working on.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Quantity.html">Quantity</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#427">removeCurrentQuantity</a>()</code><br>          <font>Remove the current quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#428">addExpectedValues</a>(java.lang.Integer value)</code><br>          <font>Add an Integer as an expected value.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.Integer</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#429">removeExpectedValues</a>()</code><br>          <font>remove the present expected value from our list.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.Integer</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#430">getCurrentExpectedValues</a>()</code><br>          <font>Get the number of values we expected for current quantity we worked on.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Component.html">Component</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#431">getCurrentComponent</a>()</code><br>          <font>Gets the last component-compliant object we worked on.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Locator.html">Locator</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#432">getCurrentLocator</a>()</code><br>          <font>Get the locator which belongs to the current QuantityWithValues.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.Object</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#433">getLastObject</a>()</code><br>          <font>Get the last object we worked on.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_MatrixQuantity.html">MatrixQuantity</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#434">getCurrentParentQuantityAltValue</a>()</code><br>          <font>Get the current working parent matrix quantity that alt values
+                 should be added to.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#435">addParentQuantityNeedsAltValue</a>(<a href="net_datamodel_qml_Quantity.html">Quantity</a> q)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Quantity.html">Quantity</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#436">removeParentQuantityNeedsAltValue</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#437">getCurrentQuantityWithValues</a>()</code><br>          <font>Get the last quantity (with values) that we worked on.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.String</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#438">getCurrentElementNamespaceURI</a>()</code><br>          <font>Get the namespace URI value for the current element being parsed.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public org.w3c.dom.Node</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#439">getCurrentNode</a>()</code><br>          <font>Get the current node in the list of nodes we have parsed.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#440">addCurrentNode</a>(org.w3c.dom.Node node)</code><br>          <font>Add a node to the list of nodes.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public org.w3c.dom.Node</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#441">removeCurrentNode</a>()</code><br>          <font>Remove the current node from the list of nodes.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.String</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#442">getCurrentNodeName</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public org.w3c.dom.Element</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#443">createElement</a>(java.lang.String namespaceURI, java.lang.String qName, org.xml.sax.Attributes attrs)</code><br>          <font>Utility method to create a new element node for the document.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#444">startElement</a>(java.lang.String namespaceURI, java.lang.String localName, java.lang.String qName, org.xml.sax.Attributes attrs)</code><br>          <font>StartElement handler.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#445">endElement</a>(java.lang.String namespaceURI, java.lang.String localName, java.lang.String qName)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#446">characters</a>(char[] buf, int offset, int len)</code><br>          <font>character Data handler</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#447">startPrefixMapping</a>(java.lang.String prefix, java.lang.String uri)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#448">endPrefixMapping</a>(java.lang.String prefix)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#449">startDocument</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#450">endDocument</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#451">ignorableWhitespace</a>(char[] buf, int offset, int len)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#452">internalEntityDecl</a>(java.lang.String name, java.lang.String value)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#453">externalEntityDecl</a>(java.lang.String name, java.lang.String publicId, java.lang.String systemId)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#454">unparsedEntityDecl</a>(java.lang.String name, java.lang.String publicId, java.lang.String systemId, java.lang.String notationName)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#455">startDTD</a>(java.lang.String name, java.lang.String publicId, java.lang.String systemId)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#456">notationDecl</a>(java.lang.String name, java.lang.String publicId, java.lang.String systemId)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#457">processingInstruction</a>(java.lang.String target, java.lang.String data)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#458">endDTD</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#459">endCDATA</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#460">startCDATA</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#461">startEntity</a>(java.lang.String name)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#462">endEntity</a>(java.lang.String name)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#463">comment</a>(char[] ch, int start, int length)</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public static int </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#464">findExpectedSize</a>(org.xml.sax.Attributes attrs, java.lang.String uri)</code><br>          <font>A little utility program to find the expected size from a list of attributes.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public static void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#465">setValue</a>(<a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> qV, java.lang.String value, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>A utility function to allow proper setting of value in quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public static void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#466">setValue</a>(<a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> qV, <a href="net_datamodel_qml_DataType.html">DataType</a> dataType, java.lang.String value, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>A utility function to allow proper setting of value in quantity.</font>&nbsp;
+            										
+         </td>
+      </tr></tbody></table><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+         <td bgColor="#CCCCFF"><span style="font-size:large; font-weight:bold">Field Detail</span></td>
+      </tr></table><a name="399"><span style="font-size:larger">QuantityObj</span></a><br><br><pre>public java.util.Hashtable <b>QuantityObj</b></pre><br><dl></dl><br><hr><a name="400"><span style="font-size:larger">LastComponent</span></a><br><br><pre>public <a href="net_datamodel_qml_Component.html">Component</a> <b>LastComponent</b></pre><br><dl></dl><br><hr><a name="401"><span style="font-size:larger">ActualValuesAdded</span></a><br><br><pre>public int <b>ActualValuesAdded</b></pre><br><dl></dl><br><hr><a name="402"><span style="font-size:larger">AddingAltValues</span></a><br><br><pre>public boolean <b>AddingAltValues</b></pre><br><dl></dl><br><hr><a name="403"><span style="font-size:larger">ValuesInCDATASection</span></a><br><br><pre>public boolean <b>ValuesInCDATASection</b></pre><br><dl></dl><br><hr><a name="404"><span style="font-size:larger">HasCSVValues</span></a><br><br><pre>public boolean <b>HasCSVValues</b></pre><br><dl></dl><br><hr><a name="405"><span style="font-size:larger">HasMultipleValues</span></a><br><br><pre>public boolean <b>HasMultipleValues</b></pre><br><dl></dl><br><hr><a name="406"><span style="font-size:larger">HasVectorDataType</span></a><br><br><pre>public boolean <b>HasVectorDataType</b></pre><br><dl></dl><br><hr><a name="407"><span style="font-size:larger">ValuesBuf</span></a><br><br><pre>public java.lang.StringBuffer <b>ValuesBuf</b></pre><br><dl></dl><br><hr><a name="408"><span style="font-size:larger">ReadingCDATASection</span></a><br><br><pre>public boolean <b>ReadingCDATASection</b></pre><br><dl></dl><br><hr><a name="409"><span style="font-size:larger">IgnoreWhitespaceOnlyData</span></a><br><br><pre>public boolean <b>IgnoreWhitespaceOnlyData</b></pre><br><dl>
+         <p>Whether or not to ignore whitespace only char data. This is a BAD thing. 
+            I have been having troubles distinguishing between
+            important whitespace (e.g. char data within a data node) and text nodes
+            that are purely for the layout of the XML document. Right now I use the 
+            CRUDE distinquishing characteristic that fluff (eg. only there for the sake
+            of formatting the output doc) text nodes are all whitespace.
+         </p>
+      </dl><br><hr><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+         <td bgColor="#CCCCFF"><span style="font-size:large; font-weight:bold">Constructor Detail</span></td>
+      </tr></table><span style="font-size:medium"><a name="411"><span style="font-size:medium">QMLDocumentHandler</span></a></span><br><pre>public <b>QMLDocumentHandler</b>(<a href="net_datamodel_qml_QMLDocument.html">QMLDocument</a> doc)</pre><br><dl><br></dl>
+      <hr><span style="font-size:medium"><a name="412"><span style="font-size:medium">QMLDocumentHandler</span></a></span><br><pre>public <b>QMLDocumentHandler</b>(<a href="net_datamodel_qml_QMLDocument.html">QMLDocument</a> doc, java.util.Hashtable options)</pre><br><dl><br></dl>
+      <hr><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+         <td bgColor="#CCCCFF"><span style="font-size:large; font-weight:bold">Method Detail</span></td>
+      </tr></table><a name="414"><span style="font-size:medium">getDocument</span></a><br><br><pre>public <a href="net_datamodel_qml_QMLDocument.html">QMLDocument</a> <b>getDocument</b>()</pre><br><dl>
+         <p>Get the document the Document that the SAX handler will parse into.</p><br></dl>
+      <hr><a name="415"><span style="font-size:medium">setRelativePath</span></a><br><br><pre>public void  <b>setRelativePath</b>(java.lang.String path)</pre><br><dl>
+         <p>Record the relative path for the inputSource that the content handler
+             is working on.
+         </p><br></dl>
+      <hr><a name="416"><span style="font-size:medium">setDocument</span></a><br><br><pre>public void  <b>setDocument</b>(<a href="net_datamodel_qml_QMLDocument.html">QMLDocument</a> doc)</pre><br><dl>
+         <p>Set the document the Document that the handler will parse into. 
+             
+         </p><br></dl>
+      <hr><a name="417"><span style="font-size:medium">addStartElementHandlers</span></a><br><br><pre>public void  <b>addStartElementHandlers</b>(java.util.Map m, java.lang.String namespace)</pre><br><dl>
+         <p>Merge in external map to the internal startElement handler Hashtable. 
+            Keys in the Hashtable are strings describing the node name in
+            and the value is a code reference to the class that will handle 
+            the event. The class must implement the StartElementAction interface. 
+            It is possible to override default QML startElement handlers with 
+            this method by specifying the QML namespace URI.
+         </p><br></dl>
+      <hr><a name="418"><span style="font-size:medium">addCharDataHandlers</span></a><br><br><pre>public void  <b>addCharDataHandlers</b>(java.util.Map m, java.lang.String namespace)</pre><br><dl>
+         <p>Merge in external Hashtable into the internal charData handler Hashtable. 
+            Keys in the Hashtable are strings describing the node name in
+            the XML document that has CDATA/PCDATA and the value is a code reference
+            to the class that will handle the event. The class must implement 
+            the CharDataAction interface. It is possible to override default
+            QML cdata handlers with this method by specifying the QML namespace URI. 
+            
+         </p><br></dl>
+      <hr><a name="419"><span style="font-size:medium">addEndElementHandlers</span></a><br><br><pre>public void  <b>addEndElementHandlers</b>(java.util.Map m, java.lang.String namespace)</pre><br><dl>
+         <p>Merge in external map to the internal endElement handler Hashtable. 
+            Keys in the Hashtable are strings describing the node name in
+            and the value is a code reference to the class that will handle 
+            the event. The class must implement the EndElementAction interface. 
+            It is possible to override default QML endElement handlers with 
+            this method by specifying the QML namespace URI.
+         </p><br></dl>
+      <hr><a name="420"><span style="font-size:medium">addElementToComplexTypeAssociation</span></a><br><br><pre>public void  <b>addElementToComplexTypeAssociation</b>(java.lang.String elementName, java.lang.String elementURI, java.lang.String complexTypeName, java.lang.String complexTypeURI)</pre><br><dl>
+         <p>Add an association between an element of a particular URI namespace
+              and a complexType of another URI namespace. This allows the document handler
+             to choose the appropriate complexType handler action (either a startElement,
+             endElement or CharData type, depending on the context of the parse) will
+             be invoked when that element is parsed.
+         </p><br></dl>
+      <hr><a name="421"><span style="font-size:medium">setDefaultStartElementHandler</span></a><br><br><pre>public void  <b>setDefaultStartElementHandler</b>(<a href="net_datamodel_qml_StartElementHandlerAction.html">StartElementHandlerAction</a> handler)</pre><br><dl>
+         <p>Set the default Start Element Handler. This specifies what happens to nodes
+            which are not explicitly defined in the startElementHandler table. When this
+            method is called, the original default handler is replaced with the passed
+            handler.
+         </p><br></dl>
+      <hr><a name="422"><span style="font-size:medium">setDefaultEndElementHandler</span></a><br><br><pre>public void  <b>setDefaultEndElementHandler</b>(<a href="net_datamodel_qml_EndElementHandlerAction.html">EndElementHandlerAction</a> handler)</pre><br><dl>
+         <p>Set the default End Element Handler. This specifies what happens to nodes
+            which are not explicitly defined in the endElementHandler table. When this
+            method is called, the original default handler is replaced with the passed
+            handler.
+         </p><br></dl>
+      <hr><a name="423"><span style="font-size:medium">setDefaultCharDataHandler</span></a><br><br><pre>public void  <b>setDefaultCharDataHandler</b>(<a href="net_datamodel_qml_CharDataHandlerAction.html">CharDataHandlerAction</a> handler)</pre><br><dl>
+         <p>Set the default Character Data Handler. This specifies what happens to nodes
+            which are not explicitly defined in the charDataElementHandler table. When this
+            method is called, the original default handler is replaced with the passed
+            handler.
+         </p><br></dl>
+      <hr><a name="424"><span style="font-size:medium">setForceSetXMLHeaderStuffOnQuantityObject</span></a><br><br><pre>public void  <b>setForceSetXMLHeaderStuffOnQuantityObject</b>(boolean value)</pre><br><dl>
+         <p>If true it tells this QMLDocumentHandler that it should go ahead and insert XMLHeader
+            stuff even if the current parser doesnt support DTD events using reasonable
+            values.
+         </p><br></dl>
+      <hr><a name="425"><span style="font-size:medium">recordQuantity</span></a><br><br><pre>public void  <b>recordQuantity</b>(<a href="net_datamodel_qml_Quantity.html">Quantity</a> q)</pre><br><dl>
+         <p>In order to look for referenced Quantities, we "record" each that we parse.</p><br></dl>
+      <hr><a name="426"><span style="font-size:medium">getCurrentQuantity</span></a><br><br><pre>public <a href="net_datamodel_qml_Quantity.html">Quantity</a> <b>getCurrentQuantity</b>()</pre><br><dl>
+         <p>Get the current quantity we are working on.</p><br></dl>
+      <hr><a name="427"><span style="font-size:medium">removeCurrentQuantity</span></a><br><br><pre>public <a href="net_datamodel_qml_Quantity.html">Quantity</a> <b>removeCurrentQuantity</b>()</pre><br><dl>
+         <p>Remove the current quantity.
+              
+         </p><br></dl>
+      <hr><a name="428"><span style="font-size:medium">addExpectedValues</span></a><br><br><pre>public void  <b>addExpectedValues</b>(java.lang.Integer value)</pre><br><dl>
+         <p>Add an Integer as an expected value. 
+             Expected values are compared to the number of actual values counted
+             at parse time as an added check for correctness.
+         </p><br></dl>
+      <hr><a name="429"><span style="font-size:medium">removeExpectedValues</span></a><br><br><pre>public java.lang.Integer <b>removeExpectedValues</b>()</pre><br><dl>
+         <p>remove the present expected value from our list.
+             
+         </p><br></dl>
+      <hr><a name="430"><span style="font-size:medium">getCurrentExpectedValues</span></a><br><br><pre>public java.lang.Integer <b>getCurrentExpectedValues</b>()</pre><br><dl>
+         <p>Get the number of values we expected for current quantity we worked on.</p><br></dl>
+      <hr><a name="431"><span style="font-size:medium">getCurrentComponent</span></a><br><br><pre>public <a href="net_datamodel_qml_Component.html">Component</a> <b>getCurrentComponent</b>()</pre><br><dl>
+         <p>Gets the last component-compliant object we worked on.
+             This could be some types of Quantity as well as components.
+         </p><br></dl>
+      <hr><a name="432"><span style="font-size:medium">getCurrentLocator</span></a><br><br><pre>public <a href="net_datamodel_qml_Locator.html">Locator</a> <b>getCurrentLocator</b>()</pre><br><dl>
+         <p>Get the locator which belongs to the current QuantityWithValues.</p><br></dl>
+      <hr><a name="433"><span style="font-size:medium">getLastObject</span></a><br><br><pre>public java.lang.Object <b>getLastObject</b>()</pre><br><dl>
+         <p>Get the last object we worked on.</p><br></dl>
+      <hr><a name="434"><span style="font-size:medium">getCurrentParentQuantityAltValue</span></a><br><br><pre>public <a href="net_datamodel_qml_MatrixQuantity.html">MatrixQuantity</a> <b>getCurrentParentQuantityAltValue</b>()</pre><br><dl>
+         <p>Get the current working parent matrix quantity that alt values
+              should be added to.
+         </p><br></dl>
+      <hr><a name="435"><span style="font-size:medium">addParentQuantityNeedsAltValue</span></a><br><br><pre>public void  <b>addParentQuantityNeedsAltValue</b>(<a href="net_datamodel_qml_Quantity.html">Quantity</a> q)</pre><br><dl><br></dl>
+      <hr><a name="436"><span style="font-size:medium">removeParentQuantityNeedsAltValue</span></a><br><br><pre>public <a href="net_datamodel_qml_Quantity.html">Quantity</a> <b>removeParentQuantityNeedsAltValue</b>()</pre><br><dl><br></dl>
+      <hr><a name="437"><span style="font-size:medium">getCurrentQuantityWithValues</span></a><br><br><pre>public <a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> <b>getCurrentQuantityWithValues</b>()</pre><br><dl>
+         <p>Get the last quantity (with values) that we worked on.</p><br></dl>
+      <hr><a name="438"><span style="font-size:medium">getCurrentElementNamespaceURI</span></a><br><br><pre>public java.lang.String <b>getCurrentElementNamespaceURI</b>()</pre><br><dl>
+         <p>Get the namespace URI value for the current element being parsed.</p><br></dl>
+      <hr><a name="439"><span style="font-size:medium">getCurrentNode</span></a><br><br><pre>public org.w3c.dom.Node <b>getCurrentNode</b>()</pre><br><dl>
+         <p>Get the current node in the list of nodes we have parsed.</p><br></dl>
+      <hr><a name="440"><span style="font-size:medium">addCurrentNode</span></a><br><br><pre>public void  <b>addCurrentNode</b>(org.w3c.dom.Node node)</pre><br><dl>
+         <p>Add a node to the list of nodes.</p><br></dl>
+      <hr><a name="441"><span style="font-size:medium">removeCurrentNode</span></a><br><br><pre>public org.w3c.dom.Node <b>removeCurrentNode</b>()</pre><br><dl>
+         <p>Remove the current node from the list of nodes.
+             
+         </p><br></dl>
+      <hr><a name="442"><span style="font-size:medium">getCurrentNodeName</span></a><br><br><pre>public java.lang.String <b>getCurrentNodeName</b>()</pre><br><dl><br></dl>
+      <hr><a name="443"><span style="font-size:medium">createElement</span></a><br><br><pre>public org.w3c.dom.Element <b>createElement</b>(java.lang.String namespaceURI, java.lang.String qName, org.xml.sax.Attributes attrs)</pre><br><dl>
+         <p>Utility method to create a new element node for the document.</p><br></dl>
+      <hr><a name="444"><span style="font-size:medium">startElement</span></a><br><br><pre>public void  <b>startElement</b>(java.lang.String namespaceURI, java.lang.String localName, java.lang.String qName, org.xml.sax.Attributes attrs)</pre><br><dl>
+         <p>StartElement handler.</p><br></dl>
+      <hr><a name="445"><span style="font-size:medium">endElement</span></a><br><br><pre>public void  <b>endElement</b>(java.lang.String namespaceURI, java.lang.String localName, java.lang.String qName)</pre><br><dl><br></dl>
+      <hr><a name="446"><span style="font-size:medium">characters</span></a><br><br><pre>public void  <b>characters</b>(char[] buf, int offset, int len)</pre><br><dl>
+         <p>character Data handler</p><br></dl>
+      <hr><a name="447"><span style="font-size:medium">startPrefixMapping</span></a><br><br><pre>public void  <b>startPrefixMapping</b>(java.lang.String prefix, java.lang.String uri)</pre><br><dl><br></dl>
+      <hr><a name="448"><span style="font-size:medium">endPrefixMapping</span></a><br><br><pre>public void  <b>endPrefixMapping</b>(java.lang.String prefix)</pre><br><dl><br></dl>
+      <hr><a name="449"><span style="font-size:medium">startDocument</span></a><br><br><pre>public void  <b>startDocument</b>()</pre><br><dl><br></dl>
+      <hr><a name="450"><span style="font-size:medium">endDocument</span></a><br><br><pre>public void  <b>endDocument</b>()</pre><br><dl><br></dl>
+      <hr><a name="451"><span style="font-size:medium">ignorableWhitespace</span></a><br><br><pre>public void  <b>ignorableWhitespace</b>(char[] buf, int offset, int len)</pre><br><dl><br></dl>
+      <hr><a name="452"><span style="font-size:medium">internalEntityDecl</span></a><br><br><pre>public void  <b>internalEntityDecl</b>(java.lang.String name, java.lang.String value)</pre><br><dl><br></dl>
+      <hr><a name="453"><span style="font-size:medium">externalEntityDecl</span></a><br><br><pre>public void  <b>externalEntityDecl</b>(java.lang.String name, java.lang.String publicId, java.lang.String systemId)</pre><br><dl><br></dl>
+      <hr><a name="454"><span style="font-size:medium">unparsedEntityDecl</span></a><br><br><pre>public void  <b>unparsedEntityDecl</b>(java.lang.String name, java.lang.String publicId, java.lang.String systemId, java.lang.String notationName)</pre><br><dl><br></dl>
+      <hr><a name="455"><span style="font-size:medium">startDTD</span></a><br><br><pre>public void  <b>startDTD</b>(java.lang.String name, java.lang.String publicId, java.lang.String systemId)</pre><br><dl><br></dl>
+      <hr><a name="456"><span style="font-size:medium">notationDecl</span></a><br><br><pre>public void  <b>notationDecl</b>(java.lang.String name, java.lang.String publicId, java.lang.String systemId)</pre><br><dl><br></dl>
+      <hr><a name="457"><span style="font-size:medium">processingInstruction</span></a><br><br><pre>public void  <b>processingInstruction</b>(java.lang.String target, java.lang.String data)</pre><br><dl><br></dl>
+      <hr><a name="458"><span style="font-size:medium">endDTD</span></a><br><br><pre>public void  <b>endDTD</b>()</pre><br><dl><br></dl>
+      <hr><a name="459"><span style="font-size:medium">endCDATA</span></a><br><br><pre>public void  <b>endCDATA</b>()</pre><br><dl><br></dl>
+      <hr><a name="460"><span style="font-size:medium">startCDATA</span></a><br><br><pre>public void  <b>startCDATA</b>()</pre><br><dl><br></dl>
+      <hr><a name="461"><span style="font-size:medium">startEntity</span></a><br><br><pre>public void  <b>startEntity</b>(java.lang.String name)</pre><br><dl><br></dl>
+      <hr><a name="462"><span style="font-size:medium">endEntity</span></a><br><br><pre>public void  <b>endEntity</b>(java.lang.String name)</pre><br><dl><br></dl>
+      <hr><a name="463"><span style="font-size:medium">comment</span></a><br><br><pre>public void  <b>comment</b>(char[] ch, int start, int length)</pre><br><dl><br></dl>
+      <hr><a name="464"><span style="font-size:medium">findExpectedSize</span></a><br><br><pre>public static int  <b>findExpectedSize</b>(org.xml.sax.Attributes attrs, java.lang.String uri)</pre><br><dl>
+         <p>A little utility program to find the expected size from a list of attributes.</p><br></dl>
+      <hr><a name="465"><span style="font-size:medium">setValue</span></a><br><br><pre>public static void  <b>setValue</b>(<a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> qV, java.lang.String value, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>A utility function to allow proper setting of value in quantity.
+             [Would not be needed if we had q.setValue(Object, Locator)];
+         </p><br></dl>
+      <hr><a name="466"><span style="font-size:medium">setValue</span></a><br><br><pre>public static void  <b>setValue</b>(<a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> qV, <a href="net_datamodel_qml_DataType.html">DataType</a> dataType, java.lang.String value, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>A utility function to allow proper setting of value in quantity.
+             [Would not be needed if we had q.setValue(Object, Locator)];
+         </p><br></dl>
+      <hr><br><br><table bgcolor="#CCCCFF" border="0" cellpadding="1" cellspacing="3" table-layout="fixed" width="100%">
+         <tr bgColor="#CCCCFF" width="100%">
+            <td width="72" align="center"><b><a href="overview-summary.html">Overview</a></b></td>
+            <td width="72" align="center"><b><a href="net.datamodel.qml.html">Package</a></b></td>
+            <td bgColor="#00008B" width="72" align="center"><span style="color:#FFFFFF; font-weight:bold">Class</span></td>
+            <td width="72" align="center">Diagram</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <hr><br><br><center><span style="font-size:xx-small">This documentation has been generated by EclipseUML.</span></center><br></body>
+</html>

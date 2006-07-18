@@ -1,0 +1,89 @@
+
+     INSTALLATION of QML package
+
+	1. Preamble
+
+	This package is designed for use under Java 1.4 and 1.5. As it needs the
+        Crimson XML parser and regex packages which come with 1.4, you don't
+        want to make your life more difficult by trying to run an earlier version
+        of Java.
+
+        However the QML package supports more than the (outdated) Crimson parser,
+    	it now features support of Xerces2. While this parser ships with most modern 
+ 	versions of ant, it is not current enough to support all the features which
+	QML needs, therefor, if you wish to use Xerces, you should acquire the latest 
+	Xerces-J (version 2) package from (I use 2.7.1): 
+
+            http://xml.apache.org/dist/xerces-j/
+
+        In general, the Xerces parser is far better than the Crimson parser. It features
+	support of DOM level 2, 3 and XML 1.1 standards which the Crimson parser does
+	not.
+
+        As previously mentioned, if you wish to build this package, you will need to 
+  	acquire a recent version of ANT, the Java make-like utility. This utility may 
+	be found at :
+
+           http://ant.apache.org/
+
+        I presently use version 1.6.5, but earlier versions *after* 1.6.1 should work.
+        I also expect that many of the later versions will work OK.
+
+ 
+	2. QML Dependencies
+
+	So, to rewind a little, the following dependencies exist for the QML package :
+
+	External Package	Required? 	Version
+	----------------	---------	------- 
+
+	ANT			YES		>= 1.6.2 (use 1.6.5 to be 'safe'; get from ant.apache.org)
+
+			For Java Version 1.4
+
+	Xerces2			NO		>= 2.7.1
+	
+			For Java Version 1.5
+
+	Crimson			NO		-- NOT supported in this config!! --
+	Xerces2			YES		>= 2.7.1 (get from xml.apache.org)
+
+
+
+        3. Installation Step-by-step
+
+
+        	A. Unpack/move this archive into an appropriate spot.
+
+		B. Download and install ancillary packages ANT and Xerces-J mentioned above
+
+		C. Adjust your CLASSPATH to contain the ANT and Xerces-J distros.
+
+        	D. Compile the code using ANT. I set up an alias script to save me typing. You 
+           	can do this as appropriate on your platform, or put the "ant" program, which 
+           	lies in the jakarta-ant-1.x/dist/bin/ directory in your account path. Now, you
+           	may just invoke ant like "make" or "nmake" using the "all" directive, e.g.
+
+           	   > ant all
+
+           	This should make the jar file, documentation and run some diagnostic tests to check
+           	if everything is working OK. 
+
+         	ADDITIONAL "make" info:
+
+  	   	Some people love to monkey with the source code. If you are one of these, then
+           	to get help on all available directives just type
+
+	   	   > ant help
+
+        	E. Place the jar files in your CLASSPATH and proceed to create/run QML programs.
+		An example program, readQML.java, may be found in samples directory
+
+
+      Good Luck!
+
+
+      = b.t.
+
+      [Brian Thomas, baba-luu@earthlink.net]
+

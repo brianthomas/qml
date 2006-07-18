@@ -1,0 +1,323 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   </head>
+   <body>
+      <table bgcolor="#CCCCFF" border="0" cellpadding="1" cellspacing="3" table-layout="fixed" width="100%">
+         <tr bgColor="#CCCCFF" width="100%">
+            <td width="72" align="center"><b><a href="overview-summary.html">Overview</a></b></td>
+            <td width="72" align="center"><b><a href="net.datamodel.qml.html">Package</a></b></td>
+            <td bgColor="#00008B" width="72" align="center"><span style="color:#FFFFFF; font-weight:bold">Class</span></td>
+            <td width="72" align="center">Diagram</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <hr>
+      <h2><font size="-1"><img src="icons/package.gif">net.datamodel.qml</font></h2><img src="icons/class_public.gif"><span style="font-size:large; font-weight:bold">Class&nbsp;</span><span style="font-size:large; font-weight:bold">ListValueContainerImpl</span><br><br>public <b>ListValueContainerImpl</b><br><p>Container class for values held explicitly.
+          Right now, we are allowing any old Java object as values. It may be that we
+          will want to be more restrictive (e.g. only String, int/Integer, float/Float, etc)
+          objects to be allowed to be held by this class. In this fashion, we can 
+          automatically not have to worry about the user passing us wierd objects to
+          be held by the quantity..and allows us in the future we to be checking that the 
+          passed information conforms to the declared dataType of the parent quantity.
+      </p><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <thead>
+         <tr>
+            <td bgColor="#CCCCFF" colspan="2"><span style="font-size:large; font-weight:bold">Constructor Summary</span></td>
+         </tr>
+      </thead><tbody>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#151">ListValueContainerImpl</a>(<a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> parent)</code><br>          <font>Vanilla constructor.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#152">ListValueContainerImpl</a>(<a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> parent, int capacity)</code><br>          <font>Constuct the container with a number of pre-allocated capacity of the list.</font>&nbsp;
+            										
+         </td>
+      </tr></tbody></table><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <thead>
+         <tr>
+            <td bgColor="#CCCCFF" colspan="2"><span style="font-size:large; font-weight:bold">Method Summary</span></td>
+         </tr>
+      </thead><tbody>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public int </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#154">getMaxUtilizedIndex</a>()</code><br>          <font>Get the maximum value of the list index which has been used.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#155">setValue</a>(java.lang.Byte obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#156">setValue</a>(java.lang.Double obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#157">setValue</a>(java.lang.Float obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#158">setValue</a>(java.lang.Integer obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#159">setValue</a>(java.lang.Short obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#160">setValue</a>(java.lang.String obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.Object</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#161">getValue</a>(<a href="net_datamodel_qml_Locator.html">Locator</a> locator)</code><br>          <font>Get the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.util.List</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#162">getValueList</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#163">setCapacity</a>(int new_capacity)</code><br>          <font>Set the capacity of this container.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public int </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#164">getCapacity</a>()</code><br>          <font>Get the number of locations available.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public int </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#165">getNumberOfValues</a>()</code><br>          <font>Get the number of values (datum) held.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#166">setNumberOfValues</a>(int value)</code><br>          <font>Set the number of values held.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#167">setFirstValue</a>(java.lang.Object obj)</code><br>          <font>Utility method to set the value at the first location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.Object</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#168">getFirstValue</a>()</code><br>          <font>Get the first value of the quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Locator.html">Locator</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#169">createLocator</a>()</code><br>          <font>Create a locator for this container.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.Object</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#170">clone</a>()</code><br>          <font>Make a deep copy of this Data object</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#171">setCDATASerialization</a>(boolean value)</code><br>          <font>Set whether or not to output value(s) as CDATASection(s).</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#172">getCDATASerialization</a>()</code><br>          <font>Determine whether or not value(s) are output as CDATASection(s).</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#173">setTaggedValuesSerialization</a>(boolean value)</code><br>          <font>Whether to serialize values as tagged or space-delimited.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#174">getTaggedValuesSerialization</a>()</code><br>          <font>Determine whether values are serialized as tagged or space-delimited.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#175">dump</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr></tbody></table><br><br><br><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+         <td bgColor="#CCCCFF"><span style="font-size:large; font-weight:bold">Constructor Detail</span></td>
+      </tr></table><span style="font-size:medium"><a name="151"><span style="font-size:medium">ListValueContainerImpl</span></a></span><br><pre>public <b>ListValueContainerImpl</b>(<a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> parent)</pre><br><dl>
+         <p>Vanilla constructor. Will create a list with default capacity
+             (Specification.getDefaultValueContainerCapacity()
+         </p><br></dl>
+      <hr><span style="font-size:medium"><a name="152"><span style="font-size:medium">ListValueContainerImpl</span></a></span><br><pre>public <b>ListValueContainerImpl</b>(<a href="net_datamodel_qml_QuantityWithValues.html">QuantityWithValues</a> parent, int capacity)</pre><br><dl>
+         <p>Constuct the container with a number of pre-allocated capacity of the list.</p><br></dl>
+      <hr><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+         <td bgColor="#CCCCFF"><span style="font-size:large; font-weight:bold">Method Detail</span></td>
+      </tr></table><a name="154"><span style="font-size:medium">getMaxUtilizedIndex</span></a><br><br><pre>public int  <b>getMaxUtilizedIndex</b>()</pre><br><dl>
+         <p>Get the maximum value of the list index which has been used.
+             
+         </p><br></dl>
+      <hr><a name="155"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Byte obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="156"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Double obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="157"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Float obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="158"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Integer obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="159"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Short obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="160"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.String obj, <a href="net_datamodel_qml_Locator.html">Locator</a> locator)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="161"><span style="font-size:medium">getValue</span></a><br><br><pre>public java.lang.Object <b>getValue</b>(<a href="net_datamodel_qml_Locator.html">Locator</a> locator)</pre><br><dl>
+         <p>Get the value at the specified location. For atomic quantities  only one location will exist.
+             
+         </p><br></dl>
+      <hr><a name="162"><span style="font-size:medium">getValueList</span></a><br><br><pre>public java.util.List <b>getValueList</b>()</pre><br><dl><br></dl>
+      <hr><a name="163"><span style="font-size:medium">setCapacity</span></a><br><br><pre>public void  <b>setCapacity</b>(int new_capacity)</pre><br><dl>
+         <p>Set the capacity of this container. Calling this method will re-initialize the values held
+             by the container list. 
+             
+         </p><br></dl>
+      <hr><a name="164"><span style="font-size:medium">getCapacity</span></a><br><br><pre>public int  <b>getCapacity</b>()</pre><br><dl>
+         <p>Get the number of locations available. This isn't the same
+              as the number of values which are actually held. Null values
+              within the container reserve locations, but don't count as values.
+              
+         </p><br></dl>
+      <hr><a name="165"><span style="font-size:medium">getNumberOfValues</span></a><br><br><pre>public int  <b>getNumberOfValues</b>()</pre><br><dl>
+         <p>Get the number of values (datum) held.
+              
+         </p><br></dl>
+      <hr><a name="166"><span style="font-size:medium">setNumberOfValues</span></a><br><br><pre>public void  <b>setNumberOfValues</b>(int value)</pre><br><dl>
+         <p>Set the number of values held.
+             
+         </p><br></dl>
+      <hr><a name="167"><span style="font-size:medium">setFirstValue</span></a><br><br><pre>public void  <b>setFirstValue</b>(java.lang.Object obj)</pre><br><dl>
+         <p>Utility method to set the value at the first location.
+             
+         </p><br></dl>
+      <hr><a name="168"><span style="font-size:medium">getFirstValue</span></a><br><br><pre>public java.lang.Object <b>getFirstValue</b>()</pre><br><dl>
+         <p>Get the first value of the quantity. This is a utility method
+             for getValue("Location origin").
+             
+         </p><br></dl>
+      <hr><a name="169"><span style="font-size:medium">createLocator</span></a><br><br><pre>public <a href="net_datamodel_qml_Locator.html">Locator</a> <b>createLocator</b>()</pre><br><dl>
+         <p>Create a locator for this container.   
+             
+         </p><br></dl>
+      <hr><a name="170"><span style="font-size:medium">clone</span></a><br><br><pre>public java.lang.Object <b>clone</b>()</pre><br><dl>
+         <p>Make a deep copy of this Data object</p><br></dl>
+      <hr><a name="171"><span style="font-size:medium">setCDATASerialization</span></a><br><br><pre>public void  <b>setCDATASerialization</b>(boolean value)</pre><br><dl>
+         <p>Set whether or not to output value(s) as CDATASection(s).</p><br></dl>
+      <hr><a name="172"><span style="font-size:medium">getCDATASerialization</span></a><br><br><pre>public boolean  <b>getCDATASerialization</b>()</pre><br><dl>
+         <p>Determine whether or not value(s) are output as CDATASection(s).</p><br></dl>
+      <hr><a name="173"><span style="font-size:medium">setTaggedValuesSerialization</span></a><br><br><pre>public void  <b>setTaggedValuesSerialization</b>(boolean value)</pre><br><dl>
+         <p>Whether to serialize values as tagged or space-delimited.</p><br></dl>
+      <hr><a name="174"><span style="font-size:medium">getTaggedValuesSerialization</span></a><br><br><pre>public boolean  <b>getTaggedValuesSerialization</b>()</pre><br><dl>
+         <p>Determine whether values are serialized as tagged or space-delimited.</p><br></dl>
+      <hr><a name="175"><span style="font-size:medium">dump</span></a><br><br><pre>public void  <b>dump</b>()</pre><br><dl><br></dl>
+      <hr><br><br><table bgcolor="#CCCCFF" border="0" cellpadding="1" cellspacing="3" table-layout="fixed" width="100%">
+         <tr bgColor="#CCCCFF" width="100%">
+            <td width="72" align="center"><b><a href="overview-summary.html">Overview</a></b></td>
+            <td width="72" align="center"><b><a href="net.datamodel.qml.html">Package</a></b></td>
+            <td bgColor="#00008B" width="72" align="center"><span style="color:#FFFFFF; font-weight:bold">Class</span></td>
+            <td width="72" align="center">Diagram</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <hr><br><br><center><span style="font-size:xx-small">This documentation has been generated by EclipseUML.</span></center><br></body>
+</html>

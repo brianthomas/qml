@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Personalized document schema. Showing how user
+     can create inheriting schema that has both new elements/structure
+     and elements which are quantities. 
+  -->
+<xsd:schema 
+            targetNamespace="http://noplace.org/Ellipse"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:q="http://www.data-model.net/Quantity"
+            xmlns="http://noplace.org/Ellipse"
+	    elementFormDefault="qualified"
+>
+
+ 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_05.xsd"/>
+
+	<xsd:complexType name="EllipseType">
+		<xsd:complexContent>
+		 	<xsd:restriction base="q:CompositeQuantityType">
+                           <xsd:choice maxOccurs="unbounded">
+                              <xsd:element ref="minorRadius" minOccurs="1"/>
+                              <xsd:element ref="radius" minOccurs="1"/>
+                              <xsd:element ref="positionAngle" minOccurs="1"/>
+                              <xsd:element ref="center" minOccurs="0"/>
+                           </xsd:choice>
+                        </xsd:restriction>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+        <!-- some new directly-inheriting quantity element declarations -->
+        <xsd:element name="ellipse" substitutionGroup="q:QuantityGroup" type="EllipseType"/>
+        <xsd:element name="radius" substitutionGroup="q:QuantityGroup" type="q:MatrixQuantityType"/>
+        <xsd:element name="center" substitutionGroup="q:QuantityGroup" type="q:MatrixQuantityType"/>
+        <xsd:element name="positionAngle" substitutionGroup="q:QuantityGroup" type="q:MatrixQuantityType"/>
+        <xsd:element name="minorRadius" substitutionGroup="q:QuantityGroup" type="q:MatrixQuantityType"/>
+
+</xsd:schema>

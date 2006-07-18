@@ -1,0 +1,18 @@
+<?xml version="1.0" standalone="no"?>
+<!-- test 19: test vector data type, but with ONE component -->
+<matrixQuantity
+      name="Velocity"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      xmlns="http://www.data-model.net/Quantity"
+      size="12"
+>
+   <vector>
+      <component name="xVelocity">
+         <units>cm sec^1</units>
+         <float width="6" precision="2"/>
+      </component>
+   </vector>
+   <!-- the values are a series of component values -->
+   <values> 10.12 -12.34 20.34 -13.87 24.76 +5.67 6.80 -80.73 210.12 12.34 20.34 -13.87 </values>
+</matrixQuantity>

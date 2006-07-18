@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- test 4: recursive meta data on node -->
+<q:atomicQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:q="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+>
+   <!-- an aQ serving as "metaData" which itself has meta-data -->
+   <q:atomicQuantity>
+       <q:trivialQuantity name="name">a name here</q:trivialQuantity>
+       <q:value>data</q:value>
+   </q:atomicQuantity>
+   <q:integer width="4"/>
+   <q:value>1000</q:value>
+</q:atomicQuantity>

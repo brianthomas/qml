@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Personalized document schema. Showing how user
+     can create inheriting schema that has both new elements/structure
+     and elements which are quantities. 
+     This schema extends (rather than aggregates element in) the QML namespace.
+  -->
+<xsd:schema 
+            targetNamespace="http://www.data-model.net/Quantity"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:map="http://www.data-model.net/Mappings"
+            xmlns="http://www.data-model.net/Quantity"
+	    elementFormDefault="qualified"
+>
+
+ 	<xsd:import namespace="http://www.data-model.net/Mappings" schemaLocation="QMLMappings.xsd"/>
+ 	<xsd:include schemaLocation="QML_05.xsd"/>
+
+        <!-- some new directly-inheriting quantity element declarations -->
+        <xsd:element name="table" substitutionGroup="QuantityGroup" type="CompositeQuantityType"/>
+        <xsd:element name="rows" substitutionGroup="ListQuantityGroup" type="ListQuantityType"/>
+        <xsd:element name="note" substitutionGroup="QuantityGroup" type="TrivialQuantityType"/>
+        <xsd:element name="field" substitutionGroup="QuantityGroup" type="MatrixQuantityType"/>
+        <xsd:element name="param" substitutionGroup="QuantityGroup" type="MatrixQuantityType"/>
+        <xsd:element name="flux" substitutionGroup="QuantityGroup" type="MatrixQuantityType"/>
+        <xsd:element name="pixelPos" substitutionGroup="QuantityGroup" type="ListQuantityType"/>
+        <xsd:element name="skyVector" substitutionGroup="QuantityGroup" type="ListQuantityType"/>
+
+        <xsd:element name="x_pixel" substitutionGroup="ComponentGroup" type="ComponentType"/>
+        <xsd:element name="y_pixel" substitutionGroup="ComponentGroup" type="ComponentType"/>
+        <xsd:element name="ra" substitutionGroup="ComponentGroup" type="ComponentType"/>
+        <xsd:element name="dec" substitutionGroup="ComponentGroup" type="ComponentType"/>
+
+	<!-- an extended value (cell) -->
+        <xsd:element name="d" substitutionGroup="ValueGroup" type="valueType"/>
+
+	<!-- now, a new map I want to add support for -->
+        <xsd:complexType name="wcsMapType">
+                <xsd:complexContent>
+                        <xsd:extension base="map:MappingType">
+                		<xsd:sequence>
+					<xsd:element name="refvals" type="TrivialQuantityType"/>
+					<xsd:element name="refpos" type="TrivialQuantityType"/>
+					<xsd:element name="scales" type="TrivialQuantityType"/>
+					<xsd:element name="rotation" type="TrivialQuantityType"/>
+                		</xsd:sequence>
+                	</xsd:extension>
+                </xsd:complexContent>
+        </xsd:complexType>
+
+        <xsd:element name="wcsmap" substitutionGroup="map:MappingGroup" type="wcsMapType"/>
+
+	<!-- my document -->
+        <xsd:complexType name="myDocumentType">
+                <xsd:sequence maxOccurs="unbounded">
+                        <xsd:element ref="QuantityGroup"/>
+                </xsd:sequence>
+        </xsd:complexType>
+
+	<!-- root element of my document -->
+	<xsd:element name="mydocument" type="myDocumentType"/>
+
+</xsd:schema>

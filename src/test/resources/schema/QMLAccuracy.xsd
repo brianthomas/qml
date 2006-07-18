@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+            targetNamespace="http://www.data-model.net/Accuracy"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:q="http://www.data-model.net/Quantity"
+            xmlns="http://www.data-model.net/Accuracy"
+            elementFormDefault="qualified"
+>
+
+ 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_05.xsd"/>
+
+        <xsd:annotation>
+                <xsd:documentation>QMLAccuracy.xsd - just a place holder for accuracy definitions.
+                                  first draft May. 30 2004 (brian thomas; baba-luu@earthlink.net)
+
+				  Many types of accuracy need to be defined for scientific data, 
+                                  as well as practices for adding/restricting types of accuracy allowed. 
+                                  The point of this document is to carve out a namespace for these things and
+                                  to show how it might be done for the QML package. 
+                                  See bottom of the document for some possible types of accuracy.
+                </xsd:documentation>
+        </xsd:annotation>
+
+        <!-- Accuracy container -->
+        <xsd:complexType name="AccuracyContainer">
+                <xsd:sequence>
+                        <xsd:element ref="q:QuantityGroup" minOccurs="1" maxOccurs="unbounded"/>
+                </xsd:sequence>
+        </xsd:complexType>
+
+        <!-- Accuracy Types.
+             These are just a place-holder/examples of what can be done.
+        -->
+
+        <!-- The basic accuracy type .. for holding single-valued accuracy information.  -->
+        <xsd:complexType name="AtomicAccuracyType">
+                <xsd:complexContent>
+                        <xsd:extension base="q:AtomicQuantityType"/>
+                </xsd:complexContent>
+        </xsd:complexType>
+
+        <!-- The list accuracy type .. for holding list-valued accuracy information.  -->
+        <xsd:complexType name="ListAccuracyType">
+                <xsd:complexContent>
+                        <xsd:extension base="q:ListQuantityType"/>
+                </xsd:complexContent>
+        </xsd:complexType>
+
+        <!-- The matrix accuracy type .. for holding list-valued accuracy information.  -->
+        <xsd:complexType name="MatrixAccuracyType">
+		<xsd:complexContent>
+			<xsd:extension base="q:MatrixQuantityType"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+        <!-- concrete accuracies we *may* want, very very TBD! Should be 
+	     taken from Arnolds STC as well as other sources. These examples 
+	     probably need to be more tightly defined as well...
+	 -->
+        <xsd:element name="measuredError" substitutionGroup="q:QuantityGroup" type="AtomicAccuracyType"/>
+        <xsd:element name="binSize" substitutionGroup="q:QuantityGroup" type="AtomicAccuracyType"/>
+        <xsd:element name="flag" substitutionGroup="q:QuantityGroup" type="AtomicAccuracyType"/>
+
+        <xsd:element name="measuredErrorList" substitutionGroup="q:QuantityGroup" type="ListAccuracyType"/>
+        <xsd:element name="binSizeList" substitutionGroup="q:QuantityGroup" type="ListAccuracyType"/>
+        <xsd:element name="flagList" substitutionGroup="q:QuantityGroup" type="ListAccuracyType"/>
+
+        <xsd:element name="measuredErrorMatrix" substitutionGroup="q:QuantityGroup" type="MatrixAccuracyType"/>
+        <xsd:element name="binSizeMatrix" substitutionGroup="q:QuantityGroup" type="MatrixAccuracyType"/>
+        <xsd:element name="flagMatrix" substitutionGroup="q:QuantityGroup" type="MatrixAccuracyType"/>
+
+</xsd:schema>

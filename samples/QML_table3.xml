@@ -1,0 +1,25 @@
+<?xml version ="1.0"?>
+<mydocument
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.data-model.net/Quantity MyTable.xsd"
+      xmlns:m="http://www.data-model.net/Mappings"
+      xmlns="http://www.data-model.net/Quantity"
+>
+  <table name="Catalog 1215" description="Tables of membership for 43 open clusters (1994 Version)" size="60">
+         <field name="Ref" description="Reference" size="10">
+            <string width="26" noDataValue="                          "/>
+            <values>
+		<value>Florov,B.H.,Izv.</value>
+		<value>Vasilevskis.S.et al.,</value>
+		<value>Sanders,W.L.,</value>
+		<value>Herzog,A.D.et al.,</value>
+		<value>Lenham,A.P.,</value>
+		<value>Kerridge,S.J.et al.,</value>
+		<value>Tian K.P.et al.,</value>
+		<value>Upgren,A.R.,</value>
+		<value>Mills,G.A.,</value>
+		<value>Jefferys,W.H.,</value>
+            </values>
+         </field>
+  </table>
+</mydocument>

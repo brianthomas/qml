@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- test 11 : a simple matrix quantity with one set of axes -->
+<matrixQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      size="3"
+>
+   <axisFrame>
+       <listQuantity size="3"><integer width="1"/><values>0 1 2</values></listQuantity>
+   </axisFrame>
+   <string width="4"/>
+   <values>some data here</values> <!-- 3 string values -->
+</matrixQuantity>

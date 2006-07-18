@@ -1,0 +1,44 @@
+<?xml version ="1.0"?>
+<mydocument
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.data-model.net/Quantity MyTable.xsd"
+      xmlns:m="http://www.data-model.net/Mappings"
+      xmlns="http://www.data-model.net/Quantity"
+>
+  <table name="Catalog 1215" description="Tables of membership for 43 open clusters (1994 Version)" size="60">
+   <axisFrame qid="rowAxes" size="1">
+        <!-- declaring one or more axisFrame with members means that that axis
+             is held in common between all the members, and can be used to
+             access the table. In this case, "rows" describes the common
+             row-axis exsists between the all the fields 
+          --> 
+	<rows qid="rows" name="rows" description="rows in document" size="10">
+		<values><![CDATA[1 2 3 4 5 6 7 8 9 10]]></values>
+	</rows>
+   </axisFrame>
+	<field name="Seq" description="[1/43]?+ Order number" size="10">
+            <axisFrame size="1"><refQuantity qidRef="rows"/></axisFrame>
+            <integer type="decimal" width="2" noDataValue="-9"/>
+	    <values>1 2 3 4 5 6 7 8 9 10</values>
+         </field>
+         <field name="Ref" description="Reference" size="10">
+            <axisFrame size="1"><refQuantity qidRef="rows"/></axisFrame>
+            <string width="26" noDataValue="                          "/>
+            <!-- because string contain whitespace that arent spacing, we need to
+                 use a tagged prescription. 
+              --> 
+            <values>
+		<value>Florov,B.H.,Izv.</value>
+		<value>Vasilevskis.S.et al.,</value>
+		<value>Sanders,W.L.,</value>
+		<value>Herzog,A.D.et al.,</value>
+		<value>Lenham,A.P.,</value>
+		<value>Kerridge,S.J.et al.,</value>
+		<value>Tian K.P.et al.,</value>
+		<value>Upgren,A.R.,</value>
+		<value>Mills,G.A.,</value>
+		<value>Jefferys,W.H.,</value>
+            </values>
+         </field>
+  </table>
+</mydocument>

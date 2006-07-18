@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Personalized document schema. Showing how user
+     can create inheriting schema that has both new elements/structure
+     and elements which are quantities. This particular
+     schema inherits only from BasicQuantity schema, so more
+     advanced types of quantities arent allowed.
+  -->
+<xsd:schema 
+            targetNamespace="http://noplace.org/MyDocument"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:q="http://www.data-model.net/Quantity"
+            xmlns="http://noplace.org/MyDocument"
+	    elementFormDefault="qualified"
+>
+
+ 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_05.xsd"/>
+ 	<xsd:import namespace="http://noplace.org/Ellipse" schemaLocation="Ellipse.xsd"/>
+
+        <!-- some new directly-inheriting quantity element declarations -->
+        <xsd:element name="velocity" substitutionGroup="q:QuantityGroup" type="q:ListQuantityType"/>
+        <xsd:element name="quality" substitutionGroup="q:QuantityGroup" type="q:AtomicQuantityType"/>
+        <xsd:element name="note" substitutionGroup="q:QuantityGroup" type="q:TrivialQuantityType"/>
+
+	<!-- now, an element which is NOT a quantity, but aggregates (a few selected types)
+             of them -->
+        <xsd:complexType name="myElementType">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element ref="velocity" />
+			<xsd:element ref="quality" />
+                        <xsd:element ref="somenode"/>
+		</xsd:choice>
+        </xsd:complexType>
+
+	<!-- my document -->
+        <xsd:complexType name="myDocumentType">
+                <xsd:choice maxOccurs="unbounded">
+                        <xsd:element ref="q:QuantityGroup"/>
+                        <xsd:element ref="somenode"/>
+                        <xsd:element name="node" type="myElementType" maxOccurs="unbounded"/>
+                </xsd:choice>
+        </xsd:complexType>
+
+	<!-- elements of my document -->
+	<xsd:element name="mydocument" type="myDocumentType"/>
+        <xsd:element name="somenode" type="myElementType"/>
+
+</xsd:schema>

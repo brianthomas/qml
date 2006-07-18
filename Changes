@@ -1,0 +1,87 @@
+
+Version 0.20  - Add in some equivalence check to various datatypes (very buggy).
+ Jul-08-2006  
+
+Version 0.13  - Refactor classes into sub-packages for greater managability.
+ Jul-05-2006    Now we have sub-packages of 'app', 'core', 'datatype', 'locator',
+ (internal)     'support', 'support.handler', 'support.DOMXerces2' and 'units'.
+
+Version 0.12  - Add JUnit tests 
+ Jul-01-2006  - Fix bug in XMLSerialiableObj...not handling FIELD_CHILD_NODE_LIST_TYPE correctly.
+ (internal)   - Remove Crimson classes..its just too hard to continue to adapt older package
+ 		to new DOM 2+ standard in Java5 world (which seems to enforce it by default).
+
+Version 0.11  - Change to maven2 build structure.
+ Jun-30-2006  - Switch to Log4J from specialized logger.
+ (internal)   
+
+Version 0.10  - Add in partial Xerces2 DOM support, works with Java 1.4 and Java 1.5 
+ Nov-09-2005    (no JAXP DocumentBuilder/Factory support currently)
+              - Make test procedure a little less chatty.
+              - Add support for testing either/both Crimson/Xerces DOM support. (Note: Crimson 
+                support only works with Java 1.4 as Java 1.5 interfaces have DOM lvl 2,3 which 
+                crimson doesn't support).
+              - Add in compilerargs, better build support for different configurations to build.xml
+
+Version 0.05  - Added ability to handle generic DOM elements with simple/mixed content.
+ Aug-04-2005  - Added ability to handle the common xsd:string, xsd:anyURI content types 
+                in Qelements. Number types need further consideration... should we force
+                these (implicitly) into Q's -or- QElements (currently, they are dropped :P)
+              - Fix schema inheritance interpretation problem with mixed child nodes. 
+                Basically, we now have 2 'default' chardata handlers is being used.
+                One ignores all charData, the other doesnt. In the case where the parent 
+                node uses the default (ignore) Chardata handler, but a child node has 
+                set the 'mixed' attribute to 'true' the child now uses the correct non-ignore
+                handler.
+
+Version 0.04  - Fix anyAttribute in Q to be "##any" namespace rather than "##other"
+ Jul-30-2005    as this caused problems in some inheriting schema.
+              - Tweek error reporting for QMLELementImpl in DOMCrimson
+              - Fix bug in auto-generation of prefix table for inheriting schema. The
+                root node, if default namespace, was not picked up. QML namespace 
+                should not automatically be added (a prior hack/workaround now dropped).
+              - Fix (philosophical) bug: QMLELementImpl for DOMCrimson package constructor
+                w/o namespaceURI should default to QML_NAMESPACE_URI value.
+              - Fix bug : inheriting schema need to invoke QuantityType (abstract type)
+                for purposes of substitution groups, however, parser then looks for a handler.
+                Added QUANTITY nodeType and Illegal{Start|End|CharData} handlers so that
+                the minor error message is no longer thrown. 
+              - Tone down warning in XMLSerializableField...its OK to have a null object.
+              - Fix bug in namespace setting...if a node used default "" prefix, the namespace
+                was not always being set properly by the document parser
+              - Tone down some debuging inforamtion from the Documentparser by making some
+                information at the 'info' rather than 'debug' level. This will allow for some
+                meaningfull information to be seen without the full blast of verbage from a parse.
+              - Improve schema storage, remove reduntant storage in samples dir
+
+Version 0.03  - Add AxisFrame interface [moves AxisFrame.java to AxisFrameImpl.java]
+ Aug-05-2004    Bug fix : addAxis in AxisFrame should check for ListQuantity.
+                Bug fix : init from mapping in AtomicQ needs separate init method
+                Bug fix : remove sys.err.println calls in Log (reminder: replace with Log4J!)
+                Add ant doxygen documentation generation task
+
+Version 0.02  - Fix to build.xml so that tests may be run if CLASSPATH lacks "." path
+ Jul-28-2004    Clean up bulid.xml file so that use more patternset directives
+                Do the QML document handler better..split of function handlers into separate
+                   files in child package "handlers".
+                Add methods to QMLDocument for better access to namespaceURI/prefix mappings 
+                "Reverse" the namespaceURI/prefix methods..user shouldnt care what prefix actually
+                   is, its the namespaceURI for a class which is important.
+                Fix QML schema..allow "anyAttribute" on Quantities so inheriting schema may
+                   expand upon attributes available.
+                Fix so that prefix separator ":" is not shown if element has prefix of
+                "zero" size/length.
+                Add mapping constructor to mappingQ class so that inheriting classes may
+                override it, if desired.
+                Improved load tests to validate secondary loaded output
+                Bug fix: vanilla/default handlers for elements not properly assigned for inheriting
+                   schema 
+                For now, DONT allow components to have Q's as meta-data. This makes them look like 
+                    Composite Q's. Force such meta-data to have to be placed in the parent Q.
+                Fix schema so that refQ's may be in altValues list.
+                Bug fix: allow QMLDocumentHandler to load defs from *included* schema (previously
+                    only loaded imported schema only) 
+
+Version 0.01  - Initial version!
+ Jun-26-2004
+

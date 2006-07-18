@@ -1,0 +1,183 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   </head>
+   <body>
+      <table bgcolor="#CCCCFF" border="0" cellpadding="1" cellspacing="3" table-layout="fixed" width="100%">
+         <tr bgColor="#CCCCFF" width="100%">
+            <td width="72" align="center"><b><a href="overview-summary.html">Overview</a></b></td>
+            <td width="72" align="center"><b><a href="net.datamodel.qml.html">Package</a></b></td>
+            <td bgColor="#00008B" width="72" align="center"><span style="color:#FFFFFF; font-weight:bold">Class</span></td>
+            <td width="72" align="center">Diagram</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <hr>
+      <h2><font size="-1"><img src="icons/package.gif">net.datamodel.qml</font></h2><img src="icons/interface_public.gif"><span style="font-size:large; font-weight:bold">Interface&nbsp;</span><span style="font-size:large; font-weight:bold">QuantityWithValues</span><br><br>public <b>QuantityWithValues</b><br><p>The interface for all Quantities which hold "values" as data.
+          By values we mean Strings and numbers, and not other quanities.
+          Note: It would nice if this interface didnt have to exist, e.g. we could
+          have CompositeQuantity have "get/setValue" methods which allow adding other
+          Q's. Will look into it...
+      </p><br><br><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <thead>
+         <tr>
+            <td bgColor="#CCCCFF" colspan="2"><span style="font-size:large; font-weight:bold">Method Summary</span></td>
+         </tr>
+      </thead><tbody>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.Integer</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#511">getSize</a>()</code><br>          <font>Get the size of the quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public int </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#512">getCapacity</a>()</code><br>          <font>The ultimate number of values that may be held within the quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_ValueContainer.html">ValueContainer</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#513">getValueContainer</a>()</code><br>          <font>Get the container within the Q which is "holding" (or creating.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.lang.Object</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#514">getValue</a>(<a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>Get the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#515">setValue</a>(java.lang.Byte obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#516">setValue</a>(java.lang.Double obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#517">setValue</a>(java.lang.Float obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#518">setValue</a>(java.lang.Integer obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#519">setValue</a>(java.lang.Short obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public void </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#520">setValue</a>(java.lang.String obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</code><br>          <font>Set the value at the specified location.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Locator.html">Locator</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#521">createLocator</a>()</code><br>          <font>Create a locator for this quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.util.List</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#522">getLocatorList</a>()</code><br>          <font>Get a list of locators belonging to this quantity.</font>&nbsp;
+            										
+         </td>
+      </tr></tbody></table><br><br><br><br><br><br><br><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+         <td bgColor="#CCCCFF"><span style="font-size:large; font-weight:bold">Method Detail</span></td>
+      </tr></table><a name="511"><span style="font-size:medium">getSize</span></a><br><br><pre>public java.lang.Integer <b>getSize</b>()</pre><br><dl>
+         <p>Get the size of the quantity.
+             
+         </p><br></dl>
+      <hr><a name="512"><span style="font-size:medium">getCapacity</span></a><br><br><pre>public int  <b>getCapacity</b>()</pre><br><dl>
+         <p>The ultimate number of values that may be held within the quantity. 
+             The capacity is always equal to or greater than the size of the quantity.
+         </p><br></dl>
+      <hr><a name="513"><span style="font-size:medium">getValueContainer</span></a><br><br><pre>public <a href="net_datamodel_qml_ValueContainer.html">ValueContainer</a> <b>getValueContainer</b>()</pre><br><dl>
+         <p>Get the container within the Q which is "holding" (or creating..as for a map) 
+              the actual values.
+         </p><br></dl>
+      <hr><a name="514"><span style="font-size:medium">getValue</span></a><br><br><pre>public java.lang.Object <b>getValue</b>(<a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>Get the value at the specified location. For atomic quantities only one location will exist.
+             
+         </p><br></dl>
+      <hr><a name="515"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Byte obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="516"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Double obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="517"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Float obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="518"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Integer obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="519"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.Short obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="520"><span style="font-size:medium">setValue</span></a><br><br><pre>public void  <b>setValue</b>(java.lang.String obj, <a href="net_datamodel_qml_Locator.html">Locator</a> loc)</pre><br><dl>
+         <p>Set the value at the specified location.
+             
+         </p><br></dl>
+      <hr><a name="521"><span style="font-size:medium">createLocator</span></a><br><br><pre>public <a href="net_datamodel_qml_Locator.html">Locator</a> <b>createLocator</b>()</pre><br><dl>
+         <p>Create a locator for this quantity.
+             
+         </p><br></dl>
+      <hr><a name="522"><span style="font-size:medium">getLocatorList</span></a><br><br><pre>public java.util.List <b>getLocatorList</b>()</pre><br><dl>
+         <p>Get a list of locators belonging to this quantity.
+             
+         </p><br></dl>
+      <hr><br><br><table bgcolor="#CCCCFF" border="0" cellpadding="1" cellspacing="3" table-layout="fixed" width="100%">
+         <tr bgColor="#CCCCFF" width="100%">
+            <td width="72" align="center"><b><a href="overview-summary.html">Overview</a></b></td>
+            <td width="72" align="center"><b><a href="net.datamodel.qml.html">Package</a></b></td>
+            <td bgColor="#00008B" width="72" align="center"><span style="color:#FFFFFF; font-weight:bold">Class</span></td>
+            <td width="72" align="center">Diagram</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <hr><br><br><center><span style="font-size:xx-small">This documentation has been generated by EclipseUML.</span></center><br></body>
+</html>

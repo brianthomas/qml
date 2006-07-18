@@ -1,0 +1,111 @@
+
+Feature/Version Roadmap
+------------------------
+
+A description of what the version numbering means for the package..
+
+Version Description
+
+  0.0   Initial foundation. Atomic, Composite, List, Matrix Qs + DOM
+
+  0.1   Java 1.5 and Xerces2 partial support 
+        Use Log4J mechanism.
+
+  0.2   Equivalence and Equals function support
+
+  0.3   Xerces Factory/Document Builder support
+        and confirm support for XML version 1.1 under Xerces 
+
+  0.4   Quantity Math Function support (just basic stuff: Add, Subtract, 
+        Divide, Multiply, Exponent, Log only) 
+
+  0.5   Mapped Values support w/ basic Linear and Polynomial algorithms 
+        for generation of values.
+
+  0.6   Basic accuracy sub-package including Gaussian/Normal errors 
+
+  0.7   Basic units sub-package including fundamental 9 or so SI units
+
+  0.8   Resource Quantities. Loading values from external resources including
+        text/binary files, SQL databases and URLs. 
+
+  0.9   Beta release version (feature complete) 
+
+  1.0   Stable release version
+
+
+ --> Detailed Features to add (rough order of priority) -->
+
+  * Equivalence function (compares 2 quantities meta-data are the same)
+
+  * Equals function. As Equivalence, but also checks that values are the same.
+
+  * Math functions. Can add/subtract/multiply/divide Q's with other Q's.
+
+  * Replace present log mechanism with log4J (or, at least, have that as an
+    optional build component)
+
+  * Support for XML version 1.1 parsing and output
+
+  * Create Quantity validator program. Should check things the schema cannot,
+    including : { add items here! }
+
+  * Add in basic mappings we should support (e.g. polynomial algorithm, ??)
+
+  * Create packages to add in basic accuracies, better units.
+
+  * Do we need other datatypes ( example: date?)
+
+  * Have a switch to enforce unique qid's within QMLDocument, if desired.
+
+  * Make matrix traversal test for dimensions up to 4-5. Have it populate the matrix
+    and then retrieve values, checking as it withdraws them. {Also test random 
+    retrieval ?}.
+  
+  * Add loading of external data values from either text or binary files.
+
+  * Add loading of external data values from SQL databases.
+
+
+ ==> Bugs to fix ==>
+
+  * serialization of hex/octal Integer values is not done properly
+    (but marshaling from the XML is OK).
+
+  * provide callback functionality to remove stale locators from 
+    the list available for any Q.
+
+  * iteration over locations in ValuesContainer is by the capacity of the container
+    rather than by maxUtilized index. The former approach is correct when inserting
+    values, the later is appropriate when retrieving. Need to find a way to reconcile
+    these approaches.
+
+  * consider if expanding values (capacity) within MatrixQ when new frame is added
+    is the correct thing to do.
+
+  * setAttributeNS methods for CrimsonDOM.QMLElementImpl. Fix removeAttribute* 
+    methods as well.
+
+  * Properly supports extension mechanisms for other inheriting packages.
+
+  * properly load 'nameless' {complex|simple}Types that are declared under elements.
+    For example the following declaration will not load properly for QML:
+
+     <xsd:element name='example'>
+          <xsd:complexType>
+               ...
+          </xsd:complexType> 
+     </xsd:element>
+
+    The preferred way to do this is to simply declare your complexType with a name (!),
+    as in:
+
+     <xsd:element name='example' type="exampleType"/>
+     <xsd:complexType name="exampleType">
+        ...
+     </xsd:complexType>
+
+    As can be seen, you actual have more compact, neater, notation with the later anyways.
+
+  * Clean up compiler warnings
+

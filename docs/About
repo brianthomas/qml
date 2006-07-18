@@ -1,0 +1,920 @@
+
+
+The purpose of this document is to describe the purpose of the quantity.
+
+Before presenting the examples, a few points should be made, as the XML
+serialization/examples can only go so far to describe what is intended,
+or may obscure important points/issues. 
+
+1. There are 3 types of quantity, "basic", "core" and "standard", and
+   in that order are extensions of the prior type node structure. 
+   Extension is via accretion of XML components (whether child nodes 
+   or attributes).
+
+   Thus, as components are optional/have sensible defaults, you should 
+   be able to "upcast" a more primitive type of quantity into a higher
+   one. For example, the serialization of a listQuantity describes both
+   a listQuantity, and a standard quantity (with some implicit defaults).
+
+   Conversely, IF a "advanced" level quantity is fairly simple (such as a 
+   core quantity that held only one scalar number) then its representation
+   in XML will look exactly like its parent realization, the basic quantity.
+
+   The components of these types of quantity are given elsewhere, but
+   summarized here, are:
+
+ 	Atomic Quantity
+		Units
+		DataType
+		Value 
+		Accuracy
+
+	List Quantity
+		Units
+		DataType
+		Values
+		AltValues
+		Accuracy
+
+	Matrix Quantity
+		AxesList
+		Units
+		DataType
+		Values
+		AltValues
+
+
+2. XML serializations of quantities may have the following valid XML node 
+   names (excepting extensions the user may make to the schema) with the 
+   corresponding XML schema types:
+
+     XML Node Name      XML Schema Complex Types allowed
+     -------------      --------------------------------
+     atomicQuantity      AtomicQuantityType
+     listQuantity        ListQuantityType
+     matrixQuantity      MatrixQuantityType
+     quantity            MatrixQuantityType
+
+   A user should be able to create XML schema from these types. The new
+   nodes may have limits placed on the quantities such that units, ucd, etc
+   are limited to a preferred settings. For example, the "velocity" element
+   constucted from a "matrixQuantityType" may be limited to having units of
+   type "cm/sec^-1" and a UCD for "velocity". The schema would give this
+   "extended" quantity the node name "velocity" in order to identify
+   it in the XML document. In all other aspects, it behaves as an unrestricted
+   quantity. Examples on how to do this in XML schema will be given
+   in another document.
+
+
+3. Within a type of quantity, there are a number of simplifying defaults
+   which, for the largest fraction of data, will serve to compress the
+   XML which need be passed; some possible simplifications are noted 
+   below. Thus, when some attributes are not specified, they are assumed 
+   to fall to some default. For example, if dataType isn't specified, it 
+   is assumed to be "a scalar string"; if "units" are not specified, 
+   they are assumed to be "unitless". To show a *possible* choice,
+   the following examples *could* be considered equivalent:
+
+   <listQuantity name="example" size="2">
+	<unitless/>
+	<string width="4"/>
+	<values><![CDATA[  my data]]></values>
+   </listQuantity>
+
+      =and=
+
+   <listQuantity name="example" size="2">
+        <values><![CDATA[  my data]]></values>
+   </listQuantity>
+
+      = or even =
+
+   <listQuantity name="example" size="2"><![CDATA[  my data]]></listQuantity>
+
+   (an XML note for newbies: the CDATA section needed to preserve 
+    spacing)
+
+   where the string "  my data" are 2 string datum "  my" and "data". 
+   In this case, we must assume that the length, since unspecified (no 
+   dataType node), may be gleaned from the "size" on the quantity 
+   and the spaces in the CDATA (where, if size is unspecified or 
+   1, its assumed the spaces *are* part of the string, and if size
+   > 1 then the spaces between the non-space characters are NOT part 
+   of the value).
+
+4. Units are represented as strings. I understand there are a variety of
+   standards out there, in this document I'm just putting in filler and
+   the actual strings shouldn't be taken so seriously.
+
+5. Where possible, the structure of the XML serialization should help control
+   how users express their data so that its "scientific". BUT this  a 
+   requirement/priority on the serialization. It becomes hard to impossible to 
+   formulate a serialization which is both richly expressive, has reusable 
+   components AND is scientifically policing at the same time. Some police
+   work, of course, can and should be done, but I don't think we should lose 
+   sight of the fact that having a sufficiently rich serialization which 
+   can be transmitted and understood in less than the age of the universe
+   is the priority here.
+
+6. We allow 2 prescriptions for serialization of single scalar string
+   meta-data in the model: either as PCDATA within a child node or as
+   an attribute on the parent node. Why both? The first type is so that the
+   user can control whitespace as well as allow for some re-use of the
+   quantity model. The second case because when whitespacing isn't an issue,
+   attributes allow for the user to have a '1-line' serialization which is 
+   more compact in form than using child nodes. Thus, given the advantages 
+   of each, we allow the user to have either (but *not both* on the *same* 
+   node).
+
+   This means that the following are "equivalent" prescriptions:
+
+   <quantity name="John Q. User"/>
+
+   <quantity>
+       <name>John Q. User</name>
+   </quantity>
+
+   Meta-data in the model which certainly "qualifies" for this dual treatment
+   includes "name", "description", and "ucd". 
+
+
+7. Populating the data-cube (or matix) of the quantity from the serialized "values"
+   sections is assumed to be done in an implict ordering. The rule is that the order 
+   of the axes in the serialization indicate the "fast" to "slow" axes. For example
+   then, the following 2 dimensional matrix:
+
+   A B C 
+   D E F
+
+   is described by the vertical/horizontal i,j axes which have respective sizes "2" 
+   and "3". The serialization of this matix and its data would be then:
+
+   <quantity>
+       <axes>
+          <j size="3"><values>0 1 2</values></j> 
+          <i size="2"><values>0 1</values></i> 
+       </axes>
+       <values> A B C D E F</values>
+   </quantity>
+
+   where "j" (horizontal) axis is the 'fast' axis. Thus, the locations in the matrix 
+   are populated in [i,j] order of  [0,0], [0,1], [0,2], [1,0], [1,1] and [1,2].
+   By reversing the order of the axes, we would get the data into the matix
+   as:
+
+   A C E 
+   B D F
+
+   Because data are stored as strings in PCDATA section, we are assuming that
+   whitespace is unimportant, and as is the XML spec, any multiple whitespace
+   will be collapsed into single whitespaces at parse time. For the purposes
+   of the "implicit" rule, all whitespace indicates a delimiter between
+   values. This rule presents an obvious problem of how to encapsulate multi-
+   dimensional string data that has spaces/tabs/etc embedded within the value.
+   Clearly, in order to treat this case, we must resort to some fixed width
+   or alternative delimiter symbol rule for parsing the values, and this is not
+   currently given. As an alternative delimited parsing rule, a good choice,
+   for example, is to separate fields within the values via some XML tags, e.g.
+   a 3 field string could be:
+
+   <values><td><![CDATA[John A. Astronomer]]></td>
+           <td>whitespace doesnt matter here</td>
+           <td>Or in this field either</td>
+   </values>
+
+   Clearly, CDATA sections may be used between these tags to preserve
+   whitespace within fields, and the API will have to allow this control.
+   It is also clear that this is not the most compact/efficent means of
+   transporting (or parsing!) the values, so some sort of fixed width
+   parsing solution is also desirable as an alternative, especially for 
+   passing along large datasets.
+ 
+   Serializations presented here will need to have additional, explicit IO 
+   information in order to have the ability to wrap outside files (whether
+   ascii or binary) or to do fixed with parsing. We leave this for (near) 
+   future work.
+
+
+8. Equivalence principle between single and multi-dimensional quantities:
+   It may be desirable to create a serialization where something built in 
+   the multi-dimensional way would have "equivalence" in the atomic
+   representation. For example, the matrix:
+
+        A B 
+        C D
+
+   which has a 2-d velocity, e.g. V(x,y), would look like in the
+   multi-dimensional representation :
+
+        <velocity>
+                <axes>
+                        <x_position>10.1 12.1</x_position>
+                        <y_position>10.2 14.2</y_position> 
+                </axes>
+                <units>cm/sec^-1</units>
+                <values>A B C D</values>
+        </velocity>
+
+   is really a compact description of 4 atomic quantities, each with
+   its own meta-data, e.g.
+        
+        <basicVelocity>
+                <x_position>10.1</x_position>
+                <y_position>10.2</y_position>
+                <units>cm/sec^-1</units>
+                <value>A</value>
+        </basicVelocity>
+
+        <basicVelocity>
+                <x_position>12.1</x_position>
+                <y_position>10.2</y_position>
+                <units>cm/sec^-1</units>
+                <value>B</value>
+        </basicVelocity>
+
+        <basicVelocity>
+                <x_position>10.1</x_position>
+                <y_position>14.2</y_position>
+                <units>cm/sec^-1</units>
+                <value>C</value>
+        </basicVelocity>
+
+        <basicVelocity>
+                <x_position>12.1</x_position>
+                <y_position>14.2</y_position>
+                <units>cm/sec^-1</units>
+                <value>D</value>
+        </basicVelocity>
+
+   So what has happened in order to make the constituent atomic quantities
+   is that the parent matrix quantity has been broken appart with axes
+   quantities turned into meta-data in each atomic quantity. In principle,
+   by anaylzying the handfull of atomic quantities, they could be reassembled
+   into the matrix quantity again, if that is desired, but this is a 
+   relatively difficult task to do in general, and is not required that 
+   parser of the serialzation be able to do this "reverse" composition task.
+
+
+9. Referencing mechanism. We will need to consider id/idref mechanisms for 
+   referencing one quantity within a document by another. In particular, the
+   use of the reference mechanism in order to "compress" repeated information
+   by quantities is highly desirable.
+
+
+
+   EXAMPLES 
+
+   With these working assumptions, and with the agreements on the interface,
+   and theoretical structure of the quantities, the following use-cases 
+   will be serialized to show examples of how we might do things.
+
+   Summary of use-cases:
+
+	 1. A single scalar value
+	 2. A single vector value with 2 components 
+	 3. A single tuple value 
+	 4. A single object as data of a quantity
+	 5. A list of string (scalar) values
+	 6. A 2-d quantity
+	 7. A 3-d quantity
+	 8. A 2-d quantity described with alternative axes
+	 9. A single scalar value with alternative value frame
+	10. A 2-d quantity of scalar values with alternative value frame
+	11. A 2-d quantity of vector values
+ 	12. A 2-d tablular quantity
+
+
+1. Single Scalar Value
+
+	This can, of course be handled by the basic quantity and above.
+	To give an idea of compression/defaults the following examples 
+	are equivalent:
+
+	<!-- a completely explicit specification (matrixQuantity) -->
+	<quantity size="1">
+		<name>Author</name>
+		<desc>name of Author</desc>
+		<ucd/>
+		<coordSystem/>
+		<unitless/>
+		<string length="14"/>
+		<axesList/>
+		<values>John Q. Public</values>
+		<altValues/>
+	</quantity>
+
+	=or=
+
+	<!-- the minimum specification -->
+	<quantity name="Author" description="name of Author">John Q. Public</quantity>
+
+	=or=
+
+	<!-- a less implicit specification -->
+	<quantity name="Author">
+                <desc>name of Author</desc>
+		<string length="14"/>
+		<values>John Q. Public</values>
+	</quantity>
+
+	=or=
+
+	[Mapping example]
+
+
+2. A single vector value with 2 components 
+
+	Depending on what we want to allow in DataType for atomicQuantity,
+  	single vectors may be handled by all quantities. In this example,
+ 	the "dataType" is "vector" which is a node which requires one or
+	more "value frame" components to describe the vector. In the following
+	example the velocity vector "10.34x, 12.81y" is described. To make
+	things clear to Jonathan etal I have elected to use the term "Frame"
+	for the components (since thats what they are, "value frames").
+
+	Note one problem I see with this approach: the parent quantity units
+ 	may be different from the child quantity. A solution may be to 
+	put in the schema a rule that the units node doesn't appear if the
+ 	dataType is of sub-type "vector".
+
+	<!-- The explicit specification -->
+	<quantity name="vector" description="apparent velocity" size="1">
+		<units>m/s^-1</units>
+		<vector> <!-- the dataType -->
+			<frame name="x-component">
+				<units value="m/s"/>
+				<float width="5" precision="2"/>
+			</frame>
+			<frame name="y-component">
+				<units value="cm/s"/>
+				<float width="5" precision="0"/></dataType>
+			</frame>
+		</vector>
+		<values>10.34 1281.</values>
+	<quantity>
+
+	=or=
+
+	[Algorithim/Mapping example]
+
+
+3. A single tuple value 
+
+	Here, I have chosen to express the tuple as the fairly common
+	celestial sky quantity. Again, depending on what the basic 
+	quantity people want, this could be expressed as a basic quantity 
+	and above. 
+
+	<quantity name="sky position" size="1">
+		<ucd>_whatever_appropriate_here</ucd> 
+		<coordSystem>_whatever_appropriate_here</coordSystem> 
+		<tuple/>
+		<values>
+			<quantity idref="RA"/> 
+			<quantity idref="DE"/> 
+		</values>
+	</quantity>
+
+	= or = (perhaps)
+	
+	we may wish to say that when its a tuple, the "values" + "dataType"
+	nodes are replaced with a "members" node. This will prevent people
+	from expressing tuples as obj1 + obj2 + number. That would look like:
+
+	<quantity name="sky position" size="1">
+		<ucd>_whatever_appropriate_here</ucd> 
+		<coordSystem>_whatever_appropriate_here</coordSystem> 
+		<members>
+			<quantity idref="RA"/> 
+			<quantity idref="DE"/> 
+		</members>
+	</quantity>
+
+	I kind of like the second one better, but I can see a case for
+	allowing both.
+
+	In order to make this example clear, lets define the Ra/Dec 
+	quantities in the tuple too, so
+
+	<!-- ra -->
+	<quantity name="ra" id="RA" size="1"/>
+		<ucd>ra_ucd_in_here</ucd>
+		<coordSystem>COORD_SYSTEM STUFF HERE</coordSystem>
+		<units>hr:arcmin:arcsec<units/>
+		<!-- dataType is "vector" -->
+		<vector>
+		 	<frame name="hour-component">
+				<units>hr</units>
+				<integer width="2"/>
+			</frame>
+		 	<frame name="arcmin-component">
+				<units>arcmin</units>
+				<integer width="2"/>
+			</frame>
+		 	<frame name="arcsec-component">
+				<units>arcsec</units>
+				<float width="5" precision="3"/>
+			</frame>
+		<vector>
+		<values>20 30 49.23</values>
+	</quantity>
+
+	<!-- dec -->
+	<quantity name="dec" id="DE" size="1"/>
+		<ucd>de_ucd_in_here</ucd>
+		<coordSystem>COORD_SYSTEM STUFF HERE</coordSystem>
+		<units>deg:min:sec<units/>
+		<vector>
+		 	<frame name="degree-component">
+				<units>deg</units>
+				<integer width="3"/>
+			</frame>
+		 	<frame name="arcmin-component">
+				<units>min</units>
+				<integer width="2"/>
+			</frame>
+		 	<frame name="arcsec-component">
+				<units>sec</units>
+				<float width="5" precision="2"/>
+			</frame>
+		</vector>
+		<values>-89 30 21.22</values>
+	</quantity>
+
+
+4. A single object as data of a quantity
+
+	In this example, the member is any old object you like (rather
+	than a quantity). I accept that this may be out of spec for us now. 
+	But I couldn't help trying to do it anyway. Note: as I have 
+	conceived it you would need to extend the quantity parser in 
+	order to load the object serialization.
+
+	If that extension isn't present, then based on the mode the quantity
+	parser is running in, an warning or error might be thrown. 
+
+	<quantity name="object" size="1">
+		<unitless/>
+		<object class="date.class"/>
+		<values>
+			<object>== XML serialization of the object in here ==</object>
+		</values>
+	</quantity>
+
+
+5. An list of 3 string (scalar) values (values: "John ","Q.   ", and "Public") 
+
+       	In this example, showing how a one dimensional list with "ith"
+	index may be done. This is certainly the realm of listQuantity and
+	above. We can access this quantity using q.getValue(i), where 
+	q.getValue(0) == "John ", and so on. Note: "size" defaults
+	to "1", so we *must* specify it for this example.
+	
+
+        <quantity name="Author" size="3">
+                <unitless/>
+                <string length="5"/>
+                <values>John  Q.    Public</values>
+        </quantity>
+
+	=or=
+
+	[Algorithim/Mapping example??]
+
+
+	A more sophisticated formulation, requiring the _standard quantity_ to
+	do, we could actually declare the list w/ string index, e.g can 
+	also access this quantity by a value (tickmark) on the axis, ie 
+	q.values["first"] == "John " (or so on, as appropriate to the API)
+
+        <quantity name="Author" size="3">
+                <unitless/>
+                <string length="5"/>
+		<axesList>
+			<axes>
+				<quantity name="name type" size="3">
+					<string length="6"/>
+					<values>first  middle last  </values>
+				</quantity>
+			</axes>
+		</axesList>
+                <values>John  Q.    Public</values>
+        </quantity>
+
+	=or=
+
+	[Algorithim/Mapping example]
+
+
+6. A 2-d quantity
+
+	This is the purview of only the standard quantity. In the example
+	below, a 3x3 matrix of numbers is shown, where the matrix is:
+
+ 	0 1 2 
+	3 4 5
+	6 7 8
+
+        <quantity name="matrix" size="9">
+                <unitless/>
+                <integer length="1"/>
+		<axesList>
+			<axes>
+				<quantity name="i-index" size="3">0 1 2</quantity>
+				<quantity name="j-index" size="3">0 1 2</quantity>
+			</axes>
+		</axesList>
+		<values>0 1 2 3 4 5 6 7 8</values>
+        </quantity>
+
+
+	To make this an array, say for a CCD with pixel axes (where there may
+	be an offset to the starting pixel value), we need then:
+
+        <quantity name="ccd counts" size="9">
+		<units>cnts/sec^-1</units>
+		<float width="5" precision="2"/>
+		<axesList>
+			<axes>
+				<quantity name="i-index" size="3">0 1 2</quantity>
+				<quantity name="j-index" size="3">0 1 2</quantity>
+			</axes>
+			<axes>
+				<quantity name="x" size="3">
+					<integer width="2"/>
+					<values>10 11 12</values>
+				</quantity>
+				<quantity name="y" size="3">
+					<integer width="2"/>
+					<values>1 2 3</values>
+				</quantity>
+			</axes>
+		<axesList>
+		<values>10.12 12.34 20.34 13.87 24.76  5.67 6.80 .7 12.8</values>
+        </quantity>
+
+	But the first coordinate frame, with "i-index" and "j-index" are more
+	or less extraneous now, as is the need to have "axesList" as there is
+	only one coordinate frame, so it is equivalent to say:
+
+	<quantity name="ccd counts" size="9">
+		<units>cnts/sec^-1</units>
+		<float width="5" precision="2"/>
+		<axes>
+			<quantity name="x" size="3">
+				<integer width="2"/>
+				<values>10 11 12</values>
+			</quantity>
+			<quantity name="y" size="3">
+				<integer width="2"/>
+				<values>1 2 3</values>
+			</quantity>
+		</axes>
+		<values>10.12 12.34 20.34 13.87 24.76  5.67 6.80 .7 12.8</values>
+        </quantity>
+
+
+7. A 3-d quantity
+
+	This is a trivial extension of the 2-D case, simply add in more axis
+	quantities to raise dimensionality. From the above, a 3-D cube (of
+	extent 3x3x2) where the 2-D count rate data ordered in time looks like: 
+
+	<quantity name="ccd countrate observations" size="18">
+		<units>cnts/sec^-1</units>
+		<float width="5" precision="2"/>
+                <axes>
+                        <quantity name="x" size="3">
+                                <integer width="2"/>
+                                <values>10 11 12</values>
+                        </quantity>
+                        <quantity name="y" size="3">
+                                <integer width="2"/>
+                                <values>1 2 3</values>
+                        </quantity>
+                        <quantity name="time" size="2">
+				<coordSystem>TiME FRAME HERE</coordSystem>
+				<units>sec</units>
+                                <float width="3" precision="1"/>
+                                <values>10.1 20.1</values>
+                        </quantity>
+                </axes>
+		<values>10.12 12.34 20.34 13.87 24.76  5.67 6.80 .7 12.8
+		         0.12 12.34 20.34 13.87 24.76  5.67 6.80 .7 12.8
+		</values>
+        </quantity>
+
+	= or =
+
+	[Algorithim/Mapping example]
+	
+
+8. A 2-d quantity described with alternative axes
+
+	The classic example here is a set of 2-D fluxes which are described
+	by both pixel and sky coordinate frames. Adopting the example
+	previously shown, we then have: 
+
+
+	<quantity name="ccd countrate observations" size="18">
+		<units>erg/cm^-2/sec^-1</units>
+		<float width="5" precision="2"/>
+		<axesList>
+			<axes>
+				<quantity name="x" size="3">
+					<integer width="2"/>
+					<values>10 11 12</values>
+				</quantity>
+				<quantity name="y" size="3">
+					<integer width="2"/>
+					<values>1 2 3</values>
+				</quantity>
+				<quantity name="time" size="2">
+					<coordSystem>TiME FRAME HERE</coordSystem>
+					<units>sec</units>
+					<float width="3" precision="1"/>
+					<values>10.1 20.1</values>
+				</quantity>
+			</axes>
+			<axes>
+				<quantity name="ra" size="3">
+					<units>deg</units>
+					<ucd>RA-ucd-here</ucd>
+					<coordSystem>as-appropriate</coordSystem>
+                                        <float width="5" precision="2"/>
+                                        <values>40.21 41.77 43.12</values>
+                                </quantity>
+                                <quantity name="dec" size="3">
+					<units>deg</units>
+					<ucd>DE-ucd-here</ucd>
+					<coordSystem>as-appropriate</coordSystem>
+                                        <float width="5" precision="2"/>
+                                        <values>40.21 41.77 43.12</values>
+                                </quantity>
+                                <quantity name="time" size="2">
+                                        <coordSystem>TiME-FRAME-HERE</coordSystem>
+                                        <units>sec</units>
+                                        <float width="3" precision="1"/>
+                                        <values>10.1 20.1</values>
+                                </quantity>
+                        </axes>
+                </axesList>
+                <values>10.12 12.34 20.34 13.87 24.76  5.67 6.80 .7 12.8
+                         0.12 12.34 20.34 13.87 24.76  5.67 6.80 .7 12.8
+                </values>
+        </quantity>
+
+        = or =
+
+        [Algorithim/Mapping example]
+
+
+9. A single scalar value with alternative value frame
+
+	Again, this may or may not be under basic or even listQuantities, but
+	certainly is under the standard quantity. An example where countrates
+	and flux values exist in a quantity as its data. Note: the children
+	*must* be listQuantities, standard quantities arent allowed (Jonathan
+	please clarify ??):
+
+	<quantity name="ccd countrate observations">
+		<units>cnts/cm^-2/sec^-1</units>
+		<float width="5" precision="2"/>
+                <values>10.12<values>
+                <altValues>
+			<listQuantity>
+				<units>erg/cm^-2/sec^-1</units>
+				<float width="5" precision="2"/>
+                		<values>10.12<values>
+			</listQuantity>
+		<altValues>
+	</quantity>
+
+        = or =
+
+        [Algorithim/Mapping example]
+
+
+10. A 2-d quantity of scalar values with alternative value frame
+
+	<quantity name="ccd countrate observations" size="4">
+		<units>cnts/cm^-2/sec^-1</units>
+		<float width="5" precision="2"/>
+		<axes>
+			<quantity name="ra" size="2">
+				<units>deg</units>
+				<ucd>RA-ucd-here</ucd>
+				<coordSystem>as-appropriate</coordSystem>
+				<float width="5" precision="2"/>
+				<values>40.21 41.77</values>
+			</quantity>
+			<quantity name="dec" size="2">
+				<units>deg</units>
+				<ucd>DE-ucd-here</ucd>
+				<coordSystem>as-appropriate</coordSystem>
+				<float width="5" precision="2"/>
+				<values>40.21 41.77</values>
+			</quantity>
+		</axes>
+                <values>10.12 39.99 40.2 18.81<values>
+                <altValues>
+			<listQuantity size="4">
+				<units>erg/cm^-2/sec^-1</units>
+				<float width="6" precision="2"/>
+                		<values>190.12 139.99 349.10 80.1</values>
+			</listQuantity>
+		</altValues>
+	</quantity>
+
+        = or =
+
+        [Algorithim/Mapping example]
+
+
+11. A 2-d quantity of vector values
+
+	Here's a fun one.
+
+	This one is a quantity describing velocities at 4 points in x,y space.
+	An issue: we need to be able to show that the velocity vectors are related 
+	to the positional axes, if desired. Perhaps the "coordSystem" node is 
+	appropriate using an id/idref mechanism?.
+
+	<quantity name="velocity vector array" size="4">
+		<units>m/s^-1</units>
+		<vector> 
+			<frame name="x-component">
+				<units value="m/s"/>
+				<coordSystem>as-appropriate</coordSystem>
+				<float width="5" precision="2"/>
+			</frame>
+			<frame name="y-component">
+				<units value="m/s"/>
+				<coordSystem>as-appropriate</coordSystem>
+				<float width="5" precision="2"/></dataType>
+			</frame>
+		</vector>
+		<axes>
+			<quantity name="x" size="2">
+				<units>kpc</units>
+				<coordSystem>as-appropriate</coordSystem>
+				<float width="5" precision="2"/>
+				<values>40.21 41.77</values>
+			</quantity>
+			<quantity name="y" size="2">
+				<units>kpc</units>
+				<coordSystem>as-appropriate</coordSystem>
+				<float width="5" precision="2"/>
+				<values>40.21 41.77</values>
+			</quantity>
+		</axes>
+		<values>10.34 12.81 30.12 -45.13 60.2 0.02 76.3 43.4</values>
+	<quantity>
+
+	Or, with mapping, 
+
+        <quantity name="ccd countrate observations" size="18">
+                <units>erg cm^-2 sec^-1</units>
+                <axesList>
+                        <axes>
+                                <quantity name="x" size="3">
+                                        <integer width="2"/>
+                                        <values>10 11 12</values>
+                                </quantity>
+                                <quantity name="y" size="3">
+                                        <integer width="2"/>
+                                        <values>1 2 3</values>
+                                </quantity>
+                                <quantity name="time" size="2">
+                                        <coordSystem>TiME FRAME HERE</coordSystem>
+                                        <units>sec</units>
+                                        <float width="3" precision="1"/>
+                                        <values>10.1 20.1</values>
+                                </quantity>
+                        </axes>
+                        <axes>
+                                <quantity name="pos" size="3">
+                                        <ucd>POS.EQ</ucd>
+                                        <coordSystem>J2000/ICRS</coordSystem>
+                                        <units>deg</units>
+                                        <vector>
+                                            <frame name="RA"/>
+                                            <frame name="Dec"/>
+                                        </vector>
+                                        <mapping>
+                                                <wcsmap type="TAN">
+                                                        <refvals>131.2181 -31.1284</refvals>
+                                                        <refpos>512.1 512.1</refpos>
+                                                        <scales>-0.0016 0.0016</scales>
+                                                        <rotation>48.3121</rotation>
+                                                </wcsmap>
+                                        </mapping>
+                                </quantity>
+                                <quantity name="time" size="2">
+                                        <coordSystem>UTC</coordSystem>
+                                        <units>d</units>
+                                        <mapping>
+                                                <polynomial nparams="3">
+                                                        <param>131281.4</param>
+                                                        <param>-.00013</param>
+                                                        <param>4.823</param>
+                                                </polynomial>
+                                        </mapping>
+                                </quantity>
+                        </axes>
+                </axesList>
+                <float width="5" precision="2"/>
+                <values>10.12 12.34 20.34 13.87 24.76  5.67 6.80 .7 12.8
+                         0.12 12.34 20.34 13.87 24.76  5.67 6.80 .7 12.8
+                </values>
+        </quantity>
+
+12. A 2-d tablular quantity
+	
+	Another fun one. To make a table, we leverage the membership ability
+	of quanities. Each column in the table is a child member quantity. 
+	Access by row is indicated by having the parent quantity have a common
+	row axes specified that all child quantities refer to.
+
+	An example serialization of a table using quantity.
+  The data are:
+
+  1    Berkeley58    41     7    2   Florov,B.H.,Izv.
+  2    IC1805       354   135  -30   Vasilevskis.S.et al.,
+  3    IC4665       275    87  -85   Sanders,W.L.,
+  4    IC4756       464   166   74   Herzog,A.D.et al.,
+  5    NGC129(A)     70    18   16   Lenham,A.P.,
+  6    NGC1664      222   135   57   Kerridge,S.J.et al.,
+  7    NGC1817      752   265   65   Tian K.P.et al., Annals of
+  8    NGC188       228   136   -3   Upgren,A.R.,
+  9    NGC1912      998   172   87   Mills,G.A.,   Journal des
+ 10    NGC2099(A)   243   216   81   Jefferys,W.H.,
+
+  taken from Catalog 1215, Zhao & Tian, "Tables of membership for 43
+  open clusters (1994 Version) (1995)".
+
+  <quantity name="Catalog 1215" description="Tables of membership for 43 open
+clusters (1994 Version)" size="60">
+   <axes>
+        <!-- declaring one or more axes with members means that that axis
+             is held in common between all the members, and can be used to
+             access the quantity. In this case, "rows" describes the common
+             row-axis exsists between the all the columns
+          -->
+        <quantity qid="rows" name="rows" description="rows in document" size="10">
+                <!-- linear algorithm for generation of row numbers -->
+                <mapping><polynomial><param>0</param><param>1</param></polynomial></mapping>
+        </quantity>
+   </axes>
+   <members>
+	<!-- these are the columns of data.. all have unifiying reference to rows axis of parent -->
+        <quantity name="Seq" description="[1/43]?+ Order number" size="10">
+            <axes><refQuantity qidRef="rows"/></axes>
+            <integer type="decimal" width="3" noDataValue="-99"/>
+            <values>1 2 3 4 5 6 7 8 9 10</values>
+         </quantity>
+         <quantity name="Cluster" description="Name of open cluster" size="10">
+            <axes><refQuantity qidRef="rows"/></axes>
+            <string width="13" noDataValue="             "/>
+            <values>Berkeley58 IC1805 IC4665 NGC129(A) NGC1664 NGC1817 NGC188 NGC1912 NGC2099(A)</values>
+         </quantity>
+         <quantity name="Nstars" description="? Total number of stars (1st line)" size="10">
+            <axes><refQuantity qidRef="rows"/></axes>
+            <integer type="decimal" width="5" noDataValue="-9999"/>
+            <values>41 354 275 464 70 222 752 228 998 243</values>
+         </quantity>
+         <quantity name="Nmembers" description="Number of cluster member (1)" size="10">
+            <axes><refQuantity qidRef="rows"/></axes>
+            <integer type="decimal" width="5" noDataValue="-9999"/>
+            <values>7 135 87 166 18 135 265 136 172 216</values>
+         </quantity>
+         <quantity name="PA" description="[-90/90]? Rotation angle to the major axis of the field distribution" size="10">
+            <axes><refQuantity qidRef="rows"/></axes>
+            <units>deg</units>
+            <integer type="decimal" width="4" noDataValue="-999"/>
+            <values>2 -30 -85 74 16 57 65 -3 87 81</values>
+         </quantity>
+         <quantity name="Ref" description="Reference" size="10">
+            <axes><refQuantity qidRef="rows"/></axes>
+            <string width="26" noDataValue="                          "/>
+            <!-- because string contain whitespace that arent spacing, we need to
+                 use a tagged prescription. This means we need to use a "data" rather
+                 than "values" element at this point.
+              -->
+            <values>
+                <value>Florov,B.H.,Izv.</value> 
+                <value>Vasilevskis.S.et al.,</value>
+                <value>Sanders,W.L.,</value>
+                <value>Herzog,A.D.et al.,</value>
+                <value>Lenham,A.P.,</value>
+                <value>Kerridge,S.J.et al.,</value>
+                <value>Tian K.P.et al., Annals of</value>
+                <value>Upgren,A.R.,</value>
+                <value>Mills,G.A.,   Journal des</value>
+                <value>Jefferys,W.H.,</value>
+            </values>
+         </quantity>
+    </members>
+  </quantity>
+
+

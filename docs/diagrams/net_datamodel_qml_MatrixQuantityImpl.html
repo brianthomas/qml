@@ -1,0 +1,189 @@
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   </head>
+   <body>
+      <table bgcolor="#CCCCFF" border="0" cellpadding="1" cellspacing="3" table-layout="fixed" width="100%">
+         <tr bgColor="#CCCCFF" width="100%">
+            <td width="72" align="center"><b><a href="overview-summary.html">Overview</a></b></td>
+            <td width="72" align="center"><b><a href="net.datamodel.qml.html">Package</a></b></td>
+            <td bgColor="#00008B" width="72" align="center"><span style="color:#FFFFFF; font-weight:bold">Class</span></td>
+            <td width="72" align="center">Diagram</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <hr>
+      <h2><font size="-1"><img src="icons/package.gif">net.datamodel.qml</font></h2><img src="icons/class_public.gif"><span style="font-size:large; font-weight:bold">Class&nbsp;</span><span style="font-size:large; font-weight:bold">MatrixQuantityImpl</span><br><br>public <b>MatrixQuantityImpl</b><br><p>A quantity which contains a set of one or more values 
+          which may be described by one or more axis (coordinate) 
+          frames.
+      </p><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <thead>
+         <tr>
+            <td bgColor="#CCCCFF" colspan="2"><span style="font-size:large; font-weight:bold">Constructor Summary</span></td>
+         </tr>
+      </thead><tbody>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#376">MatrixQuantityImpl</a>()</code><br>          &nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#377">MatrixQuantityImpl</a>(<a href="net_datamodel_qml_ValueMapping.html">ValueMapping</a> mapping)</code><br>          <font>Construct this quantity with mapping rather than explicitly holding
+                values.</font>&nbsp;
+            										
+         </td>
+      </tr></tbody></table><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <thead>
+         <tr>
+            <td bgColor="#CCCCFF" colspan="2"><span style="font-size:large; font-weight:bold">Method Summary</span></td>
+         </tr>
+      </thead><tbody>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#379">addMember</a>(<a href="net_datamodel_qml_Quantity.html">Quantity</a> member)</code><br>          <font>Add an object of type Quantity to the List of members in this quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#380">removeMember</a>(<a href="net_datamodel_qml_Quantity.html">Quantity</a> value)</code><br>          <font>Remove an object of type Quantity from the List of members
+                in this quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.util.List</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#381">getAxisFrameList</a>()</code><br>          <font>Get the list of axisframes
+                in this quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#382">addAltValue</a>(<a href="net_datamodel_qml_ListQuantity.html">ListQuantity</a> value)</code><br>          <font>Add an object of type ListQuantity to represent an equivalent, but
+                 alternative represention of this quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#383">removeAltValue</a>(<a href="net_datamodel_qml_ListQuantity.html">ListQuantity</a> value)</code><br>          <font>Remove an object of type ListQuantity from the List altvalueVector
+               
+                </font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public java.util.List</code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#384">getAltValueList</a>()</code><br>          <font>Get the list of altvalueVector
+               
+                </font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public <a href="net_datamodel_qml_Locator.html">Locator</a></code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#385">createLocator</a>()</code><br>          <font>Create a locator for this quantity.</font>&nbsp;
+            										
+         </td>
+      </tr>
+      <tr>
+         <td align="right" valign="top" width="1%"><font size="-1"><code>public boolean </code></font>&nbsp;
+            										
+         </td>
+         <td><code><a href="#386">equivalent</a>(java.lang.Object obj)</code><br>          <font>Determine equivalence between objects (quantities).</font>&nbsp;
+            										
+         </td>
+      </tr></tbody></table><br><br><br><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+         <td bgColor="#CCCCFF"><span style="font-size:large; font-weight:bold">Constructor Detail</span></td>
+      </tr></table><span style="font-size:medium"><a name="376"><span style="font-size:medium">MatrixQuantityImpl</span></a></span><br><pre>public <b>MatrixQuantityImpl</b>()</pre><br><dl><br></dl>
+      <hr><span style="font-size:medium"><a name="377"><span style="font-size:medium">MatrixQuantityImpl</span></a></span><br><pre>public <b>MatrixQuantityImpl</b>(<a href="net_datamodel_qml_ValueMapping.html">ValueMapping</a> mapping)</pre><br><dl>
+         <p>Construct this quantity with mapping rather than explicitly holding
+             values. Values will be generated on demand from the (value) mapping.
+         </p><br></dl>
+      <hr><br><br><br><br><table border="1" cellpadding="3" cellspacing="0" width="100%">
+      <tr>
+         <td bgColor="#CCCCFF"><span style="font-size:large; font-weight:bold">Method Detail</span></td>
+      </tr></table><a name="379"><span style="font-size:medium">addMember</span></a><br><br><pre>public boolean  <b>addMember</b>(<a href="net_datamodel_qml_Quantity.html">Quantity</a> member)</pre><br><dl>
+         <p>Add an object of type Quantity to the List of members in this quantity. 
+             Incorrectly dimensioned AxisFrames are not allowed.
+             Correct dimensionality is when the multiple of the numberOfLocations of
+             all the child axes equal that of the parent size. For example, an AxisFrame
+             with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
+             This AxisFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
+            
+             
+         </p><br></dl>
+      <hr><a name="380"><span style="font-size:medium">removeMember</span></a><br><br><pre>public boolean  <b>removeMember</b>(<a href="net_datamodel_qml_Quantity.html">Quantity</a> value)</pre><br><dl>
+         <p>Remove an object of type Quantity from the List of members
+             in this quantity.
+             
+             
+         </p><br></dl>
+      <hr><a name="381"><span style="font-size:medium">getAxisFrameList</span></a><br><br><pre>public java.util.List <b>getAxisFrameList</b>()</pre><br><dl>
+         <p>Get the list of axisframes
+             in this quantity.
+             
+             
+         </p><br></dl>
+      <hr><a name="382"><span style="font-size:medium">addAltValue</span></a><br><br><pre>public boolean  <b>addAltValue</b>(<a href="net_datamodel_qml_ListQuantity.html">ListQuantity</a> value)</pre><br><dl>
+         <p>Add an object of type ListQuantity to represent an equivalent, but
+              alternative represention of this quantity. The alternative quantity must
+             have the same size (number of values) as the parent quantity that it represents.
+            
+             
+         </p><br></dl>
+      <hr><a name="383"><span style="font-size:medium">removeAltValue</span></a><br><br><pre>public boolean  <b>removeAltValue</b>(<a href="net_datamodel_qml_ListQuantity.html">ListQuantity</a> value)</pre><br><dl>
+         <p>Remove an object of type ListQuantity from the List altvalueVector
+            
+             
+         </p><br></dl>
+      <hr><a name="384"><span style="font-size:medium">getAltValueList</span></a><br><br><pre>public java.util.List <b>getAltValueList</b>()</pre><br><dl>
+         <p>Get the list of altvalueVector
+            
+             
+         </p><br></dl>
+      <hr><a name="385"><span style="font-size:medium">createLocator</span></a><br><br><pre>public <a href="net_datamodel_qml_Locator.html">Locator</a> <b>createLocator</b>()</pre><br><dl>
+         <p>Create a locator for this quantity. This method provided for
+             compliance with Quantity interface..atomic quantities don't
+             have more than one location, so it is of little value to use them,
+             if you know you are dealing with an atomic quantity.
+         </p><br></dl>
+      <hr><a name="386"><span style="font-size:medium">equivalent</span></a><br><br><pre>public boolean  <b>equivalent</b>(java.lang.Object obj)</pre><br><dl>
+         <p>Determine equivalence between objects (quantities). Equivalence is the same
+             as 'equals' but without checking that the id fields between both
+             objects are the same.
+             
+         </p><br></dl>
+      <hr><br><br><table bgcolor="#CCCCFF" border="0" cellpadding="1" cellspacing="3" table-layout="fixed" width="100%">
+         <tr bgColor="#CCCCFF" width="100%">
+            <td width="72" align="center"><b><a href="overview-summary.html">Overview</a></b></td>
+            <td width="72" align="center"><b><a href="net.datamodel.qml.html">Package</a></b></td>
+            <td bgColor="#00008B" width="72" align="center"><span style="color:#FFFFFF; font-weight:bold">Class</span></td>
+            <td width="72" align="center">Diagram</td>
+            <td>&nbsp;</td>
+         </tr>
+      </table>
+      <hr><br><br><center><span style="font-size:xx-small">This documentation has been generated by EclipseUML.</span></center><br></body>
+</html>

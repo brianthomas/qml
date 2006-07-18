@@ -1,0 +1,70 @@
+
+  Hi all,
+
+  First off: Thanks for taking a look at QML (Quantity modeling
+  language). I bet you are wondering what "QML" is, eh? Ok, here's
+  a quick shot at defining it: 
+
+     QML is a "thing"-based language for scientific and 
+     mathematical data modeling. Each "thing" is a "quantity" which 
+     is be associated with a structure and a semantic definition..which
+     for our purposes is a physical phenomena (like "star" or 
+     "fluid temperature"). 
+
+     Quantities in turn, may hold other Quantities or values (numbers
+     or strings). Higher-level data models, which associate/define 
+     semantic meanings to various quantities (e.g. "velocity", "position"), 
+     can be built from these basic quantities. The higher-level data model (XML)
+     schema that inherit from QML may be understood and its instance 
+     documents parsed into QML documents / objects by the QMLReader. QML 
+     is serialized in XML and useful for describing the things within an
+     XML-based (aka "OWL") ontology.
+
+
+  Second: This is an *alpha* release of the QML Java IO package.
+  "alpha" means that the package is feature incomplete (see the TODO
+  file) and that the interface to existing package functionality may
+  vary from version to version as well. Certainly, there can also be 
+  some significant bugs. Some existing features may break from version
+  to version. Right now the majority of my effort is to add the new planned 
+  features from the development roadmap, stability will come afterwards.
+
+  My expectation is that a "beta" package can be produced some time by 
+  the end of the fall, 2006, and a "stable" package for the winter 2007.
+
+  Third: if you just want to install this and run it, you can stop
+  wasting time with this README. Proceed directly to the "INSTALL"
+  file.
+
+  fourth: We have a development roadmap (finally!). Clear(er) definition
+  about what the version numbers mean!!
+
+  fifth: I am very open to contributions and development help. Please 
+  contact me if you are interested.
+
+  Lastly, as a notice to my employers, and whomever else is concerned:
+
+  While this work overlaps heavily with my professional interests
+  in Grid computing and the Virtual Observatory, the package was
+  wholly developed on my own time, away from work. I did this, not
+  because I wished to annoy my wife (which I did do), but because 
+  I wanted this package to be free and clear of any institutional
+  entanglements/licensing problems.
+
+  As a result, this package is licensed under the Lessor GNU Public
+  License (LGPL) so that it may be used by the broadest audience
+  possible. When you are using/hacking/modifying this package, all 
+  that I ask is that if you develop a good patch, to let be know 
+  about it so that it might be incorporated within QML.
+
+
+  =b.t.
+  (baba-luu@earthlink.net)
+
+  --- 
+
+  This package (and my work on QML) is dedicated to my Mother, 
+  Freida Ann Thomas, who passed away from cancer while I was working 
+  on the early versions of it. I love and miss you very much mom. 
+
+

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- test 3: The use/creation of ellipse quantity, having members
+     which are "semi-major" and "semi-minor" (also quantities).
+     Its imported in to MyDocument schema from Ellipse.xsd schema.
+  -->
+<doc:mydocument
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://noplace.org/MyDocument"
+      xmlns:q="http://www.data-model.net/Quantity"
+      xmlns="http://noplace.org/Ellipse"
+      xsi:schemaLocation="http://noplace.org/MyDocument MyDocument.xsd"
+>
+   <ellipse>
+       <center>
+           <q:vector>
+              <q:component name="x pos"><q:units>deg</q:units></q:component>
+              <q:component name="y pos"><q:units>deg</q:units></q:component>
+           </q:vector>
+           <q:value>10 10</q:value>
+       </center>
+       <radius>
+          <q:units>deg</q:units>
+          <q:integer width="2"/>
+          <q:value>10</q:value>
+       </radius>
+       <minorRadius>
+          <q:units>deg</q:units>
+          <q:integer width="2"/>
+          <q:value>5</q:value>
+       </minorRadius>
+       <positionAngle>
+          <q:units>rad</q:units>
+          <q:float width="3" precision="1"/>
+          <q:value>1.2</q:value>
+       </positionAngle>
+    </ellipse>
+</doc:mydocument>

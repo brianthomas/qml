@@ -1,0 +1,21 @@
+<?xml version="1.0" standalone="no"?>
+<!-- extension test 1 : an example of how to extend the quantity into simple document
+    containing an admixture of both QML and non-QML nodes.
+-->
+<mydocument
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:schemaLocation="http://noplace.org/MyDocument MyDocument.xsd"
+      xmlns:q="http://www.data-model.net/Quantity" 
+      xmlns="http://noplace.org/MyDocument" 
+>
+	<somenode/>
+	<node>
+	   <somenode/>
+	</node>
+	<q:atomicQuantity name="firstName" description="first name of package creator">
+	    <q:trivialQuantity name="initial">A</q:trivialQuantity>
+            <q:string/>
+            <q:value>Brian</q:value>
+        </q:atomicQuantity>
+	<q:trivialQuantity name="lastName">Thomas</q:trivialQuantity>
+</mydocument>

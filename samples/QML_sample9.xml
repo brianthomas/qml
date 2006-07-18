@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- test 9: list quantity with dataType and CSV separated values in CDATA section -->
+<listQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      size="3"
+>
+   <string width="4"/>
+   <!-- 3 CSV separated string values -->
+   <values><![CDATA[some data here]]></values>
+</listQuantity>

@@ -1,0 +1,20 @@
+<?xml version="1.0" standalone="no"?>
+<!-- extension test 2 : an example of how to extend the quantity into simple document
+    containing an admixture of both QML and non-QML nodes.
+    This one contains quantities to which the user has attached semantic meaning (e.g.
+    renamed them). 
+-->
+<mydocument
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:schemaLocation="http://noplace.org/MyDocument MyDocument.xsd"
+      xmlns:q="http://www.data-model.net/Quantity" 
+      xmlns="http://noplace.org/MyDocument" 
+>
+    <somenode/>
+    <velocity name="xVel" description="x component velocity">
+       <note>Measured by instrument CCD1A</note>
+       <q:units>cm sec^-1</q:units>
+       <q:float width="5" precision="1"/>
+       <q:value>102.3</q:value>
+    </velocity>
+</mydocument>

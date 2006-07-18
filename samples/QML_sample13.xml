@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- test 13: matrix quantity with one set of axes and meta-data -->
+<matrixQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:a="http://www.data-model.net/Accuracy"
+      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      size="3"
+>
+	<trivialQuantity>some meta-data here</trivialQuantity>
+	<atomicQuantity><value>meta-data2 here</value></atomicQuantity>
+	<listQuantity size="3"><string/><values>some meta-data2 here</values></listQuantity>
+        <!-- all 3 types of accuracy, single-value, list-value, and matrix-valued allowed -->
+        <a:flag name="comments"><string/><value>flags are good</value></a:flag>
+        <a:flagList name="comments" size="3"><string/><values>flags are good</values></a:flagList>
+        <a:flagMatrix size="3"><string/><values>some meta-data2 here</values></a:flagMatrix>
+   <axisFrame size="1">
+      <!-- "pixel" axis -->
+      <listQuantity size="3"><integer width="1"/><values>0 1 2</values></listQuantity>
+   </axisFrame>
+   <string width="14"/>
+   <values>some data here</values> <!-- 3 string values -->
+</matrixQuantity>

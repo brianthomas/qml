@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!-- test 17: composite quantity with several member quantities
+             including 2 axisFrames. 
+ -->
+<compositeQuantity
+      description="a bag of quantities which is itself, a quantity"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      size="3"
+>
+   <!-- 3 quantities which are members -->
+        <axisFrame size="1">
+           <!-- "ith" axis -->
+           <listQuantity size="3"><integer width="1"/><values>0 1 2</values></listQuantity>
+        </axisFrame>
+        <axisFrame size="1">
+           <!-- a "pixel" axis (has offset to ith axis) -->
+           <listQuantity size="3"><integer width="1"/><values>8 9 0</values></listQuantity>
+        </axisFrame>
+	<trivialQuantity>some data in here</trivialQuantity>
+        <listQuantity size="5"><integer width="2"/><values> 5 13 11 12 13</values></listQuantity>
+        <matrixQuantity size="4">
+            <axisFrame size="1">
+               <listQuantity size="4">
+                   <string/>
+                   <values>one two three four</values>
+               </listQuantity>
+            </axisFrame>
+            <integer width="2"/>
+            <values> 5 13 11 12</values>
+        </matrixQuantity>
+</compositeQuantity>
