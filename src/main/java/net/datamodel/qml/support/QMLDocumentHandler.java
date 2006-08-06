@@ -104,7 +104,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
-import sun.rmi.runtime.Log;
 
 /** 
      Contains the core SAX document handler for the Reader. It also contains
