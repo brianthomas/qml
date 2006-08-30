@@ -33,7 +33,7 @@ import java.io.Writer;
 import java.util.Hashtable;
 import java.util.List;
 
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -52,9 +52,9 @@ public interface QMLDocument extends Document
 
    public void setDocumentElement (Element elem);
 
-   public QMLElement createQMLElement(Quantity quantity) throws DOMException;
+   public QMLElement createQMLElement(ObjectWithQuantities quantity) throws DOMException;
 
-   public QMLElement createQMLElementNS(String namespaceURI, Quantity quantity) throws DOMException;
+   public QMLElement createQMLElementNS(String namespaceURI, ObjectWithQuantities quantity) throws DOMException;
 
    /**
  * @uml.property  name="quantityIdTable"

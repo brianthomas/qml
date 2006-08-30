@@ -40,7 +40,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.Specification;
 import net.datamodel.qml.support.Constants.NodeName;
@@ -51,7 +51,7 @@ import org.apache.log4j.Logger;
 /**
  * A quantity which holds other quantities as data.
  */
-public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements Quantity {
+public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements ObjectWithQuantities {
 	
 	private static final Logger logger = Logger.getLogger(CompositeQuantityImpl.class);
 
@@ -112,7 +112,7 @@ public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements 
     }
 
     /**
-     * Add an object of type Quantity to the List of member Quantities.
+     * Add an object of type ObjectWithQuantities to the List of member Quantities.
      * The only restrictions on membership are that a quantity may not "own"
      * itself, and only MatrixQuantities and CompositeQuantiites may have AxisFrames.
      * Furthermore, incorrectly dimensioned AxisFrames are not allowed.
@@ -121,11 +121,11 @@ public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements 
      * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
      * This AxisFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
      *
-     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong Quantity Type, or the AxisFrame dimensionality is incorrect.
+     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong ObjectWithQuantities Type, or the AxisFrame dimensionality is incorrect.
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
-    public boolean addMember ( Quantity value  ) 
+    public boolean addMember ( ObjectWithQuantities value  ) 
     {
 
        // cant add ourselves as member of ourselves (!)
@@ -139,11 +139,11 @@ public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements 
     }
 
     /**
-     * Remove an object of type Quantity from the List memberVector
+     * Remove an object of type ObjectWithQuantities from the List memberVector
      *
      * @return boolean value of whether removal was successful or not.
      */
-    public boolean removeMember ( Quantity value  ) {
+    public boolean removeMember ( ObjectWithQuantities value  ) {
        return getMemberList().remove(value);
     }
 
@@ -166,10 +166,10 @@ public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements 
     public boolean equivalent ( Object obj )
     {
 
-        if (obj instanceof Quantity )
+        if (obj instanceof ObjectWithQuantities )
         {
             if (
-                  this.getMemberList().equals(((Quantity)obj).getMemberList()) // FIXME : need to iterate over members 
+                  this.getMemberList().equals(((ObjectWithQuantities)obj).getMemberList()) // FIXME : need to iterate over members 
                )
             return true;
         }
@@ -199,7 +199,7 @@ public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements 
          String id = getId();
          if(id != null && !id.equals("") && idTable != null)
          {
-             Quantity idOwner = (Quantity) idTable.get(id);
+             ObjectWithQuantities idOwner = (ObjectWithQuantities) idTable.get(id);
              if(idOwner != null && idOwner != this)
              {
 

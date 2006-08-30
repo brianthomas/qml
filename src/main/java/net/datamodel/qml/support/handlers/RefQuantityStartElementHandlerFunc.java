@@ -29,7 +29,7 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.QuantityWithValues;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.support.Constants;
@@ -48,7 +48,7 @@ public class RefQuantityStartElementHandlerFunc implements StartElementHandlerAc
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 
-          Quantity refQ = null;
+          ObjectWithQuantities refQ = null;
 
           String qIdRef = attrs.getValue(Constants.QIDREF_ATTRIBUTE_NAME);
 
@@ -58,7 +58,7 @@ public class RefQuantityStartElementHandlerFunc implements StartElementHandlerAc
              if (handler.QuantityObj.containsKey(qIdRef)) {
 
                  try {
-                    refQ = (Quantity) ((XMLSerializableObject) handler.QuantityObj.get(qIdRef)).clone();
+                    refQ = (ObjectWithQuantities) ((XMLSerializableObject) handler.QuantityObj.get(qIdRef)).clone();
 
                     if(refQ instanceof QuantityWithValues)
                        handler.addExpectedValues(new Integer (((QuantityWithValues) refQ).getSize().intValue()));

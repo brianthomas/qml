@@ -1,7 +1,7 @@
 
 // CVS $Id$
 
-// Quantity.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// ObjectWithQuantities.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -39,12 +39,12 @@ import java.util.List;
 /**
  * The interface for all Quantities.
  */
-public interface Quantity {
+public interface ObjectWithQuantities {
 
     // Operations
 
    /**
-     * Add an object of type Quantity to the List of member Quantities.
+     * Add an object of type ObjectWithQuantities to the List of member Quantities.
      * The only restrictions on membership are that a quantity may not "own"
      * itself, and only MatrixQuantities and CompositeQuantiites may have AxisFrames.
      * Furthermore, incorrectly dimensioned AxisFrames are not allowed.
@@ -53,17 +53,17 @@ public interface Quantity {
      * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
      * This AxisFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
      *
-     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong Quantity Type, or the AxisFrame dimensional
+     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong ObjectWithQuantities Type, or the AxisFrame dimensional
 ity is incorrect.
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
-     public boolean addMember ( Quantity member) throws IllegalArgumentException, NullPointerException;
+     public boolean addMember ( ObjectWithQuantities member) throws IllegalArgumentException, NullPointerException;
 
     /**
      * Remove a quantity from the member list.
      */
-    public boolean removeMember ( Quantity quantity);
+    public boolean removeMember ( ObjectWithQuantities quantity);
 
     /**
      * Get a list of quantities which are members of the given quantity.

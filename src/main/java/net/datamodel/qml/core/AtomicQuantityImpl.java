@@ -41,7 +41,7 @@ import java.util.Vector;
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.QuantityWithValues;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
@@ -148,23 +148,23 @@ implements QuantityWithValues
     }
 
     /*
-     * Add an object of type Quantity to the List of accuracies.
+     * Add an object of type ObjectWithQuantities to the List of accuracies.
      * 
      * @return boolean value of whether addition was successful or not.
      */
 /*
-    public boolean addAccuracy ( Quantity value  ) {
+    public boolean addAccuracy ( ObjectWithQuantities value  ) {
         return getAccuracyList().add(value);
     }
 */
 
     /*
-     * Remove an object of type Quantity from the List of accuracies.
+     * Remove an object of type ObjectWithQuantities from the List of accuracies.
      * 
      * @return boolean value of whether removal was successful or not.
      */
 /*
-    public boolean removeAccuracy ( Quantity value  ) {
+    public boolean removeAccuracy ( ObjectWithQuantities value  ) {
         return getAccuracyList().remove(value);
     }
 */
@@ -482,7 +482,7 @@ implements QuantityWithValues
     //
 
     /**
-     * Add an object of type Quantity to the List of member Quantities.
+     * Add an object of type ObjectWithQuantities to the List of member Quantities.
      * The only restrictions on membership are that a quantity may not "own"
      * itself, and only MatrixQuantities and CompositeQuantiites may have AxisFrames.
      * Furthermore, incorrectly dimensioned AxisFrames are not allowed.
@@ -491,11 +491,11 @@ implements QuantityWithValues
      * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
      * This AxisFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
      *
-     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong Quantity Type, or the AxisFrame dimensionality is incorrect.
+     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong ObjectWithQuantities Type, or the AxisFrame dimensionality is incorrect.
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
-    public boolean addMember ( Quantity member)
+    public boolean addMember ( ObjectWithQuantities member)
     throws IllegalArgumentException, NullPointerException
     {
 
@@ -515,11 +515,11 @@ implements QuantityWithValues
     }
 
     /**
-     * Remove an object of type Quantity from the List memberVector
+     * Remove an object of type ObjectWithQuantities from the List memberVector
      *
      * @return boolean value of whether removal was successful or not.
      */
-    public boolean removeMember ( Quantity value  ) {
+    public boolean removeMember ( ObjectWithQuantities value  ) {
        boolean status = getMemberList().remove(value);
        if (status)
           setSize(new Integer(getMemberList().size()));
@@ -528,7 +528,7 @@ implements QuantityWithValues
 
     /**
      * Create a locator for this quantity. This method provided for
-     * compliance with Quantity interface..atomic quantities don't 
+     * compliance with ObjectWithQuantities interface..atomic quantities don't 
      * have more than one location, so it is of little value to use them,
      * if you know you are dealing with an atomic quantity.
      */
@@ -603,7 +603,7 @@ implements QuantityWithValues
                       // FIXME : should iterate over all values an compare
 //                  this.getValue().equals(((QuantityWithValues)obj).getValue())
 //                      &&
-                  this.getMemberList().equals(((Quantity)obj).getMemberList()) // FIXME : need to iterate over members 
+                  this.getMemberList().equals(((ObjectWithQuantities)obj).getMemberList()) // FIXME : need to iterate over members 
                )
             return true;
         }
@@ -633,7 +633,7 @@ implements QuantityWithValues
          String id = getId();
          if (id != null && !id.equals("") && idTable != null)
          {
-             Quantity idOwner = (Quantity) idTable.get(id);
+             ObjectWithQuantities idOwner = (ObjectWithQuantities) idTable.get(id);
              if(idOwner != null && idOwner != this)
              {
 

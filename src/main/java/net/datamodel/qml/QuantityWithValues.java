@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * The interface for all Quantities which hold "values" as data. By values we mean Strings and numbers, and not other quanities. Note: It would nice if this interface didnt have to exist, e.g. we could have CompositeQuantity have "get/setValue" methods which allow adding other Q's. Will look into it...
  */
-public interface QuantityWithValues extends Quantity, Component {
+public interface QuantityWithValues extends ObjectWithQuantities, Component {
 
     // Operations
 

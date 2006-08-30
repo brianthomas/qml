@@ -56,7 +56,7 @@ public class ReadQML {
 	/*
 	       Element root = doc.getDocumentElement();
 	       if (root instanceof QMLElement) {
-	          Quantity q = ((QMLElement) root).getQuantity();
+	          ObjectWithQuantities q = ((QMLElement) root).getQuantity();
 	          System.err.println("-----\nINTERNAL REP:");
 	          ((XMLSerializableObject)q).toXMLWriter(myWriter);
 	          myWriter.flush();
@@ -81,7 +81,7 @@ public class ReadQML {
 	     System.err.println(" there were "+qListDeep.size()+" total Q's");
 	     Iterator iter2 = qListDeep.iterator();
 	     while (iter2.hasNext()) {
-	        Quantity q = (Quantity) iter2.next();
+	        ObjectWithQuantities q = (ObjectWithQuantities) iter2.next();
 	        String id = q.getId();
 	        if(id == null) id = "";
 	        System.err.println(" deep Q ["+id+"]: "+q);

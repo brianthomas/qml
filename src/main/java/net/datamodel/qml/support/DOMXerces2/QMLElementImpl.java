@@ -30,7 +30,7 @@
 
 package net.datamodel.qml.support.DOMXerces2;
 
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.core.XMLSerializableField;
@@ -69,16 +69,16 @@ implements QMLElement
    // 
    // Fields
    //
-   Quantity myQuantity = null;
+   ObjectWithQuantities myQuantity = null;
 
    //
    // Constructors
    //
 
-   // hmm..badness. We expect Quantity interface, then demand (internally) the 
+   // hmm..badness. We expect ObjectWithQuantities interface, then demand (internally) the 
    // XMLSerializableObject interface. This could lead to problems down the
    // line. :P 
-   public QMLElementImpl (String namespaceURI, Quantity quantity, DocumentImpl doc) 
+   public QMLElementImpl (String namespaceURI, ObjectWithQuantities quantity, DocumentImpl doc) 
    throws IOException,NullPointerException
    {
       super (doc, namespaceURI, ((XMLSerializableObject) quantity).getXMLNodeName());
@@ -87,7 +87,7 @@ implements QMLElement
    }
 
    // this has same issue as the constructor above
-   public QMLElementImpl (Quantity quantity, DocumentImpl doc) 
+   public QMLElementImpl (ObjectWithQuantities quantity, DocumentImpl doc) 
    throws IOException,NullPointerException
    {
       super (doc, Constants.QML_NAMESPACE_URI, ((XMLSerializableObject) quantity).getXMLNodeName());
@@ -182,16 +182,16 @@ implements QMLElement
        return null;
    }
 
-   public Quantity getQuantity() 
+   public ObjectWithQuantities getQuantity() 
    {
       return myQuantity;
    }
 
-   public void setQuantity (Quantity object) 
+   public void setQuantity (ObjectWithQuantities object) 
    throws NullPointerException
    {
       if (object == null) 
-         throw new NullPointerException("Can't set QMLElement with null Quantity object pointer");
+         throw new NullPointerException("Can't set QMLElement with null ObjectWithQuantities object pointer");
       else
          myQuantity = object;
    }
@@ -208,7 +208,7 @@ implements QMLElement
       if (newChild instanceof QMLElement) 
       {
          QMLElement qElem = (QMLElement) newChild;
-         Quantity q = qElem.getQuantity();
+         ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().addMember(q);
@@ -236,7 +236,7 @@ implements QMLElement
       if (newChild instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) newChild;
-         Quantity q = qElem.getQuantity();
+         ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().addMember(q);
@@ -257,7 +257,7 @@ implements QMLElement
       if (oldChild instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) oldChild;
-         Quantity q = qElem.getQuantity();
+         ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().removeMember(q);
@@ -279,7 +279,7 @@ implements QMLElement
        if (oldChild instanceof QMLElement)
        {
           QMLElement qElem = (QMLElement) oldChild;
-          Quantity q = qElem.getQuantity();
+          ObjectWithQuantities q = qElem.getQuantity();
 
           // remove member
           getQuantity().removeMember(q);
@@ -291,7 +291,7 @@ implements QMLElement
        if (newChild instanceof QMLElement)
        {
           QMLElement qElem = (QMLElement) newChild;
-          Quantity q = qElem.getQuantity();
+          ObjectWithQuantities q = qElem.getQuantity();
 
           // add member
           getQuantity().addMember(q);
@@ -330,12 +330,12 @@ implements QMLElement
    throws java.io.IOException
    {
 
-      // How should we write ourselves out? IF we have a Quantity
+      // How should we write ourselves out? IF we have a ObjectWithQuantities
       // with an ID, then we need to check the document to see
       // if we write out as an refQuantity node or not. Otherwise..just
       // the normal proceedure is ok.
 
-      Quantity q = getQuantity();
+      ObjectWithQuantities q = getQuantity();
 
       // check parent document about this..
       if(getOwnerDocument() instanceof QMLDocumentImpl)

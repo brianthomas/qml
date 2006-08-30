@@ -31,7 +31,7 @@ package net.datamodel.qml.support.handlers;
 // import QML stuff
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.core.CompositeQuantityImpl;
 import net.datamodel.qml.support.EndElementHandlerAction;
 import net.datamodel.qml.support.QMLDocumentHandler;
@@ -47,8 +47,8 @@ public class AxisFrameEndElementHandlerFunc implements EndElementHandlerAction
        throws SAXException {
 
           // peel off the last quantity, which should be our axisFrame
-          Quantity q = handler.removeCurrentQuantity();
-          Quantity cq = handler.getCurrentQuantity();
+          ObjectWithQuantities q = handler.removeCurrentQuantity();
+          ObjectWithQuantities cq = handler.getCurrentQuantity();
 
           if(q instanceof AxisFrame && cq instanceof MatrixQuantity)
           {

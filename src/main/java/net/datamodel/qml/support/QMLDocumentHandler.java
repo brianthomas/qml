@@ -47,7 +47,7 @@ import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.QuantityWithValues;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.datatype.FloatDataType;
@@ -209,7 +209,7 @@ implements LexicalHandler
     protected List CurrentObjectList = new Vector (); 
     /**
      * @uml.property  name="currentQuantityList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.Quantity"
+     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.ObjectWithQuantities"
      */
     protected List CurrentQuantityList = new Vector (); 
     /**
@@ -270,7 +270,7 @@ implements LexicalHandler
     // lookup tables holding objects that have id/idref stuff
     /**
      * @uml.property  name="quantityObj"
-     * @uml.associationEnd  qualifier="QId:java.lang.String net.datamodel.qml.Quantity"
+     * @uml.associationEnd  qualifier="QId:java.lang.String net.datamodel.qml.ObjectWithQuantities"
      */
     public Hashtable QuantityObj = new Hashtable();
 //    private Hashtable ComponentObj = new Hashtable();
@@ -528,7 +528,7 @@ implements LexicalHandler
 
     /** In order to look for referenced Quantities, we "record" each that we parse.
      */
-    public void recordQuantity (Quantity q) {
+    public void recordQuantity (ObjectWithQuantities q) {
 
        String QId = q.getId();
        if (!QId.equals(""))
@@ -544,20 +544,20 @@ implements LexicalHandler
 
     /** Get the current quantity we are working on. 
      */
-    public Quantity getCurrentQuantity() {
-       Quantity lastQ = (Quantity) null;
+    public ObjectWithQuantities getCurrentQuantity() {
+       ObjectWithQuantities lastQ = (ObjectWithQuantities) null;
        if (CurrentQuantityList.size() > 0)
-          lastQ = (Quantity) CurrentQuantityList.get(CurrentQuantityList.size()-1);
+          lastQ = (ObjectWithQuantities) CurrentQuantityList.get(CurrentQuantityList.size()-1);
        return lastQ;
     }
 
     /** Remove the current quantity.
-     *  @return Quantity that was removed from the list of "current" quantities.
+     *  @return ObjectWithQuantities that was removed from the list of "current" quantities.
      */
-    public Quantity removeCurrentQuantity() 
+    public ObjectWithQuantities removeCurrentQuantity() 
     {
 
-       Quantity q = (Quantity) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
+       ObjectWithQuantities q = (ObjectWithQuantities) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
        // to keep things in sync, we need to remove this too
        if(q != null && q instanceof QuantityWithValues)
        {
@@ -593,13 +593,13 @@ implements LexicalHandler
     }
 
     /** Gets the last component-compliant object we worked on.
-     * This could be some types of Quantity as well as components.
+     * This could be some types of ObjectWithQuantities as well as components.
      */
     public Component getCurrentComponent() {
        Component lastC = LastComponent;
        if (lastC == null)
        {
-          Quantity lastQ = getCurrentQuantityWithValues();
+          ObjectWithQuantities lastQ = getCurrentQuantityWithValues();
           if(lastQ != null)
               lastC = (Component) lastQ;
        } 
@@ -641,19 +641,19 @@ implements LexicalHandler
        return mq;
     }
 
-    public void addParentQuantityNeedsAltValue (Quantity q) 
+    public void addParentQuantityNeedsAltValue (ObjectWithQuantities q) 
     {
           ParentQuantityAltValueList.add(q);
     }
 
-    public Quantity removeParentQuantityNeedsAltValue () {
-          return (Quantity) ParentQuantityAltValueList.remove(ParentQuantityAltValueList.size()-1);
+    public ObjectWithQuantities removeParentQuantityNeedsAltValue () {
+          return (ObjectWithQuantities) ParentQuantityAltValueList.remove(ParentQuantityAltValueList.size()-1);
     }
 
     /** Get the last quantity (with values) that we worked on. 
      */
     public QuantityWithValues getCurrentQuantityWithValues() {
-       Quantity q = getCurrentQuantity();
+       ObjectWithQuantities q = getCurrentQuantity();
        if(q instanceof QuantityWithValues)
          return (QuantityWithValues) q;
        return (QuantityWithValues) null;
@@ -761,18 +761,18 @@ implements LexicalHandler
            thisObject = event.action(this, namespaceURI, localName, qName, attrs);
 
            // Treat any special handling here
-           if (thisObject != null && thisObject instanceof Quantity)
+           if (thisObject != null && thisObject instanceof ObjectWithQuantities)
            {
 
                logger.debug(" *** THIS ELEMENT is A QUANTITY "+qName);
-               Quantity q = (Quantity) thisObject;
+               ObjectWithQuantities q = (ObjectWithQuantities) thisObject;
 
                // do special check for dealing with quantities
                // this is here because its easier to deal with adding member
                // Quantities, AxisFrames, etc here to prevent repeating code
                // that defaults to adding QElements here rather than in the Element Handler (?)
                // I know that it looks bad to have this call here, but I'd rather 
-               // treat this here rather repeat this code in all Quantity handlers..
+               // treat this here rather repeat this code in all ObjectWithQuantities handlers..
                startHandlerAddQuantityToParent(namespaceURI, q);
 
                // record this as our "current" quantity
@@ -987,7 +987,7 @@ implements LexicalHandler
            XMLDeclaration xmlDecl = new XMLDeclaration();
            xmlDecl.setStandalone("no");
 
-           DocumentType doctype = new DocumentType(Quantity);
+           DocumentType doctype = new DocumentType(ObjectWithQuantities);
 
            // set the values of the DocumentType object appropriately
            if (!ForceSetXMLHeaderStuff) {
@@ -1000,20 +1000,20 @@ implements LexicalHandler
               doctype.setSystemId(Constants.Quantity_DTD_NAME); 
            }
 
-           Quantity.setXMLDeclaration (xmlDecl);
-           Quantity.setDocumentType(doctype);
+           ObjectWithQuantities.setXMLDeclaration (xmlDecl);
+           ObjectWithQuantities.setDocumentType(doctype);
         }
 
         // Now that it exists, lets
-        // set the notation hash for the Quantity structure
+        // set the notation hash for the ObjectWithQuantities structure
         Iterator iter = Notation.iterator();
         while (iter.hasNext()) {
            Hashtable initValues = (Hashtable) iter.next(); 
-           if (Quantity.getDocumentType() == null) {
+           if (ObjectWithQuantities.getDocumentType() == null) {
               // force having document type
-              Quantity.setDocumentType(new DocumentType(Quantity)); 
+              ObjectWithQuantities.setDocumentType(new DocumentType(ObjectWithQuantities)); 
            }
-           Quantity.getDocumentType().addNotation(new NotationNode(initValues));
+           ObjectWithQuantities.getDocumentType().addNotation(new NotationNode(initValues));
         }
 */
 
@@ -1147,7 +1147,7 @@ implements LexicalHandler
     {
         String value = new String(ch, start, length);
         logger.info("H_Comment ["+value+"]");
-       // add to current node, if we are not inside of a Quantity right now.
+       // add to current node, if we are not inside of a ObjectWithQuantities right now.
 
         Comment comment = getDocument().createComment(value);
 
@@ -1166,7 +1166,7 @@ implements LexicalHandler
         // Find the index of the "size" attribute..
         // hrm.. this *might* get us into trouble if ppl start using
         // a qualified attribute "somenamspaceuri:size" which doesn't
-        // belong to the www.datamodel.net/Quantity namespace. Its not
+        // belong to the www.datamodel.net/ObjectWithQuantities namespace. Its not
         // likely, and, I cant get the namespaced "getIndex" function to
         // work, so this will have to do for now.
         int index = attrs.getIndex(Constants.SIZE_ATTRIBUTE_NAME);
@@ -1242,19 +1242,19 @@ implements LexicalHandler
     /** Do special check for dealing with adding quantities. 
      *  This method exists because its easier to deal with adding member
      *  Quantities, AxisFrames, etc in a global fashion rather than repeating code
-     *  in each of the Quantity handlers.
+     *  in each of the ObjectWithQuantities handlers.
      *  At any rate the logic is that if no parent Q exists, then it defaults to 
      *  adding the quantities as QElements in the QMLDocument.
      */
-    protected void startHandlerAddQuantityToParent(String namespaceURI, Quantity q) 
+    protected void startHandlerAddQuantityToParent(String namespaceURI, ObjectWithQuantities q) 
     {
 
-            Quantity currentQ = getCurrentQuantity();
+            ObjectWithQuantities currentQ = getCurrentQuantity();
             if(currentQ != null) {
 
                  // IF its an AxisFrame, AND currentQ is a Matrix, we add
                  // it to the axisFrame List (just not yet..), otherwise, we add this new Q
-                 // as a member to current Quantity
+                 // as a member to current ObjectWithQuantities
                  if(currentQ instanceof MatrixQuantity && q instanceof AxisFrame)
                  {
                    // do nothing for now.. we want to wait to populate the AxisFrame
@@ -1268,7 +1268,7 @@ implements LexicalHandler
                    //if(q instanceof ListQuantity)
                    //   ParentMatrixQ.addAltValue((ListQuantity)q);
                    //else
-                   //   throw new SAXException("Alternative value not a list Quantity");
+                   //   throw new SAXException("Alternative value not a list ObjectWithQuantities");
                  } else
                    currentQ.addMember(q); // everything else becomes a "member"
 

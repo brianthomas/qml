@@ -31,7 +31,7 @@
 
 package net.datamodel.qml.support.DOMXerces2;
 
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.core.XMLSerializableObjectImpl;
@@ -156,7 +156,7 @@ implements QMLDocument
          Iterator iter = QuantityList.iterator();
          while (iter.hasNext()) 
          {
-            Quantity q = (Quantity) iter.next();
+            ObjectWithQuantities q = (ObjectWithQuantities) iter.next();
             deepList.add(q);
             deepList.addAll(findQuantities(q));
          }
@@ -258,7 +258,7 @@ implements QMLDocument
    }
 
 
-   public QMLElement createQMLElement(Quantity quantity) 
+   public QMLElement createQMLElement(ObjectWithQuantities quantity) 
    throws DOMException
    {
 
@@ -272,7 +272,7 @@ implements QMLDocument
       return qElem;
    }
 
-   public QMLElement createQMLElementNS(String namespaceURI, Quantity quantity)
+   public QMLElement createQMLElementNS(String namespaceURI, ObjectWithQuantities quantity)
    throws DOMException
    {
 
@@ -389,7 +389,7 @@ implements QMLDocument
              // get the root namespace (old way) 
              // if(root instanceof XMLSerializableObject) {
              //    XMLSerializableObject so = (XMLSerializableObject) root;
-             //    logger.debug("Generation of namespace table from Quantity:"+so.getXMLNodeName());
+             //    logger.debug("Generation of namespace table from ObjectWithQuantities:"+so.getXMLNodeName());
              //    PrefixNamespaceMappingHashtable.putAll( 
              //                 XMLSerializableObjectImpl.generatePrefixNamespaceTable(so, PrefixNamespaceMappingHashtable));
              // }
@@ -398,10 +398,10 @@ implements QMLDocument
              Iterator iter = qList.iterator();
              while (iter.hasNext())
              {
-                 Quantity q = (Quantity) iter.next();
+                 ObjectWithQuantities q = (ObjectWithQuantities) iter.next();
                  if(q instanceof XMLSerializableObject) {
                     XMLSerializableObject so = (XMLSerializableObject) q;
-                    logger.debug("Generation of namespace table from Quantity:"+so.getXMLNodeName());
+                    logger.debug("Generation of namespace table from ObjectWithQuantities:"+so.getXMLNodeName());
                     PrefixNamespaceMappingHashtable.putAll( 
                               XMLSerializableObjectImpl.generatePrefixNamespaceTable(so, PrefixNamespaceMappingHashtable));
                  }
@@ -411,7 +411,7 @@ implements QMLDocument
 
           Enumeration keys = PrefixNamespaceMappingHashtable.keys();
           if(root instanceof QMLElement) {
-            Quantity q = ((QMLElement) root).getQuantity(); 
+            ObjectWithQuantities q = ((QMLElement) root).getQuantity(); 
             XMLSerializableObject xmlq = (XMLSerializableObject) q;
             while (keys.hasMoreElements()) {
                String prefix = (String) keys.nextElement(); 
@@ -453,7 +453,7 @@ implements QMLDocument
 
           Enumeration keys = PrefixNamespaceMappingHashtable.keys();
           if(root instanceof QMLElement) {
-            Quantity q = ((QMLElement) root).getQuantity();
+            ObjectWithQuantities q = ((QMLElement) root).getQuantity();
             XMLSerializableObject xmlq = (XMLSerializableObject) q;
             while (keys.hasMoreElements()) {
                String prefix = (String) keys.nextElement();
@@ -484,7 +484,7 @@ implements QMLDocument
       QuantityIdTable = new Hashtable();
       Iterator iter = deepList.iterator();
       while(iter.hasNext()) {
-         Quantity q = (Quantity) iter.next();
+         ObjectWithQuantities q = (ObjectWithQuantities) iter.next();
          if(q.getId() != null) {
             if(!QuantityIdTable.containsKey(q.getId()))
                QuantityIdTable.put(q.getId(),q);
@@ -492,14 +492,14 @@ implements QMLDocument
       }
    }
 
-   private List findQuantities (Quantity parent)
+   private List findQuantities (ObjectWithQuantities parent)
    {
        List qList = new Vector();
        List members = parent.getMemberList();
        Iterator iter = members.iterator();
        while (iter.hasNext())
        {
-            Quantity q = (Quantity) iter.next();
+            ObjectWithQuantities q = (ObjectWithQuantities) iter.next();
             qList.add(q);
             qList.addAll(findQuantities(q));
        }

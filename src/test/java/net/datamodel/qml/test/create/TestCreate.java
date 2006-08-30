@@ -10,7 +10,7 @@ import java.util.Vector;
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.core.AtomicQuantityImpl;
@@ -133,11 +133,11 @@ public class TestCreate extends BaseCase {
 	 * @param memberList
 	 * @return
 	 */
-	public static Quantity addMembers (Quantity q, List memberList) {
+	public static ObjectWithQuantities addMembers (ObjectWithQuantities q, List memberList) {
 		
     	Iterator iter = memberList.iterator();
     	while (iter.hasNext()) {
-    		q.addMember((Quantity) iter.next());
+    		q.addMember((ObjectWithQuantities) iter.next());
     	}
     	return q;
 	}
@@ -310,7 +310,7 @@ public class TestCreate extends BaseCase {
 			Iterator aiter = actualMembers.iterator();
 			int countAxisFrames = 0;
 			while (aiter.hasNext()) {
-				Quantity mem = (Quantity) aiter.next();
+				ObjectWithQuantities mem = (ObjectWithQuantities) aiter.next();
 				if (mem instanceof AxisFrame) {
 					AxisFrame maf = (AxisFrame) mem;
 					List maxisList = maf.getAxisList();
@@ -410,7 +410,7 @@ public class TestCreate extends BaseCase {
 			Iterator aiter = actualMembers.iterator();
 			int countAxisFrames = 0;
 			while (aiter.hasNext()) {
-				Quantity mem = (Quantity) aiter.next();
+				ObjectWithQuantities mem = (ObjectWithQuantities) aiter.next();
 				if (mem instanceof AxisFrame) {
 					AxisFrame maf = (AxisFrame) mem;
 					List maxisList = maf.getAxisList();
@@ -454,7 +454,7 @@ public class TestCreate extends BaseCase {
 	 * 
 	 * @param xmlRep
 	 */
-	private void checkVariousValidXMLRepresentations(Quantity q) 
+	private void checkVariousValidXMLRepresentations(ObjectWithQuantities q) 
 	throws Exception
 	{
 		logger.debug("Check valid string representation");

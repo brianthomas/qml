@@ -31,7 +31,7 @@ package net.datamodel.qml.support;
 
 import java.io.Writer;
 
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 
 import org.w3c.dom.Element;
 
@@ -50,13 +50,13 @@ public interface QMLElement extends Element
  * @uml.property  name="quantity"
  * @uml.associationEnd  
  */
-public Quantity getQuantity();
+public ObjectWithQuantities getQuantity();
 
    /**
  * @param quantity  the quantity to set
  * @uml.property  name="quantity"
  */
-public void setQuantity(Quantity q);
+public void setQuantity(ObjectWithQuantities q);
 
 }
 

@@ -30,7 +30,7 @@ package net.datamodel.qml.support.handlers;
 
 // import QML stuff
 import net.datamodel.qml.ListQuantity;
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.support.EndElementHandlerAction;
 import net.datamodel.qml.support.QMLDocumentHandler;
 
@@ -45,9 +45,9 @@ public class QuantityEndElementHandlerFunc implements EndElementHandlerAction
 	public void action (QMLDocumentHandler handler )
        throws SAXException {
 
-          logger.debug("Quantity End Handler called");
+          logger.debug("ObjectWithQuantities End Handler called");
           // peel off the last quantity, and locator, in the current list
-          Quantity q = handler.removeCurrentQuantity();
+          ObjectWithQuantities q = handler.removeCurrentQuantity();
 
           // Are we adding altValues? If so, we  should
           // now add this quantity to altvalues section of current parent Q
@@ -55,10 +55,10 @@ public class QuantityEndElementHandlerFunc implements EndElementHandlerAction
              if (q instanceof ListQuantity)
                  handler.getCurrentParentQuantityAltValue().addAltValue((ListQuantity)q);
              else
-                 throw new SAXException("Alternative value not a list Quantity");
+                 throw new SAXException("Alternative value not a list ObjectWithQuantities");
 
           handler.removeExpectedValues();
-          logger.debug("Quantity End Handler - FINISH");
+          logger.debug("ObjectWithQuantities End Handler - FINISH");
        }
 }
 
