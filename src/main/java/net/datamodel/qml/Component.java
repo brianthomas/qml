@@ -30,16 +30,13 @@
 
 package net.datamodel.qml;
 
-import java.util.List;
-
-
 /**
  * @author  thomas
  */
 public interface Component {
     
-    /** Determine equivalence between components. Equivalence is the same
-      * as 'equals' but without checking that the id fields between both
+    /** Determine equivalence between components (or quantities). Equivalence is 
+      * the same as 'equals' but without checking that the id fields between both
       * objects are the same.
       */
     public boolean equivalent ( Object object );
