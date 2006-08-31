@@ -40,7 +40,7 @@ import java.util.List;
  * The interface for all Quantities.
  */
 // hrmm. there doesnt seem to be a need for a "listQuantity"
-// interface, so we just extend "QuantityWithValues" instead.
+// interface, so we just extend "Quantity" instead.
 public interface MatrixQuantity extends ListQuantity {
 
     // Operations

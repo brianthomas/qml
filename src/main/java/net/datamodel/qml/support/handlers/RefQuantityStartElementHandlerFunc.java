@@ -30,7 +30,7 @@ package net.datamodel.qml.support.handlers;
 
 // import QML stuff
 import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.QMLDocumentHandler;
@@ -55,18 +55,18 @@ public class RefQuantityStartElementHandlerFunc implements StartElementHandlerAc
           //  If there is a reference object, clone it to get the new quantity
           if (qIdRef != null) {
 
-             if (handler.QuantityObj.containsKey(qIdRef)) {
+             if (handler.ObjWithQuantities.containsKey(qIdRef)) {
 
                  try {
-                    refQ = (ObjectWithQuantities) ((XMLSerializableObject) handler.QuantityObj.get(qIdRef)).clone();
+                    refQ = (ObjectWithQuantities) ((XMLSerializableObject) handler.ObjWithQuantities.get(qIdRef)).clone();
 
-                    if(refQ instanceof QuantityWithValues)
-                       handler.addExpectedValues(new Integer (((QuantityWithValues) refQ).getSize().intValue()));
+                    if(refQ instanceof Quantity)
+                       handler.addExpectedValues(new Integer (((Quantity) refQ).getSize().intValue()));
                     else
                        handler.addExpectedValues(new Integer(0));
 
                     // record this new Q on the list of quantity objects
-                    handler.recordQuantity(refQ);
+                    handler.recordObjectWithQuantities(refQ);
 
                  } catch (CloneNotSupportedException e) {
                     logger.error("refQuantity couldnt be created, clone failed:"+e.getMessage());

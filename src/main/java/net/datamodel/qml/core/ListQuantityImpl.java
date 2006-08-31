@@ -39,7 +39,7 @@ import net.datamodel.qml.Component;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
@@ -349,14 +349,14 @@ implements ListQuantity
     public boolean equivalent ( Object obj )
     {
 
-        if (obj instanceof QuantityWithValues )
+        if (obj instanceof Quantity )
         {
             if (
                   super.equivalent ((Component) obj)
                       &&
-                  this.getSize().equals(((QuantityWithValues)obj).getSize())
+                  this.getSize().equals(((Quantity)obj).getSize())
   //FIXME                    &&
-  //                this.getValue().equals(((QuantityWithValues)obj).getValue())
+  //                this.getValue().equals(((Quantity)obj).getValue())
                       &&
                   this.getMemberList().equals(((ObjectWithQuantities)obj).getMemberList()) // FIXME : need to iterate over members 
                )

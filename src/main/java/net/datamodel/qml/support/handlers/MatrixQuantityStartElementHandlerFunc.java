@@ -47,7 +47,7 @@ public class MatrixQuantityStartElementHandlerFunc implements StartElementHandle
           matrixQ.setFields(attrs); // set XML attributes from passed list
 
           // In order to look for referenced Quantities, we "record" this one if it has a qid
-          handler.recordQuantity(matrixQ);
+          handler.recordObjectWithQuantities(matrixQ);
 
           int expected = handler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
           handler.addExpectedValues(new Integer(expected));

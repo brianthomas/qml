@@ -34,7 +34,7 @@ package net.datamodel.qml.locator;
 
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 
 import org.apache.log4j.Logger;
 
@@ -58,7 +58,7 @@ public class AtomicLocatorImpl implements Locator {
      * @uml.property  name="parentQuantity"
      * @uml.associationEnd  multiplicity="(1 1)"
      */
-    protected QuantityWithValues parentQuantity;
+    protected Quantity parentQuantity;
 
     // Methods
     //
@@ -69,7 +69,7 @@ public class AtomicLocatorImpl implements Locator {
     private AtomicLocatorImpl ( ) { } 
 
     /** Vanilla constructor */
-    public AtomicLocatorImpl ( QuantityWithValues parent ) 
+    public AtomicLocatorImpl ( Quantity parent ) 
     throws NullPointerException
     { 
         if (parent == null)
@@ -103,7 +103,7 @@ public class AtomicLocatorImpl implements Locator {
      * @return  parentQuantity
      * @uml.property  name="parentQuantity"
      */
-    public QuantityWithValues getParentQuantity (  ) {
+    public Quantity getParentQuantity (  ) {
         return parentQuantity;
     }
 

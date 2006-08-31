@@ -45,13 +45,13 @@ public interface AxisFrame extends ObjectWithQuantities {
      * @param axis 
      * @return boolean value of whether an axis was successfully added. 
      */
-    public boolean addAxis ( QuantityWithValues axis);
+    public boolean addAxis ( Quantity axis);
 
     /** A utility method for removeMember(axis).
      * @param axis 
      * @return boolean value of whether an axis was successfully removed. 
      */
-    public boolean removeAxis ( QuantityWithValues axis);
+    public boolean removeAxis ( Quantity axis);
 
     /**
      * Utility method. Synonym for getMemberList().

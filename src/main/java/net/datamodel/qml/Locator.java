@@ -43,7 +43,7 @@ public interface Locator {
     // Operations
 
     // preferred constructor.
-//    public Locator ( QuantityWithValues parent);
+//    public Locator ( Quantity parent);
 
     /**
      * @return  AxisFrame
@@ -64,7 +64,7 @@ public interface Locator {
      * @uml.property  name="parentQuantity"
      * @uml.associationEnd  
      */
-    public QuantityWithValues getParentQuantity ( );
+    public Quantity getParentQuantity ( );
         
     /** Change the location pointer to the next location. 
      */

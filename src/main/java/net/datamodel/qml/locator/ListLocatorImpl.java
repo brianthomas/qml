@@ -32,7 +32,7 @@ package net.datamodel.qml.locator;
 
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 
 import org.apache.log4j.Logger;
 
@@ -52,7 +52,7 @@ public class ListLocatorImpl implements Locator
      * @uml.property  name="parentQuantity"
      * @uml.associationEnd  multiplicity="(1 1)"
      */
-    protected QuantityWithValues parentQuantity;
+    protected Quantity parentQuantity;
 
 
     // where in the data container list we are
@@ -67,7 +67,7 @@ public class ListLocatorImpl implements Locator
     // Constructor
 
     /** Vanilla constructor. */
-    public ListLocatorImpl ( QuantityWithValues parent )
+    public ListLocatorImpl ( Quantity parent )
     throws NullPointerException
     {
     	logger.debug("NEW LIST LOCATOR CREATED");
@@ -87,7 +87,7 @@ public class ListLocatorImpl implements Locator
      * @return  parentQuantity
      * @uml.property  name="parentQuantity"
      */
-    public QuantityWithValues getParentQuantity (  ) {
+    public Quantity getParentQuantity (  ) {
         return parentQuantity;
     }
 

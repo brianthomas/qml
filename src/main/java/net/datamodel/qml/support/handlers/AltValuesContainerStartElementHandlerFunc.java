@@ -42,7 +42,7 @@ public class AltValuesContainerStartElementHandlerFunc implements StartElementHa
        throws SAXException {
 
           handler.AddingAltValues = true;
-          handler.addParentQuantityNeedsAltValue(handler.getCurrentQuantity());
+          handler.addParentQuantityNeedsAltValue(handler.getCurrentObjectWithQuantities());
 
           return null;
        }

@@ -50,7 +50,7 @@ public class ListQuantityStartElementHandlerFunc implements StartElementHandlerA
           logger.debug("Handler creates List ObjectWithQuantities:"+listQ);
           listQ.setFields(attrs); // set XML attributes from passed list
 
-          handler.recordQuantity(listQ);
+          handler.recordObjectWithQuantities(listQ);
 
           int expected = handler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
           handler.addExpectedValues(new Integer(expected));

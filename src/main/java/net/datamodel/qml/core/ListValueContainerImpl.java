@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Vector;
 
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.support.Constants;
@@ -73,7 +73,7 @@ implements Cloneable,ValueContainer
      * @uml.property  name="parentQuantity"
      * @uml.associationEnd  multiplicity="(1 1)"
      */
-    protected QuantityWithValues parentQuantity;
+    protected Quantity parentQuantity;
 
     /**
      * @uml.property  name="valueList" multiplicity="(0 -1)" dimension="1"
@@ -110,7 +110,7 @@ implements Cloneable,ValueContainer
     /** Vanilla constructor. Will create a list with default capacity
      * (Specification.getDefaultValueContainerCapacity() 
      */
-    public ListValueContainerImpl ( QuantityWithValues parent ) 
+    public ListValueContainerImpl ( Quantity parent ) 
     {
     	logger.debug("New ListValueContainerImpl");
        parentQuantity = parent;
@@ -120,7 +120,7 @@ implements Cloneable,ValueContainer
 
     /** Constuct the container with a number of pre-allocated capacity of the list.
      */
-    public ListValueContainerImpl ( QuantityWithValues parent, int capacity) 
+    public ListValueContainerImpl ( Quantity parent, int capacity) 
     { 
     	logger.debug("New ListValueContainerImpl with special capacity of"+capacity);
        parentQuantity = parent;

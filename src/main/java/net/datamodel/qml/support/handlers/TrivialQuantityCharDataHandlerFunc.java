@@ -30,7 +30,7 @@ package net.datamodel.qml.support.handlers;
 
 // import QML stuff
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.support.CharDataHandlerAction;
 import net.datamodel.qml.support.QMLDocumentHandler;
 
@@ -50,7 +50,7 @@ public class TrivialQuantityCharDataHandlerFunc implements CharDataHandlerAction
           value = value.trim();
 
           // 2. get the current quantity
-          QuantityWithValues qV = handler.getCurrentQuantityWithValues();
+          Quantity qV = handler.getCurrentQuantity();
           Locator loc = qV.createLocator();
 
           handler.setValue(qV,value,loc);

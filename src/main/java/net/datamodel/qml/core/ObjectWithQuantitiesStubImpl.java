@@ -1,7 +1,7 @@
 
 // CVS $Id$
 
-// CompositeQuantityImpl.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// ObjectWithQuantitiesStubImpl.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -49,11 +49,12 @@ import net.datamodel.qml.support.handlers.IllegalCharDataHandlerFunc;
 import org.apache.log4j.Logger;
 
 /**
- * A quantity which holds other quantities as data.
+ * A stub class which may be used to create other object with quantities.
  */
-public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements ObjectWithQuantities {
+public class ObjectWithQuantitiesStubImpl extends XMLSerializableObjectImpl 
+implements ObjectWithQuantities {
 	
-	private static final Logger logger = Logger.getLogger(CompositeQuantityImpl.class);
+	private static final Logger logger = Logger.getLogger(ObjectWithQuantitiesStubImpl.class);
 
     // Fields
     private static final String MEMBER_XML_FIELD_NAME = new String("member");
@@ -71,7 +72,7 @@ public class CompositeQuantityImpl extends XMLSerializableObjectImpl implements 
     // Constructors
 
     // The no-argument Constructor
-    public CompositeQuantityImpl ( ) { 
+    public ObjectWithQuantitiesStubImpl ( ) { 
        init();
     }
 

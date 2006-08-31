@@ -29,7 +29,7 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.qml.support.StartElementHandlerAction;
 
@@ -49,7 +49,7 @@ public class ValuesStartElementHandlerFunc implements StartElementHandlerAction 
            handler.ValuesInCDATASection = false;
            handler.ValuesBuf = new StringBuffer(); // reset the values stringbuffer
 
-           QuantityWithValues qV = handler.getCurrentQuantityWithValues();
+           Quantity qV = handler.getCurrentQuantity();
            return qV.getValueContainer();
        }
 }

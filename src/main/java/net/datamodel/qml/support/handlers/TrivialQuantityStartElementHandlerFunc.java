@@ -45,7 +45,7 @@ public class TrivialQuantityStartElementHandlerFunc implements StartElementHandl
           TrivialQuantityImpl trivQ = new TrivialQuantityImpl();
           trivQ.setFields(attrs); // set XML attributes from passed list
 
-          handler.recordQuantity(trivQ);
+          handler.recordObjectWithQuantities(trivQ);
 
           handler.addExpectedValues(new Integer(1));
 

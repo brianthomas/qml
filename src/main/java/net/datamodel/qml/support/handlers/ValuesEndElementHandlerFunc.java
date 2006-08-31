@@ -32,7 +32,7 @@ package net.datamodel.qml.support.handlers;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.datatype.VectorDataType;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.EndElementHandlerAction;
@@ -49,7 +49,7 @@ public class ValuesEndElementHandlerFunc implements EndElementHandlerAction {
        throws SAXException
        {
 
-           QuantityWithValues qV = handler.getCurrentQuantityWithValues();
+           Quantity qV = handler.getCurrentQuantity();
            qV.getValueContainer().setCDATASerialization(handler.ValuesInCDATASection);
 
            if(handler.HasCSVValues || handler.HasVectorDataType) {

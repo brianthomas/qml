@@ -47,7 +47,7 @@ public class QuantityEndElementHandlerFunc implements EndElementHandlerAction
 
           logger.debug("ObjectWithQuantities End Handler called");
           // peel off the last quantity, and locator, in the current list
-          ObjectWithQuantities q = handler.removeCurrentQuantity();
+          ObjectWithQuantities q = handler.removeCurrentObjectWithQuantities();
 
           // Are we adding altValues? If so, we  should
           // now add this quantity to altvalues section of current parent Q

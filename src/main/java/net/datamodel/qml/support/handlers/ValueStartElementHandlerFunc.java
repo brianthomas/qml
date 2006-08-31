@@ -29,7 +29,7 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.core.ListQuantityImpl;
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.qml.support.StartElementHandlerAction;
@@ -43,7 +43,7 @@ public class ValueStartElementHandlerFunc implements StartElementHandlerAction {
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 
-           QuantityWithValues qV = handler.getCurrentQuantityWithValues();
+           Quantity qV = handler.getCurrentQuantity();
 
            // HACK : we need to return the value container ONLY if
            // its an AtomicQuantity OR if its the only value within a

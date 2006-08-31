@@ -41,7 +41,7 @@ import java.util.Vector;
 
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.ValueContainer;
@@ -54,7 +54,7 @@ import net.datamodel.qml.support.Constants.NodeName;
  * A restricted atomic quantity. The trivial quantity may only hold a single "unitless", 
  * string value.
  */
-public class TrivialQuantityImpl extends AtomicQuantityImpl implements QuantityWithValues {
+public class TrivialQuantityImpl extends AtomicQuantityImpl implements Quantity {
 
     // Fields
 

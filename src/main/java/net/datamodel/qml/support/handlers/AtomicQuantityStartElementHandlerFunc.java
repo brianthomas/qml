@@ -45,7 +45,7 @@ public class AtomicQuantityStartElementHandlerFunc implements StartElementHandle
           AtomicQuantityImpl atomicQ = new AtomicQuantityImpl();
           atomicQ.setFields(attrs); // set XML attributes from passed list
 
-          handler.recordQuantity(atomicQ);
+          handler.recordObjectWithQuantities(atomicQ);
 
           handler.addExpectedValues(new Integer(1));
 

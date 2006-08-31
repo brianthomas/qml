@@ -38,7 +38,7 @@ import java.util.List;
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 
 /**
  * This special quantity is a description of a frame of reference for 
@@ -48,7 +48,7 @@ import net.datamodel.qml.QuantityWithValues;
  * of dimensions within the frame.
  * @version $Revision$
  */
-public class AxisFrameImpl extends CompositeQuantityImpl implements AxisFrame {
+public class AxisFrameImpl extends ObjectWithQuantitiesStubImpl implements AxisFrame {
 
     // Fields
 
@@ -71,7 +71,7 @@ public class AxisFrameImpl extends CompositeQuantityImpl implements AxisFrame {
      * @param axis 
      * @return boolean value of whether an axis was successfully added. 
      */
-    public boolean addAxis ( QuantityWithValues axis) {
+    public boolean addAxis ( Quantity axis) {
        	// FIX 
 // NEED TO signal all locators which belong to quantities which have this axis frame
 // to update themselves (perhaps reinitialize and log a warning for the user).
@@ -111,7 +111,7 @@ ity is incorrect.
      * @return boolean value of whether an axis was successfully removed. 
      */
 // FIX - change to "void"? 
-    public boolean removeAxis ( QuantityWithValues axis) {
+    public boolean removeAxis ( Quantity axis) {
     	return removeMember((ObjectWithQuantities) axis);
     }
 
@@ -129,7 +129,7 @@ ity is incorrect.
         Iterator iter = getAxisList().iterator();
         int number = 1;
         while (iter.hasNext()) {
-           QuantityWithValues q = (QuantityWithValues) iter.next();
+           Quantity q = (Quantity) iter.next();
            number = number*q.getSize().intValue();
         }
         return number;

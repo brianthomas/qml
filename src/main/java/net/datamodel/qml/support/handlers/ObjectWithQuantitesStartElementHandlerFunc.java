@@ -1,5 +1,5 @@
 // CVS $Id$
-// CompositeQuantityStartElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// ObjectWithQuantitesStartElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
  
 /* LICENSE
 
@@ -29,7 +29,7 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.core.CompositeQuantityImpl;
+import net.datamodel.qml.core.ObjectWithQuantitiesStubImpl;
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.qml.support.StartElementHandlerAction;
 
@@ -37,18 +37,18 @@ import net.datamodel.qml.support.StartElementHandlerAction;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class CompositeQuantityStartElementHandlerFunc implements StartElementHandlerAction {
+public class ObjectWithQuantitesStartElementHandlerFunc implements StartElementHandlerAction {
        public Object action ( QMLDocumentHandler handler, String namespaceURI, 
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 
-          CompositeQuantityImpl compQ = new CompositeQuantityImpl();
-          compQ.setFields(attrs); // set XML attributes from passed list
+          ObjectWithQuantitiesStubImpl objWithQ = new ObjectWithQuantitiesStubImpl();
+          objWithQ.setFields(attrs); // set XML attributes from passed list
 
-          handler.recordQuantity(compQ);
+          handler.recordObjectWithQuantities(objWithQ);
 
           handler.addExpectedValues(new Integer(0));
 
-          return compQ;
+          return objWithQ;
        }
 }

@@ -83,10 +83,5 @@ ity is incorrect.
  */
     public void setId ( String value );
 
-    /** Determine equivalence between objects (quantities). Equivalence is the same
-      * as 'equals' but without checking that the id fields between both 
-      * objects are the same. 
-      */
-    public boolean equivalent ( Object object );
-
 }
+

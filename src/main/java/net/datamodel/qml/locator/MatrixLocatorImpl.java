@@ -37,7 +37,7 @@ import java.util.Vector;
 
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.core.MatrixQuantityImpl;
 
 /**
@@ -57,7 +57,7 @@ implements Locator
     // for the current axisFrame, a list of axes, and how we wish to iterator over them 
     /**
      * @uml.property  name="axisOrderList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.QuantityWithValues" qualifier="new:java.lang.Integer java.lang.Integer"
+     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.Quantity" qualifier="new:java.lang.Integer java.lang.Integer"
      */
     protected List axisOrderList;
 
@@ -82,7 +82,7 @@ implements Locator
     //For the currentAxisFrame, a hashtable to store the (axis, index) pairs
     /**
      * @uml.property  name="locations"
-     * @uml.associationEnd  qualifier="axis:net.datamodel.qml.QuantityWithValues java.lang.Integer"
+     * @uml.associationEnd  qualifier="axis:net.datamodel.qml.Quantity java.lang.Integer"
      */
     protected Hashtable locations;
 
@@ -108,14 +108,14 @@ implements Locator
 
     // Constructor
     /** Vanilla constructor */
-    public MatrixLocatorImpl ( QuantityWithValues parent ) 
+    public MatrixLocatorImpl ( Quantity parent ) 
     {
         super(parent);
     }
 
     /** Construct locator with particular axis frame.
      */
-    public MatrixLocatorImpl ( QuantityWithValues parent, AxisFrame useFrame ) 
+    public MatrixLocatorImpl ( Quantity parent, AxisFrame useFrame ) 
     throws NullPointerException
     {
         super(parent);
@@ -161,7 +161,7 @@ implements Locator
         Iterator iter = axisOrderList.iterator();
         while (iter.hasNext())
         {
-            locations.put((QuantityWithValues)iter.next(), new Integer(0));
+            locations.put((Quantity)iter.next(), new Integer(0));
         }
 
         dimension = axisOrderList.size();
@@ -175,7 +175,7 @@ implements Locator
 
     /** Set the location by identified axis list index.
      */
-    public void setLocationIndex ( QuantityWithValues axis, int listIndex )
+    public void setLocationIndex ( Quantity axis, int listIndex )
     throws IllegalArgumentException
     {
 
@@ -222,7 +222,7 @@ implements Locator
     /** Determine the location in terms of the listIndex for a particular
      * quantity which is serving as an axis.
      */ 
-    public Integer getLocationIndex ( QuantityWithValues axis ) 
+    public Integer getLocationIndex ( Quantity axis ) 
     throws IllegalArgumentException
     {
         if (currentAxisFrame == null)
@@ -238,7 +238,7 @@ implements Locator
     /** Utility method to allow determination of the value of the location 
      * in terms of a particular quantity which is serving as an axis.
      */
-    public Object getLocationValue ( QuantityWithValues axis )
+    public Object getLocationValue ( Quantity axis )
     throws IllegalArgumentException
     {
 
@@ -271,7 +271,7 @@ implements Locator
        
            for (int i = 0; i < dimension; i++) {
 
-             QuantityWithValues axis = (QuantityWithValues) axisOrderList.get(i);
+             Quantity axis = (Quantity) axisOrderList.get(i);
              int index = ((Integer) locations.get(axis)).intValue();
 
              // are we still within the axis?
@@ -312,7 +312,7 @@ implements Locator
             prevCellAvailable = true;
         
             for (int i = 0; i < dimension ; i++) {
-              QuantityWithValues axis = (QuantityWithValues) axisOrderList.get(i);
+              Quantity axis = (Quantity) axisOrderList.get(i);
               int index = ((Integer) locations.get(axis)).intValue();
               index--;
               if (index < 0) {
@@ -387,7 +387,7 @@ implements Locator
 
           if (dimension > 0) {
 
-             QuantityWithValues axis = (QuantityWithValues) axisList.get(0);
+             Quantity axis = (Quantity) axisList.get(0);
              index = getLocationIndex(axis).intValue();
 
              if (dimension > 1) {
@@ -399,7 +399,7 @@ implements Locator
                 // each of the higher axes contribute 2**(i-1) * index
                 // to the overall index value.
                 for (int i = 1; i < dimension; i++) {
-                   axis = (QuantityWithValues) axisList.get(i);
+                   axis = (Quantity) axisList.get(i);
                    index += getLocationIndex(axis).intValue() * indexMult[i];
                 }
              }
@@ -416,12 +416,12 @@ implements Locator
             List axisList = currentAxisFrame.getAxisList();
 
             // axis 0 as prev axis for axis #1
-            int mult = ((QuantityWithValues) axisList.get(0)).getSize().intValue();
+            int mult = ((Quantity) axisList.get(0)).getSize().intValue();
             indexMult[1] = mult;
 
             // algorithm for higher dimension axes
             for (int i = 2; i < dimension; i++) {
-                mult *= ((QuantityWithValues) axisList.get(i-1)).getSize().intValue();
+                mult *= ((Quantity) axisList.get(i-1)).getSize().intValue();
                 indexMult[i] = mult;
             }
 

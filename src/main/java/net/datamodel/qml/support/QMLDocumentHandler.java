@@ -48,7 +48,7 @@ import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.datatype.FloatDataType;
 import net.datamodel.qml.datatype.IntegerDataType;
@@ -61,7 +61,7 @@ import net.datamodel.qml.support.handlers.AxisFrameEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.AxisFrameStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.ComponentEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.ComponentStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.CompositeQuantityStartElementHandlerFunc;
+import net.datamodel.qml.support.handlers.ObjectWithQuantitesStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.DefaultCharDataHandlerFunc;
 import net.datamodel.qml.support.handlers.DefaultElementWithCharDataHandlerFunc;
 import net.datamodel.qml.support.handlers.DefaultEndElementHandlerFunc;
@@ -272,7 +272,7 @@ implements LexicalHandler
      * @uml.property  name="quantityObj"
      * @uml.associationEnd  qualifier="QId:java.lang.String net.datamodel.qml.ObjectWithQuantities"
      */
-    public Hashtable QuantityObj = new Hashtable();
+    public Hashtable ObjWithQuantities = new Hashtable();
 //    private Hashtable ComponentObj = new Hashtable();
 
     // Sigh. a list of fields which should be private/protected but arent
@@ -528,13 +528,13 @@ implements LexicalHandler
 
     /** In order to look for referenced Quantities, we "record" each that we parse.
      */
-    public void recordQuantity (ObjectWithQuantities q) {
+    public void recordObjectWithQuantities (ObjectWithQuantities q) {
 
        String QId = q.getId();
        if (!QId.equals(""))
        {
           // add this into the list of quantity objects we have
-          QuantityObj.put(QId, q);
+          ObjWithQuantities.put(QId, q);
        }
     }
 
@@ -542,9 +542,9 @@ implements LexicalHandler
     // Methods that describe the current parsing
     //
 
-    /** Get the current quantity we are working on. 
+    /** Get the current object with quantities we are working on. 
      */
-    public ObjectWithQuantities getCurrentQuantity() {
+    public ObjectWithQuantities getCurrentObjectWithQuantities() {
        ObjectWithQuantities lastQ = (ObjectWithQuantities) null;
        if (CurrentQuantityList.size() > 0)
           lastQ = (ObjectWithQuantities) CurrentQuantityList.get(CurrentQuantityList.size()-1);
@@ -554,12 +554,12 @@ implements LexicalHandler
     /** Remove the current quantity.
      *  @return ObjectWithQuantities that was removed from the list of "current" quantities.
      */
-    public ObjectWithQuantities removeCurrentQuantity() 
+    public ObjectWithQuantities removeCurrentObjectWithQuantities() 
     {
 
        ObjectWithQuantities q = (ObjectWithQuantities) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
        // to keep things in sync, we need to remove this too
-       if(q != null && q instanceof QuantityWithValues)
+       if(q != null && q instanceof Quantity)
        {
            removeCurrentLocator();
        }
@@ -599,14 +599,14 @@ implements LexicalHandler
        Component lastC = LastComponent;
        if (lastC == null)
        {
-          ObjectWithQuantities lastQ = getCurrentQuantityWithValues();
+          ObjectWithQuantities lastQ = getCurrentQuantity();
           if(lastQ != null)
               lastC = (Component) lastQ;
        } 
        return lastC;
     }
 
-    /** Get the locator which belongs to the current QuantityWithValues.
+    /** Get the locator which belongs to the current Quantity.
      */
     public Locator getCurrentLocator() {
        Locator lastLoc = (Locator) null;
@@ -652,11 +652,11 @@ implements LexicalHandler
 
     /** Get the last quantity (with values) that we worked on. 
      */
-    public QuantityWithValues getCurrentQuantityWithValues() {
-       ObjectWithQuantities q = getCurrentQuantity();
-       if(q instanceof QuantityWithValues)
-         return (QuantityWithValues) q;
-       return (QuantityWithValues) null;
+    public Quantity getCurrentQuantity() {
+       ObjectWithQuantities q = getCurrentObjectWithQuantities();
+       if(q instanceof Quantity)
+         return (Quantity) q;
+       return (Quantity) null;
     }
 
     /** Get the namespace URI value for the current element being parsed.
@@ -779,8 +779,8 @@ implements LexicalHandler
                CurrentQuantityList.add(q);
 
                // also record a locator from it
-               if(q instanceof QuantityWithValues)
-                  CurrentLocatorList.add(((QuantityWithValues) q).createLocator());
+               if(q instanceof Quantity)
+                  CurrentLocatorList.add(((Quantity) q).createLocator());
 
            } 
 
@@ -1182,7 +1182,7 @@ implements LexicalHandler
     /** A utility function to allow proper setting of value in quantity.
      * [Would not be needed if we had q.setValue(Object, Locator)];
      */
-    static public void setValue(QuantityWithValues qV, String value, Locator loc)
+    static public void setValue(Quantity qV, String value, Locator loc)
     throws SAXException
     {
         setValue(qV,qV.getDataType(),value,loc);
@@ -1191,7 +1191,7 @@ implements LexicalHandler
    /** A utility function to allow proper setting of value in quantity.
      * [Would not be needed if we had q.setValue(Object, Locator)];
      */
-    static public void setValue(QuantityWithValues qV, DataType dataType, String value, Locator loc)
+    static public void setValue(Quantity qV, DataType dataType, String value, Locator loc)
     throws SAXException
     {
 
@@ -1249,7 +1249,7 @@ implements LexicalHandler
     protected void startHandlerAddQuantityToParent(String namespaceURI, ObjectWithQuantities q) 
     {
 
-            ObjectWithQuantities currentQ = getCurrentQuantity();
+            ObjectWithQuantities currentQ = getCurrentObjectWithQuantities();
             if(currentQ != null) {
 
                  // IF its an AxisFrame, AND currentQ is a Matrix, we add
@@ -1639,7 +1639,7 @@ logger.debug("   Got schema complexType decl  n:"+name+" b:"+base+" mixed:"+mixe
         qmlAssoc.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
         qmlAssoc.put(Constants.NodeTypeName.AXISFRAME, new AxisFrameStartElementHandlerFunc());
         qmlAssoc.put(Constants.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new CompositeQuantityStartElementHandlerFunc());
+        qmlAssoc.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
         qmlAssoc.put(Constants.NodeTypeName.FLOAT_DATATYPE, new FloatDataTypeStartElementHandlerFunc());
         qmlAssoc.put(Constants.NodeTypeName.INTEGER_DATATYPE, new IntegerDataTypeStartElementHandlerFunc());
         qmlAssoc.put(Constants.NodeTypeName.LIST_QUANTITY, new ListQuantityStartElementHandlerFunc());

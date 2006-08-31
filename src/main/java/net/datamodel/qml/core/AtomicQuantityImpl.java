@@ -42,14 +42,13 @@ import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.QuantityWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
 import net.datamodel.qml.locator.ListLocatorImpl;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.Specification;
-import net.datamodel.qml.support.Constants.NodeName;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
@@ -59,7 +58,7 @@ import org.xml.sax.Attributes;
  * @version $Revision$
  */
 public class AtomicQuantityImpl extends ComponentImpl 
-implements QuantityWithValues 
+implements Quantity 
 {
 	private static final Logger logger = Logger.getLogger(AtomicQuantityImpl.class);
 	
@@ -593,15 +592,15 @@ implements QuantityWithValues
     public boolean equivalent ( Object obj ) 
     {
 
-        if (obj instanceof QuantityWithValues ) 
+        if (obj instanceof Quantity ) 
 	{
             if (
                   super.equivalent ((Component) obj)
                       &&
-                  this.getSize().equals(((QuantityWithValues)obj).getSize())
+                  this.getSize().equals(((Quantity)obj).getSize())
                       &&
                       // FIXME : should iterate over all values an compare
-//                  this.getValue().equals(((QuantityWithValues)obj).getValue())
+//                  this.getValue().equals(((Quantity)obj).getValue())
 //                      &&
                   this.getMemberList().equals(((ObjectWithQuantities)obj).getMemberList()) // FIXME : need to iterate over members 
                )
