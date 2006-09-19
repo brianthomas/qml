@@ -32,8 +32,7 @@
 
 package net.datamodel.qml;
 
-import java.io.IOException;
-import java.io.Writer;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -83,5 +82,10 @@ ity is incorrect.
  */
     public void setId ( String value );
 
+    /** Get the URI which represents this quantity. URI is used to provide the
+     * id of the semantic meaning of the quantity.
+     * @return URI of the quantity which represents its semantic meaning.
+     */
+	public URI getURI();
 }
 
