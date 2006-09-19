@@ -36,15 +36,13 @@ package net.datamodel.qml.core;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URI;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Vector;
 
 import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.Specification;
-import net.datamodel.qml.support.Constants.NodeName;
-import net.datamodel.qml.support.handlers.IllegalCharDataHandlerFunc;
 
 import org.apache.log4j.Logger;
 
@@ -57,7 +55,8 @@ implements ObjectWithQuantities {
 	private static final Logger logger = Logger.getLogger(ObjectWithQuantitiesStubImpl.class);
 
     // Fields
-    private static final String MEMBER_XML_FIELD_NAME = new String("member");
+	private URI uri;
+	private static final String MEMBER_XML_FIELD_NAME = new String("member");
     private static final String ID_XML_FIELD_NAME = new String("qid");
 //    private static final String IMMUTABLE_XML_FIELD_NAME = new String("immutable");
 
@@ -241,7 +240,7 @@ implements ObjectWithQuantities {
        xmlNodeName = Constants.NodeName.COMPOSITE_QUANTITY;
 
        nrofMembers = 0;
-
+       
        // now initialize XML fields
        // order matters! these are in *reverse* order of their
        // occurence in the schema/DTD
@@ -254,6 +253,22 @@ implements ObjectWithQuantities {
        fieldHash.put(MEMBER_XML_FIELD_NAME, new XMLSerializableField(new QuantityContainerImpl(null, false), Constants.FIELD_CHILD_NODE_TYPE));
 
     }
+
+    /*
+     *  (non-Javadoc)
+     * @see net.datamodel.qml.ObjectWithQuantities#getURI()
+     */
+	public URI getURI() {
+		return uri;
+	}
+
+	/** Set the URI, representing the semantic meaning, of this object.
+	 * 
+	 * @param uri
+	 */
+	public void setURI (URI uri) {
+		this.uri = uri;
+	}
 
 }
 
