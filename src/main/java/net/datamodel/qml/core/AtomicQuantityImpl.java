@@ -34,6 +34,7 @@ package net.datamodel.qml.core;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URI;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
@@ -73,9 +74,10 @@ implements Quantity
     /* XML attribute names */
 
 //    private static final String ACCURACY_XML_FIELD_NAME = new String("accuracy");
-    private static final String MEMBER_XML_FIELD_NAME = new String("member");
+    private static final String MEMBER_XML_FIELD_NAME = "member";
     private static final String SIZE_XML_FIELD_NAME = Constants.SIZE_ATTRIBUTE_NAME;
     private static final String DATA_XML_FIELD_NAME = Constants.DATA_FIELD_NAME;
+    private static final String URI_XML_FIELD_NAME = "uri";
 
     /**
      * @uml.property  name="hasMapping"
@@ -146,6 +148,29 @@ implements Quantity
        }
     }
 
+    /*
+     *  (non-Javadoc)
+     * @see net.datamodel.qml.ObjectWithQuantities#getURI()
+     */
+	public URI getURI() {
+		try {
+			return new URI ((String) ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).getValue());
+		} catch (Exception e) {
+			logger.error("Invalid URI for object returned.");
+			return (URI) null; // shouldnt happen as we only let valid URIs in..
+		}
+	}
+
+	/** Set the URI, representing the semantic meaning, of this object.
+	 * 
+	 * @param value of the uri to set
+	 */
+	public void setURI (URI value) {
+		// Take the URI and convert it to a string for storage in object/serialization.
+		// Not optimal, but works (for now).
+	    ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).setValue(value.toASCIIString());
+	}
+	
     /*
      * Add an object of type ObjectWithQuantities to the List of accuracies.
      * 
@@ -687,6 +712,7 @@ implements Quantity
        fieldHash.put(DATA_XML_FIELD_NAME, new XMLSerializableField(data, Constants.FIELD_CHILD_NODE_TYPE));
        fieldHash.put(MEMBER_XML_FIELD_NAME, new XMLSerializableField(new QuantityContainerImpl(null, false), Constants.FIELD_CHILD_NODE_TYPE));
        fieldHash.put(SIZE_XML_FIELD_NAME, new XMLSerializableField(new Integer(data.getNumberOfValues()), Constants.FIELD_ATTRIB_TYPE));
+       fieldHash.put(URI_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
 
        setSize(1);
        updateSize();
