@@ -30,6 +30,8 @@
 
 package net.datamodel.qml;
 
+import java.net.URI;
+
 /**
  * @author  thomas
  */
@@ -75,6 +77,7 @@ public interface Component {
  
     /**
      * Set the value of units
+     * @param units to be set
      * @uml.property  name="units"
      */
     public void setUnits ( Units value ); 
@@ -86,6 +89,12 @@ public interface Component {
      * @uml.associationEnd  
      */
     public Units getUnits ( );
+    
+    /** Get the URI which represents this quantity. URI is used to provide the
+     * id of the semantic meaning of the quantity.
+     * @return URI of the quantity which represents its semantic meaning.
+     */
+	public URI getURI();
 
 }
 

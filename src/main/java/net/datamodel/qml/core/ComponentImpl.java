@@ -34,6 +34,7 @@
 
 package net.datamodel.qml.core;
 
+import java.net.URI;
 import java.util.Vector;
 import java.util.List;
 
@@ -45,6 +46,7 @@ import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.units.UnitsImpl;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.log4j.Logger;
 
 /**
  * Class ComponentImpl
@@ -53,13 +55,15 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 public class ComponentImpl extends XMLSerializableObjectImpl implements Component {
 
     // Fields
+	private static final Logger logger = Logger.getLogger(ComponentImpl.class);
 
     /* XML attribute names */
     private static final String DATATYPE_XML_FIELD_NAME = new String("dataType");
     private static final String ID_XML_FIELD_NAME = new String("qid");
 //    private static final String IMMUTABLE_XML_FIELD_NAME = new String("immutable");
     private static final String UNITS_XML_FIELD_NAME = new String("units");
-
+    private static final String URI_XML_FIELD_NAME = "uri";
+    
     // Methods
     //
 
@@ -88,6 +92,30 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
     public void setId ( String value  ) {
         ((XMLSerializableField) fieldHash.get(ID_XML_FIELD_NAME)).setValue(value);
     }
+    
+    /*
+     *  (non-Javadoc)
+     * @see net.datamodel.qml.ObjectWithQuantities#getURI()
+     */
+	public URI getURI() {
+		try {
+			return new URI ((String) ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).getValue());
+		} catch (Exception e) {
+			logger.error("Invalid URI for object returned.");
+			return (URI) null; // shouldnt happen as we only let valid URIs in..
+		}
+	}
+
+	/** Set the URI, representing the semantic meaning, of this object.
+	 * 
+	 * @param value of the uri to set
+	 */
+	public void setURI (URI value) {
+		// Take the URI and convert it to a string for storage in object/serialization.
+		// Not optimal, but works (for now).
+	    ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).setValue(value.toASCIIString());
+	}
+	
     /*
      * Whether or not this component/quantity is mutable (changeable).
      */
@@ -234,7 +262,8 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
 //      fieldHash.put(IMMUTABLE_XML_FIELD_NAME, new XMLSerializableField(new Boolean(false), Constants.FIELD_ATTRIB_TYPE));
       fieldHash.put(UNITS_XML_FIELD_NAME, new XMLSerializableField(new UnitsImpl(""), Constants.FIELD_CHILD_NODE_TYPE));
       fieldHash.put(DATATYPE_XML_FIELD_NAME, new XMLSerializableField(new StringDataType(), Constants.FIELD_CHILD_NODE_TYPE));
-  
+      fieldHash.put(URI_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
+
     }
 
 }
