@@ -55,9 +55,10 @@ implements ObjectWithQuantities {
 	private static final Logger logger = Logger.getLogger(ObjectWithQuantitiesStubImpl.class);
 
     // Fields
-	private URI uri;
-	private static final String MEMBER_XML_FIELD_NAME = new String("member");
-    private static final String ID_XML_FIELD_NAME = new String("qid");
+	private static final String MEMBER_XML_FIELD_NAME = "member";
+    private static final String ID_XML_FIELD_NAME = "qid";
+    private static final String URI_XML_FIELD_NAME = "uri";
+    
 //    private static final String IMMUTABLE_XML_FIELD_NAME = new String("immutable");
 
     /**
@@ -248,10 +249,11 @@ implements ObjectWithQuantities {
 //       fieldOrder.add(0, IMMUTABLE_XML_FIELD_NAME);
        fieldOrder.add(0, ID_XML_FIELD_NAME);
 
+       fieldHash.put(URI_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE ));
        fieldHash.put(ID_XML_FIELD_NAME, new XMLSerializableField(new String(""), Constants.FIELD_ATTRIB_TYPE));
 //       fieldHash.put(IMMUTABLE_XML_FIELD_NAME, new XMLSerializableField(new Boolean(false), Constants.FIELD_ATTRIB_TYPE));
        fieldHash.put(MEMBER_XML_FIELD_NAME, new XMLSerializableField(new QuantityContainerImpl(null, false), Constants.FIELD_CHILD_NODE_TYPE));
-
+       
     }
 
     /*
@@ -259,15 +261,22 @@ implements ObjectWithQuantities {
      * @see net.datamodel.qml.ObjectWithQuantities#getURI()
      */
 	public URI getURI() {
-		return uri;
+		try {
+			return new URI ((String) ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).getValue());
+		} catch (Exception e) {
+			logger.error("Invalid URI for object returned.");
+			return (URI) null; // shouldnt happen as we only let valid URIs in..
+		}
 	}
 
 	/** Set the URI, representing the semantic meaning, of this object.
 	 * 
-	 * @param uri
+	 * @param value of the uri to set
 	 */
-	public void setURI (URI uri) {
-		this.uri = uri;
+	public void setURI (URI value) {
+		// Take the URI and convert it to a string for storage in object/serialization.
+		// Not optimal, but works (for now).
+	    ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).setValue(value.toASCIIString());
 	}
 
 }
