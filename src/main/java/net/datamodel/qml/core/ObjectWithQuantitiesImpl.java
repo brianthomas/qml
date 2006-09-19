@@ -73,8 +73,9 @@ implements ObjectWithQuantities {
     // Constructors
 
     // The no-argument Constructor
-    public ObjectWithQuantitiesImpl ( ) { 
+    public ObjectWithQuantitiesImpl ( URI uri ) { 
        init();
+       setURI(uri);
     }
 
     // Accessor Methods
@@ -234,7 +235,7 @@ implements ObjectWithQuantities {
     /** A special protected method used by constructor methods to
      *  conviently build the XML attribute list for a given class.
      */
-    protected void init()
+    protected void init( )
     {
 
        resetFields();
@@ -274,7 +275,7 @@ implements ObjectWithQuantities {
 	 * 
 	 * @param value of the uri to set
 	 */
-	public void setURI (URI value) {
+	protected void setURI (URI value) {
 		// Take the URI and convert it to a string for storage in object/serialization.
 		// Not optimal, but works (for now).
 	    ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).setValue(value.toASCIIString());
