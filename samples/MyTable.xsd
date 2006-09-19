@@ -13,7 +13,7 @@
 >
 
  	<xsd:import namespace="http://www.data-model.net/Mappings" schemaLocation="QMLMappings.xsd"/>
- 	<xsd:include schemaLocation="QML_05.xsd"/>
+ 	<xsd:include schemaLocation="QML_06.xsd"/>
 
         <!-- some new directly-inheriting quantity element declarations -->
         <xsd:element name="table" substitutionGroup="QuantityGroup" type="CompositeQuantityType"/>

@@ -11,7 +11,7 @@
 	    elementFormDefault="qualified"
 >
 
- 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_05.xsd"/>
+ 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_06.xsd"/>
 
 	<xsd:complexType name="EllipseType">
 		<xsd:complexContent>
