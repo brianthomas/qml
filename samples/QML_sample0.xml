@@ -2,5 +2,5 @@
 <trivialQuantity 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
       xmlns="http://www.data-model.net/Quantity" 
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
->A datum (string) in a trivial quantity.</trivialQuantity>
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
+uri="urn:no-semantic-value">A datum (string) in a trivial quantity.</trivialQuantity>

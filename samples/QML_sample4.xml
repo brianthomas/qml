@@ -3,7 +3,7 @@
 <q:atomicQuantity
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:q="http://www.data-model.net/Quantity"
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
 >
    <!-- an aQ serving as "metaData" which itself has meta-data -->
    <q:atomicQuantity>

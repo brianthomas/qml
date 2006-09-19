@@ -3,7 +3,7 @@
 <atomicQuantity
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns="http://www.data-model.net/Quantity"
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
 >
       <!-- integer decimal, signed -->
       <atomicQuantity><integer width="2" type="decimal" signed="no"/><value>10</value></atomicQuantity>

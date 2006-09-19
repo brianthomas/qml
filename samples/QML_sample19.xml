@@ -3,9 +3,10 @@
 <matrixQuantity
       name="Velocity"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
       xmlns="http://www.data-model.net/Quantity"
       size="12"
+      uri="urn:velocity"
 >
    <vector>
       <component name="xVelocity">

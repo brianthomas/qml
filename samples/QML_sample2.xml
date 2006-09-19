@@ -3,7 +3,7 @@
 <q:atomicQuantity 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
       xmlns:q="http://www.data-model.net/Quantity" 
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_05.xsd"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
 >
    <q:units>cm</q:units>
    <q:integer width="2" signed="no"/>
