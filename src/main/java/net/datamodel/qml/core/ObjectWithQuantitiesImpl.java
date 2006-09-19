@@ -72,10 +72,15 @@ implements ObjectWithQuantities {
 
     // Constructors
 
-    // The no-argument Constructor
+    // Construct with a given URI.
     public ObjectWithQuantitiesImpl ( URI uri ) { 
        init();
        setURI(uri);
+    }
+    
+    // The no-argument Constructor
+    public ObjectWithQuantitiesImpl () {
+    	init();
     }
 
     // Accessor Methods
