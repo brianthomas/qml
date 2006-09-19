@@ -48,7 +48,7 @@ import net.datamodel.qml.Quantity;
  * of dimensions within the frame.
  * @version $Revision$
  */
-public class AxisFrameImpl extends ObjectWithQuantitiesStubImpl implements AxisFrame {
+public class AxisFrameImpl extends ObjectWithQuantitiesImpl implements AxisFrame {
 
     // Fields
 

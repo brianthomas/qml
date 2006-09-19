@@ -1,7 +1,7 @@
 
 // CVS $Id$
 
-// ObjectWithQuantitiesStubImpl.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// ObjectWithQuantitiesImpl.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -47,12 +47,13 @@ import net.datamodel.qml.support.Specification;
 import org.apache.log4j.Logger;
 
 /**
- * A stub class which may be used to create other object with quantities.
+ * An object which holds quantities (as properties). It may be used 
+ * as is or as stub code to create other objects which contain quantities.
  */
-public class ObjectWithQuantitiesStubImpl extends XMLSerializableObjectImpl 
+public class ObjectWithQuantitiesImpl extends XMLSerializableObjectImpl 
 implements ObjectWithQuantities {
 	
-	private static final Logger logger = Logger.getLogger(ObjectWithQuantitiesStubImpl.class);
+	private static final Logger logger = Logger.getLogger(ObjectWithQuantitiesImpl.class);
 
     // Fields
 	private static final String MEMBER_XML_FIELD_NAME = "member";
@@ -72,7 +73,7 @@ implements ObjectWithQuantities {
     // Constructors
 
     // The no-argument Constructor
-    public ObjectWithQuantitiesStubImpl ( ) { 
+    public ObjectWithQuantitiesImpl ( ) { 
        init();
     }
 

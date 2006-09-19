@@ -32,7 +32,7 @@ package net.datamodel.qml.support.handlers;
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.core.ObjectWithQuantitiesStubImpl;
+import net.datamodel.qml.core.ObjectWithQuantitiesImpl;
 import net.datamodel.qml.support.EndElementHandlerAction;
 import net.datamodel.qml.support.QMLDocumentHandler;
 
@@ -53,7 +53,7 @@ public class AxisFrameEndElementHandlerFunc implements EndElementHandlerAction
           if(q instanceof AxisFrame && cq instanceof MatrixQuantity)
           {
               ((MatrixQuantity)cq).addMember((AxisFrame)q);
-          } else if (cq instanceof ObjectWithQuantitiesStubImpl) {
+          } else if (cq instanceof ObjectWithQuantitiesImpl) {
              // do nothing..we already added it as a member
           } else
               throw new SAXException("Ugh. AxisFrame can't be found..bad parse.");

@@ -29,7 +29,7 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.core.ObjectWithQuantitiesStubImpl;
+import net.datamodel.qml.core.ObjectWithQuantitiesImpl;
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.qml.support.StartElementHandlerAction;
 
@@ -42,7 +42,7 @@ public class ObjectWithQuantitesStartElementHandlerFunc implements StartElementH
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 
-          ObjectWithQuantitiesStubImpl objWithQ = new ObjectWithQuantitiesStubImpl();
+          ObjectWithQuantitiesImpl objWithQ = new ObjectWithQuantitiesImpl();
           objWithQ.setFields(attrs); // set XML attributes from passed list
 
           handler.recordObjectWithQuantities(objWithQ);
