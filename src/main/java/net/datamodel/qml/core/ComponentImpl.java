@@ -34,18 +34,14 @@
 
 package net.datamodel.qml.core;
 
-import java.net.URI;
-import java.util.Vector;
-import java.util.List;
-
 import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
+import net.datamodel.qml.URN;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.units.UnitsImpl;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 
 /**
@@ -62,7 +58,7 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
     private static final String ID_XML_FIELD_NAME = new String("qid");
 //    private static final String IMMUTABLE_XML_FIELD_NAME = new String("immutable");
     private static final String UNITS_XML_FIELD_NAME = new String("units");
-    private static final String URI_XML_FIELD_NAME = "uri";
+    private static final String URN_XML_FIELD_NAME = "URN";
     
     // Methods
     //
@@ -95,25 +91,25 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
     
     /*
      *  (non-Javadoc)
-     * @see net.datamodel.qml.SemanticObject#getURI()
+     * @see net.datamodel.qml.SemanticObject#getURN()
      */
-	public URI getURI() {
+	public URN getURN() {
 		try {
-			return new URI ((String) ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).getValue());
+			return new URNImpl ((String) ((XMLSerializableField) fieldHash.get(URN_XML_FIELD_NAME)).getValue());
 		} catch (Exception e) {
-			logger.error("Invalid URI for object returned.");
-			return (URI) null; // shouldnt happen as we only let valid URIs in..
+			logger.error("Invalid URN for object returned.");
+			return (URN) null; // shouldnt happen as we only let valid URNs in..
 		}
 	}
 
-	/** Set the URI, representing the semantic meaning, of this object.
+	/** Set the URN, representing the semantic meaning, of this object.
 	 * 
-	 * @param value of the uri to set
+	 * @param value of the URN to set
 	 */
-	public void setURI (URI value) {
-		// Take the URI and convert it to a string for storage in object/serialization.
+	public void setURN (URN value) {
+		// Take the URN and convert it to a string for storage in object/serialization.
 		// Not optimal, but works (for now).
-	    ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).setValue(value.toASCIIString());
+	    ((XMLSerializableField) fieldHash.get(URN_XML_FIELD_NAME)).setValue(value.toString());
 	}
 	
     /*
@@ -216,7 +212,7 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
     }
 
     /** Determine equivalence between objects. Equivalence is the same
-      * as 'equals' but without checking that the id or namespaceURI 
+      * as 'equals' but without checking that the id or namespaceURN 
       * fields between both objects are the same.
       */
     public boolean equivalent ( Object obj )
@@ -262,7 +258,7 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
 //      fieldHash.put(IMMUTABLE_XML_FIELD_NAME, new XMLSerializableField(new Boolean(false), Constants.FIELD_ATTRIB_TYPE));
       fieldHash.put(UNITS_XML_FIELD_NAME, new XMLSerializableField(new UnitsImpl(""), Constants.FIELD_CHILD_NODE_TYPE));
       fieldHash.put(DATATYPE_XML_FIELD_NAME, new XMLSerializableField(new StringDataType(), Constants.FIELD_CHILD_NODE_TYPE));
-      fieldHash.put(URI_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
+      fieldHash.put(URN_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
 
     }
 
