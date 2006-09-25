@@ -32,7 +32,6 @@
 
 package net.datamodel.qml;
 
-import java.net.URI;
 import java.util.List;
 
 /**
@@ -51,19 +50,19 @@ public interface SemanticObject
      * The members are considered to be properties of the parent semantic object.
      * 
      * The only restrictions on membership are that an object may not "own"
-     * itself and that all members must have unique URI values. The URI used indicates
+     * itself and that all members must have unique URN values. The URN used indicates
      * the <i>relationship</i> between the parent object and the member, not necessarily
      * the <i>semantic value</i> of the member itself.
      * 
      * @throws IllegalArgumentException if adding self, or a member already exists with 
-     *         the same (relationship) URI.
+     *         the same (relationship) URN.
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
-     public boolean addMember (SemanticObject member, URI relationship) 
+     public boolean addMember (SemanticObject member, URN relationship) 
      throws IllegalArgumentException, NullPointerException;
      
-     /** Shortcut method which allows added an object using its URI as the URI
+     /** Shortcut method which allows added an object using its URN as the URN
       * which defines the relationship.
       * 
       * @param member
@@ -79,19 +78,19 @@ public interface SemanticObject
      */
     public boolean removeMember ( SemanticObject object);
     
-    /** Remove a member with the given relationship URI.
+    /** Remove a member with the given relationship URN.
      * 
      * @param relationship
      * @return
      */
-    public boolean removeMember ( URI relationship);
+    public boolean removeMember ( URN relationship);
     
-    /** Retrieve a member which has a matching relationship URI.
+    /** Retrieve a member which has a matching relationship URN.
      * 
-     * @param uri which represents the relationship between the parent and the member 
+     * @param URN which represents the relationship between the parent and the member 
      * @return
      */
-    public SemanticObject getMember (URI relationshipURI);
+    public SemanticObject getMember (URN relationshipURN);
     
     /** Retrieve a member by its unique id.
      * 
@@ -120,10 +119,10 @@ public interface SemanticObject
      */ 
     public void setId ( String value );
 
-    /** Get the URI which represents the semantic meaning of this object. 
-     * @return URI of the object 
+    /** Get the URN which represents the semantic meaning of this object. 
+     * @return URN of the object 
      */
-	public URI getURI();
+	public URN getURN();
 	
 }
 
