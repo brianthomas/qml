@@ -38,10 +38,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.URI;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 
-import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
+import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.Specification;
 
@@ -123,25 +124,26 @@ implements SemanticObject {
 
     /*
      *  (non-Javadoc)
-     * @see net.datamodel.qml.SemanticObject#addMember(net.datamodel.qml.SemanticObject)
+     * @see net.datamodel.qml.SemanticObject#addMember(net.datamodel.qml.SemanticObject, java.net.URI)
      */ 
-    public boolean addMember ( SemanticObject value  ) 
+	public boolean addMember(SemanticObject member, URI relationship) 
+	throws IllegalArgumentException, NullPointerException 
     {
 
        // cant add ourselves as member of ourselves (!)
-       if(value == this)
+       if(member == this)
        {
            logger.warn("ignoring attempt to add self to member list");
            return false;
        }
        
        // check if the member already exists
-       if (null != getMember(value.getURI()))
+       if (null != getMember(relationship))
        {
-    	   throw new IllegalArgumentException("addMember: a member already exists with URI:"+value.getURI());
+    	   throw new IllegalArgumentException("addMember: a member already exists with relationship URI:"+relationship.toASCIIString());
        }
 
-       return getMemberList().add(value);
+       return getMemberList().add(member);
     }
 
     /**
@@ -166,9 +168,43 @@ implements SemanticObject {
 		}
 	}
 
-	public Quantity getMember(URI uri) {
-		// TODO Auto-generated method stub
+	/*
+	 *  (non-Javadoc)
+	 * @see net.datamodel.qml.SemanticObject#getMember(java.lang.String)
+	 */
+	public SemanticObject getMember(String id) 
+	{
+		
+		Iterator<SemanticObject> iter = getMemberList().iterator();
+		while (iter.hasNext()) {
+			SemanticObject obj = iter.next();
+			if (obj.getId().equals( id)) {
+				return obj; // matched, so return it
+			}
+		}
+		// nothing matched
 		return null;
+	}
+
+	public SemanticObject getMember(URI uri) {
+		Iterator<SemanticObject> iter = getMemberList().iterator();
+		while (iter.hasNext()) {
+			SemanticObject obj = iter.next();
+			if (obj.getURI().equals(uri)) {
+				return obj; // matched, so return it
+			}
+		}
+		// nothing matched
+		return null;
+	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see net.datamodel.qml.SemanticObject#removeMember(java.net.URI)
+	 */
+	public boolean removeMember(URI relationship) {
+		SemanticObject member = getMember(relationship);
+		return removeMember(member);
 	}
 
 	/**
