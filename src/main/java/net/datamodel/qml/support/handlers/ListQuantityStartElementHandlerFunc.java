@@ -47,7 +47,7 @@ public class ListQuantityStartElementHandlerFunc implements StartElementHandlerA
        throws SAXException {
 
           ListQuantityImpl listQ = new ListQuantityImpl();
-          logger.debug("Handler creates List ObjectWithQuantities:"+listQ);
+          logger.debug("Handler creates List SemanticObject:"+listQ);
           listQ.setFields(attrs); // set XML attributes from passed list
 
           handler.recordObjectWithQuantities(listQ);
@@ -63,7 +63,7 @@ public class ListQuantityStartElementHandlerFunc implements StartElementHandlerA
              // which we know is impossible in this case
           }
 
-          logger.debug("Handler returns List ObjectWithQuantities:"+listQ);
+          logger.debug("Handler returns List SemanticObject:"+listQ);
           return listQ;
        }
 }

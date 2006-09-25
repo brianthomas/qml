@@ -31,8 +31,8 @@ package net.datamodel.qml.support.handlers;
 // import QML stuff
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.core.ObjectWithQuantitiesImpl;
+import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.core.SemanticObjectImpl;
 import net.datamodel.qml.support.EndElementHandlerAction;
 import net.datamodel.qml.support.QMLDocumentHandler;
 
@@ -47,13 +47,13 @@ public class AxisFrameEndElementHandlerFunc implements EndElementHandlerAction
        throws SAXException {
 
           // peel off the last quantity, which should be our axisFrame
-          ObjectWithQuantities q = handler.removeCurrentObjectWithQuantities();
-          ObjectWithQuantities cq = handler.getCurrentObjectWithQuantities();
+          SemanticObject q = handler.removeCurrentObjectWithQuantities();
+          SemanticObject cq = handler.getCurrentObjectWithQuantities();
 
           if(q instanceof AxisFrame && cq instanceof MatrixQuantity)
           {
               ((MatrixQuantity)cq).addMember((AxisFrame)q);
-          } else if (cq instanceof ObjectWithQuantitiesImpl) {
+          } else if (cq instanceof SemanticObjectImpl) {
              // do nothing..we already added it as a member
           } else
               throw new SAXException("Ugh. AxisFrame can't be found..bad parse.");

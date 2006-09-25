@@ -95,7 +95,7 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
     
     /*
      *  (non-Javadoc)
-     * @see net.datamodel.qml.ObjectWithQuantities#getURI()
+     * @see net.datamodel.qml.SemanticObject#getURI()
      */
 	public URI getURI() {
 		try {

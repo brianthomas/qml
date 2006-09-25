@@ -1,7 +1,7 @@
 
 // CVS $Id$
 
-// ObjectWithQuantitiesImpl.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// SemanticObjectImpl.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -40,7 +40,8 @@ import java.net.URI;
 import java.util.Hashtable;
 import java.util.List;
 
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.Specification;
 
@@ -50,10 +51,10 @@ import org.apache.log4j.Logger;
  * An object which holds quantities (as properties). It may be used 
  * as is or as stub code to create other objects which contain quantities.
  */
-public class ObjectWithQuantitiesImpl extends XMLSerializableObjectImpl 
-implements ObjectWithQuantities {
+public class SemanticObjectImpl extends XMLSerializableObjectImpl 
+implements SemanticObject {
 	
-	private static final Logger logger = Logger.getLogger(ObjectWithQuantitiesImpl.class);
+	private static final Logger logger = Logger.getLogger(SemanticObjectImpl.class);
 
     // Fields
 	private static final String MEMBER_XML_FIELD_NAME = "member";
@@ -73,13 +74,13 @@ implements ObjectWithQuantities {
     // Constructors
 
     // Construct with a given URI.
-    public ObjectWithQuantitiesImpl ( URI uri ) { 
+    public SemanticObjectImpl ( URI uri ) { 
        init();
        setURI(uri);
     }
     
     // The no-argument Constructor
-    public ObjectWithQuantitiesImpl () {
+    public SemanticObjectImpl () {
     	init();
     }
 
@@ -112,28 +113,19 @@ implements ObjectWithQuantities {
         return (String) ((XMLSerializableField) fieldHash.get(ID_XML_FIELD_NAME)).getValue();
     }
 
-    /**
-     * The id of an instance of this class. It should be unique across all components and quantities within a given document/object tree.
-     */
+    /*
+     *  (non-Javadoc)
+     * @see net.datamodel.qml.SemanticObject#setId(java.lang.String)
+     */ 
     public void setId ( String value  ) {
         ((XMLSerializableField) fieldHash.get(ID_XML_FIELD_NAME)).setValue(value);
     }
 
-    /**
-     * Add an object of type ObjectWithQuantities to the List of member Quantities.
-     * The only restrictions on membership are that a quantity may not "own"
-     * itself, and only MatrixQuantities and CompositeQuantiites may have AxisFrames.
-     * Furthermore, incorrectly dimensioned AxisFrames are not allowed.
-     * Correct dimensionality is when the multiple of the numberOfLocations of
-     * all the child axes equal that of the parent size. For example, an AxisFrame
-     * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
-     * This AxisFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
-     *
-     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong ObjectWithQuantities Type, or the AxisFrame dimensionality is incorrect.
-     * @throws NullPointerException if attempting to adding an null (!!)
-     * @return boolean value of whether addition was successfull or not.
-     */
-    public boolean addMember ( ObjectWithQuantities value  ) 
+    /*
+     *  (non-Javadoc)
+     * @see net.datamodel.qml.SemanticObject#addMember(net.datamodel.qml.SemanticObject)
+     */ 
+    public boolean addMember ( SemanticObject value  ) 
     {
 
        // cant add ourselves as member of ourselves (!)
@@ -142,52 +134,83 @@ implements ObjectWithQuantities {
            logger.warn("ignoring attempt to add self to member list");
            return false;
        }
+       
+       // check if the member already exists
+       if (null != getMember(value.getURI()))
+       {
+    	   throw new IllegalArgumentException("addMember: a member already exists with URI:"+value.getURI());
+       }
 
        return getMemberList().add(value);
     }
 
     /**
-     * Remove an object of type ObjectWithQuantities from the List memberVector
+     * Remove an object of type SemanticObject from the List memberVector
      *
      * @return boolean value of whether removal was successful or not.
      */
-    public boolean removeMember ( ObjectWithQuantities value  ) {
+    public boolean removeMember ( SemanticObject value  ) {
        return getMemberList().remove(value);
     }
 
-    /**
+    /*
+	 *  (non-Javadoc)
+	 * @see net.datamodel.qml.SemanticObject#getURI()
+	 */
+	public URI getURI() {
+		try {
+			return new URI ((String) ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).getValue());
+		} catch (Exception e) {
+			logger.error("Invalid URI for object returned.");
+			return (URI) null; // shouldnt happen as we only let valid URIs in..
+		}
+	}
+
+	public Quantity getMember(URI uri) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
      * Get the list of memberVector
      *
      * @return List of memberVector
      */
-    public List getMemberList (  ) {
+    public List<SemanticObject> getMemberList (  ) {
         return (List) ((QuantityContainerImpl) ((XMLSerializableField) fieldHash.get(MEMBER_XML_FIELD_NAME)).getValue()).getQuantityList();
     }
 
     // Operations
 
     /** Determine equivalence between objects (quantities). Equivalence is the same
-      * as 'equals' but without checking that the id fields between both
-      * objects are the same.
-      * @@Overrides
-      */
-    public boolean equivalent ( Object obj )
-    {
+	  * as 'equals' but without checking that the id fields between both
+	  * objects are the same.
+	  * @@Overrides
+	  */
+	public boolean equivalent ( Object obj )
+	{
+	
+	    if (obj instanceof SemanticObject )
+	    {
+	        if (
+	              this.getMemberList().equals(((SemanticObject)obj).getMemberList()) // FIXME : need to iterate over members 
+	           )
+	        return true;
+	    }
+	    return false;
+	}
 
-        if (obj instanceof ObjectWithQuantities )
-        {
-            if (
-                  this.getMemberList().equals(((ObjectWithQuantities)obj).getMemberList()) // FIXME : need to iterate over members 
-               )
-            return true;
-        }
-        return false;
-    }
+	/** Set the URI, representing the semantic meaning, of this object.
+	 * 
+	 * @param value of the uri to set
+	 */
+	protected void setURI (URI value) {
+		// Take the URI and convert it to a string for storage in object/serialization.
+		// Not optimal, but works (for now).
+	    ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).setValue(value.toASCIIString());
+	}
 
-
-    // Protected Operations
-
-   /**
+	/**
      * @return boolean value of whether or not some content was written.
      */
     protected boolean basicXMLWriter (
@@ -207,7 +230,7 @@ implements ObjectWithQuantities {
          String id = getId();
          if(id != null && !id.equals("") && idTable != null)
          {
-             ObjectWithQuantities idOwner = (ObjectWithQuantities) idTable.get(id);
+             SemanticObject idOwner = (SemanticObject) idTable.get(id);
              if(idOwner != null && idOwner != this)
              {
 
@@ -262,29 +285,6 @@ implements ObjectWithQuantities {
        fieldHash.put(MEMBER_XML_FIELD_NAME, new XMLSerializableField(new QuantityContainerImpl(null, false), Constants.FIELD_CHILD_NODE_TYPE));
        
     }
-
-    /*
-     *  (non-Javadoc)
-     * @see net.datamodel.qml.ObjectWithQuantities#getURI()
-     */
-	public URI getURI() {
-		try {
-			return new URI ((String) ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).getValue());
-		} catch (Exception e) {
-			logger.error("Invalid URI for object returned.");
-			return (URI) null; // shouldnt happen as we only let valid URIs in..
-		}
-	}
-
-	/** Set the URI, representing the semantic meaning, of this object.
-	 * 
-	 * @param value of the uri to set
-	 */
-	protected void setURI (URI value) {
-		// Take the URI and convert it to a string for storage in object/serialization.
-		// Not optimal, but works (for now).
-	    ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).setValue(value.toASCIIString());
-	}
 
 }
 

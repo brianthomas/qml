@@ -42,7 +42,7 @@ import java.util.Vector;
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
@@ -148,23 +148,23 @@ implements Quantity
     }
 
     /*
-     * Add an object of type ObjectWithQuantities to the List of accuracies.
+     * Add an object of type SemanticObject to the List of accuracies.
      * 
      * @return boolean value of whether addition was successful or not.
      */
 /*
-    public boolean addAccuracy ( ObjectWithQuantities value  ) {
+    public boolean addAccuracy ( SemanticObject value  ) {
         return getAccuracyList().add(value);
     }
 */
 
     /*
-     * Remove an object of type ObjectWithQuantities from the List of accuracies.
+     * Remove an object of type SemanticObject from the List of accuracies.
      * 
      * @return boolean value of whether removal was successful or not.
      */
 /*
-    public boolean removeAccuracy ( ObjectWithQuantities value  ) {
+    public boolean removeAccuracy ( SemanticObject value  ) {
         return getAccuracyList().remove(value);
     }
 */
@@ -482,7 +482,7 @@ implements Quantity
     //
 
     /**
-     * Add an object of type ObjectWithQuantities to the List of member Quantities.
+     * Add an object of type SemanticObject to the List of member Quantities.
      * The only restrictions on membership are that a quantity may not "own"
      * itself, and only MatrixQuantities and CompositeQuantiites may have AxisFrames.
      * Furthermore, incorrectly dimensioned AxisFrames are not allowed.
@@ -491,11 +491,11 @@ implements Quantity
      * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
      * This AxisFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
      *
-     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong ObjectWithQuantities Type, or the AxisFrame dimensionality is incorrect.
+     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong SemanticObject Type, or the AxisFrame dimensionality is incorrect.
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
-    public boolean addMember ( ObjectWithQuantities member)
+    public boolean addMember ( SemanticObject member)
     throws IllegalArgumentException, NullPointerException
     {
 
@@ -515,11 +515,11 @@ implements Quantity
     }
 
     /**
-     * Remove an object of type ObjectWithQuantities from the List memberVector
+     * Remove an object of type SemanticObject from the List memberVector
      *
      * @return boolean value of whether removal was successful or not.
      */
-    public boolean removeMember ( ObjectWithQuantities value  ) {
+    public boolean removeMember ( SemanticObject value  ) {
        boolean status = getMemberList().remove(value);
        if (status)
           setSize(new Integer(getMemberList().size()));
@@ -528,7 +528,7 @@ implements Quantity
 
     /**
      * Create a locator for this quantity. This method provided for
-     * compliance with ObjectWithQuantities interface..atomic quantities don't 
+     * compliance with SemanticObject interface..atomic quantities don't 
      * have more than one location, so it is of little value to use them,
      * if you know you are dealing with an atomic quantity.
      */
@@ -603,7 +603,7 @@ implements Quantity
                       // FIXME : should iterate over all values an compare
 //                  this.getValue().equals(((Quantity)obj).getValue())
 //                      &&
-                  this.getMemberList().equals(((ObjectWithQuantities)obj).getMemberList()) // FIXME : need to iterate over members 
+                  this.getMemberList().equals(((SemanticObject)obj).getMemberList()) // FIXME : need to iterate over members 
                )
             return true;
         }
@@ -633,7 +633,7 @@ implements Quantity
          String id = getId();
          if (id != null && !id.equals("") && idTable != null)
          {
-             ObjectWithQuantities idOwner = (ObjectWithQuantities) idTable.get(id);
+             SemanticObject idOwner = (SemanticObject) idTable.get(id);
              if(idOwner != null && idOwner != this)
              {
 

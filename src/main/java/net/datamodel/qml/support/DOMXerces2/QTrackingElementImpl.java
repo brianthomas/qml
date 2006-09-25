@@ -31,7 +31,7 @@
 
 package net.datamodel.qml.support.DOMXerces2;
 
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.core.XMLSerializableField;
@@ -142,7 +142,7 @@ public class QTrackingElementImpl extends ElementNSImpl
       if (node instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) node;
-         ObjectWithQuantities q = qElem.getQuantity();
+         SemanticObject q = qElem.getQuantity();
 
          // now tell parent document about this..
          if(getOwnerDocument() instanceof QMLDocumentImpl)
@@ -162,7 +162,7 @@ public class QTrackingElementImpl extends ElementNSImpl
       if (node instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) node;
-         ObjectWithQuantities q = qElem.getQuantity();
+         SemanticObject q = qElem.getQuantity();
 
          // now tell parent document about this..
          if(getOwnerDocument() instanceof QMLDocumentImpl)

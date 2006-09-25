@@ -56,7 +56,7 @@ public interface ListQuantity extends Quantity
      * Utility method. Append a Byte value onto the current list.
      * @param obj Byte value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Byte obj )
@@ -66,7 +66,7 @@ public interface ListQuantity extends Quantity
      * Utility method. Append a Double value onto the current list.
      * @param obj Double value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Double obj )
@@ -76,7 +76,7 @@ public interface ListQuantity extends Quantity
      * Utility method. Append a Float value onto the current list.
      * @param obj Float value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Float obj )
@@ -86,7 +86,7 @@ public interface ListQuantity extends Quantity
      * Utility method. Append an Integer value onto the current list.
      * @param obj Integer value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Integer obj )
@@ -96,7 +96,7 @@ public interface ListQuantity extends Quantity
      * Utility method. Append a Short value onto the current list.
      * @param obj Short value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Short obj )
@@ -106,7 +106,7 @@ public interface ListQuantity extends Quantity
      * Utility method. Append a String value onto the current list.
      * @param obj String value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( String obj )

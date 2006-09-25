@@ -30,7 +30,7 @@ package net.datamodel.qml.support.handlers;
 
 // import QML stuff
 import net.datamodel.qml.ListQuantity;
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.support.EndElementHandlerAction;
 import net.datamodel.qml.support.QMLDocumentHandler;
 
@@ -45,9 +45,9 @@ public class QuantityEndElementHandlerFunc implements EndElementHandlerAction
 	public void action (QMLDocumentHandler handler )
        throws SAXException {
 
-          logger.debug("ObjectWithQuantities End Handler called");
+          logger.debug("SemanticObject End Handler called");
           // peel off the last quantity, and locator, in the current list
-          ObjectWithQuantities q = handler.removeCurrentObjectWithQuantities();
+          SemanticObject q = handler.removeCurrentObjectWithQuantities();
 
           // Are we adding altValues? If so, we  should
           // now add this quantity to altvalues section of current parent Q
@@ -55,10 +55,10 @@ public class QuantityEndElementHandlerFunc implements EndElementHandlerAction
              if (q instanceof ListQuantity)
                  handler.getCurrentParentQuantityAltValue().addAltValue((ListQuantity)q);
              else
-                 throw new SAXException("Alternative value not a list ObjectWithQuantities");
+                 throw new SAXException("Alternative value not a list SemanticObject");
 
           handler.removeExpectedValues();
-          logger.debug("ObjectWithQuantities End Handler - FINISH");
+          logger.debug("SemanticObject End Handler - FINISH");
        }
 }
 

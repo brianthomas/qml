@@ -38,7 +38,7 @@ import java.util.List;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
@@ -110,7 +110,7 @@ implements ListQuantity
      * Utility method. Append a Byte value onto the current list.
      * @param obj Byte value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Byte obj )
@@ -145,7 +145,7 @@ implements ListQuantity
      * Utility method. Append a Double value onto the current list.
      * @param obj Double value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Double obj )
@@ -180,7 +180,7 @@ implements ListQuantity
      * Utility method. Append a Float value onto the current list.
      * @param obj Float value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Float obj )
@@ -214,7 +214,7 @@ implements ListQuantity
      * Utility method. Append an Integer value onto the current list.
      * @param obj Integer value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Integer obj )
@@ -249,7 +249,7 @@ implements ListQuantity
      * Utility method. Append a Short value onto the current list.
      * @param obj Short value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( Short obj )
@@ -284,7 +284,7 @@ implements ListQuantity
      * Utility method. Append a String value onto the current list.
      * @param obj String value to append. It may be not "null".
      * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException when object is a ObjectWithQuantities.
+     * @throws IllegalArgumentException when object is a SemanticObject.
      * @throws NullPointerException when null parameters are passed.
      */
     public void addValue ( String obj )
@@ -358,7 +358,7 @@ implements ListQuantity
   //FIXME                    &&
   //                this.getValue().equals(((Quantity)obj).getValue())
                       &&
-                  this.getMemberList().equals(((ObjectWithQuantities)obj).getMemberList()) // FIXME : need to iterate over members 
+                  this.getMemberList().equals(((SemanticObject)obj).getMemberList()) // FIXME : need to iterate over members 
                )
             return true;
         }

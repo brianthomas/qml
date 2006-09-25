@@ -47,7 +47,7 @@ import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.datatype.FloatDataType;
@@ -209,7 +209,7 @@ implements LexicalHandler
     protected List CurrentObjectList = new Vector (); 
     /**
      * @uml.property  name="currentQuantityList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.ObjectWithQuantities"
+     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.SemanticObject"
      */
     protected List CurrentQuantityList = new Vector (); 
     /**
@@ -270,7 +270,7 @@ implements LexicalHandler
     // lookup tables holding objects that have id/idref stuff
     /**
      * @uml.property  name="quantityObj"
-     * @uml.associationEnd  qualifier="QId:java.lang.String net.datamodel.qml.ObjectWithQuantities"
+     * @uml.associationEnd  qualifier="QId:java.lang.String net.datamodel.qml.SemanticObject"
      */
     public Hashtable ObjWithQuantities = new Hashtable();
 //    private Hashtable ComponentObj = new Hashtable();
@@ -528,7 +528,7 @@ implements LexicalHandler
 
     /** In order to look for referenced Quantities, we "record" each that we parse.
      */
-    public void recordObjectWithQuantities (ObjectWithQuantities q) {
+    public void recordObjectWithQuantities (SemanticObject q) {
 
        String QId = q.getId();
        if (!QId.equals(""))
@@ -544,20 +544,20 @@ implements LexicalHandler
 
     /** Get the current object with quantities we are working on. 
      */
-    public ObjectWithQuantities getCurrentObjectWithQuantities() {
-       ObjectWithQuantities lastQ = (ObjectWithQuantities) null;
+    public SemanticObject getCurrentObjectWithQuantities() {
+       SemanticObject lastQ = (SemanticObject) null;
        if (CurrentQuantityList.size() > 0)
-          lastQ = (ObjectWithQuantities) CurrentQuantityList.get(CurrentQuantityList.size()-1);
+          lastQ = (SemanticObject) CurrentQuantityList.get(CurrentQuantityList.size()-1);
        return lastQ;
     }
 
     /** Remove the current quantity.
-     *  @return ObjectWithQuantities that was removed from the list of "current" quantities.
+     *  @return SemanticObject that was removed from the list of "current" quantities.
      */
-    public ObjectWithQuantities removeCurrentObjectWithQuantities() 
+    public SemanticObject removeCurrentObjectWithQuantities() 
     {
 
-       ObjectWithQuantities q = (ObjectWithQuantities) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
+       SemanticObject q = (SemanticObject) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
        // to keep things in sync, we need to remove this too
        if(q != null && q instanceof Quantity)
        {
@@ -593,13 +593,13 @@ implements LexicalHandler
     }
 
     /** Gets the last component-compliant object we worked on.
-     * This could be some types of ObjectWithQuantities as well as components.
+     * This could be some types of SemanticObject as well as components.
      */
     public Component getCurrentComponent() {
        Component lastC = LastComponent;
        if (lastC == null)
        {
-          ObjectWithQuantities lastQ = getCurrentQuantity();
+          SemanticObject lastQ = getCurrentQuantity();
           if(lastQ != null)
               lastC = (Component) lastQ;
        } 
@@ -641,19 +641,19 @@ implements LexicalHandler
        return mq;
     }
 
-    public void addParentQuantityNeedsAltValue (ObjectWithQuantities q) 
+    public void addParentQuantityNeedsAltValue (SemanticObject q) 
     {
           ParentQuantityAltValueList.add(q);
     }
 
-    public ObjectWithQuantities removeParentQuantityNeedsAltValue () {
-          return (ObjectWithQuantities) ParentQuantityAltValueList.remove(ParentQuantityAltValueList.size()-1);
+    public SemanticObject removeParentQuantityNeedsAltValue () {
+          return (SemanticObject) ParentQuantityAltValueList.remove(ParentQuantityAltValueList.size()-1);
     }
 
     /** Get the last quantity (with values) that we worked on. 
      */
     public Quantity getCurrentQuantity() {
-       ObjectWithQuantities q = getCurrentObjectWithQuantities();
+       SemanticObject q = getCurrentObjectWithQuantities();
        if(q instanceof Quantity)
          return (Quantity) q;
        return (Quantity) null;
@@ -761,18 +761,18 @@ implements LexicalHandler
            thisObject = event.action(this, namespaceURI, localName, qName, attrs);
 
            // Treat any special handling here
-           if (thisObject != null && thisObject instanceof ObjectWithQuantities)
+           if (thisObject != null && thisObject instanceof SemanticObject)
            {
 
                logger.debug(" *** THIS ELEMENT is A QUANTITY "+qName);
-               ObjectWithQuantities q = (ObjectWithQuantities) thisObject;
+               SemanticObject q = (SemanticObject) thisObject;
 
                // do special check for dealing with quantities
                // this is here because its easier to deal with adding member
                // Quantities, AxisFrames, etc here to prevent repeating code
                // that defaults to adding QElements here rather than in the Element Handler (?)
                // I know that it looks bad to have this call here, but I'd rather 
-               // treat this here rather repeat this code in all ObjectWithQuantities handlers..
+               // treat this here rather repeat this code in all SemanticObject handlers..
                startHandlerAddQuantityToParent(namespaceURI, q);
 
                // record this as our "current" quantity
@@ -987,7 +987,7 @@ implements LexicalHandler
            XMLDeclaration xmlDecl = new XMLDeclaration();
            xmlDecl.setStandalone("no");
 
-           DocumentType doctype = new DocumentType(ObjectWithQuantities);
+           DocumentType doctype = new DocumentType(SemanticObject);
 
            // set the values of the DocumentType object appropriately
            if (!ForceSetXMLHeaderStuff) {
@@ -1000,20 +1000,20 @@ implements LexicalHandler
               doctype.setSystemId(Constants.Quantity_DTD_NAME); 
            }
 
-           ObjectWithQuantities.setXMLDeclaration (xmlDecl);
-           ObjectWithQuantities.setDocumentType(doctype);
+           SemanticObject.setXMLDeclaration (xmlDecl);
+           SemanticObject.setDocumentType(doctype);
         }
 
         // Now that it exists, lets
-        // set the notation hash for the ObjectWithQuantities structure
+        // set the notation hash for the SemanticObject structure
         Iterator iter = Notation.iterator();
         while (iter.hasNext()) {
            Hashtable initValues = (Hashtable) iter.next(); 
-           if (ObjectWithQuantities.getDocumentType() == null) {
+           if (SemanticObject.getDocumentType() == null) {
               // force having document type
-              ObjectWithQuantities.setDocumentType(new DocumentType(ObjectWithQuantities)); 
+              SemanticObject.setDocumentType(new DocumentType(SemanticObject)); 
            }
-           ObjectWithQuantities.getDocumentType().addNotation(new NotationNode(initValues));
+           SemanticObject.getDocumentType().addNotation(new NotationNode(initValues));
         }
 */
 
@@ -1147,7 +1147,7 @@ implements LexicalHandler
     {
         String value = new String(ch, start, length);
         logger.info("H_Comment ["+value+"]");
-       // add to current node, if we are not inside of a ObjectWithQuantities right now.
+       // add to current node, if we are not inside of a SemanticObject right now.
 
         Comment comment = getDocument().createComment(value);
 
@@ -1166,7 +1166,7 @@ implements LexicalHandler
         // Find the index of the "size" attribute..
         // hrm.. this *might* get us into trouble if ppl start using
         // a qualified attribute "somenamspaceuri:size" which doesn't
-        // belong to the www.datamodel.net/ObjectWithQuantities namespace. Its not
+        // belong to the www.datamodel.net/SemanticObject namespace. Its not
         // likely, and, I cant get the namespaced "getIndex" function to
         // work, so this will have to do for now.
         int index = attrs.getIndex(Constants.SIZE_ATTRIBUTE_NAME);
@@ -1242,19 +1242,19 @@ implements LexicalHandler
     /** Do special check for dealing with adding quantities. 
      *  This method exists because its easier to deal with adding member
      *  Quantities, AxisFrames, etc in a global fashion rather than repeating code
-     *  in each of the ObjectWithQuantities handlers.
+     *  in each of the SemanticObject handlers.
      *  At any rate the logic is that if no parent Q exists, then it defaults to 
      *  adding the quantities as QElements in the QMLDocument.
      */
-    protected void startHandlerAddQuantityToParent(String namespaceURI, ObjectWithQuantities q) 
+    protected void startHandlerAddQuantityToParent(String namespaceURI, SemanticObject q) 
     {
 
-            ObjectWithQuantities currentQ = getCurrentObjectWithQuantities();
+            SemanticObject currentQ = getCurrentObjectWithQuantities();
             if(currentQ != null) {
 
                  // IF its an AxisFrame, AND currentQ is a Matrix, we add
                  // it to the axisFrame List (just not yet..), otherwise, we add this new Q
-                 // as a member to current ObjectWithQuantities
+                 // as a member to current SemanticObject
                  if(currentQ instanceof MatrixQuantity && q instanceof AxisFrame)
                  {
                    // do nothing for now.. we want to wait to populate the AxisFrame
@@ -1268,7 +1268,7 @@ implements LexicalHandler
                    //if(q instanceof ListQuantity)
                    //   ParentMatrixQ.addAltValue((ListQuantity)q);
                    //else
-                   //   throw new SAXException("Alternative value not a list ObjectWithQuantities");
+                   //   throw new SAXException("Alternative value not a list SemanticObject");
                  } else
                    currentQ.addMember(q); // everything else becomes a "member"
 

@@ -37,7 +37,7 @@ import java.util.List;
  * Interface for axis frames. These objects contain the dimensional information that defines a unique frame of reference for one or more other quantities.
  * @version  $Revision$
  */
-public interface AxisFrame extends ObjectWithQuantities {
+public interface AxisFrame extends SemanticObject {
 
     // Operations
 

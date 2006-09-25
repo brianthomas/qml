@@ -39,7 +39,7 @@ import net.datamodel.qml.Component;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
@@ -95,7 +95,7 @@ implements MatrixQuantity
     // Accessor Methods
 
     /**
-     * Add an object of type ObjectWithQuantities to the List of members in this quantity. 
+     * Add an object of type SemanticObject to the List of members in this quantity. 
      * Incorrectly dimensioned AxisFrames are not allowed.
      * Correct dimensionality is when the multiple of the numberOfLocations of
      * all the child axes equal that of the parent size. For example, an AxisFrame
@@ -107,7 +107,7 @@ implements MatrixQuantity
      * 
      * @@Overrides
      */
-    public boolean addMember ( ObjectWithQuantities member) 
+    public boolean addMember ( SemanticObject member) 
     throws IllegalArgumentException, NullPointerException
     {
     	
@@ -142,12 +142,12 @@ Log.errorln("Reminder to self : check expanding values within Matrix when new fr
     }
 
     /**
-     * Remove an object of type ObjectWithQuantities from the List of members
+     * Remove an object of type SemanticObject from the List of members
      * in this quantity.
      * 
      * @return boolean value of whether removeal was successful or not.
      */
-    public boolean removeMember ( ObjectWithQuantities value ) {
+    public boolean removeMember ( SemanticObject value ) {
 
         if(value == null) 
           return false;
@@ -213,7 +213,7 @@ Log.errorln("Reminder to self : check expanding values within Matrix when new fr
 
     /**
      * Create a locator for this quantity. This method provided for
-     * compliance with ObjectWithQuantities interface..atomic quantities don't
+     * compliance with SemanticObject interface..atomic quantities don't
      * have more than one location, so it is of little value to use them,
      * if you know you are dealing with an atomic quantity.
      */
@@ -242,7 +242,7 @@ Log.errorln("Reminder to self : check expanding values within Matrix when new fr
 // FIXME                     &&
 //                  this.getValue().equals(((Quantity)obj).getValue())
                       &&
-                  this.getMemberList().equals(((ObjectWithQuantities)obj).getMemberList()) // FIXME : need to iterate over members 
+                  this.getMemberList().equals(((SemanticObject)obj).getMemberList()) // FIXME : need to iterate over members 
                )
             return true;
         }

@@ -37,7 +37,7 @@ package net.datamodel.qml;
 import java.util.List;
 
 /**
- * The inteface for all value containers used by quantities. Note that "value" here means number or string data. Generic objects are not  permissible, and ObjectWithQuantities containers are used hold quantity objects.
+ * The inteface for all value containers used by quantities. Note that "value" here means number or string data. Generic objects are not  permissible, and SemanticObject containers are used hold quantity objects.
  */
 public interface ValueContainer extends XMLSerializableObject {
 

@@ -37,7 +37,7 @@ import java.util.List;
 
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.ListQuantity;
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
 
 /**
@@ -48,7 +48,7 @@ import net.datamodel.qml.Quantity;
  * of dimensions within the frame.
  * @version $Revision$
  */
-public class AxisFrameImpl extends ObjectWithQuantitiesImpl implements AxisFrame {
+public class AxisFrameImpl extends SemanticObjectImpl implements AxisFrame {
 
     // Fields
 
@@ -79,7 +79,7 @@ public class AxisFrameImpl extends ObjectWithQuantitiesImpl implements AxisFrame
     }
 
    /**
-     * Add an object of type ObjectWithQuantities to the List of member Quantities.
+     * Add an object of type SemanticObject to the List of member Quantities.
      * The only restrictions on membership are that a quantity may not "own"
      * itself, and only MatrixQuantities and CompositeQuantiites may have AxisFrameImpls.
      * Furthermore, incorrectly dimensioned AxisFrameImpls are not allowed.
@@ -88,12 +88,12 @@ public class AxisFrameImpl extends ObjectWithQuantitiesImpl implements AxisFrame
      * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
      * This AxisFrameImpl may be added to any quantity which itself has 10 x 30 = 300 locations.
      *
-     * @throws IllegalArgumentException if adding self, an AxisFrameImpl to the wrong ObjectWithQuantities Type, or the AxisFrameImpl dimensional
+     * @throws IllegalArgumentException if adding self, an AxisFrameImpl to the wrong SemanticObject Type, or the AxisFrameImpl dimensional
 ity is incorrect.
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
-    public boolean addMember ( ObjectWithQuantities axis) 
+    public boolean addMember ( SemanticObject axis) 
     throws IllegalArgumentException, NullPointerException
     {
         if (axis == null)
@@ -112,7 +112,7 @@ ity is incorrect.
      */
 // FIX - change to "void"? 
     public boolean removeAxis ( Quantity axis) {
-    	return removeMember((ObjectWithQuantities) axis);
+    	return removeMember((SemanticObject) axis);
     }
 
     /** Utility method. Synonym for getMemberList().

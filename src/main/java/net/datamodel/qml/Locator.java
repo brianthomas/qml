@@ -60,7 +60,7 @@ public interface Locator {
     public void setCurrentAxisFrame ( AxisFrame frame);
         
     /**
-     * @return  ObjectWithQuantities
+     * @return  SemanticObject
      * @uml.property  name="parentQuantity"
      * @uml.associationEnd  
      */
