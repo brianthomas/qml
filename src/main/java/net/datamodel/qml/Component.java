@@ -30,7 +30,7 @@
 
 package net.datamodel.qml;
 
-import java.net.URI;
+import java.net.URN;
 
 /**
  * @author  thomas
@@ -90,11 +90,11 @@ public interface Component {
      */
     public Units getUnits ( );
     
-    /** Get the URI which represents this quantity. URI is used to provide the
-     * id of the semantic meaning of the quantity.
-     * @return URI of the quantity which represents its semantic meaning.
+    /** Get the URN which represents this object. URN is used to provide the
+     * id of the semantic meaning.
+     * @return URN of the object which represents its semantic meaning.
      */
-	public URI getURI();
+	public URN getURN();
 
 }
 

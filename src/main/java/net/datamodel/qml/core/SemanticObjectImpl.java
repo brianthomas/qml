@@ -36,13 +36,12 @@ package net.datamodel.qml.core;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.net.URI;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
-import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.URN;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.Specification;
 
@@ -60,7 +59,7 @@ implements SemanticObject {
     // Fields
 	private static final String MEMBER_XML_FIELD_NAME = "member";
     private static final String ID_XML_FIELD_NAME = "qid";
-    private static final String URI_XML_FIELD_NAME = "uri";
+    private static final String URN_XML_FIELD_NAME = "URN";
     
 //    private static final String IMMUTABLE_XML_FIELD_NAME = new String("immutable");
 
@@ -74,10 +73,10 @@ implements SemanticObject {
 
     // Constructors
 
-    // Construct with a given URI.
-    public SemanticObjectImpl ( URI uri ) { 
+    // Construct with a given URN.
+    public SemanticObjectImpl ( URN URN ) { 
        init();
-       setURI(uri);
+       setURN(URN);
     }
     
     // The no-argument Constructor
@@ -124,9 +123,9 @@ implements SemanticObject {
 
     /*
      *  (non-Javadoc)
-     * @see net.datamodel.qml.SemanticObject#addMember(net.datamodel.qml.SemanticObject, java.net.URI)
+     * @see net.datamodel.qml.SemanticObject#addMember(net.datamodel.qml.SemanticObject, java.net.URN)
      */ 
-	public boolean addMember(SemanticObject member, URI relationship) 
+	public boolean addMember(SemanticObject member, URN relationship) 
 	throws IllegalArgumentException, NullPointerException 
     {
 
@@ -140,7 +139,7 @@ implements SemanticObject {
        // check if the member already exists
        if (null != getMember(relationship))
        {
-    	   throw new IllegalArgumentException("addMember: a member already exists with relationship URI:"+relationship.toASCIIString());
+    	   throw new IllegalArgumentException("addMember: a member already exists with relationship URN:"+relationship.toString());
        }
 
        return getMemberList().add(member);
@@ -153,7 +152,7 @@ implements SemanticObject {
 	public boolean addMember(SemanticObject member)
 	throws IllegalArgumentException, NullPointerException 
 	{
-		return addMember(member, member.getURI());
+		return addMember(member, member.getURN());
 	}
 	
     /*
@@ -166,14 +165,14 @@ implements SemanticObject {
 
     /*
 	 *  (non-Javadoc)
-	 * @see net.datamodel.qml.SemanticObject#getURI()
+	 * @see net.datamodel.qml.SemanticObject#getURN()
 	 */
-	public URI getURI() {
+	public URN getURN() {
 		try {
-			return new URI ((String) ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).getValue());
+			return new URNImpl ((String) ((XMLSerializableField) fieldHash.get(URN_XML_FIELD_NAME)).getValue());
 		} catch (Exception e) {
-			logger.error("Invalid URI for object returned.");
-			return (URI) null; // shouldnt happen as we only let valid URIs in..
+			logger.error("Invalid URN for object returned.");
+			return (URN) null; // shouldnt happen as we only let valid URNs in..
 		}
 	}
 
@@ -195,11 +194,11 @@ implements SemanticObject {
 		return null;
 	}
 
-	public SemanticObject getMember(URI uri) {
+	public SemanticObject getMember(URN URN) {
 		Iterator<SemanticObject> iter = getMemberList().iterator();
 		while (iter.hasNext()) {
 			SemanticObject obj = iter.next();
-			if (obj.getURI().equals(uri)) {
+			if (obj.getURN().equals(URN)) {
 				return obj; // matched, so return it
 			}
 		}
@@ -209,9 +208,9 @@ implements SemanticObject {
 
 	/*
 	 *  (non-Javadoc)
-	 * @see net.datamodel.qml.SemanticObject#removeMember(java.net.URI)
+	 * @see net.datamodel.qml.SemanticObject#removeMember(java.net.URN)
 	 */
-	public boolean removeMember(URI relationship) {
+	public boolean removeMember(URN relationship) {
 		SemanticObject member = getMember(relationship);
 		return removeMember(member);
 	}
@@ -245,14 +244,14 @@ implements SemanticObject {
 	    return false;
 	}
 
-	/** Set the URI, representing the semantic meaning, of this object.
+	/** Set the URN, representing the semantic meaning, of this object.
 	 * 
-	 * @param value of the uri to set
+	 * @param value of the URN to set
 	 */
-	protected void setURI (URI value) {
-		// Take the URI and convert it to a string for storage in object/serialization.
+	protected void setURN (URN value) {
+		// Take the URN and convert it to a string for storage in object/serialization.
 		// Not optimal, but works (for now).
-	    ((XMLSerializableField) fieldHash.get(URI_XML_FIELD_NAME)).setValue(value.toASCIIString());
+	    ((XMLSerializableField) fieldHash.get(URN_XML_FIELD_NAME)).setValue(value.toString());
 	}
 
 	/**
@@ -324,7 +323,7 @@ implements SemanticObject {
 //       fieldOrder.add(0, IMMUTABLE_XML_FIELD_NAME);
        fieldOrder.add(0, ID_XML_FIELD_NAME);
 
-       fieldHash.put(URI_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE ));
+       fieldHash.put(URN_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE ));
        fieldHash.put(ID_XML_FIELD_NAME, new XMLSerializableField(new String(""), Constants.FIELD_ATTRIB_TYPE));
 //       fieldHash.put(IMMUTABLE_XML_FIELD_NAME, new XMLSerializableField(new Boolean(false), Constants.FIELD_ATTRIB_TYPE));
        fieldHash.put(MEMBER_XML_FIELD_NAME, new XMLSerializableField(new QuantityContainerImpl(null, false), Constants.FIELD_CHILD_NODE_TYPE));
