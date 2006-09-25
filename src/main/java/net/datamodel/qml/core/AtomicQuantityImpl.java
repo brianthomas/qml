@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.URI;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -481,7 +482,7 @@ implements Quantity
     // Other methods
     //
 
-    /**
+    /*
      * Add an object of type SemanticObject to the List of member Quantities.
      * The only restrictions on membership are that a quantity may not "own"
      * itself, and only MatrixQuantities and CompositeQuantiites may have AxisFrames.
@@ -495,6 +496,7 @@ implements Quantity
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
+    /*
     public boolean addMember ( SemanticObject member)
     throws IllegalArgumentException, NullPointerException
     {
@@ -513,6 +515,7 @@ implements Quantity
 
         return getMemberList().add(member);
     }
+    */
 
     /**
      * Remove an object of type SemanticObject from the List memberVector
@@ -709,6 +712,70 @@ implements Quantity
     	// do nothing. Should always be '1'
 //        setSize(new Integer(getValueContainer().getNumberOfValues()));
     }
+    
+    /*
+     *  (non-Javadoc)
+     * @see net.datamodel.qml.SemanticObject#addMember(net.datamodel.qml.SemanticObject, java.net.URI)
+     */ 
+	public boolean addMember(SemanticObject member, URI relationship) 
+	throws IllegalArgumentException, NullPointerException 
+    {
+
+       // cant add ourselves as member of ourselves (!)
+       if(member == this)
+       {
+           logger.warn("ignoring attempt to add self to member list");
+           return false;
+       }
+       
+       // check if the member already exists
+       if (null != getMember(relationship))
+       {
+    	   throw new IllegalArgumentException("addMember: a member already exists with relationship URI:"+relationship.toASCIIString());
+       }
+
+       return getMemberList().add(member);
+    }
+
+	/*
+	 *  (non-Javadoc)
+	 * @see net.datamodel.qml.SemanticObject#getMember(java.lang.String)
+	 */
+	public SemanticObject getMember(String id) 
+	{
+		
+		Iterator<SemanticObject> iter = getMemberList().iterator();
+		while (iter.hasNext()) {
+			SemanticObject obj = iter.next();
+			if (obj.getId().equals( id)) {
+				return obj; // matched, so return it
+			}
+		}
+		// nothing matched
+		return null;
+	}
+
+	public SemanticObject getMember(URI uri) {
+		Iterator<SemanticObject> iter = getMemberList().iterator();
+		while (iter.hasNext()) {
+			SemanticObject obj = iter.next();
+			if (obj.getURI().equals(uri)) {
+				return obj; // matched, so return it
+			}
+		}
+		// nothing matched
+		return null;
+	}
+
+	/*
+	 *  (non-Javadoc)
+	 * @see net.datamodel.qml.SemanticObject#removeMember(java.net.URI)
+	 */
+	public boolean removeMember(URI relationship) {
+		SemanticObject member = getMember(relationship);
+		return removeMember(member);
+	}
+
     
 }
 
