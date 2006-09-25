@@ -62,7 +62,18 @@ public interface SemanticObject
      */
      public boolean addMember (SemanticObject member, URI relationship) 
      throws IllegalArgumentException, NullPointerException;
-
+     
+     /** Shortcut method which allows added an object using its URI as the URI
+      * which defines the relationship.
+      * 
+      * @param member
+      * @return
+      * @throws IllegalArgumentException
+      * @throws NullPointerException
+      */
+     public boolean addMember (SemanticObject member ) 
+     throws IllegalArgumentException, NullPointerException;
+     
     /**
      * Remove a member by reference from the member list.
      */
