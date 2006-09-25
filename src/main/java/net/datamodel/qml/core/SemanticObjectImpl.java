@@ -146,11 +146,20 @@ implements SemanticObject {
        return getMemberList().add(member);
     }
 
-    /**
-     * Remove an object of type SemanticObject from the List memberVector
-     *
-     * @return boolean value of whether removal was successful or not.
-     */
+	/*
+	 *  (non-Javadoc)
+	 * @see net.datamodel.qml.SemanticObject#addMember(net.datamodel.qml.SemanticObject)
+	 */
+	public boolean addMember(SemanticObject member)
+	throws IllegalArgumentException, NullPointerException 
+	{
+		return addMember(member, member.getURI());
+	}
+	
+    /*
+     *  (non-Javadoc)
+     * @see net.datamodel.qml.SemanticObject#removeMember(net.datamodel.qml.SemanticObject)
+     */ 
     public boolean removeMember ( SemanticObject value  ) {
        return getMemberList().remove(value);
     }

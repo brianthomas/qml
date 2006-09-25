@@ -32,13 +32,14 @@
 
 package net.datamodel.qml.core;
 
+import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.ListQuantity;
-import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
+import net.datamodel.qml.SemanticObject;
 
 /**
  * This special quantity is a description of a frame of reference for 
@@ -93,17 +94,18 @@ ity is incorrect.
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
-    public boolean addMember ( SemanticObject axis) 
+    @Override
+    public boolean addMember ( SemanticObject axis, URI relationship) 
     throws IllegalArgumentException, NullPointerException
     {
         if (axis == null)
             throw new NullPointerException();
-
+        
         // cant add quantity IF its not list-based
         if (!(axis instanceof ListQuantity))
-            throw new IllegalArgumentException("Cant add axis quantity as its not list-based.");
+            throw new IllegalArgumentException("Can't add axis quantity member as its not list-based.");
 
-    	return super.addMember(axis);
+    	return super.addMember(axis, relationship);
     }
 
     /** A utility method for removeMember(axis).

@@ -736,6 +736,16 @@ implements Quantity
 
        return getMemberList().add(member);
     }
+	
+	/*
+	 *  (non-Javadoc)
+	 * @see net.datamodel.qml.SemanticObject#addMember(net.datamodel.qml.SemanticObject)
+	 */
+	public boolean addMember(SemanticObject member)
+	throws IllegalArgumentException, NullPointerException 
+	{
+		return addMember(member, member.getURI());
+	}
 
 	/*
 	 *  (non-Javadoc)
