@@ -30,7 +30,6 @@
 
 package net.datamodel.qml;
 
-import java.net.URN;
 
 /**
  * @author  thomas
