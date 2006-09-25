@@ -376,7 +376,9 @@ public class TestCreate extends BaseCase {
 		DataType datatype = createStringDataType(5); 
 		Units units = new UnitsImpl("");
 		List values = new Vector ();
-		String urirep = "urn:no-semantic-meaning";
+		String urirep_no_meaning = "urn:no-semantic-meaning";
+		String urirep_x = "urn:x-position";
+		String urirep_y = "urn:y-position";
 		values.add("data1");
 		values.add("data2");
 		values.add("data3");
@@ -396,11 +398,13 @@ public class TestCreate extends BaseCase {
 		
 		try {
 		
-			URI uri = new URI (urirep);
+			URI uri_no = new URI (urirep_no_meaning);
+			URI uri1 = new URI (urirep_x);
+			URI uri2 = new URI (urirep_y);
 			// create the axisFrame and (1) member axis/dimension for the matrix
 			AxisFrame af = new AxisFrameImpl();
-			ListQuantityImpl axis1 = createListQuantity("axis1", uri, new UnitsImpl(""), createIntegerDataType(1, false), axisValues1, new Vector() );
-			ListQuantityImpl axis2 = createListQuantity("axis2", uri, new UnitsImpl(""), createStringDataType(1), axisValues2, new Vector() );
+			ListQuantityImpl axis1 = createListQuantity("axis1", uri1, new UnitsImpl(""), createIntegerDataType(1, false), axisValues1, new Vector() );
+			ListQuantityImpl axis2 = createListQuantity("axis2", uri2, new UnitsImpl(""), createStringDataType(1), axisValues2, new Vector() );
 			af.addAxis(axis1);
 			af.addAxis(axis2);
 			
@@ -409,7 +413,7 @@ public class TestCreate extends BaseCase {
 			List members = new Vector();
 			members.add(af);
 			
-			MatrixQuantityImpl q = createMatrixQuantity(id, uri, units, datatype, values, members);
+			MatrixQuantityImpl q = createMatrixQuantity(id, uri_no, units, datatype, values, members);
 			assertNotNull(q);
 			
 			// check the string representation 
@@ -417,7 +421,7 @@ public class TestCreate extends BaseCase {
 			
 			// check the API a bit
 			assertEquals("id OK", q.getId(), id);
-			assertEquals("uri OK", q.getURI().toASCIIString(), urirep);
+			assertEquals("uri OK", q.getURI().equals(uri_no));
 			assertEquals("units OK", q.getUnits().toString(), units.toString());
 			assertEquals("datatype OK", q.getDataType().toString(), datatype.toString());
 			
