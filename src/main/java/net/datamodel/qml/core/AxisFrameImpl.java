@@ -32,7 +32,6 @@
 
 package net.datamodel.qml.core;
 
-import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,6 +39,7 @@ import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.URN;
 
 /**
  * This special quantity is a description of a frame of reference for 
@@ -95,7 +95,7 @@ ity is incorrect.
      * @return boolean value of whether addition was successfull or not.
      */
     @Override
-    public boolean addMember ( SemanticObject axis, URI relationship) 
+    public boolean addMember ( SemanticObject axis, URN relationship) 
     throws IllegalArgumentException, NullPointerException
     {
         if (axis == null)
