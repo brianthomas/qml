@@ -52,17 +52,23 @@ public interface ObjectWithQuantities {
      * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
      * This AxisFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
      *
-     * @throws IllegalArgumentException if adding self, an AxisFrame to the wrong ObjectWithQuantities Type, or the AxisFrame dimensional
-ity is incorrect.
+     * @throws IllegalArgumentException if adding self, or a member already exists with the same URI.
      * @throws NullPointerException if attempting to adding an null (!!)
      * @return boolean value of whether addition was successfull or not.
      */
-     public boolean addMember ( ObjectWithQuantities member) throws IllegalArgumentException, NullPointerException;
+     public boolean addMember (ObjectWithQuantities member) throws IllegalArgumentException, NullPointerException;
 
     /**
      * Remove a quantity from the member list.
      */
     public boolean removeMember ( ObjectWithQuantities quantity);
+    
+    /** Retrieve a member which has a matching URI.
+     * 
+     * @param uri
+     * @return
+     */
+    public Quantity getMember (URI uri);
 
     /**
      * Get a list of quantities which are members of the given quantity.
