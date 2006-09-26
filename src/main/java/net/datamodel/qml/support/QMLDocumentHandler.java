@@ -132,145 +132,140 @@ implements LexicalHandler
 //    private static final String QMLDocumentHandlerDTDName = "QML_01.dtd";
 
     // Options for the document handler
-    /**
-     * @uml.property  name="options"
-     */
     protected Hashtable Options;
 
     /**
-     * @uml.property  name="elementTypeAssoc"
-     * @uml.associationEnd  inverse="this$0:net.datamodel.qml.QMLDocumentHandler$HandlerInfo" qualifier="elementURI:java.lang.String net.datamodel.qml.QMLDocumentHandler$HandlerInfo"
      */
     protected Hashtable ElementTypeAssoc; // association between complexType name (used has a key
                                           // to lookup handlers) and elem name
 
     // dispatch table action handler hashtables
     /**
-     * @uml.property  name="startElementHandlers"
-     * @uml.associationEnd  qualifier="handlerName:java.lang.String net.datamodel.qml.StartElementHandlerAction"
+
+
      */
     protected Hashtable StartElementHandlers; // start element handlers
     /**
-     * @uml.property  name="endElementHandlers"
-     * @uml.associationEnd  qualifier="handlerName:java.lang.String net.datamodel.qml.EndElementHandlerAction"
+
+
      */
     protected Hashtable EndElementHandlers;   // end element handlers 
     /**
-     * @uml.property  name="charDataHandlers"
-     * @uml.associationEnd  qualifier="handlerName:java.lang.String net.datamodel.qml.CharDataHandlerAction"
+
+
      */
     protected Hashtable CharDataHandlers;     // charData handlers
 
     /**
-     * @uml.property  name="defaultHandlers"
-     * @uml.associationEnd  qualifier="constant:java.lang.String net.datamodel.qml.CharDataHandlerAction"
+
+
      */
     protected Hashtable DefaultHandlers;      // default handlers 
 
     // FIX: hurm.. needed?
     /**
-     * @uml.property  name="forceSetXMLHeaderStuff"
+
      */
     private boolean ForceSetXMLHeaderStuff = false;
 
     // have we attempted to load the schema (and ancillary handlers) yet?  
     /**
-     * @uml.property  name="attemptedSchemaLoad"
+
      */
     protected boolean AttemptedSchemaLoad = false;
 
     /**
-     * @uml.property  name="myDocument"
-     * @uml.associationEnd  
+
+
      */
     protected QMLDocument myDocument;
 
     // References to the current working objects
     /**
-     * @uml.property  name="currentNodePath"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.lang.String"
+
+
      */
     protected List CurrentNodePath;
     /**
-     * @uml.property  name="currentNodeList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="org.w3c.dom.Node"
+
+
      */
     protected Vector CurrentNodeList;
     /**
-     * @uml.property  name="elementNamespaceURIList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.lang.String"
+
+
      */
     protected List ElementNamespaceURIList;
 
     // the last object created by a startElementNodeActionHandler
     /**
-     * @uml.property  name="currentObjectList"
+
      */
     protected List CurrentObjectList = new Vector (); 
     /**
-     * @uml.property  name="currentQuantityList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.SemanticObject"
+
+
      */
     protected List CurrentQuantityList = new Vector (); 
     /**
-     * @uml.property  name="currentLocatorList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.Locator"
+
+
      */
     protected List CurrentLocatorList = new Vector (); // The list of current locators for the current quantities
     /**
-     * @uml.property  name="parentQuantityAltValueList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.MatrixQuantity"
+
+
      */
     protected List ParentQuantityAltValueList = new Vector();
 
     // needed to capture internal entities.
     /**
-     * @uml.property  name="notation"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.util.Hashtable"
+
+
      */
     protected HashSet Notation;
     /**
-     * @uml.property  name="unParsedEntity"
-     * @uml.associationEnd  qualifier="name:java.lang.String java.lang.String"
+
+
      */
     protected Hashtable UnParsedEntity;
     /**
-     * @uml.property  name="prefixNamespaceMapping"
-     * @uml.associationEnd  qualifier="prefix:java.lang.String java.lang.String"
+
+
      */
     protected Hashtable PrefixNamespaceMapping;
 //    protected Hashtable Entity = new Hashtable(); // needed? 
 
     /**
-     * @uml.property  name="doctypeObjectAttributes"
-     * @uml.associationEnd  qualifier="constant:java.lang.String java.lang.String"
+
+
      */
     protected Hashtable DoctypeObjectAttributes;
 
     // the relative path to the inputsource this content handler is working on.
     /**
-     * @uml.property  name="relativePath"
+
      */
     protected String RelativePath;
 
     // a counter used for checking adding of multiple values
     /**
-     * @uml.property  name="expectedValues"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.lang.Integer"
+
+
      */
     private List ExpectedValues; // a holder for expected number of values we should parse 
 
     // which schema we have loaded
     /**
-     * @uml.property  name="loadedSchema"
-     * @uml.associationEnd  qualifier="uri:java.lang.String java.lang.String"
+
+
      */
     private Hashtable LoadedSchema; 
 
     // lookup tables holding objects that have id/idref stuff
     /**
-     * @uml.property  name="quantityObj"
-     * @uml.associationEnd  qualifier="QId:java.lang.String net.datamodel.qml.SemanticObject"
+
+
      */
     public Hashtable ObjWithQuantities = new Hashtable();
 //    private Hashtable ComponentObj = new Hashtable();
@@ -279,64 +274,64 @@ implements LexicalHandler
     // (yet) because Im too lazy to make the proper accessor methods.
 
     /**
-     * @uml.property  name="lastComponent"
-     * @uml.associationEnd  readOnly="true"
+
+
      */
     public Component LastComponent; // the last component object we worked on
     /**
-     * @uml.property  name="actualValuesAdded"
+
      */
     public int ActualValuesAdded;
     /**
-     * @uml.property  name="addingAltValues"
+
      */
     public boolean AddingAltValues;
     /**
-     * @uml.property  name="valuesInCDATASection"
+
      */
     public boolean ValuesInCDATASection;
     /**
-     * @uml.property  name="hasCSVValues"
+
      */
     public boolean HasCSVValues;
     /**
-     * @uml.property  name="hasMultipleValues"
+
      */
     public boolean HasMultipleValues;
     /**
-     * @uml.property  name="hasVectorDataType"
+
      */
     public boolean HasVectorDataType;
     /**
-     * @uml.property  name="valuesBuf"
+
      */
     public StringBuffer ValuesBuf;
     /**
-     * @uml.property  name="readingCDATASection"
+
      */
     public boolean ReadingCDATASection = false; // Keeping track of whether or not we are reading in a CDATA section
 
     /**
      * Whether or not to ignore whitespace only char data. This is a BAD thing.  I have been having troubles distinguishing between important whitespace (e.g. char data within a data node) and text nodes that are purely for the layout of the XML document. Right now I use the  CRUDE distinquishing characteristic that fluff (eg. only there for the sake of formatting the output doc) text nodes are all whitespace.
-     * @uml.property  name="ignoreWhitespaceOnlyData"
+
      */
     public boolean IgnoreWhitespaceOnlyData = true;
 
     // patterns..
     /**
-     * @uml.property  name="xMLNamespacePrefixPattern"
+
      */
     protected Pattern XMLNamespacePrefixPattern = Pattern.compile ("(xmlns):?(.*?)", Pattern.DOTALL | Pattern.COMMENTS);
     /**
-     * @uml.property  name="prefixPattern"
+
      */
     protected Pattern PrefixPattern = Pattern.compile ("(.*?):(.*?)", Pattern.DOTALL | Pattern.COMMENTS);
     /**
-     * @uml.property  name="schemaLocationPattern"
+
      */
     protected Pattern SchemaLocationPattern = Pattern.compile ("(.*?)\\s+(.*?)", Pattern.DOTALL | Pattern.COMMENTS);
     /**
-     * @uml.property  name="qMLSchemaPattern"
+
      */
     protected Pattern QMLSchemaPattern = Pattern.compile (".*"+Constants.QML_SCHEMA_NAME, Pattern.COMMENTS);
 
@@ -373,7 +368,7 @@ implements LexicalHandler
 
     /**
      * Record the relative path for the inputSource that the content handler is working on.
-     * @uml.property  name="relativePath"
+
      */
     public void setRelativePath (String path)
     {
@@ -2070,7 +2065,8 @@ logger.debug("   Got schema complexType decl  n:"+name+" b:"+base+" mixed:"+mixe
        ElementTypeAssoc.put(Constants.XML_SCHEMA_NAMESPACE_URI, xmlAssoc);
 
     }
-
+    
+    /*
     private Hashtable attribListToHashtable ( Attributes attrs ) {
 
        Hashtable hash = new Hashtable();
@@ -2084,6 +2080,7 @@ logger.debug("   Got schema complexType decl  n:"+name+" b:"+base+" mixed:"+mixe
          
        return hash;
     }
+    */
 
     //
     // Internal Classes
