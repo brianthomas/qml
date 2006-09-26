@@ -4,8 +4,12 @@
 package net.datamodel.qml.core;
 
 import java.net.URISyntaxException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.datamodel.qml.URN;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author thomas
@@ -13,7 +17,17 @@ import net.datamodel.qml.URN;
  */
 public class URNImpl implements URN 
 {
-
+	
+	   // Fields
+	private static final Logger logger = Logger.getLogger(URNImpl.class);
+	
+	private final static String allowedSSPChars = "[\\w\\d\\-\\_\\@]";
+    private final static Pattern fullPattern = Pattern.compile ("(\\w[\\w\\d]*):("+allowedSSPChars
+    		+"+)\\#([\\w\\d]+)",  Pattern.DOTALL | Pattern.COMMENTS);
+    
+    private final static Pattern noFragPattern = Pattern.compile ("(\\w[\\w\\d]*):("+allowedSSPChars 
+    		+"+)", Pattern.DOTALL | Pattern.COMMENTS);
+    		
 	private String scheme;
 	private String ssp;
 	private String fragment;
@@ -26,7 +40,22 @@ public class URNImpl implements URN
 	public URNImpl (String stringRep) 
 	throws URISyntaxException
 	{
-		// TODO Auto-generated constructor stub
+		logger.debug(" try to construct URN from pattern:["+stringRep+"]"); 
+		Matcher fullMatcher = fullPattern.matcher(stringRep);
+		Matcher noFragMatcher = noFragPattern.matcher(stringRep);
+		if(fullMatcher.matches()) {
+			logger.debug("matched full pattern");
+			this.scheme = fullMatcher.group(1);
+			this.ssp = fullMatcher.group(2);
+			this.fragment = fullMatcher.group(3);
+		} else if(noFragMatcher.matches()) {
+			this.scheme = noFragMatcher.group(1);
+			this.ssp = noFragMatcher.group(2);
+		} else {
+			throw new URISyntaxException (stringRep, "Cant parse string");
+		}
+		
+		logger.debug ("Constructor Got URN of:"+this.toString());
 	}
 	
 	/** Constructor with separate fields for each field in the URN.
@@ -51,15 +80,32 @@ public class URNImpl implements URN
 	public URNImpl (String scheme, String ssp, String fragment)
 	throws URISyntaxException
 	{
+		if (null != ssp) {
+			throw new URISyntaxException ("", "Can't have null value for ssp in constructor of URN");
+		}
 		this.scheme = scheme;
 		this.ssp = ssp;
 		this.fragment = fragment;
+		logger.debug ("Constructor Got URN of:"+toString());
 	}
 	
 	@Override
 	public String toString () {
-		// TODO
-		return "";
+		
+		StringBuilder str = new StringBuilder();
+		if (null != scheme) {
+			str.append(scheme);
+			str.append(":");
+		}
+		
+		str.append(ssp);
+		
+		if (null != fragment) {
+			str.append("#");
+			str.append(fragment);
+		}
+		
+		return str.toString();
 	}
 
 	/* (non-Javadoc)

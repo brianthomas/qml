@@ -764,11 +764,12 @@ implements Quantity
 		return null;
 	}
 
-	public SemanticObject getMember(URN URN) {
+	public SemanticObject getMember (URN urn) 
+	{
 		Iterator<SemanticObject> iter = getMemberList().iterator();
 		while (iter.hasNext()) {
 			SemanticObject obj = iter.next();
-			if (obj.getURN().equals(URN)) {
+			if (obj.getURN().equals(urn)) {
 				return obj; // matched, so return it
 			}
 		}

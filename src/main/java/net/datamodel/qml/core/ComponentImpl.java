@@ -97,7 +97,7 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
 		try {
 			return new URNImpl ((String) ((XMLSerializableField) fieldHash.get(URN_XML_FIELD_NAME)).getValue());
 		} catch (Exception e) {
-			logger.error("Invalid URN for object returned.");
+			logger.error("Invalid URN for object returned:"+e.getMessage());
 			return (URN) null; // shouldnt happen as we only let valid URNs in..
 		}
 	}
@@ -254,11 +254,11 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
 //     fieldOrder.add(0, IMMUTABLE_XML_FIELD_NAME);
       fieldOrder.add(0, ID_XML_FIELD_NAME);
   
-      fieldHash.put(ID_XML_FIELD_NAME, new XMLSerializableField(new String(""), Constants.FIELD_ATTRIB_TYPE));
+      fieldHash.put(ID_XML_FIELD_NAME, new XMLSerializableField("", Constants.FIELD_ATTRIB_TYPE));
 //      fieldHash.put(IMMUTABLE_XML_FIELD_NAME, new XMLSerializableField(new Boolean(false), Constants.FIELD_ATTRIB_TYPE));
       fieldHash.put(UNITS_XML_FIELD_NAME, new XMLSerializableField(new UnitsImpl(""), Constants.FIELD_CHILD_NODE_TYPE));
       fieldHash.put(DATATYPE_XML_FIELD_NAME, new XMLSerializableField(new StringDataType(), Constants.FIELD_CHILD_NODE_TYPE));
-      fieldHash.put(URN_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
+      fieldHash.put(URN_XML_FIELD_NAME, new XMLSerializableField("obj:"+this.hashCode(), Constants.FIELD_ATTRIB_TYPE));
 
     }
 

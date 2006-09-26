@@ -171,7 +171,7 @@ implements SemanticObject {
 		try {
 			return new URNImpl ((String) ((XMLSerializableField) fieldHash.get(URN_XML_FIELD_NAME)).getValue());
 		} catch (Exception e) {
-			logger.error("Invalid URN for object returned.");
+			logger.error("Invalid URN for object returned.:"+e.getMessage());
 			return (URN) null; // shouldnt happen as we only let valid URNs in..
 		}
 	}
@@ -194,11 +194,11 @@ implements SemanticObject {
 		return null;
 	}
 
-	public SemanticObject getMember(URN URN) {
+	public SemanticObject getMember(URN urn) {
 		Iterator<SemanticObject> iter = getMemberList().iterator();
 		while (iter.hasNext()) {
 			SemanticObject obj = iter.next();
-			if (obj.getURN().equals(URN)) {
+			if (obj.getURN().equals(urn)) {
 				return obj; // matched, so return it
 			}
 		}
@@ -323,8 +323,8 @@ implements SemanticObject {
 //       fieldOrder.add(0, IMMUTABLE_XML_FIELD_NAME);
        fieldOrder.add(0, ID_XML_FIELD_NAME);
 
-       fieldHash.put(URN_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE ));
-       fieldHash.put(ID_XML_FIELD_NAME, new XMLSerializableField(new String(""), Constants.FIELD_ATTRIB_TYPE));
+       fieldHash.put(URN_XML_FIELD_NAME, new XMLSerializableField("obj:"+this.hashCode(), Constants.FIELD_ATTRIB_TYPE ));
+       fieldHash.put(ID_XML_FIELD_NAME, new XMLSerializableField("", Constants.FIELD_ATTRIB_TYPE));
 //       fieldHash.put(IMMUTABLE_XML_FIELD_NAME, new XMLSerializableField(new Boolean(false), Constants.FIELD_ATTRIB_TYPE));
        fieldHash.put(MEMBER_XML_FIELD_NAME, new XMLSerializableField(new QuantityContainerImpl(null, false), Constants.FIELD_CHILD_NODE_TYPE));
        
