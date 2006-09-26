@@ -129,4 +129,23 @@ public class URNImpl implements URN
 		return fragment;
 	}
 
+	@Override
+	public boolean equals (Object obj) {
+		if (obj instanceof URNImpl) {
+			URNImpl test = (URNImpl) obj;
+			if (obj.toString().equals(toString()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int code = 5345;
+		return code + toString().hashCode();
+	}
+	
+
 }
