@@ -19,6 +19,7 @@ public class URNImpl implements URN
 {
 	
 	   // Fields
+	private volatile int hashCode = 0; 
 	private static final Logger logger = Logger.getLogger(URNImpl.class);
 	
 	private final static String allowedSSPChars = "[\\w\\d\\-\\_\\@]";
@@ -143,8 +144,14 @@ public class URNImpl implements URN
 
 	@Override
 	public int hashCode() {
-		int code = 5345;
-		return code + toString().hashCode();
+		// cache the hashcode for performance..
+		// Warning: IF we ever allow setting of fields after construction
+		// this will produce some errors!!
+		if (hashCode == 0) {
+			int code = 5345;
+			hashCode = code + toString().hashCode();
+		}
+		return hashCode;
 	}
 	
 
