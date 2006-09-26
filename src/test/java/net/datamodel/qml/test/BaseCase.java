@@ -18,6 +18,9 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import junit.framework.TestCase;
+import net.datamodel.qml.DataType;
+import net.datamodel.qml.Quantity;
+import net.datamodel.qml.Units;
 import net.datamodel.qml.support.QMLDocument;
 import net.datamodel.qml.support.QMLReader;
 
@@ -132,10 +135,34 @@ abstract public class BaseCase extends TestCase {
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean validateFile (String filename)
+	protected static boolean validateFile (String filename)
 	throws Exception 
 	{
 		return validateSource(new InputSource(filename));
+	}
+	
+	/** check basic quantity API on given quantity.
+	 * 
+	 * @param q
+	 * @param id
+	 * @param URNrep
+	 * @param units
+	 * @param datatype
+	 */
+	protected static void validateQuantityAPI (Quantity q, String id, String URNrep, 
+			Units units, DataType datatype)
+	{
+	
+		logger.debug("- validateQuantityAPI (no values check) id:"+q.getId()); 
+		logger.debug("   is id OK? "+q.getId()+" vs "+id); 
+		assertEquals("id OK", q.getId(), id);
+		logger.debug("   is urn OK? ["+q.getURN().toString() +"] vs ["+URNrep+"]"); 
+		assertEquals("URN OK", q.getURN().toString(), URNrep);
+		logger.debug("   are units OK?"); 
+		assertEquals("units OK", q.getUnits().toString(), units.toString());
+		logger.debug("   is datatype OK?"); 
+		assertEquals("datatype OK", q.getDataType().toString(), datatype.toString());
+		
 	}
 	
 	/** All purpose validator method, should work with any SAX level 2 
@@ -145,7 +172,7 @@ abstract public class BaseCase extends TestCase {
 	 * @return
 	 * @throws Exception
 	 */
-	public static boolean validateSource (InputSource inputsource )
+	protected static boolean validateSource (InputSource inputsource )
 	throws Exception 
 	{
 		
@@ -199,7 +226,7 @@ abstract public class BaseCase extends TestCase {
 		return true;
 	}
 	
-	public static QMLDocument loadFile (String inputfile ) throws Exception {
+	protected static QMLDocument loadFile (String inputfile ) throws Exception {
 		
 		logger.debug("Attempting to load file : ["+inputfile+"]");
 			

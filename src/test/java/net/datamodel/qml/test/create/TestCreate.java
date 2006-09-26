@@ -2,7 +2,6 @@ package net.datamodel.qml.test.create;
 
 
 import java.io.StringReader;
-import java.net.URI;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -11,13 +10,16 @@ import java.util.Vector;
 import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.SetDataException;
+import net.datamodel.qml.URN;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.core.AxisFrameImpl;
 import net.datamodel.qml.core.ListQuantityImpl;
 import net.datamodel.qml.core.MatrixQuantityImpl;
+import net.datamodel.qml.core.URNImpl;
 import net.datamodel.qml.datatype.IntegerDataType;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.support.Constants;
@@ -54,7 +56,7 @@ public class TestCreate extends BaseCase {
 	 * @throws SetDataException
 	 * @throws IllegalAccessException
 	 */
-	public static AtomicQuantityImpl createAtomicQuantity (String id, URI uri, Units units, 
+	public static AtomicQuantityImpl createAtomicQuantity (String id, URN urn, Units units, 
 			DataType datatype, String value, List memberList)
 	throws SetDataException, IllegalAccessException
 	{
@@ -63,8 +65,8 @@ public class TestCreate extends BaseCase {
 		
 		// populate all of the known fields to test if they are working
     	q.setId(id);
-    	logger.debug("Got uri:"+uri+" value"+uri.toASCIIString());
-    	q.setURI(uri);
+    	logger.debug("Got urn:"+urn+" value"+urn.toString());
+    	q.setURN(urn);
     	q.setUnits(units);
     	q.setDataType(datatype);
     	q.setValue(value,q.createLocator());
@@ -82,7 +84,7 @@ public class TestCreate extends BaseCase {
 	 * @throws SetDataException
 	 * @throws IllegalAccessException
 	 */ 
-	public static ListQuantityImpl createListQuantity (String id, URI uri, Units units, 
+	public static ListQuantityImpl createListQuantity (String id, URN URN, Units units, 
 			DataType datatype, List values, List memberList)
 	throws SetDataException, IllegalAccessException
 	{
@@ -91,7 +93,7 @@ public class TestCreate extends BaseCase {
 		
 		// populate all of the known fields to test if they are working
     	q.setId(id);
-    	q.setURI(uri);
+    	q.setURN(URN);
     	q.setUnits(units);
     	q.setDataType(datatype);
     	
@@ -107,7 +109,7 @@ public class TestCreate extends BaseCase {
     	return (ListQuantityImpl) addMembers (q, memberList);
 	}
 	
-	public static MatrixQuantityImpl createMatrixQuantity (String id, URI uri, 
+	public static MatrixQuantityImpl createMatrixQuantity (String id, URN URN, 
 			Units units,  DataType datatype, List values, List memberList)
 	throws SetDataException, IllegalAccessException
 	{
@@ -116,7 +118,7 @@ public class TestCreate extends BaseCase {
 		
 		// populate all of the known fields to test if they are working
     	q.setId(id);
-    	q.setURI(uri);
+    	q.setURN(URN);
     	q.setUnits(units);
     	q.setDataType(datatype);
     	
@@ -185,23 +187,22 @@ public class TestCreate extends BaseCase {
 		
 		String id = "atomic1";
 		DataType datatype = createStringDataType(4); 
-		String urirep = "urn:no-semantic-value";
+		String URNrep = "urn:no-semantic-value";
 		Units units = new UnitsImpl("");
 		String value = "data";
 		
 		try {
-			URI uri = new URI (urirep);
-			AtomicQuantityImpl q = createAtomicQuantity(id, uri, units, datatype, value, new Vector());
+			URN urn = new URNImpl (URNrep);
+			AtomicQuantityImpl q = createAtomicQuantity(id, urn, units, datatype, value, new Vector());
 			assertNotNull(q);
 			
 			// check the string representation
 			checkVariousValidXMLRepresentations(q);
 			
-			// exercise the API a bit
-			assertEquals("id OK", q.getId(), id);
-			assertEquals("units OK", q.getUnits().toString(), units.toString());
-			assertEquals("uri OK", q.getURI().toASCIIString(), urirep);
-			assertEquals("datatype OK", q.getDataType().toString(), datatype.toString());
+			// check the API a bit
+			validateQuantityAPI((Quantity) q, id, URNrep, units, datatype);
+			
+			// check the value of the Atomic Q
 			assertEquals("value OK", q.getValue(), value);
 			
 		} catch (Exception e) {
@@ -221,7 +222,7 @@ public class TestCreate extends BaseCase {
 		logger.info("testCreateSimpleListQuantity");
 		
 		String id = "list1";
-		String urirep = "urn:no-semantic-value";
+		String URNrep = "urn:no-semantic-value";
 		DataType datatype = createStringDataType(5); 
 		Units units = new UnitsImpl("");
 		List values = new Vector ();
@@ -232,8 +233,8 @@ public class TestCreate extends BaseCase {
 		
 		try {
 			
-			URI uri = new URI (urirep);			
-			ListQuantityImpl q = createListQuantity(id, uri, units, datatype, values, new Vector());
+			URN URN = new URNImpl (URNrep);			
+			ListQuantityImpl q = createListQuantity(id, URN, units, datatype, values, new Vector());
 
 			assertNotNull(q);
 			
@@ -241,11 +242,7 @@ public class TestCreate extends BaseCase {
 			checkVariousValidXMLRepresentations(q);
 			
 			// check the API a bit
-			assertEquals("id OK", q.getId(), id);
-			assertEquals("uri OK", q.getURI().toASCIIString(), urirep);
-			assertEquals("units OK", q.getUnits().toString(), units.toString());
-			assertEquals("datatype OK", q.getDataType().toString(), datatype.toString());
-			
+			validateQuantityAPI((Quantity) q, id, URNrep, units, datatype);
 			
 			// Order of injection should match our list, iterate thru both and compare
 			// nothing has been changed/dropped or inserted erroneously
@@ -281,7 +278,7 @@ public class TestCreate extends BaseCase {
 		String id = "matrix1";
 		DataType datatype = createStringDataType(5); 
 		Units units = new UnitsImpl("");
-		String urirep = "urn:no-semantic-meaning";
+		String URNrep = "urn:no-semantic-meaning";
 		List values = new Vector ();
 		values.add("data1");
 		values.add("data2");
@@ -295,10 +292,10 @@ public class TestCreate extends BaseCase {
 		
 		try {
 		
-			URI uri = new URI (urirep);
+			URN URN = new URNImpl (URNrep);
 			// create the axisFrame and (1) member axis/dimension for the matrix
 			AxisFrame af = new AxisFrameImpl();
-			ListQuantityImpl axis1 = createListQuantity("axis1", uri, new UnitsImpl(""), createIntegerDataType(1, false), axisValues, new Vector() );
+			ListQuantityImpl axis1 = createListQuantity("axis1", URN, new UnitsImpl(""), createIntegerDataType(1, false), axisValues, new Vector() );
 			af.addAxis(axis1);
 			
 			// Now the members which bbelong to the parent (matrix) will include our
@@ -306,17 +303,14 @@ public class TestCreate extends BaseCase {
 			List members = new Vector();
 			members.add(af);
 			
-			MatrixQuantityImpl q = createMatrixQuantity(id, uri, units, datatype, values, members);
+			MatrixQuantityImpl q = createMatrixQuantity(id, URN, units, datatype, values, members);
 			assertNotNull(q);
 			
 			// check the string representation 
 			checkVariousValidXMLRepresentations(q);
 			
 			// check the API a bit
-			assertEquals("id OK", q.getId(), id);
-			assertEquals("uri OK", q.getURI().toASCIIString(), urirep);
-			assertEquals("units OK", q.getUnits().toString(), units.toString());
-			assertEquals("datatype OK", q.getDataType().toString(), datatype.toString());
+			validateQuantityAPI((Quantity) q, id, URNrep, units, datatype);
 			
 			logger.debug("check axisframe");
 			List actualMembers = q.getMemberList();  
@@ -372,13 +366,14 @@ public class TestCreate extends BaseCase {
 		// create a matrix quantity
 		logger.info("testCreateSimple2DMatrixQuantity");
 		
+		logger.debug("create basic meta-data");
 		String id = "matrix2";
 		DataType datatype = createStringDataType(5); 
 		Units units = new UnitsImpl("");
 		List values = new Vector ();
-		String urirep_no_meaning = "urn:no-semantic-meaning";
-		String urirep_x = "urn:x-position";
-		String urirep_y = "urn:y-position";
+		String URNrep_no_meaning = "urn:no-semantic-meaning";
+		String URNrep_x = "urn:x-position";
+		String URNrep_y = "urn:y-position";
 		values.add("data1");
 		values.add("data2");
 		values.add("data3");
@@ -387,6 +382,7 @@ public class TestCreate extends BaseCase {
 		values.add("data6");
 		
 		// create our 2D axis frame
+		logger.debug("create axisframe");
 		List axisValues1 = new Vector ();
 		axisValues1.add("1");
 		axisValues1.add("2");
@@ -398,13 +394,13 @@ public class TestCreate extends BaseCase {
 		
 		try {
 		
-			URI uri_no = new URI (urirep_no_meaning);
-			URI uri1 = new URI (urirep_x);
-			URI uri2 = new URI (urirep_y);
+			URN urn_no = new URNImpl (URNrep_no_meaning);
+			URN urn1 = new URNImpl (URNrep_x);
+			URN urn2 = new URNImpl (URNrep_y);
 			// create the axisFrame and (1) member axis/dimension for the matrix
 			AxisFrame af = new AxisFrameImpl();
-			ListQuantityImpl axis1 = createListQuantity("axis1", uri1, new UnitsImpl(""), createIntegerDataType(1, false), axisValues1, new Vector() );
-			ListQuantityImpl axis2 = createListQuantity("axis2", uri2, new UnitsImpl(""), createStringDataType(1), axisValues2, new Vector() );
+			ListQuantityImpl axis1 = createListQuantity("axis1", urn1, new UnitsImpl(""), createIntegerDataType(1, false), axisValues1, new Vector() );
+			ListQuantityImpl axis2 = createListQuantity("axis2", urn2, new UnitsImpl(""), createStringDataType(1), axisValues2, new Vector() );
 			af.addAxis(axis1);
 			af.addAxis(axis2);
 			
@@ -413,17 +409,15 @@ public class TestCreate extends BaseCase {
 			List members = new Vector();
 			members.add(af);
 			
-			MatrixQuantityImpl q = createMatrixQuantity(id, uri_no, units, datatype, values, members);
+			MatrixQuantityImpl q = createMatrixQuantity(id, urn_no, units, datatype, values, members);
 			assertNotNull(q);
 			
 			// check the string representation 
+			logger.debug("check representations.."); 
 			checkVariousValidXMLRepresentations(q);
 			
 			// check the API a bit
-			assertEquals("id OK", q.getId(), id);
-			assertEquals("uri OK", q.getURI().equals(uri_no));
-			assertEquals("units OK", q.getUnits().toString(), units.toString());
-			assertEquals("datatype OK", q.getDataType().toString(), datatype.toString());
+			validateQuantityAPI((Quantity) q, id, URNrep_no_meaning, units, datatype);
 			
 			logger.debug("check axisframe");
 			List actualMembers = q.getMemberList();  
