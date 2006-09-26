@@ -59,7 +59,7 @@ implements SemanticObject {
     // Fields
 	private static final String MEMBER_XML_FIELD_NAME = "member";
     private static final String ID_XML_FIELD_NAME = "qid";
-    private static final String URN_XML_FIELD_NAME = "URN";
+    private static final String URN_XML_FIELD_NAME = "urn";
     
 //    private static final String IMMUTABLE_XML_FIELD_NAME = new String("immutable");
 

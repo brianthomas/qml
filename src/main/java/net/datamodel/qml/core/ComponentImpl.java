@@ -54,11 +54,11 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
 	private static final Logger logger = Logger.getLogger(ComponentImpl.class);
 
     /* XML attribute names */
-    private static final String DATATYPE_XML_FIELD_NAME = new String("dataType");
-    private static final String ID_XML_FIELD_NAME = new String("qid");
+    private static final String DATATYPE_XML_FIELD_NAME = "dataType";
+    private static final String ID_XML_FIELD_NAME = "qid";
 //    private static final String IMMUTABLE_XML_FIELD_NAME = new String("immutable");
-    private static final String UNITS_XML_FIELD_NAME = new String("units");
-    private static final String URN_XML_FIELD_NAME = "URN";
+    private static final String UNITS_XML_FIELD_NAME = "units";
+    private static final String URN_XML_FIELD_NAME = "urn";
     
     // Methods
     //
