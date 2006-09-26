@@ -6,7 +6,7 @@
       xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
       xmlns="http://www.data-model.net/Quantity"
       size="12"
-      uri="urn:velocity"
+      urn="urn:velocity"
 >
    <vector>
       <component name="xVelocity">

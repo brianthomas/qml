@@ -11,7 +11,7 @@
       xmlns="http://noplace.org/MyDocument" 
 >
     <somenode/>
-    <velocity uri="urn:velocity" name="xVel" description="x component velocity">
+    <velocity urn="urn:velocity" name="xVel" description="x component velocity">
        <note>Measured by instrument CCD1A</note>
        <q:units>cm sec^-1</q:units>
        <q:float width="5" precision="1"/>

@@ -10,25 +10,25 @@
       xmlns="http://noplace.org/Ellipse"
       xsi:schemaLocation="http://noplace.org/MyDocument MyDocument.xsd"
 >
-   <ellipse uri="urn:ellipse-region">
-       <center uri="urn:center">
+   <ellipse urn="urn:ellipse-region">
+       <center urn="urn:center">
            <q:vector>
-              <q:component uri="urn:x_position-coordinate" name="x pos"><q:units>deg</q:units></q:component>
-              <q:component uri="urn:y_position-coordinate" name="y pos"><q:units>deg</q:units></q:component>
+              <q:component urn="urn:x_position-coordinate" name="x pos"><q:units>deg</q:units></q:component>
+              <q:component urn="urn:y_position-coordinate" name="y pos"><q:units>deg</q:units></q:component>
            </q:vector>
            <q:value>10 10</q:value>
        </center>
-       <radius uri="urn:radius-of-ellipse">
+       <radius urn="urn:radius-of-ellipse">
           <q:units>deg</q:units>
           <q:integer width="2"/>
           <q:value>10</q:value>
        </radius>
-       <minorRadius uri="urn:minor-radius">
+       <minorRadius urn="urn:minor-radius">
           <q:units>deg</q:units>
           <q:integer width="2"/>
           <q:value>5</q:value>
        </minorRadius>
-       <positionAngle uri="urn:position-angle">
+       <positionAngle urn="urn:position-angle">
           <q:units>rad</q:units>
           <q:float width="3" precision="1"/>
           <q:value>1.2</q:value>
