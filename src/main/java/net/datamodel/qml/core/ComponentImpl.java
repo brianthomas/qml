@@ -253,6 +253,7 @@ public class ComponentImpl extends XMLSerializableObjectImpl implements Componen
       fieldOrder.add(0, UNITS_XML_FIELD_NAME);
 //     fieldOrder.add(0, IMMUTABLE_XML_FIELD_NAME);
       fieldOrder.add(0, ID_XML_FIELD_NAME);
+      fieldOrder.add(0, URN_XML_FIELD_NAME);
   
       fieldHash.put(ID_XML_FIELD_NAME, new XMLSerializableField("", Constants.FIELD_ATTRIB_TYPE));
 //      fieldHash.put(IMMUTABLE_XML_FIELD_NAME, new XMLSerializableField(new Boolean(false), Constants.FIELD_ATTRIB_TYPE));

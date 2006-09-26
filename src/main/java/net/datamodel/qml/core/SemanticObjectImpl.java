@@ -322,6 +322,7 @@ implements SemanticObject {
        fieldOrder.add(0, MEMBER_XML_FIELD_NAME);
 //       fieldOrder.add(0, IMMUTABLE_XML_FIELD_NAME);
        fieldOrder.add(0, ID_XML_FIELD_NAME);
+       fieldOrder.add(0, URN_XML_FIELD_NAME);
 
        fieldHash.put(URN_XML_FIELD_NAME, new XMLSerializableField("obj:"+this.hashCode(), Constants.FIELD_ATTRIB_TYPE ));
        fieldHash.put(ID_XML_FIELD_NAME, new XMLSerializableField("", Constants.FIELD_ATTRIB_TYPE));
