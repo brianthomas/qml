@@ -35,7 +35,9 @@ package net.datamodel.qml;
 /**
  * Interface for classes which provide value mappings (algorithms which generate values).
  */
-public interface ValueMapping extends ValueContainer 
+// place-holder for when mapping is really implemented
+public interface ValueMapping 
+extends ValueContainer 
 {
-   // TDB: what attributes/fields needed? invert param? What else??
+   // TODO: what attributes/fields needed? invert param? What else??
 }

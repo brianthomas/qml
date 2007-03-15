@@ -31,15 +31,15 @@ package net.datamodel.qml.support.handlers;
 // import QML stuff
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.core.ListQuantityImpl;
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 // Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class ValueStartElementHandlerFunc implements StartElementHandlerAction {
-       public Object action ( QMLDocumentHandler handler, String namespaceURI, 
+public class ValueStartElementHandlerFunc implements StartElementHandler {
+       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 

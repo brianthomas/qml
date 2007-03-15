@@ -34,590 +34,555 @@ package net.datamodel.qml.core;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithValues;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.locator.ListLocatorImpl;
 import net.datamodel.qml.support.Specification;
+import net.datamodel.xssp.ReferenceableXMLSerializableObject;
+import net.datamodel.xssp.XMLFieldType;
+import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
 
 import org.apache.log4j.Logger;
 
 /**
- * Container class for values held explicitly.
+ * Container class for values held explicitly (e.g. not in a mapping algorithm).
+ * 
  * Right now, we are allowing any old Java object as values. It may be that we
  * will want to be more restrictive (e.g. only String, int/Integer, float/Float, etc)
  * objects to be allowed to be held by this class. In this fashion, we can 
  * automatically not have to worry about the user passing us wierd objects to
- * be held by the quantity..and allows us in the future we to be checking that the 
- * passed information conforms to the declared dataType of the parent quantity.
+ * be held by the parent ObjectWithValues..and allows us in the future 
+ * to check that the passed information conforms to the declared dataType of 
+ * the parent ObjectWithValues.
  */
-public class ListValueContainerImpl extends XMLSerializableObjectImpl 
-implements Cloneable,ValueContainer
+public class ListValueContainerImpl 
+extends AbstractXMLSerializableObject 
+implements ValueContainer
 {
-	
+
 	private static final Logger logger = Logger.getLogger(ListValueContainerImpl.class);
+
+	/** A list of 'active' locators which point to this container. 
+	 */
+	private List<Locator> locatorList = new Vector<Locator>();
+
+	// XML attribute name 
+	protected static final String valuesFieldName = "values";
+
+	// parent object to which this container belongs
+	private ObjectWithValues parent;
 	
-    // Fields..
+	// couple of arrays to store the actual values
+	private Object[] valueList;
+	private byte [] isNoDataValue;
 
-    /* XML attribute names */
-    protected static final String VALUES_XML_FIELD_NAME = new String("values");
+	/** The present capacity of this container.
+	 */
+	private int capacity;
 
-    // other fields..
-    // parent quantity to which this container belongs
-    /**
-     * @uml.property  name="parentQuantity"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
-    protected Quantity parentQuantity;
+	/** The maximum index which is a utilized location.
+	 */
+	protected int maxUtilizedIndex;
 
-    /**
-     * @uml.property  name="valueList" multiplicity="(0 -1)" dimension="1"
-     */
-    private Object[] valueList;
-    /**
-     * @uml.property  name="isNoDataValue" multiplicity="(0 -1)" dimension="1"
-     */
-    private byte [] isNoDataValue;
-    
-    /**
-     * The present capacity of this container.
-     * @uml.property  name="capacity"
-     */
-    private int capacity;
+	/** */
+	private boolean cdataSerialization = false;
+
+	/** */
+	private boolean taggedValuesSerialization = true;
+
+	// Constructors
+
+	// Constructor
+	/** Vanilla constructor. Will create a list with default capacity
+	 * (Specification.getDefaultValueContainerCapacity() 
+	 */
+	public ListValueContainerImpl ( ObjectWithValues parent ) 
+	{
+		this(parent, Specification.getInstance().getDefaultValueContainerCapacity());
+	}
+
+	/** Constuct the container with a number of pre-allocated capacity of the list.
+	 */
+	public ListValueContainerImpl ( ObjectWithValues parent, int capacity) 
+	{ 
+		logger.debug("New ListValueContainerImpl with capacity of"+capacity);
+		this.parent = parent;
+		if(capacity < 1)
+			capacity = Specification.getInstance().getDefaultValueContainerCapacity();
+		
+		setXMLNodeName("values");
+		
+		// FIXME: Code badness..This is onlY here to kludge basicXMLWriter 
+		// into seeing we have pcdata
+		addField("PCDATA", "pcdataExists", XMLFieldType.PCDATA);
+
+		resetValues(capacity);
+
+	}
+
 	/**
-     * The maximum index which is a utilized location.
-     * @uml.property  name="maxUtilizedIndex"
-     */
-    protected int maxUtilizedIndex;
-
-    /**
-     * @uml.property  name="cdataSerialization"
-     */
-    private boolean cdataSerialization;
-    /**
-     * @uml.property  name="taggedValuesSerialization"
-     */
-    private boolean taggedValuesSerialization;
-
-    // Constructors
-
-    // Constructor
-    /** Vanilla constructor. Will create a list with default capacity
-     * (Specification.getDefaultValueContainerCapacity() 
-     */
-    public ListValueContainerImpl ( Quantity parent ) 
-    {
-    	logger.debug("New ListValueContainerImpl");
-       parentQuantity = parent;
-       int capacity = Specification.getInstance().getDefaultValueContainerCapacity();
-       init(capacity);
-    }
-
-    /** Constuct the container with a number of pre-allocated capacity of the list.
-     */
-    public ListValueContainerImpl ( Quantity parent, int capacity) 
-    { 
-    	logger.debug("New ListValueContainerImpl with special capacity of"+capacity);
-       parentQuantity = parent;
-       if(capacity < 1)
-          capacity = Specification.getInstance().getDefaultValueContainerCapacity();
-       init(capacity);
-    }
-
-    // Public Operations
-    //
-    
-    /**
-     * Get the maximum value of the list index which has been used.
-     * @return  int
-     * @uml.property  name="maxUtilizedIndex"
-     */
-    public int getMaxUtilizedIndex () {
-    	return maxUtilizedIndex;
-    }
-    
-    /**
-     * Set the value at the specified location.
-     * @param obj Byte value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param locator Locator object to indicate where to set the value.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
-     */
-    public void setValue (Byte obj, Locator locator)
-       throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
-    {
-         setValue((Object) obj, locator);
-    }
-
-    /**
-     * Set the value at the specified location.
-     * @param obj Double value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param locator Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
-     */
-    public void setValue (Double obj, Locator locator)
-       throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
-    {
-         setValue((Object) obj, locator);
-    }
-
-    /**
-     * Set the value at the specified location.
-     * @param obj Float value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param locator Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
-     */
-    public void setValue (Float obj, Locator locator)
-       throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
-    {
-         setValue((Object) obj, locator);
-    }
-
-    /**
-     * Set the value at the specified location.
-     * @param obj Integer value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param locator Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
-     */
-    public void setValue (Integer obj, Locator locator)
-       throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
-    {
-         setValue((Object) obj, locator);
-    }
-
-    /**
-     * Set the value at the specified location.
-     * @param obj Short value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param locator Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
-     */
-    public void setValue (Short obj, Locator locator)
-       throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
-    {
-         setValue((Object) obj, locator);
-    }
-
-    /**
-     * Set the value at the specified location.
-     * @param obj (String) value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param locator (Locator) object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
-     */
-    public void setValue (String obj, Locator locator)
-       throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
-    {
-         setValue((Object) obj, locator);
-    }
-
-    /**
-     * Get the value at the specified location. For atomic quantities  only one location will exist.
-     * @throws IllegalArgumentException when a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @return Object value at requested location.
-     */
-    public Object getValue ( Locator locator ) 
-       throws IllegalArgumentException, NullPointerException
-    {
-
-       if(locator == null)
-       {
-          throw new NullPointerException("getValue passed null locator.");
-       }
-
-       // quick check to see if the locator is kosher, however
-       if (locator.getParentQuantity() != this.parentQuantity)
-       {
-           throw new  IllegalArgumentException("Can't getValue with locator "+locator+" does not belong to quantity "+this.parentQuantity);
-       }
-       
-       logger.debug("ValueContainer getValue has value:"+valueList[locator.getListIndex()]+" at list index"+locator.getListIndex()); 
-
-       return valueList[locator.getListIndex()];
-
-    }
-
-    /*
-     * Get a list of all values held by the container.
-     * @return List of values held by this quantity.
-     */
-    public List getValueList ()
-    {
-    	logger.debug("ListValueContainer getValueList() returns"+valueList.toString());
-       return java.util.Arrays.asList(valueList);
-    }
-
-    /**
-     * Set the capacity of this container. Calling this method will re-initialize the values held by the container list. 
-     * @param new_capacity  the new capacity of the container.
-     * @throws IllegalArgumentException  if a value of 0 or less is passed.
-     * @uml.property  name="capacity"
-     */
-    public void setCapacity (int new_capacity) 
-    throws IllegalArgumentException
-    {
-
-       if(capacity <= 0) 
-          throw new IllegalArgumentException("setCapacity() value <= 0 is illegal.");
-
-      byte[] newBytes = new byte[new_capacity];
-      Object[] newObjs = new Object[new_capacity];
-
-      int size = (capacity < new_capacity) ? capacity : new_capacity;
-      for (int i = 0; i < size; i++) {
-         newBytes[i] = isNoDataValue[i];
-         newObjs[i] = valueList[i];
-      }
-
-      isNoDataValue = newBytes;
-      valueList = newObjs;
-
-      capacity = new_capacity;
-
-      // since we could have trimmed off some values, we
-      // need to insure this is recorded properly
-      if(maxUtilizedIndex > new_capacity)
-          maxUtilizedIndex = new_capacity;
-
-    }
-
-    /**
-     * Get the number of locations available. This isn't the same as the number of values which are actually held. Null values within the container reserve locations, but don't count as values.
-     * @return  int value of number of locations.
-     * @uml.property  name="capacity"
-     */
-    public int getCapacity ( )
-    {
-       return capacity;
-    }
-
-    /** Get the number of values (datum) held.
-     *  @return int value of number of datum.
-     */
-    public int getNumberOfValues ( ) {
-       return maxUtilizedIndex + 1;
-    }
-
-    /** Set the number of values held.
-     * @throws IllegalArgumentException if a value of less than 0 or greater than the number of locations is passed.
-     */
-    public void setNumberOfValues (int value ) 
-    throws IllegalArgumentException
-    {
-
-       if(value < 1)
-          throw new IllegalArgumentException("setNumberOfValues() < 1 is illegal.");
-       if(value > capacity)
-          throw new IllegalArgumentException("setNumberOfValues() value > number of locations in list.");
-
-       maxUtilizedIndex = value -1;
-
-    }
-
-   /** Utility method to set the value at the first location.
-     * @param obj (Object) value to set. A null value means "noData".
-     * @throws IllegalAccessException when called for mapping-based containers.
-     */
-    public void setFirstValue ( Object obj)
-       throws IllegalAccessException
-    {
-
-       if (obj == null) {
-          isNoDataValue[0] = 1;
-       } else { 
-          isNoDataValue[0] = 0;
-       }
-
-       if( maxUtilizedIndex < 0 )
-          maxUtilizedIndex = 0;
-
-       valueList[0] = obj;
-
-    }
-
-    /**
-     * Get the first value of the quantity. This is a utility method
-     * for getValue("Location origin").
-     * @return Object at the first location.
-     */
-    public Object getFirstValue ( )
-    {
-       return valueList[0];
-    }
-
-    /**
-     * Create a locator for this container.   
-     * @return Locator 
-     */
-    public Locator createLocator ( ) {
-        return parentQuantity.createLocator();
-    }
-
-    /**Make a deep copy of this Data object
-     */
-    public Object clone() throws CloneNotSupportedException {
-       ListValueContainerImpl cloneObj = (ListValueContainerImpl) super.clone();
-       synchronized (this) {
-          synchronized (cloneObj) {
-// FIX? what else?
-             cloneObj.parentQuantity = parentQuantity;
-          }
-       }
-       return cloneObj;
-    }
-
-   /**
-     * Set whether or not to output value(s) as CDATASection(s).
-     */
-    public void setCDATASerialization (boolean value) {
-       cdataSerialization = value;
-    }
-
-    /**
-     * Determine whether or not value(s) are output as CDATASection(s).
-     */
-    public boolean getCDATASerialization ( ) {
-       return cdataSerialization;
-    }
-
-    /**
-     * Whether to serialize values as tagged or space-delimited.
-     * @uml.property  name="taggedValuesSerialization"
-     */
-    public void setTaggedValuesSerialization (boolean value) {
-       taggedValuesSerialization = value;
-    }
-
-    /**
-     * Determine whether values are serialized as tagged or space-delimited.
-     * @uml.property  name="taggedValuesSerialization"
-     */
-    public boolean getTaggedValuesSerialization ( ) {
-       return taggedValuesSerialization;
-    }
-
-    // Protected Ops
-
-    /**
-     * @return boolean value of whether or not one or more an xml nodes were written.
-     */
-    protected boolean basicXMLWriter (
-                                      Hashtable idTable,
-                                      Hashtable prefixTable,
-                                      Writer outputWriter,
-                                      String indent,
-                                      String newNodeNameString, 
-                                      boolean doFirstIndent
-                                    )
-    throws IOException
-    {
-
-       // serialize it
-       // If there are fewer than 2 values, serialize with NO node name
-       // so that only the child "value" will appear instead of <values><value>..</value></values>
-       if(getNumberOfValues() < 2 && newNodeNameString == null)
-          return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, "", doFirstIndent);
-       else
-          return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, newNodeNameString, doFirstIndent );
-
-    }
-
-   /** returns true if there were child nodes to handle */
-    protected boolean handleChildNodes(Hashtable idTable, Hashtable prefixTable, Writer outputWriter, String nodeNameString,
-                                       String indent, Vector childObjs, XMLSerializableField PCDATA)
-    throws IOException
-    {
-
-       Specification spec = Specification.getInstance();
-       boolean writeTaggedValues = true;
-       int serialize_style = spec.getSerializeValuesStyle();
-       if(serialize_style == Constants.VALUE_SERIALIZE_SPACE) 
-          writeTaggedValues = false;
-       else if(serialize_style == Constants.VALUE_SERIALIZE_TAGGED 
-    		   || serialize_style == Constants.VALUE_SERIALIZE_CONTAINER )
-          writeTaggedValues = taggedValuesSerialization;
-
-       // close the opening tag
-       if (nodeNameString != null && !nodeNameString.equals(""))
-       {
-           outputWriter.write(">");
-
-/*
-           if (Specification.getInstance().isPrettyOutput() && writeTaggedValues)
-           {
-               String newindent = indent + spec.getPrettyOutputIndentation();
-               outputWriter.write(Constants.NEW_LINE+newindent);
-           }
-*/
-       }
-
-       Object noDataValue = parentQuantity.getDataType().getNoDataValue();
-       String noDataValueStr = entifyString(noDataValue.toString());
-
-       // we write tagged values if requested OR we only have ONE value
-       // (the latter is because we set the master nodeName to "", so its
-       // not being written out :P
-       if(writeTaggedValues || maxUtilizedIndex == 0) 
-       {
-
-
-          String prefix = getXMLNodePrefix(prefixTable);
-
-          String nodeName = Constants.TAGGED_DATA_NODE_NAME;
-          if(prefix != null && !prefix.equals("") && nodeName != null)
-              nodeName = prefix + ":" + nodeName;
-
-          for (int i = 0; i <= maxUtilizedIndex; i++) 
-          {
-
-             outputWriter.write("<"+nodeName+">");
-   
-             if(cdataSerialization)
-                outputWriter.write("<![CDATA[");
-   
-             Object value = valueList[i];
-             if(isNoDataValue[i] == 1 || value == null)
-                outputWriter.write(noDataValueStr);
-             else
-                outputWriter.write(entifyString(value.toString()));
-   
-             if(cdataSerialization)
-                outputWriter.write("]]>");
-               
-             outputWriter.write("</"+nodeName+">");
-   
-          } 
-
-       } else { 
-
-          String separator = Constants.VALUE_SEPARATOR_STRING;
-
-          if(cdataSerialization)
-             outputWriter.write("<![CDATA[");
-
-          for (int i = 0; i <= maxUtilizedIndex; i++) 
-          {
-
-             Object value = valueList[i];
-             if(isNoDataValue[i] == 1 || value == null)
-                outputWriter.write(noDataValueStr);
-             else
-                outputWriter.write(entifyString(value.toString()));
-
-             if(i != maxUtilizedIndex)
-                outputWriter.write(separator);
-          } 
-
-          if(cdataSerialization)
-             outputWriter.write("]]>");
-
-       }
-
-       return true;
-    }
-
-    /** A special protected method used by constructor methods to
-     *  conviently build the XML attribute list for a given class.
-     */
-    protected void init (int numOfLocations)
-    {
-
-       resetFields();
-
-       xmlNodeName = "values";
-       cdataSerialization = false;
-       taggedValuesSerialization = true;
-
-       // Code badness..This is onlY here to kludge basicXMLWriter into seeing we have pcdata
-       fieldOrder.add("PCDATA");
-       fieldHash.put("PCDATA", new XMLSerializableField("pcdataExists", Constants.FIELD_PCDATA_TYPE));
-
-       resetValues(numOfLocations);
-
-    }
-
-    /** reset the values within the container. */
-    protected void resetValues (int numOfLocations) 
-    {
-
-       isNoDataValue = new byte[numOfLocations];
-       valueList = new Object[numOfLocations];
-
-       capacity = numOfLocations;
-       maxUtilizedIndex = -1;
-
-    }
-
-    /**
-     * Set the value at the specified location.
-     * @param Object value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based containers.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
-     */
-    protected void setValue (Object obj, Locator locator)
-       throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
-    {
-
-       if (obj == null || locator == null)
-       {
-           throw new NullPointerException("Error: setValue - was passed a null object/locator parameter.");
-       }
-
-       if (locator.getParentQuantity() != this.parentQuantity)
-       {
-           throw new  IllegalArgumentException("Can't setValue with locator "+locator+" does not belong to quantity "+this.parentQuantity);
-       }
-
-       // ugh. Java wont let us set an unpopulated location. Check
-       // to see size (number of populated locations) in order to
-       // know which method to call
-       int index = locator.getListIndex();
-
-       if (obj == null) {
-          isNoDataValue[index] = 1;
-       } else {
-          isNoDataValue[index] = 0;
-       }
-
-       if( index > maxUtilizedIndex)
-          maxUtilizedIndex = index;
-
-       if ( index > getCapacity())
-          setCapacity(index * 2);
-
-       valueList[index] = obj;
-
-    }
-
-// FIX
-public void dump () {
-    for (int i = 0; i <= maxUtilizedIndex; i++) {
-       System.err.println(" data : "+valueList[i]);
-    }
-}
+	 * Get the maximum value of the list index which has been used.
+	 * @return  int
+	 */
+	// TODO: determine if this should be protected or in interface
+	public final int getMaxUtilizedIndex () {
+		return maxUtilizedIndex;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.Byte, net.datamodel.qml.Locator)
+	 */
+	public final void setValue (Byte obj, Locator locator)
+	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
+	{
+		setValue((Object) obj, locator);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.Double, net.datamodel.qml.Locator)
+	 */
+	public final void setValue (Double obj, Locator locator)
+	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
+	{
+		setValue((Object) obj, locator);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.Float, net.datamodel.qml.Locator)
+	 */
+	public void setValue (Float obj, Locator locator)
+	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
+	{
+		setValue((Object) obj, locator);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.Integer, net.datamodel.qml.Locator)
+	 */
+	public final void setValue (Integer obj, Locator locator)
+	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
+	{
+		setValue((Object) obj, locator);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.Short, net.datamodel.qml.Locator)
+	 */
+	public final void setValue (Short obj, Locator locator)
+	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
+	{
+		setValue((Object) obj, locator);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.String, net.datamodel.qml.Locator)
+	 */
+	public void setValue (String obj, Locator locator)
+	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
+	{
+		setValue((Object) obj, locator);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#getValue(net.datamodel.qml.Locator)
+	 */
+	public final Object getValue ( Locator locator ) 
+	throws IllegalArgumentException, NullPointerException
+	{
+
+		if(locator == null)
+		{
+			throw new NullPointerException("getValue passed null locator.");
+		}
+
+		// quick check to see if the locator is kosher, however
+		if (locator.getParent() != this.parent)
+		{
+			throw new  IllegalArgumentException("Can't getValue with locator "+locator+" does not belong to ObjectWithValues "+this.parent);
+		}
+
+		logger.debug("ValueContainer getValue has value:"+valueList[locator.getListIndex()]+" at list index"+locator.getListIndex()); 
+
+		return valueList[locator.getListIndex()];
+
+	}
+
+	/*
+	 * Get a list of all values held by the container.
+	 * @return List of values held by this ObjectWithValues.
+	 */
+	public List<Object> getValues ()
+	{
+		logger.debug("ListValueContainer getValueList() returns"+valueList.toString());
+		return java.util.Arrays.asList(valueList);
+	}
+
+	/**
+	 * Set the capacity of this container. Calling this method will re-initialize 
+	 * the values held by the container list. 
+	 * 
+	 * @param new_capacity  the new capacity of the container.
+	 * @throws IllegalArgumentException  if a value of 0 or less is passed.
+	 * @uml.property  name="capacity"
+	 */
+	public void setCapacity (int new_capacity) 
+	throws IllegalArgumentException
+	{
+
+		if(capacity <= 0) 
+			throw new IllegalArgumentException("setCapacity() value <= 0 is illegal.");
+
+		byte[] newBytes = new byte[new_capacity];
+		Object[] newObjs = new Object[new_capacity];
+
+		int size = (capacity < new_capacity) ? capacity : new_capacity;
+		for (int i = 0; i < size; i++) {
+			newBytes[i] = isNoDataValue[i];
+			newObjs[i] = valueList[i];
+		}
+
+		isNoDataValue = newBytes;
+		valueList = newObjs;
+
+		capacity = new_capacity;
+
+		// since we could have trimmed off some values, we
+		// need to insure this is recorded properly
+		if(maxUtilizedIndex > new_capacity)
+			maxUtilizedIndex = new_capacity;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#getCapacity()
+	 */
+	public final int getCapacity () { return capacity; }
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ValueContainer#getNumberOfValues()
+	 */
+	public final int getNumberOfValues() { return maxUtilizedIndex + 1; }
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ValueContainer#setNumberOfValues(int)
+	 */
+	public final void setNumberOfValues (int value ) 
+	throws IllegalArgumentException
+	{
+
+		if(value < 1)
+			throw new IllegalArgumentException("setNumberOfValues() < 1 is illegal.");
+		if(value > capacity)
+			throw new IllegalArgumentException("setNumberOfValues() value > number of locations in list.");
+
+		maxUtilizedIndex = value -1;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ValueContainer#setFirstValue(java.lang.Object)
+	 */
+	public final void setFirstValue ( Object obj)
+	throws IllegalAccessException
+	{
+
+		if (obj == null) {
+			isNoDataValue[0] = 1;
+		} else { 
+			isNoDataValue[0] = 0;
+		}
+
+		if( maxUtilizedIndex < 0 )
+			maxUtilizedIndex = 0;
+
+		valueList[0] = obj;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ValueContainer#getFirstValue()
+	 */
+	public final Object getFirstValue ( ) { return valueList[0]; }
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#createLocator()
+	 */
+	public Locator createLocator ( ) {
+		Locator loc = new ListLocatorImpl (this);
+		locatorList.add(loc);
+		return loc;
+	}
+
+	/*Make a deep copy of this Data object
+	 */
+	/*
+	public Object clone() {
+		ListValueContainerImpl cloneObj = null;
+		try {
+			cloneObj = (ListValueContainerImpl) super.clone();
+			synchronized (this) {
+				synchronized (cloneObj) {
+//					FIX? what else?
+					cloneObj.locatorList = new Vector<Locator>();
+					cloneObj.parent = parent;
+				}
+			}
+		} catch (CloneNotSupportedException e) {
+
+		}
+		return cloneObj;
+	}
+	*/
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.XMLSerializableObjectWithValues#setValueCDATASerialization(boolean)
+	 */
+	public final void setValueCDATASerialization (boolean value) {
+		cdataSerialization = value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.XMLSerializableObjectWithValues#getValueCDATASerialization()
+	 */
+	public final boolean getValueCDATASerialization ( ) {
+		return cdataSerialization;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.XMLSerializableObjectWithValues#setTaggedValuesSerialization(boolean)
+	 */
+	public final void setTaggedValuesSerialization (boolean value) {
+		taggedValuesSerialization = value;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.XMLSerializableObjectWithValues#getTaggedValuesSerialization()
+	 */
+	public final boolean getTaggedValuesSerialization ( ) {
+		return taggedValuesSerialization;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.xssp.impl.AbstractXMLSerializableObject#basicXMLWriter(java.util.Map, java.util.Map, java.io.Writer, java.lang.String, java.lang.String, boolean)
+	 */
+	@Override
+	protected final boolean basicXMLWriter (
+			Map<String,ReferenceableXMLSerializableObject> idTable,
+			Map<String,String> prefixTable,
+			Writer outputWriter,
+			String indent,
+			String newNodeNameString, 
+			boolean doFirstIndent
+	)
+	throws IOException
+	{
+
+		// serialize it
+		// If there are fewer than 2 values, serialize with NO node name
+		// so that only the child "value" will appear instead of <values><value>..</value></values>
+		if(getNumberOfValues() < 2 && newNodeNameString == null)
+			return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, "", doFirstIndent);
+		else
+			return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, newNodeNameString, doFirstIndent );
+
+	}
+	
+	// TODO: fix this..we overwrote this method from XMLSerializableObject (!)
+	/*
+	protected boolean handleChildNodes(Hashtable idTable, Hashtable prefixTable, Writer outputWriter, String nodeNameString,
+			String indent, Vector childObjs, XMLSerializableField PCDATA)
+	throws IOException
+	{
+
+		Specification spec = Specification.getInstance();
+		boolean writeTaggedValues = true;
+		int serialize_style = spec.getSerializeValuesStyle();
+		if(serialize_style == Constants.VALUE_SERIALIZE_SPACE) 
+			writeTaggedValues = false;
+		else if(serialize_style == Constants.VALUE_SERIALIZE_TAGGED 
+				|| serialize_style == Constants.VALUE_SERIALIZE_CONTAINER )
+			writeTaggedValues = taggedValuesSerialization;
+
+		// close the opening tag
+		if (nodeNameString != null && !nodeNameString.equals(""))
+		{
+			outputWriter.write(">");
+			
+  //         if (Specification.getInstance().isPrettyOutput() && writeTaggedValues)
+  //         {
+  //             String newindent = indent + spec.getPrettyOutputIndentation();
+  //             outputWriter.write(Constants.NEW_LINE+newindent);
+  //         }
+		}
+
+		Object noDataValue = parent.getDataType().getNoDataValue();
+		String noDataValueStr = entifyString(noDataValue.toString());
+
+		// we write tagged values if requested OR we only have ONE value
+		// (the latter is because we set the master nodeName to "", so its
+		// not being written out :P
+		if(writeTaggedValues || maxUtilizedIndex == 0) 
+		{
+
+
+			String prefix = getXMLNodePrefix(prefixTable);
+
+			String nodeName = Constants.TAGGED_DATA_NODE_NAME;
+			if(prefix != null && !prefix.equals("") && nodeName != null)
+				nodeName = prefix + ":" + nodeName;
+
+			for (int i = 0; i <= maxUtilizedIndex; i++) 
+			{
+
+				outputWriter.write("<"+nodeName+">");
+
+				if(cdataSerialization)
+					outputWriter.write("<![CDATA[");
+
+				Object value = valueList[i];
+				if(isNoDataValue[i] == 1 || value == null)
+					outputWriter.write(noDataValueStr);
+				else
+					outputWriter.write(entifyString(value.toString()));
+
+				if(cdataSerialization)
+					outputWriter.write("]]>");
+
+				outputWriter.write("</"+nodeName+">");
+
+			} 
+
+		} else { 
+
+			String separator = Constants.VALUE_SEPARATOR_STRING;
+
+			if(cdataSerialization)
+				outputWriter.write("<![CDATA[");
+
+			for (int i = 0; i <= maxUtilizedIndex; i++) 
+			{
+
+				Object value = valueList[i];
+				if(isNoDataValue[i] == 1 || value == null)
+					outputWriter.write(noDataValueStr);
+				else
+					outputWriter.write(entifyString(value.toString()));
+
+				if(i != maxUtilizedIndex)
+					outputWriter.write(separator);
+			} 
+
+			if(cdataSerialization)
+				outputWriter.write("]]>");
+
+		}
+
+		return true;
+	}
+	*/
+
+	/** Reset the values within the container. 
+	 */
+	// TODO: determine if we need this outside of the constructor
+	protected final void resetValues (int numOfLocations) 
+	{
+
+		isNoDataValue = new byte[numOfLocations];
+		valueList = new Object[numOfLocations];
+
+		capacity = numOfLocations;
+		maxUtilizedIndex = -1;
+
+	}
+
+	/**
+	 * Set the value at the specified location.
+	 * @param Object value to set. Value cannot be "null" (use a noDataValue instead).
+	 * @param Locator object to indicate where to set the value.
+	 * @throws IllegalAccessException when called for mapping-based containers.
+	 * @throws IllegalArgumentException or a locator belonging to another ObjectWithValues is passed.
+	 * @throws NullPointerException when null parameters are passed.
+	 * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
+	 */
+	protected final void setValue (Object obj, Locator locator)
+	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
+	{
+
+		if (obj == null || locator == null)
+		{
+			throw new NullPointerException("Error: setValue - was passed a null object/locator parameter.");
+		}
+
+		if (locator.getParent() != this.parent)
+		{
+			throw new  IllegalArgumentException("Can't setValue with locator "+locator+" does not belong to parent object"+this.parent);
+		}
+
+		// ugh. Java wont let us set an unpopulated location. Check
+		// to see size (number of populated locations) in order to
+		// know which method to call
+		int index = locator.getListIndex();
+
+		if (obj == null) {
+			isNoDataValue[index] = 1;
+		} else {
+			isNoDataValue[index] = 0;
+		}
+
+		if( index > maxUtilizedIndex)
+			maxUtilizedIndex = index;
+
+		if ( index > getCapacity())
+			setCapacity(index * 2);
+
+		valueList[index] = obj;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#getLocators()
+	 */
+	public final List<Locator> getLocators() { return locatorList; }
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#getValue()
+	 */
+	public final Object getValue() { return getFirstValue(); }
+
+//	TODO: remove commented out block 
+	/*
+	public void dump () {
+		for (int i = 0; i <= maxUtilizedIndex; i++) {
+			System.err.println(" data : "+valueList[i]);
+		}
+	}
+	*/
 
 }
 

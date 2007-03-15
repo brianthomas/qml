@@ -156,8 +156,8 @@ abstract public class BaseCase extends TestCase {
 		logger.debug("- validateQuantityAPI (no values check) id:"+q.getId()); 
 		logger.debug("   is id OK? "+q.getId()+" vs "+id); 
 		assertEquals("id OK", q.getId(), id);
-		logger.debug("   is urn OK? ["+q.getURN().toString() +"] vs ["+URNrep+"]"); 
-		assertEquals("URN OK", q.getURN().toString(), URNrep);
+		logger.debug("   is urn OK? ["+q.getURI().toString() +"] vs ["+URNrep+"]"); 
+		assertEquals("URN OK", q.getURI().toString(), URNrep);
 		logger.debug("   are units OK?"); 
 		assertEquals("units OK", q.getUnits().toString(), units.toString());
 		logger.debug("   is datatype OK?"); 

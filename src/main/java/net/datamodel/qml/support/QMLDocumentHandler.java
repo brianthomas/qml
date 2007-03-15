@@ -37,19 +37,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import net.datamodel.qml.AxisFrame;
+import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.datatype.FloatDataType;
 import net.datamodel.qml.datatype.IntegerDataType;
 import net.datamodel.qml.datatype.StringDataType;
@@ -61,7 +59,6 @@ import net.datamodel.qml.support.handlers.AxisFrameEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.AxisFrameStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.ComponentEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.ComponentStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.ObjectWithQuantitesStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.DefaultCharDataHandlerFunc;
 import net.datamodel.qml.support.handlers.DefaultElementWithCharDataHandlerFunc;
 import net.datamodel.qml.support.handlers.DefaultEndElementHandlerFunc;
@@ -75,6 +72,7 @@ import net.datamodel.qml.support.handlers.ListQuantityStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.MatrixQuantityStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.NullCharDataHandlerFunc;
 import net.datamodel.qml.support.handlers.NullEndElementHandlerFunc;
+import net.datamodel.qml.support.handlers.ObjectWithQuantitesStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.QuantityContainerStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.QuantityEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.RefQuantityStartElementHandlerFunc;
@@ -90,6 +88,13 @@ import net.datamodel.qml.support.handlers.ValuesEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.ValuesStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.VectorEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.VectorStartElementHandlerFunc;
+import net.datamodel.soml.support.SOMLDocument;
+import net.datamodel.soml.support.SOMLDocumentHandler;
+import net.datamodel.xssp.XMLSerializableObject;
+import net.datamodel.xssp.parse.CharDataHandler;
+import net.datamodel.xssp.parse.EndElementHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Attr;
@@ -99,18 +104,18 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Notation;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.ext.LexicalHandler;
-import org.xml.sax.helpers.DefaultHandler;
 
 /** 
      Contains the core SAX document handler for the Reader. It also contains
      the basic QML element/charData handlers (as internal classes).
      @version $Revision$
  */
-public class QMLDocumentHandler extends DefaultHandler 
+public class QMLDocumentHandler extends SOMLDocumentHandler 
 implements LexicalHandler
 {
 
@@ -120,221 +125,51 @@ implements LexicalHandler
     // Fields
     //
 
-    protected static final int START_HANDLER_TYPE = 0;
-    protected static final int END_HANDLER_TYPE = 1;
-    protected static final int CHAR_HANDLER_TYPE = 2;
-
-    // FIX
-    // designate the version of the DTD/Schema that this doc handler
-    // is written for, it should match up with the XMLSerializableObjectImpl's DTDname 
-    // Not clear that checking between other than baseobject DTDName and
-    // the declared document version is needed (so eliminate this field..)
-//    private static final String QMLDocumentHandlerDTDName = "QML_01.dtd";
-
-    // Options for the document handler
-    protected Hashtable Options;
-
-    /**
-     */
-    protected Hashtable ElementTypeAssoc; // association between complexType name (used has a key
-                                          // to lookup handlers) and elem name
-
-    // dispatch table action handler hashtables
-    /**
-
-
-     */
-    protected Hashtable StartElementHandlers; // start element handlers
-    /**
-
-
-     */
-    protected Hashtable EndElementHandlers;   // end element handlers 
-    /**
-
-
-     */
-    protected Hashtable CharDataHandlers;     // charData handlers
-
-    /**
-
-
-     */
-    protected Hashtable DefaultHandlers;      // default handlers 
-
-    // FIX: hurm.. needed?
-    /**
-
-     */
-    private boolean ForceSetXMLHeaderStuff = false;
-
-    // have we attempted to load the schema (and ancillary handlers) yet?  
-    /**
-
-     */
-    protected boolean AttemptedSchemaLoad = false;
-
-    /**
-
-
-     */
-    protected QMLDocument myDocument;
-
-    // References to the current working objects
-    /**
-
-
-     */
     protected List CurrentNodePath;
-    /**
-
-
-     */
+    
     protected Vector CurrentNodeList;
-    /**
 
-
-     */
-    protected List ElementNamespaceURIList;
-
-    // the last object created by a startElementNodeActionHandler
-    /**
-
-     */
-    protected List CurrentObjectList = new Vector (); 
-    /**
-
-
-     */
-    protected List CurrentQuantityList = new Vector (); 
-    /**
-
-
-     */
-    protected List CurrentLocatorList = new Vector (); // The list of current locators for the current quantities
-    /**
-
-
-     */
+    /** */
+    protected List<Quantity> CurrentQuantityList = new Vector<Quantity>(); 
+    
+    /** */
+    protected List<Locator> CurrentLocatorList = new Vector<Locator>(); // The list of current locators for the current quantities
+    
+    /** */
     protected List ParentQuantityAltValueList = new Vector();
 
-    // needed to capture internal entities.
-    /**
-
-
-     */
-    protected HashSet Notation;
-    /**
-
-
-     */
-    protected Hashtable UnParsedEntity;
-    /**
-
-
-     */
-    protected Hashtable PrefixNamespaceMapping;
-//    protected Hashtable Entity = new Hashtable(); // needed? 
-
-    /**
-
-
-     */
-    protected Hashtable DoctypeObjectAttributes;
-
-    // the relative path to the inputsource this content handler is working on.
-    /**
-
-     */
-    protected String RelativePath;
-
     // a counter used for checking adding of multiple values
-    /**
-
-
-     */
+    /** */
     private List ExpectedValues; // a holder for expected number of values we should parse 
 
-    // which schema we have loaded
-    /**
-
-
-     */
-    private Hashtable LoadedSchema; 
-
-    // lookup tables holding objects that have id/idref stuff
-    /**
-
-
-     */
-    public Hashtable ObjWithQuantities = new Hashtable();
-//    private Hashtable ComponentObj = new Hashtable();
+   // public Hashtable ObjWithQuantities = new Hashtable();
 
     // Sigh. a list of fields which should be private/protected but arent
     // (yet) because Im too lazy to make the proper accessor methods.
 
-    /**
-
-
-     */
     public Component LastComponent; // the last component object we worked on
-    /**
-
-     */
+    
+    /** */
     public int ActualValuesAdded;
-    /**
-
-     */
+    
+    /** */
     public boolean AddingAltValues;
-    /**
-
-     */
+    
+    /** */
     public boolean ValuesInCDATASection;
-    /**
-
-     */
+    
+    /** */
     public boolean HasCSVValues;
-    /**
-
-     */
+    
+    /** */
     public boolean HasMultipleValues;
-    /**
-
-     */
+    
+    /** */
     public boolean HasVectorDataType;
-    /**
-
-     */
+    
+    /** */
     public StringBuffer ValuesBuf;
-    /**
-
-     */
-    public boolean ReadingCDATASection = false; // Keeping track of whether or not we are reading in a CDATA section
-
-    /**
-     * Whether or not to ignore whitespace only char data. This is a BAD thing.  I have been having troubles distinguishing between important whitespace (e.g. char data within a data node) and text nodes that are purely for the layout of the XML document. Right now I use the  CRUDE distinquishing characteristic that fluff (eg. only there for the sake of formatting the output doc) text nodes are all whitespace.
-
-     */
-    public boolean IgnoreWhitespaceOnlyData = true;
-
-    // patterns..
-    /**
-
-     */
-    protected Pattern XMLNamespacePrefixPattern = Pattern.compile ("(xmlns):?(.*?)", Pattern.DOTALL | Pattern.COMMENTS);
-    /**
-
-     */
-    protected Pattern PrefixPattern = Pattern.compile ("(.*?):(.*?)", Pattern.DOTALL | Pattern.COMMENTS);
-    /**
-
-     */
-    protected Pattern SchemaLocationPattern = Pattern.compile ("(.*?)\\s+(.*?)", Pattern.DOTALL | Pattern.COMMENTS);
-    /**
-
-     */
-    protected Pattern QMLSchemaPattern = Pattern.compile (".*"+Constants.QML_SCHEMA_NAME, Pattern.COMMENTS);
-
+    
     //
     // Constuctors
     //
@@ -344,12 +179,15 @@ implements LexicalHandler
      */
     public QMLDocumentHandler (QMLDocument doc)
     {
+    	super((SOMLDocument) doc);
        init();
        setDocument(doc);
     }
 
-    public QMLDocumentHandler (QMLDocument doc, Hashtable options)
+    public QMLDocumentHandler (QMLDocument doc, Map<String,String> options)
     {
+    	super((SOMLDocument) doc, options);
+    	
        init();
        Options = options;
        setDocument(doc);
@@ -359,171 +197,10 @@ implements LexicalHandler
     // Non-Sax Public Methods
     //
 
-    /** Get the document the Document that the SAX handler will parse into. 
-    */
-    public QMLDocument getDocument()
-    {
-      return myDocument;
-    }
-
-    /**
-     * Record the relative path for the inputSource that the content handler is working on.
-
+    /** In order to look for referenced Quantities, we 
+     * "record" each that we parse.
      */
-    public void setRelativePath (String path)
-    {
-       RelativePath = path;
-    }
-
-   /** Set the document the Document that the handler will parse into. 
-    * @throws NullPointerException
-    */
-    public void setDocument (QMLDocument doc)
-    {
-
-       if(doc == null)
-         throw new NullPointerException();
-
-       myDocument = doc;
-    }
-
-    /** Merge in external map to the internal startElement handler Hashtable. 
-        Keys in the Hashtable are strings describing the node name in
-        and the value is a code reference to the class that will handle 
-        the event. The class must implement the StartElementAction interface. 
-        It is possible to override default QML startElement handlers with 
-        this method by specifying the QML namespace URI. 
-     */
-    public void addStartElementHandlers (Map m, String namespace) 
-    throws NullPointerException
-    {
-       if (m == null || namespace == null )
-           throw new NullPointerException();
-
-       if (StartElementHandlers.containsKey(namespace)) {
-          //  merge to existing table 
-          ((Hashtable) StartElementHandlers.get(namespace)).putAll(m);
-       } else {
-          // create whole new table added with given namespace 
-          Hashtable newHandlers = new Hashtable();
-          newHandlers.putAll(m);
-          StartElementHandlers.put(namespace, newHandlers);
-       }
-    }
-
-    /** Merge in external Hashtable into the internal charData handler Hashtable. 
-        Keys in the Hashtable are strings describing the node name in
-        the XML document that has CDATA/PCDATA and the value is a code reference
-        to the class that will handle the event. The class must implement 
-        the CharDataAction interface. It is possible to override default
-        QML cdata handlers with this method by specifying the QML namespace URI. 
-        @return true if merge succeeds, false otherwise (null map was passed).
-     */
-    public void addCharDataHandlers (Map m, String namespace) 
-    throws NullPointerException
-    {
-
-       if (m == null || namespace == null )
-           throw new NullPointerException();
-
-       if (CharDataHandlers.containsKey(namespace)) {
-          ((Hashtable) CharDataHandlers.get(namespace)).putAll(m);
-       } else {
-          Hashtable newHandlers = new Hashtable();
-          newHandlers.putAll(m);
-          CharDataHandlers.put(namespace, newHandlers);
-       }
-
-    }
-
-    /** Merge in external map to the internal endElement handler Hashtable. 
-        Keys in the Hashtable are strings describing the node name in
-        and the value is a code reference to the class that will handle 
-        the event. The class must implement the EndElementAction interface. 
-        It is possible to override default QML endElement handlers with 
-        this method by specifying the QML namespace URI. 
-    */
-    public void addEndElementHandlers (Map m, String namespace) 
-    throws NullPointerException
-    {
-       if (m == null || namespace == null )
-           throw new NullPointerException();
-
-       if (EndElementHandlers.containsKey(namespace)) {
-          ((Hashtable) EndElementHandlers.get(namespace)).putAll(m);
-       } else {
-          Hashtable newHandlers = new Hashtable();
-          newHandlers.putAll(m);
-          EndElementHandlers.put(namespace, newHandlers);
-       }
-    }
-
-    /** Add an association between an element of a particular URI namespace
-     *  and a complexType of another URI namespace. This allows the document handler
-     * to choose the appropriate complexType handler action (either a startElement,
-     * endElement or CharData type, depending on the context of the parse) will
-     * be invoked when that element is parsed.
-     */
-    public void addElementToComplexTypeAssociation ( String elementName, String elementURI,
-                                         String complexTypeName, String complexTypeURI) {
-
-        Hashtable table = null;
-        if(!ElementTypeAssoc.containsKey(elementURI))
-             table = new Hashtable ();
-        else
-             table = (Hashtable) ElementTypeAssoc.get(elementURI);
-
-        logger.info(" Associating Element: "+elementName+"["+elementURI+"] --> complexType:"+complexTypeName+"["+complexTypeURI+"]");
-        table.put(elementName, new HandlerInfo(complexTypeName, complexTypeURI));
-
-    }
-
-    /**
-        Set the default Start Element Handler. This specifies what happens to nodes
-        which are not explicitly defined in the startElementHandler table. When this
-        method is called, the original default handler is replaced with the passed
-        handler.
-    */
-    public void setDefaultStartElementHandler (StartElementHandlerAction handler) {
-       DefaultHandlers.put("startElement", handler);
-    }
-
-   /**
-        Set the default End Element Handler. This specifies what happens to nodes
-        which are not explicitly defined in the endElementHandler table. When this
-        method is called, the original default handler is replaced with the passed
-        handler.
-    */ 
-    public void setDefaultEndElementHandler (EndElementHandlerAction handler) {
-       DefaultHandlers.put("endElement", handler);
-    }
-
-   /**
-        Set the default Character Data Handler. This specifies what happens to nodes
-        which are not explicitly defined in the charDataElementHandler table. When this
-        method is called, the original default handler is replaced with the passed
-        handler.
-    */
-    public void setDefaultCharDataHandler (CharDataHandlerAction handler) {
-       DefaultHandlers.put("charData", handler);
-    }
-
-
-    /** If true it tells this QMLDocumentHandler that it should go ahead and insert XMLHeader
-        stuff even if the current parser doesnt support DTD events using reasonable
-        values.
-     */
-    public void setForceSetXMLHeaderStuffOnQuantityObject (boolean value) {
-       ForceSetXMLHeaderStuff = value;
-    }
-
-    protected boolean getForceSetXMLHeaderStuffOnQuantityObject() {
-       return ForceSetXMLHeaderStuff;
-    }
-
-    /** In order to look for referenced Quantities, we "record" each that we parse.
-     */
-    public void recordObjectWithQuantities (SemanticObject q) {
+    public void recordQuantity (Quantity q) {
 
        String QId = q.getId();
        if (!QId.equals(""))
@@ -533,26 +210,22 @@ implements LexicalHandler
        }
     }
 
-    //
-    // Methods that describe the current parsing
-    //
-
     /** Get the current object with quantities we are working on. 
      */
-    public SemanticObject getCurrentObjectWithQuantities() {
-       SemanticObject lastQ = (SemanticObject) null;
+    public Quantity getCurrentQuantity() {
+       ObjectWithQuantities lastQ = (ObjectWithQuantities) null;
        if (CurrentQuantityList.size() > 0)
-          lastQ = (SemanticObject) CurrentQuantityList.get(CurrentQuantityList.size()-1);
+          lastQ = (ObjectWithQuantities) CurrentQuantityList.get(CurrentQuantityList.size()-1);
        return lastQ;
     }
 
     /** Remove the current quantity.
-     *  @return SemanticObject that was removed from the list of "current" quantities.
+     *  @return ObjectWithQuantities that was removed from the list of "current" quantities.
      */
-    public SemanticObject removeCurrentObjectWithQuantities() 
+    public Quantity unrecordQuantity() 
     {
 
-       SemanticObject q = (SemanticObject) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
+       ObjectWithQuantities q = (ObjectWithQuantities) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
        // to keep things in sync, we need to remove this too
        if(q != null && q instanceof Quantity)
        {
@@ -588,13 +261,13 @@ implements LexicalHandler
     }
 
     /** Gets the last component-compliant object we worked on.
-     * This could be some types of SemanticObject as well as components.
+     * This could be some types of ObjectWithQuantities as well as components.
      */
     public Component getCurrentComponent() {
        Component lastC = LastComponent;
        if (lastC == null)
        {
-          SemanticObject lastQ = getCurrentQuantity();
+          Quantity lastQ = getCurrentQuantity();
           if(lastQ != null)
               lastC = (Component) lastQ;
        } 
@@ -617,14 +290,6 @@ implements LexicalHandler
        return (Locator) CurrentLocatorList.remove(CurrentLocatorList.size()-1);
     }
 
-    /** Get the last object we worked on. 
-      */
-    public Object getLastObject() {
-       Object lastObject = (Object) null;
-       if (CurrentObjectList.size() > 0)
-          lastObject = CurrentObjectList.get(CurrentObjectList.size()-1);
-       return lastObject;
-    }
 
     /** Get the current working parent matrix quantity that alt values
      *  should be added to.
@@ -636,85 +301,14 @@ implements LexicalHandler
        return mq;
     }
 
-    public void addParentQuantityNeedsAltValue (SemanticObject q) 
+    public void addParentQuantityNeedsAltValue (ObjectWithQuantities q) 
     {
           ParentQuantityAltValueList.add(q);
     }
 
-    public SemanticObject removeParentQuantityNeedsAltValue () {
-          return (SemanticObject) ParentQuantityAltValueList.remove(ParentQuantityAltValueList.size()-1);
+    public Quantity removeParentQuantityNeedsAltValue () {
+          return ParentQuantityAltValueList.remove(ParentQuantityAltValueList.size()-1);
     }
-
-    /** Get the last quantity (with values) that we worked on. 
-     */
-    public Quantity getCurrentQuantity() {
-       SemanticObject q = getCurrentObjectWithQuantities();
-       if(q instanceof Quantity)
-         return (Quantity) q;
-       return (Quantity) null;
-    }
-
-    /** Get the namespace URI value for the current element being parsed.
-     */
-    public String getCurrentElementNamespaceURI() {
-       String lastURI = (String) null;
-       if (ElementNamespaceURIList.size() > 0)
-          lastURI = (String) ElementNamespaceURIList.get(ElementNamespaceURIList.size()-1);
-       return lastURI;
-    }
-
-    /** Get the current node in the list of nodes we have parsed.
-     */
-    public Node getCurrentNode () {
-       int size = CurrentNodeList.size();
-       Node node = (Node) null;
-
-       if(size > 0)
-          node = (Node) CurrentNodeList.get(size-1);
-
-       if(node == null)
-          node = (Node) getDocument().getDocumentElement();
-
-       return node;
-    }
-
-    /** Add a node to the list of nodes.
-     */
-    public void addCurrentNode (Node node) {
-       CurrentNodeList.add(node);
-    }
-
-    /** Remove the current node from the list of nodes.
-     * @return Node that was removed.
-     */
-    public Node removeCurrentNode () {
-       return (Node) CurrentNodeList.remove(CurrentNodeList.size()-1);
-    }
-
-    public String getCurrentNodeName () {
-       int pathSize = CurrentNodePath.size();
-       return (String) CurrentNodePath.get((pathSize-1));
-    }
-
-
-    /** Utility method to create a new element node for the document.
-     */
-    public Element createElement(String namespaceURI, String qName, Attributes attrs)
-    {
-        Element elem = getDocument().createElementNS(namespaceURI, qName);
-
-        int size = attrs.getLength();
-        for (int i = 0; i < size; i++) {
-              String qname = attrs.getQName(i);
-              String value = attrs.getValue(i);
-              Attr attrib = getDocument().createAttributeNS(namespaceURI,qname);
-              attrib.setValue(value);
-              elem.setAttributeNodeNS(attrib);
-        }
-
-        return elem;
-    }
-
 
     //
     // SAX methods
@@ -722,259 +316,53 @@ implements LexicalHandler
 
     /** StartElement handler.
      */
+    @Override
     public void startElement (String namespaceURI, String localName, String qName, Attributes attrs)
     throws SAXException
     {
+    	super.startElement(namespaceURI, localName, qName, attrs);
 
-        String element = localName;
-        Object thisObject = (Object) null;
+    	// Treat any special handling here
+    	// FIXME : NOT right! we have no assurance that this is the
+    	// last object to be created.
+    	Object thisObject = getCurrentObject();
+    	
+    	if (thisObject != null && thisObject instanceof Quantity)
+    	{
 
-        // if we haven't done this already, load schema in order to get
-        // the element->complexType and complexType->handler associations
-        if(!AttemptedSchemaLoad) 
-        {
-        	InitFromSchema(attrs);
-           AttemptedSchemaLoad = true;
-        }
+    		logger.debug(" *** THIS ELEMENT is A QUANTITY "+qName);
+    		Quantity q = (Quantity) thisObject;
 
-        logger.info("H_START:["+localName+","+qName+","+namespaceURI+"]");
+    		// do special check for dealing with quantities
+    		// this is here because its easier to deal with adding member
+    		// Quantities, AxisFrames, etc here to prevent repeating code
+    		// that defaults to adding QElements here rather than in the Element Handler (?)
+    		// I know that it looks bad to have this call here, but I'd rather 
+    		// treat this here rather repeat this code in all ObjectWithQuantities handlers..
 
-        // find complexType (key) for handler
-        HandlerInfo handlerInfo = findHandlerInfoFromElementName(namespaceURI,element);
-        logger.debug(" * got handler Info:"+handlerInfo);
-        String handlerName = handlerInfo.name;
-        logger.debug(" * got handler Name:"+handlerName);
-        String handlerURI = handlerInfo.uri;
-        logger.debug(" * got handler URI:"+handlerURI);
-        Hashtable uriStartHandlers = (Hashtable) StartElementHandlers.get(handlerURI);
+    		// TODO: make a handler for this...
+    		startHandlerAddQuantityToParent(namespaceURI, q);
 
-        // if a handler exists, run it, else give a warning
-        if (uriStartHandlers != null && uriStartHandlers.containsKey(handlerName)) {
+    		// record this as our "current" quantity
+    		CurrentQuantityList.add(q);
 
-           // run the appropriate start handler
-           StartElementHandlerAction event = (StartElementHandlerAction) uriStartHandlers.get(handlerName);
-           thisObject = event.action(this, namespaceURI, localName, qName, attrs);
+    		// also record a locator from it
+    		if(q instanceof Quantity)
+    			CurrentLocatorList.add(((Quantity) q).createLocator());
 
-           // Treat any special handling here
-           if (thisObject != null && thisObject instanceof SemanticObject)
-           {
+    		// -- end new handler for all Q's
 
-               logger.debug(" *** THIS ELEMENT is A QUANTITY "+qName);
-               SemanticObject q = (SemanticObject) thisObject;
-
-               // do special check for dealing with quantities
-               // this is here because its easier to deal with adding member
-               // Quantities, AxisFrames, etc here to prevent repeating code
-               // that defaults to adding QElements here rather than in the Element Handler (?)
-               // I know that it looks bad to have this call here, but I'd rather 
-               // treat this here rather repeat this code in all SemanticObject handlers..
-               startHandlerAddQuantityToParent(namespaceURI, q);
-
-               // record this as our "current" quantity
-               CurrentQuantityList.add(q);
-
-               // also record a locator from it
-               if(q instanceof Quantity)
-                  CurrentLocatorList.add(((Quantity) q).createLocator());
-
-           } 
-
-           // take care of issues related to being XMLSerializableObject
-           if( thisObject != null && thisObject instanceof XMLSerializableObject)
-           {
-               logger.debug(" *** THIS ELEMENT is an XMLSerializableObject qName:"+qName+" localName:"+localName);
-
-               // don't set local name or prefix for reference quantities! 
-               if(!localName.equals(Constants.NodeName.REFERENCE_QUANTITY))
-               {
-                  ((XMLSerializableObject) thisObject).setXMLNodeName(localName);
-
-                  // set the prefix on this object
-                  logger.debug("CHECK FOR prefix - qName.:["+qName+"] local:["+localName+"]");
-                  if( !localName.equals(qName))
-                  {
-   
-                     Matcher myMatcher = PrefixPattern.matcher(qName);
-                     if(myMatcher.matches()) {
-                        logger.debug("YES have prefix - adding.:["+myMatcher.group(1).trim()+"]");
-                   // set the prefix
-                        String prefix = myMatcher.group(1).trim();
-                        if(PrefixNamespaceMapping.containsKey(prefix))
-                        {
-                            String namespace = (String) PrefixNamespaceMapping.get(prefix);
-                            ((XMLSerializableObject) thisObject).setNamespaceURI(namespace);
-                            logger.debug(" SETTING NamespaceURI for "+localName+" as "+namespace);
-                        }
-   
-                     }
-                  } else { // go with declared default document namespace IF differs from current one
-                     String doc_default_namespace = (String) PrefixNamespaceMapping.get("");
-                     String current_namespace = ((XMLSerializableObject) thisObject).getNamespaceURI();
-                     if (!doc_default_namespace.equals(current_namespace))
-                         ((XMLSerializableObject) thisObject).setNamespaceURI(doc_default_namespace);
-                  }
-
-               }
-
-           }
-  
-           // add "element" to current path (??)
-           CurrentNodePath.add(element);
-
-           CurrentObjectList.add(thisObject);
-
-           ElementNamespaceURIList.add(namespaceURI);
-
-        } else {
-
-           logger.error("ERROR: No start element handler for:"+element+". Doing nothing. This may cause later errors.");
-
-        }
+    	} 
 
     }
 
-    public void endElement (String namespaceURI, String localName, String qName )
-    throws SAXException
-    {
- 
-        String element = localName;
-        logger.info("H_END:["+localName+","+qName+","+namespaceURI+"]");
-
-        // find complexType (key) for handler
-        HandlerInfo handlerInfo = findHandlerInfoFromElementName(namespaceURI,element);
-        String handlerName = handlerInfo.name;
-        String handlerURI = handlerInfo.uri;
-        Hashtable uriEndHandlers = (Hashtable) EndElementHandlers.get(handlerURI);
-
-        // if a handler exists, run it, else give a warning
-        if (uriEndHandlers != null && uriEndHandlers.containsKey(handlerName)) 
-        {
-
-           // run the appropriate end handler
-           EndElementHandlerAction event = (EndElementHandlerAction) uriEndHandlers.get(handlerName);
-           event.action(this);
-
-           // peel off the last element in the current path
-           CurrentNodePath.remove(CurrentNodePath.size()-1);
-
-           // peel off last object in object list
-           CurrentObjectList.remove(CurrentObjectList.size()-1);
-
-           ElementNamespaceURIList.remove(ElementNamespaceURIList.size()-1);
-
-        } else {
-
-           logger.error("ERROR: No end element handler for:"+element+". Doing nothing. This may cause later errors.");
-
-        }
-
-    }
-
-    /**  character Data handler
-     */
-    public void characters (char buf [], int offset, int len)
-    throws SAXException
-    {
-
-        // Are we reading a CDATA section? IF NOT, then we should
-        // replace all whitespace chars with just spaces. 
-        if (!ReadingCDATASection) {
- 
-            // *sigh* this would be easy, but its not implemented in all Java
-            // thisString = thisString.replaceAll("\\s+"," "); // Java 1.4 only!
-            // so we have to do the following instead, slow ?
-            char newBuf[] = new char[len];
-            int newIndex = 0;
-            boolean gotWhitespace = false;
-            int size = len+offset;
-            for (int i=offset; i<size; i++) {
-
-                   // || buf[i] != '\x0B'
-               if ( buf[i] == ' ' 
-                   || buf[i] == '\n'
-                   || buf[i] == '\r'
-                   || buf[i] == '\t'
-                   || buf[i] == '\f'
-                  )
-               {
-                  gotWhitespace = true;
-               } else { 
-                  // add back in ONE space character 
-                  if (gotWhitespace) {
-                     newBuf[newIndex++] = ' ';
-                     gotWhitespace = false;
-                  }
-                  newBuf[newIndex++] = buf[i];
-               }
-            }
-
-            if (gotWhitespace) {
-                 newBuf[newIndex++] = ' ';
-            }
-
-            buf = newBuf;
-            offset = 0;
-            len = newIndex;
-        }
-
-        /* we need to know what the current node is in order to 
-           know what to do with this data, however, 
-           early on when reading the DOCTYPE, other nodes we can get 
-           text nodes which are not meaningful to us. Ignore all
-           character data until we open the root node.
-         */
-
-        String currentNodeName = (String) CurrentNodePath.get(CurrentNodePath.size()-1); 
-        String namespaceURI = getCurrentElementNamespaceURI();
- 
-        logger.info("H_CharData:["+currentNodeName+",value:["+new String(buf,offset,len)+"],"+namespaceURI+"]");
-
-        // find complexType (key) for handler
-        HandlerInfo handlerInfo = findHandlerInfoFromElementName(namespaceURI,currentNodeName);
-        String handlerName = handlerInfo.name;
-        String handlerURI = handlerInfo.uri;
-        Hashtable uriCDHandlers = (Hashtable) CharDataHandlers.get(handlerURI);
-
-        // if a handler exists, run it, else give a warning
-        if (uriCDHandlers != null && uriCDHandlers.containsKey(handlerName))
-        {
-
-          // run the appropriate end handler
-           CharDataHandlerAction event = (CharDataHandlerAction) uriCDHandlers.get(handlerName);
-           event.action(this,buf,offset,len);
-
-        } else {
-
-           logger.error("ERROR: No char data handler for:"+currentNodeName+". Doing nothing. This may cause later errors.");
-
-        }
-
-    }
-
-    public void startPrefixMapping(String prefix, String uri) {
-        logger.info("H_StartPrefixMapping:["+prefix+","+uri+"]");
-        PrefixNamespaceMapping.put(prefix,uri); 
-    } 
-
-    public void endPrefixMapping(String prefix) {
-        logger.info("H_EndPrefixMapping:["+prefix+"]");
-    } 
- 
-    public void startDocument()
-    throws SAXException
-    {
-        // do nothing
-        logger.info("H_StartDocument:[]");
-    }
 
     public void endDocument()
     throws SAXException
     {
+    	
+    	super.endDocument();
 
-        logger.info("H_EndDocument:[]");
-
-        // need to setprefix mappings in QMLDocument
-        getDocument().setPrefixNamespaceMappings(PrefixNamespaceMapping);
 /*
         if (DoctypeObjectAttributes != null || ForceSetXMLHeaderStuff ) {
             
@@ -982,7 +370,7 @@ implements LexicalHandler
            XMLDeclaration xmlDecl = new XMLDeclaration();
            xmlDecl.setStandalone("no");
 
-           DocumentType doctype = new DocumentType(SemanticObject);
+           DocumentType doctype = new DocumentType(ObjectWithQuantities);
 
            // set the values of the DocumentType object appropriately
            if (!ForceSetXMLHeaderStuff) {
@@ -995,173 +383,36 @@ implements LexicalHandler
               doctype.setSystemId(Constants.Quantity_DTD_NAME); 
            }
 
-           SemanticObject.setXMLDeclaration (xmlDecl);
-           SemanticObject.setDocumentType(doctype);
+           ObjectWithQuantities.setXMLDeclaration (xmlDecl);
+           ObjectWithQuantities.setDocumentType(doctype);
         }
 
         // Now that it exists, lets
-        // set the notation hash for the SemanticObject structure
+        // set the notation hash for the ObjectWithQuantities structure
         Iterator iter = Notation.iterator();
         while (iter.hasNext()) {
            Hashtable initValues = (Hashtable) iter.next(); 
-           if (SemanticObject.getDocumentType() == null) {
+           if (ObjectWithQuantities.getDocumentType() == null) {
               // force having document type
-              SemanticObject.setDocumentType(new DocumentType(SemanticObject)); 
+              ObjectWithQuantities.setDocumentType(new DocumentType(ObjectWithQuantities)); 
            }
-           SemanticObject.getDocumentType().addNotation(new NotationNode(initValues));
+           ObjectWithQuantities.getDocumentType().addNotation(new NotationNode(initValues));
         }
 */
 
     }
 
-    public void ignorableWhitespace(char buf [], int offset, int len)
-    throws SAXException
-    {
-        // Note from the SAX API:
-        // this callback won't be used consistently by all parsers,
-        // unless they read the whole DTD.  Validating parsers will
-        // use it, and currently most SAX nonvalidating ones will
-        // also; but nonvalidating parsers might hardly use it,
-        // depending on the DTD structure.
-        // logger.debug("I Whitespace:["+new String(buf,offset,len)+"]");
+  
 
-        // do nothing, method required by interface 
-    }
-
-    // not used ?? 
-    public void internalEntityDecl( String name, String value)
-    throws SAXException
-    {
-
-       logger.info("H_INTERNAL_ENTITY: "+name+" "+value);
-
-    }
-
-    // not used ?? 
-    public void externalEntityDecl ( String name,
-                                     String publicId,
-                                     String systemId )
-    throws SAXException
-    {
-
-        logger.info("H_EXTERNAL_ENTITY: "+name+" "+publicId+" "+systemId);
-
-    }
-
-    /* Hurm, why doesnt this method treat 'base'?? */
-    public void unparsedEntityDecl ( String name,  
-                                     String publicId, 
-                                     String systemId,
-                                     String notationName ) 
-    {
-        logger.info("H_UNPARSED_ENTITY: "+name+" "+publicId+" "+systemId+" "+notationName);
-
-        // create hashtable to hold information about Unparsed entity
-        Hashtable information = new Hashtable ();
-        information.put("name", name);
-        // if (base != null) information.put("base", base);
-        if (publicId != null) information.put("publicId", publicId);
-        if (systemId != null) information.put("systemId", systemId);
-        if (notationName != null) information.put("ndata", notationName);
-
-        // add this to the UnparsedEntity hash
-        UnParsedEntity.put(name, information);
-    }
-
-    // Report the start of DTD declarations, if any.
-    public void startDTD(String name, String publicId, String systemId) 
-    throws SAXException
-    {
-        logger.info("H_DTD_Start:["+name+","+publicId+","+systemId+"]");
-
-        DoctypeObjectAttributes = new Hashtable();
-        DoctypeObjectAttributes.put("name", name);
-        if (publicId != null) 
-            DoctypeObjectAttributes.put("pubId", publicId);
-        if (systemId != null) 
-            DoctypeObjectAttributes.put("sysId", systemId);
-    }
-
-    /* Hurm, why doesnt this method treat 'base'?? */
-    public void notationDecl (String name, String publicId, String systemId )
-    throws SAXException
-    {
-        logger.info("H_NOTATION: "+name+" "+publicId+" "+systemId);
-
-        // create hash to hold information about notation.
-        Hashtable information = new Hashtable ();
-        information.put("name", name);
-        if (publicId != null) information.put("publicId", publicId);
-        if (systemId != null) information.put("systemId", systemId);
-       
-        // add this to the Notation hash
-        Notation.add(information);
-
-    }
-
-    public void processingInstruction(String target, String data)
-    throws SAXException
-    {
-        logger.info("H_PROCESSING_INSTRUCTION:"+"<?"+target+" "+data+"?>");
-        // do nothing
-    }
-
-    // Lexical handler methods
-    public void endDTD() throws SAXException
-    {
-       logger.info("H_End_DTD");
-        // do nothing
-    }
-
-    public void endCDATA() throws SAXException 
-    {
-       logger.info("H_End_CDATASection");
-       ReadingCDATASection = false;
-    }
-
-    public void startCDATA() throws SAXException 
-    {
-       logger.info("H_Start_CDATASection");
-       ReadingCDATASection = true;
-    }
-
-    public void startEntity(String name)
-    throws SAXException
-    {
-       logger.info("H_Start_Entity["+name+"]");
-    }
-
-    public void endEntity(String name)
-    throws SAXException
-    {
-       logger.info("H_End_Entity["+name+"]");
-    }
-
-    public void comment(char[] ch, int start, int length)
-    throws SAXException
-    {
-        String value = new String(ch, start, length);
-        logger.info("H_Comment ["+value+"]");
-       // add to current node, if we are not inside of a SemanticObject right now.
-
-        Comment comment = getDocument().createComment(value);
-
-        Node current = getCurrentNode();
-        if(current != null)
-            current.appendChild(comment);
-        else
-            getDocument().appendChild(comment);
-
-    }
-
-    /** A little utility program to find the expected size from a list of attributes.
+    /** A little utility program to find the expected size 
+     * from a list of attributes.
      */
     static public int findExpectedSize(Attributes attrs, String uri) {
         int expected = -1; // means "dont check, its undetermined"
         // Find the index of the "size" attribute..
         // hrm.. this *might* get us into trouble if ppl start using
         // a qualified attribute "somenamspaceuri:size" which doesn't
-        // belong to the www.datamodel.net/SemanticObject namespace. Its not
+        // belong to the www.datamodel.net/ObjectWithQuantities namespace. Its not
         // likely, and, I cant get the namespaced "getIndex" function to
         // work, so this will have to do for now.
         int index = attrs.getIndex(Constants.SIZE_ATTRIBUTE_NAME);
@@ -1237,24 +488,24 @@ implements LexicalHandler
     /** Do special check for dealing with adding quantities. 
      *  This method exists because its easier to deal with adding member
      *  Quantities, AxisFrames, etc in a global fashion rather than repeating code
-     *  in each of the SemanticObject handlers.
+     *  in each of the ObjectWithQuantities handlers.
      *  At any rate the logic is that if no parent Q exists, then it defaults to 
      *  adding the quantities as QElements in the QMLDocument.
      */
-    protected void startHandlerAddQuantityToParent(String namespaceURI, SemanticObject q) 
+    protected void startHandlerAddQuantityToParent(String namespaceURI, Quantity q) 
     {
 
-            SemanticObject currentQ = getCurrentObjectWithQuantities();
+            Quantity currentQ = getCurrentQuantity();
             if(currentQ != null) {
 
-                 // IF its an AxisFrame, AND currentQ is a Matrix, we add
+                 // IF its an ReferenceFrame, AND currentQ is a Matrix, we add
                  // it to the axisFrame List (just not yet..), otherwise, we add this new Q
-                 // as a member to current SemanticObject
-                 if(currentQ instanceof MatrixQuantity && q instanceof AxisFrame)
+                 // as a member to current ObjectWithQuantities
+                 if(currentQ instanceof MatrixQuantity && q instanceof ReferenceFrame)
                  {
-                   // do nothing for now.. we want to wait to populate the AxisFrame
+                   // do nothing for now.. we want to wait to populate the ReferenceFrame
                    // so that we can check if its really kosher to addit
-                   // ((MatrixQuantity)currentQ).addMember((AxisFrame)q);
+                   // ((MatrixQuantity)currentQ).addMember((ReferenceFrame)q);
                  }
                  else if (AddingAltValues)
                  {
@@ -1263,7 +514,7 @@ implements LexicalHandler
                    //if(q instanceof ListQuantity)
                    //   ParentMatrixQ.addAltValue((ListQuantity)q);
                    //else
-                   //   throw new SAXException("Alternative value not a list SemanticObject");
+                   //   throw new SAXException("Alternative value not a list ObjectWithQuantities");
                  } else
                    currentQ.addMember(q); // everything else becomes a "member"
 
@@ -1283,57 +534,9 @@ implements LexicalHandler
     }
 
 
-    protected StartElementHandlerAction findStartHandler (String complexTypeName, String namespaceURI)
-    {
-       Hashtable handlers = (Hashtable) StartElementHandlers.get(namespaceURI);
-       StartElementHandlerAction handler = null;
-
-       if(handlers != null && handlers.containsKey(complexTypeName))
-          handler = (StartElementHandlerAction) handlers.get(complexTypeName);
-
-       return handler;
-    }
-
-    protected CharDataHandlerAction findCharDataHandler (String complexTypeName, String namespaceURI)
-    {
-        return findCharDataHandler (complexTypeName, namespaceURI, "");
-    }
-
-    // Find the character data handler which is appropriate. "Mixed" nature of the
-    // node is very important. IF its mixed, AND the handler we find is the default
-    // handler, we need to use the alternative handler instead.
-    protected CharDataHandlerAction findCharDataHandler (String complexTypeName, String namespaceURI, String mixed)
-    {
-       Hashtable handlers = (Hashtable) CharDataHandlers.get(namespaceURI);
-       CharDataHandlerAction handler = null;
-
-       if(handlers != null && handlers.containsKey(complexTypeName))
-          handler = (CharDataHandlerAction) handlers.get(complexTypeName);
-
-       // double check that the correct default handler is being used here.
-       // There can be a situation where the parent node uses the default 
-       // Chardata handler, but a child node has set the 'mixed' attribute to 'true'
-       // and therefore needs the 'other default' chardata handler.
-       if (mixed.equals("true") && handler != null)
-           if (handler == (CharDataHandlerAction) DefaultHandlers.get("ignoreCharData"))
-               handler = (CharDataHandlerAction) DefaultHandlers.get("charData");
-
-       return handler;
-    }
-
-    protected EndElementHandlerAction findEndHandler (String complexTypeName, String namespaceURI)
-    {
-       Hashtable handlers = (Hashtable) EndElementHandlers.get(namespaceURI);
-       EndElementHandlerAction handler = null;
-
-       if(handlers != null && handlers.containsKey(complexTypeName))
-          handler = (EndElementHandlerAction) handlers.get(complexTypeName);
-
-       return handler;
-    }
 
     // base type of a complex/simple type decl.
-    protected String findBaseType(Element typeDecl, String prefix)
+    private static String findBaseType(Element typeDecl, String prefix)
     {
        String base = "";
        // drill down to look for "extension" or "restriction" children
@@ -1377,258 +580,14 @@ implements LexicalHandler
        return base;
     }
 
-    protected Map getBaseTypesOfComplexTypes ( List types, String prefix) {
-       Map baseTypes = new Hashtable();
-       Iterator titer = types.iterator();
-
-       if(!prefix.equals("")) {
-          prefix = prefix+":";
-       }
-
-       // go thru..find which complex types extend Q's
-       while (titer.hasNext()) {
-          Element elemDecl = (Element) titer.next();
-
-          String name = elemDecl.getAttribute("name");
-          String mixed = elemDecl.getAttribute("mixed");
-          String base = findBaseType(elemDecl, prefix);
-
-          ComplexTypeInfo info = new ComplexTypeInfo (name, base, mixed);
-logger.debug("   Got schema complexType decl  n:"+name+" b:"+base+" mixed:"+mixed);
-          baseTypes.put(name,info);
-       }
-
-       return baseTypes;
-    }
-
-    // generic utility routine to locate elements in DOM Document
-    protected List findElements (Document doc, String nodeName, String prefix) {
-       List list = new Vector();
-
-       // collect all import nodes
-       String qName = nodeName;
-       if(!prefix.equals(""))
-          qName = prefix + ":" + nodeName;
-
-       NodeList nodes = doc.getElementsByTagName(qName);
-       int size = nodes.getLength();
-       for (int i=0; i<size; i++)
-          list.add(nodes.item(i));
-
-       return list;
-    }
-
-    protected HandlerInfo findHandlerInfoFromElementName(String namespaceURI, String element)
-    {
-       HandlerInfo handlerInfo = null;
-       Hashtable assocs = (Hashtable) ElementTypeAssoc.get(namespaceURI);
-
-       if(assocs != null && assocs.containsKey(element))
-          handlerInfo = (HandlerInfo) assocs.get(element);
-
-       return handlerInfo;
-    }
-
-    protected String findSchemaLocationFromAttribs(Attributes attrs) {
-
-       String schema_location_attrib_name = "schemaLocation";
-       String schema_xmlns = "";
-       String url = "";
-
-       // first: find the schema prefix mapping for our instance
-       Enumeration prefixes = PrefixNamespaceMapping.keys();
-       while (prefixes.hasMoreElements()) {
-          String prefix = (String) prefixes.nextElement();
-          String namespace = (String) PrefixNamespaceMapping.get(prefix);
-          if (namespace.equals(Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI))
-          {
-             schema_xmlns = prefix;
-             break;
-          }
-       }
-
-       if(!schema_xmlns.equals(""))
-          schema_location_attrib_name = schema_xmlns + ":" + schema_location_attrib_name;
-
-       int size = attrs.getLength();
-       for (int i = 0; i < size; i++) {
-          String name = attrs.getQName(i);
-          if (name.equals(schema_location_attrib_name))
-          {
-             url = attrs.getValue(i);
-             break;
-          }
-       }
-
-       return url;
-    }
-
-    protected List initHandlerAssociations(String myURI, Hashtable prefixMap, Hashtable complexTypeMap)
-    {
-
-       List missingHandlers = new Vector();
-       Hashtable startHandlers = new Hashtable();
-       Hashtable endHandlers = new Hashtable();
-       Hashtable charDataHandlers = new Hashtable();
-
-       // go thru each complexType, adding as needed the mappings between handlers
-       Enumeration typeNames = complexTypeMap.keys();
-       while (typeNames.hasMoreElements()) {
-             // gather information
-             String name = (String) typeNames.nextElement();
-             // String base = (String) complexTypeMap.get(name);
-             ComplexTypeInfo cinfo = (ComplexTypeInfo) complexTypeMap.get(name);
-             String base = cinfo.base;
-             String mixed= cinfo.mixed;
-
-             String prefix = "";
-             Matcher myMatcher = PrefixPattern.matcher(base);
-             if(myMatcher.matches()) {
-                  prefix = myMatcher.group(1).trim();
-                  base = myMatcher.group(2).trim();
-             }
-             String uri = (String) prefixMap.get(prefix);
-             logger.debug(" n:["+name+"] prefix:["+prefix+"] uri:["+myURI+"] b:["+base+"] uri:["+uri+"] mixed:["+mixed+"]");
-
-             // find the appropriate handlers, if possible
-             //
-
-             if(!StartElementHandlers.containsKey(myURI))
-                 StartElementHandlers.put(myURI,new Hashtable());
-
-             if(!EndElementHandlers.containsKey(myURI))
-                 EndElementHandlers.put(myURI,new Hashtable());
-
-             if(!CharDataHandlers.containsKey(myURI))
-                CharDataHandlers.put(myURI,new Hashtable());
-
-             // There are 2 possibilities. 1. its a "vanilla" (no base type) element/type
-             // which we can rely on the regular DOM to handle. 2. it has a base type (has an
-             // extension/restriction of prior type) and we need to look for a prior handler
-             // definition.
-             logger.debug (" Set handler check BaseType:"+base+" URI:"+myURI); 
-             if(base.equals("")) { // Vanilla
-                 
-                if(findStartHandler(name,myURI) == null ) {
-                     logger.debug(" Setting Default Start Handler for :"+name+" uri:"+uri+" myURI:"+myURI);
-                     ((Hashtable) StartElementHandlers.get(myURI)).put(name,DefaultHandlers.get("startElement"));
-                }
-
-                if(findEndHandler(name,myURI) == null) {
-                     logger.debug(" Setting Default End Handler for :"+name+" uri:"+uri+" myURI:"+myURI);
-                     ((Hashtable) EndElementHandlers.get(myURI)).put(name,DefaultHandlers.get("endElement"));
-                }
-
-                if(findCharDataHandler(name,myURI,mixed) == null) {
-                     logger.debug(" Setting Default CharData Handler for :"+name+" uri:"+uri+" myURI:"+myURI);
-                     if (mixed == null || mixed.equals("")) 
-                         ((Hashtable) CharDataHandlers.get(myURI)).put(name,DefaultHandlers.get("ignoreCharData"));
-                     else 
-                         ((Hashtable) CharDataHandlers.get(myURI)).put(name,DefaultHandlers.get("charData"));
-                }
-
-             } else {  // has base type... this means it was extended from a prior complex type, we 
-                       // either could use a user-defined handler, or use the super classes previously defined handler.
-
-                 // check if we need to set the Start handler
-                 if(findStartHandler(name,myURI) != null) {
-                    logger.debug(" Using already defined start handler for complexType:"+name+"["+myURI+"]");
-                 } else {
-                    // no prior handler so map to the parent types handler 
-                    StartElementHandlerAction shandler = findStartHandler(base,uri);
-                    if(shandler != null) {
-                       ((Hashtable) StartElementHandlers.get(myURI)).put(name,shandler);
-                       logger.debug(" ==> Mapping complexType:"+name+"["+myURI+"] to"+Constants.NEW_LINE+"       start Handler:"+base+"["+uri+"]");
-                    } 
-                    else
-                         missingHandlers.add(new HandlerMapInfo(name,myURI,base,uri,START_HANDLER_TYPE));
-                 }
-
-                 // check if we need to set the End handler
-                 if(findEndHandler(name,myURI) != null) {
-                    logger.debug(" Using already defined end handler for complexType:"+name+"["+myURI+"]");
-                 } else {
-                    // no prior handler so map to the parent types handler 
-                    EndElementHandlerAction ehandler = findEndHandler(base,uri);
-                    if(ehandler != null) {
-                       ((Hashtable) EndElementHandlers.get(myURI)).put(name,ehandler);
-                       logger.debug(" ==> Mapping complexType:"+name+"["+myURI+"] to"+Constants.NEW_LINE+"       end Handler:"+base+"["+uri+"]");
-                    } else
-                       missingHandlers.add(new HandlerMapInfo(name,myURI,base,uri,END_HANDLER_TYPE));
-                 }
-
-                 // check if we need to set the CharData handler
-                 if(findCharDataHandler(name,myURI,mixed) != null) {
-                    logger.debug(" Using already defined char data handler for complexType:"+name+"["+myURI+"]");
-                 } else {
-                    CharDataHandlerAction cdhandler = findCharDataHandler(base,uri,mixed);
-                    if(cdhandler != null) {
-                       ((Hashtable) CharDataHandlers.get(myURI)).put(name,cdhandler);
-                       logger.debug(" ==> Mapping complexType:"+name+"["+myURI+"] to"+Constants.NEW_LINE+"       charData Handler:"+base+"["+uri+"] mixed:["+mixed+"]");
-                    } else
-                       missingHandlers.add(new HandlerMapInfo(name,myURI,base,uri,CHAR_HANDLER_TYPE,mixed));
-                 }
-
-             }
-       }
-
-       return missingHandlers;
-
-    }
-
-    protected void initElementTypeAssociations(String myURI, Hashtable prefixMap, Hashtable elements)
-    {
-
-       Enumeration namespaceURIs = elements.keys();
-       while (namespaceURIs.hasMoreElements())
-       {
-           String namespace = (String) namespaceURIs.nextElement();
-
-           List elemList = (List) elements.get(namespace);
-           Iterator eiter = elemList.iterator();
-           while (eiter.hasNext()) {
-              Element elemDecl = (Element) eiter.next();
-
-              String type = elemDecl.getAttribute("type");
-
-              // Type can be empty as it may be a "reference" to another
-              // element, if so, we skip for now.
-              //
-              if(!type.equals(""))
-              {
-
-                 String name = elemDecl.getAttribute("name");
-                 String prefix = "";
-                 Matcher myMatcher = PrefixPattern.matcher(type);
-                 if(myMatcher.matches()) {
-                    prefix = myMatcher.group(1).trim();
-                    type = myMatcher.group(2).trim();
-                 }
-                 String uri = (String) prefixMap.get(prefix);
-//logger.debug("   Got schema element decl  n:"+name+" t:"+type+" uri:"+uri);
-
-                 // expand table, if needed
-                 if(!ElementTypeAssoc.containsKey(myURI))
-                    ElementTypeAssoc.put(myURI,new Hashtable());
-
-                 logger.debug(" --> Mapping element:"+name+"["+myURI+"]"+Constants.NEW_LINE+"       to handlerKey:"+type+"["+uri+"]");
-                 HandlerInfo info = new HandlerInfo(type,uri);
-                 ((Hashtable) ElementTypeAssoc.get(myURI)).put(name,info);
-
-              }
-
-           }
-       }
-    }
-
-
     // set up QML handler associtions w/ schema complexTypes
+    @Override
     protected void initStartElementHandlers ()
     {
 
-        Hashtable qmlAssoc = new Hashtable();
-        Hashtable mapAssoc = new Hashtable();
-        Hashtable xmlAssoc = new Hashtable();
+        Map<String,StartElementHandler> qmlAssoc = new Hashtable<String,StartElementHandler>();
+        Map<String,StartElementHandler> mapAssoc = new Hashtable<String,StartElementHandler>();
+        Map<String,StartElementHandler> xmlAssoc = new Hashtable<String,StartElementHandler>();
 
         qmlAssoc.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
         qmlAssoc.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
@@ -1758,21 +717,21 @@ logger.debug("   Got schema complexType decl  n:"+name+" b:"+base+" mixed:"+mixe
 
                   switch (info.type) {
                        case START_HANDLER_TYPE:
-                           StartElementHandlerAction shandler = findStartHandler(info.name2,info.uri2);
+                           StartElementHandler shandler = findStartHandler(info.name2,info.uri2);
                            if(shandler != null) {
                                ((Hashtable) StartElementHandlers.get(info.uri1)).put(info.name1,shandler);
                                gotHandler = true;
                            }
                            break;
                        case END_HANDLER_TYPE:
-                           EndElementHandlerAction ehandler = findEndHandler(info.name2,info.uri2);
+                           EndElementHandler ehandler = findEndHandler(info.name2,info.uri2);
                            if(ehandler != null) {
                                ((Hashtable) EndElementHandlers.get(info.uri1)).put(info.name1,ehandler);
                                gotHandler = true;
                            }
                            break;
                        case CHAR_HANDLER_TYPE:
-                           CharDataHandlerAction cdhandler = findCharDataHandler(info.name2,info.uri2,info.mixed);
+                           CharDataHandler cdhandler = findCharDataHandler(info.name2,info.uri2,info.mixed);
                            if(cdhandler != null) {
                                ((Hashtable) CharDataHandlers.get(info.uri1)).put(info.name1,cdhandler);
                                gotHandler = true;
@@ -2090,8 +1049,8 @@ logger.debug("   Got schema complexType decl  n:"+name+" b:"+base+" mixed:"+mixe
     //
 
     // FIX: we need to put in a separate mapping package..
-    class mappingStartElementHandlerFunc implements StartElementHandlerAction {
-       public Object action ( QMLDocumentHandler handler, String namespaceURI, 
+    class mappingStartElementHandlerFunc implements StartElementHandler {
+       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
                               String localName, String qName, Attributes attrs)
        throws SAXException {
            throw new SAXException("Current package cannot handle mapped values.");

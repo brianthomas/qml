@@ -1,7 +1,7 @@
 
-// CVS $Id$
+//CVS $Id$
 
-// IntegerDataType.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+//IntegerDataType.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -19,24 +19,22 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
-   
 
-*/
 
-// code generation timestamp: Tue Apr 20 2004-14:22:31 
+ */
+
+//code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.core.XMLSerializableField;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.Utility;
-import net.datamodel.qml.support.Constants.NodeName;
-import net.datamodel.qml.support.handlers.IllegalCharDataHandlerFunc;
+import net.datamodel.xssp.XMLFieldType;
 
 import org.apache.log4j.Logger;
 
@@ -44,118 +42,103 @@ import org.apache.log4j.Logger;
  * A scalar integer datatype. May be hexidecimal, octal or decimal in nature.
  */
 public class IntegerDataType extends NumberDataType {
-	
+
 	private static final Logger logger = Logger.getLogger(IntegerDataType.class);
 
-    // Fields
+	// Fields
 
-    // The type of representation to use for these integers in 
-    // the XML serialization. Chioces are "decimal", "hexadecimal" 
-    // and "decimal".
-    private final static String SIGNED_XML_FIELD_NAME = "signed";
-    private final static boolean DEFAULT_SIGNED = false;
+	// The type of representation to use for these integers in 
+	// the XML serialization. Chioces are "decimal", "hexadecimal" 
+	// and "decimal".
+	private final static String signedFieldName = "signed";
+	private final static boolean DEFAULT_SIGNED = false;
 
-    // Whether or not the integers represented by this data type are signed.
-    private final static String INTTYPE_XML_FIELD_NAME = "type";
+	// Whether or not the integers represented by this data type are signed.
+	private final static String inttypeFieldName = "type";
 
-    // Methods
-    // Constructors
-    // No-arg Constructor
-    public IntegerDataType ( ) { 
-        init();
-    }
-    // Accessor Methods
-    /**
-     * The type of representation to use for these integers in the XML serialization. Chioces are "decimal", "hexadecimal" and "decimal".
-     */
-    public String getType (  ) {
-        return (String) ((XMLSerializableField) fieldHash.get(INTTYPE_XML_FIELD_NAME)).getValue();
-    }
+	/** No-arg Constructor.*/ 
+	public IntegerDataType ( ) { 
 
-    /**
-     * The type of representation to use for these integers in the XML serialization. Chioces are "decimal", "hexadecimal" and "decimal".
-     */
-    public void setType ( String value  ) {
+		setXMLNodeName(Constants.NodeName.INTEGER_DATATYPE);
 
-       if( value != null)
-       {
-           if(!Utility.isValidIntegerType(value) ) {
-              logger.warn("Warning: "+value+" is not a valid value for the type attribute, ignoring set request.");
-              return;
-           }
-        }
+		setWidth(new Integer(2));
 
-        ((XMLSerializableField) fieldHash.get(INTTYPE_XML_FIELD_NAME)).setValue(value);
-    }
+		try {
+			setNoDataValue(new Integer(-9));
+		} catch (Exception e) { }
 
-    /**
-     * Whether or not the integers represented by this data type are signed.
-     */
-    public Boolean getSigned (  ) {
-        return (Boolean) ((XMLSerializableField) fieldHash.get(SIGNED_XML_FIELD_NAME)).getValue();
-    }
-    /**
-     * Whether or not the integers represented by this data type are signed.
-     */
-    public void setSigned ( Boolean value  ) {
-        ((XMLSerializableField) fieldHash.get(SIGNED_XML_FIELD_NAME)).setValue(value);
-    }
+		// now initialize XML fields
+		// order matters!
+		addField(signedFieldName, (String) null, XMLFieldType.ATTRIBUTE);
+		addField(inttypeFieldName, new Boolean(DEFAULT_SIGNED), XMLFieldType.ATTRIBUTE);
 
-    /**
-     * The number of bytes this data type represents.
-     */
-    public int numOfBytes ( ) {
-        // FIX : correct??
-        return getWidth().intValue();
-    }
+	}
 
-    /** Determine if other units are equivalent to these.
-      * @@Overrides
-      */
-    public boolean equals (Object obj) 
-    {
-        if (obj instanceof IntegerDataType) {
-            if (
-                 super.equals(obj)
-                      &&
-                 this.getSigned().equals( ((IntegerDataType)obj).getSigned())
-                      &&
-                 this.getType().equals( ((IntegerDataType)obj).getType())
-               )
-            return true;
-        }
-        return false;
-    }
+	// Accessor Methods
+	/**
+	 * The type of representation to use for these integers in the XML serialization. Chioces are "decimal", "hexadecimal" and "decimal".
+	 */
+	public final String getType (  ) {
+		return (String) getFields().get(inttypeFieldName).getValue(); 
+	}
 
-    // Protected Methods
-    //
+	/**
+	 * The type of representation to use for these integers in the XML serialization. Chioces are "decimal", "hexadecimal" and "decimal".
+	 */
+	public final void setType ( String value  ) {
 
-    /** Special protected method used by constructor methods to
-        conviently build the XML attribute list for a given class.
-     */
-    protected void init()
-    {
+		if( value != null)
+		{
+			if(!Utility.isValidIntegerType(value) ) {
+				logger.warn("Warning: "+value+" is not a valid value for the type attribute, ignoring set request.");
+				return;
+			}
+		}
 
-      super.init();
+		getFields().get(inttypeFieldName).setValue(value); 
+	}
 
-      xmlNodeName = Constants.NodeName.INTEGER_DATATYPE;
+	/**
+	 * Whether or not the integers represented by this data type are signed.
+	 */
+	public final Boolean getSigned (  ) {
+		return (Boolean) getFields().get(signedFieldName).getValue(); 
+	}
+	/**
+	 * Whether or not the integers represented by this data type are signed.
+	 */
+	public final void setSigned ( Boolean value  ) {
+		getFields().get(signedFieldName).setValue(value); 
+	}
 
-      setWidth(new Integer(2));
+	/**
+	 * The number of bytes this data type represents.
+	 */
+	@Override
+	public int numOfBytes ( ) {
+		// TODO: check if this is correct??
+		return getWidth().intValue();
+	}
 
-      try {
-          setNoDataValue(new Integer(-9));
-       } catch (Exception e) { }
+	/** Determine if other units are equivalent to these.
+	 */
+	@Override
+	public boolean equals (Object obj) 
+	{
+		if (obj instanceof IntegerDataType) {
+			if (
+					super.equals(obj)
+					&&
+					this.getSigned().equals( ((IntegerDataType)obj).getSigned())
+					&&
+					this.getType().equals( ((IntegerDataType)obj).getType())
+			)
+				return true;
+		}
+		return false;
+	}
 
-      // now initialize XML fields
-      // order matters!
-      fieldOrder.add(SIGNED_XML_FIELD_NAME);
-      fieldOrder.add(INTTYPE_XML_FIELD_NAME);
-
-      // FIX : default is INTYTPE:Decimal
-      fieldHash.put(INTTYPE_XML_FIELD_NAME, new XMLSerializableField((String) null, Constants.FIELD_ATTRIB_TYPE));
-      fieldHash.put(SIGNED_XML_FIELD_NAME, new XMLSerializableField(new Boolean(DEFAULT_SIGNED), Constants.FIELD_ATTRIB_TYPE));
-
-    }
+	// TODO: implement Hashcode!
 
 }
 

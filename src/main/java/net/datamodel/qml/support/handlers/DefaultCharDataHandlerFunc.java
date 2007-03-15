@@ -29,19 +29,19 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.support.CharDataHandlerAction;
-import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 // default character data handler
-public class DefaultCharDataHandlerFunc implements CharDataHandlerAction 
+public class DefaultCharDataHandlerFunc implements CharDataHandler 
 {
 
 	private static final Logger logger = Logger.getLogger(DefaultCharDataHandlerFunc.class);
 	
-       public void action (QMLDocumentHandler handler, char buf [], int offset, int len)
+       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
        throws SAXException
        {
     	   

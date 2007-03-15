@@ -34,17 +34,16 @@ package net.datamodel.qml.core;
 import java.util.List;
 import java.util.Vector;
 
-import net.datamodel.qml.AxisFrame;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.SemanticObject;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.ValueContainer;
+import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ValueMapping;
 import net.datamodel.qml.locator.MatrixLocatorImpl;
 import net.datamodel.qml.support.Constants;
+import net.datamodel.xssp.XMLFieldType;
 
 import org.apache.log4j.Logger;
 
@@ -53,7 +52,8 @@ import org.apache.log4j.Logger;
  * which may be described by one or more axis (coordinate) 
  * frames.
  */
-public class MatrixQuantityImpl extends ListQuantityImpl 
+public class MatrixQuantityImpl 
+extends ListQuantityImpl 
 implements MatrixQuantity
 {
 	
@@ -62,15 +62,10 @@ implements MatrixQuantity
     // Fields
     // 
 
-    // axis frames (coordinate frames) of this quantity
-    /**
-     * @uml.property  name="axisFrameList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.AxisFrame"
-     */
-    List AxisFrameList = null;
-//    private static final String AXIS_XML_FIELD_NAME = new String("axesFrames");
-    // alternative representations of this quantity
-    private static final String ALTERN_XML_FIELD_NAME = new String("altValue");
+    // reference (coordinate) frames of this quantity
+    List<ReferenceFrame> ReferenceFrameList = new Vector<ReferenceFrame>();
+    
+    private static final String alternValuesFieldName = new String("altValue");
 
     // Methods
     //
@@ -78,36 +73,54 @@ implements MatrixQuantity
     // Constructors
     //
 
-    // No-argument Constructor
-    public MatrixQuantityImpl ( ) { 
-       init();
+    /** No-argument Constructor */
+    public MatrixQuantityImpl () { 
+    	this(-1);
+    }
+    
+    /** Construct with some initial capacity.
+     * 
+     * @param capacity
+     */
+    public MatrixQuantityImpl (int capacity) { 
+       super(capacity);
+       
+       setXMLNodeName (Constants.NodeName.MATRIX_QUANTITY);
+       
+       // FIXME: we need this next line so that we make matrix locators
+//        setValueContainer (new MatrixValueContainerImpl(this));
+
+       // now initialize XML fields
+       addField(alternValuesFieldName, new QuantityContainerImpl("altValues", false), XMLFieldType.CHILD);
+
     }
 
     /** Construct this quantity with mapping rather than explicitly holding
       * values. Values will be generated on demand from the (value) mapping.
      */
-    public MatrixQuantityImpl ( ValueMapping mapping )
+    public MatrixQuantityImpl ( ValueMapping mapping)
     {
-       init();
-       setValueContainer ((ValueContainer) mapping);
+    	this(-1);
+    	setValueContainer(mapping);
     }
 
     // Accessor Methods
 
-    /**
-     * Add an object of type SemanticObject to the List of members in this quantity. 
+    /*
+     * Add an object of type ObjectWithQuantities to the List of members in this quantity. 
      * Incorrectly dimensioned AxisFrames are not allowed.
      * Correct dimensionality is when the multiple of the numberOfLocations of
-     * all the child axes equal that of the parent size. For example, an AxisFrame
+     * all the child axes equal that of the parent size. For example, an ReferenceFrame
      * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
-     * This AxisFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
+     * This ReferenceFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
      *
-     * @throws IllegalArgumentException if the AxisFrame dimensionality is incorrect. 
+     * @throws IllegalArgumentException if the ReferenceFrame dimensionality is incorrect. 
      * @return boolean value of whether addition was successfull or not.
      * 
-     * @@Overrides
      */
-    public boolean addMember ( SemanticObject member) 
+    /*
+    @Override
+    public boolean addMember ( Quantities member) 
     throws IllegalArgumentException, NullPointerException
     {
     	
@@ -117,46 +130,28 @@ implements MatrixQuantity
            throw new NullPointerException();
 
         // perform dimensional checks on axisFrame
-        if (member instanceof AxisFrame) 
+        if (member instanceof ReferenceFrame) 
         {
 
-           AxisFrame axisFrame = (AxisFrame) member;
+           ReferenceFrame axisFrame = (ReferenceFrame) member;
 
            int axisLocations = axisFrame.getNumberOfAxisLocations();
            if (axisLocations == 0)
-              throw new IllegalArgumentException("AxisFrame has no locations defined!");
+              throw new IllegalArgumentException("ReferenceFrame has no locations defined!");
 
-/*
-        if (axisLocations != getSize().intValue())
-{
-Log.errorln("Reminder to self : check expanding values within Matrix when new frame is added");
-//           throw new IllegalArgumentException("AxisFrame has different number of locations ["+axisLocations+"] from parent Q ["+getSize().intValue()+"]");
-}
-*/
-           AxisFrameList.add(axisFrame);
+ //       if (axisLocations != getSize().intValue())
+// {
+// Log.errorln("Reminder to self : check expanding values within Matrix when new frame is added");
+//           throw new IllegalArgumentException("ReferenceFrame has different number of locations ["+axisLocations+"] from parent Q ["+getSize().intValue()+"]");
+// }
+           ReferenceFrameList.add(axisFrame);
 
         }
 
-        return getMemberList().add(member);
+        return getQuantities().add(member);
 
     }
-
-    /**
-     * Remove an object of type SemanticObject from the List of members
-     * in this quantity.
-     * 
-     * @return boolean value of whether removeal was successful or not.
-     */
-    public boolean removeMember ( SemanticObject value ) {
-
-        if(value == null) 
-          return false;
-
-        if(value instanceof AxisFrame) 
-           AxisFrameList.remove((AxisFrame) value);
-
-        return getMemberList().remove(value);
-    }
+*/
 
     /**
      * Get the list of axisframes in this quantity.
@@ -164,7 +159,7 @@ Log.errorln("Reminder to self : check expanding values within Matrix when new fr
      * @uml.property  name="axisFrameList"
      */
     public List getAxisFrameList ( ) {
-        return AxisFrameList;
+        return ReferenceFrameList;
     }
 
     /**
@@ -208,19 +203,19 @@ Log.errorln("Reminder to self : check expanding values within Matrix when new fr
      * @return List of altvalueVector
      */
     public List getAltValueList (  ) {
-        return (List) ((QuantityContainerImpl) ((XMLSerializableField) fieldHash.get(ALTERN_XML_FIELD_NAME)).getValue()).getQuantityList();
+    	return ((QuantityContainerImpl) getFieldValue(alternValuesFieldName)).getQuantityList();
     }
 
-    /**
-     * Create a locator for this quantity. This method provided for
-     * compliance with SemanticObject interface..atomic quantities don't
-     * have more than one location, so it is of little value to use them,
-     * if you know you are dealing with an atomic quantity.
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.core.AtomicQuantityImpl#createLocator()
      */
-    public Locator createLocator ( )
+    @Override
+    public Locator createLocator()
     {
         Locator loc = new MatrixLocatorImpl (this);
-        locatorList.add(loc);
+        // FIXME
+//        locatorList.add(loc);
         return loc;
     }
 
@@ -241,37 +236,14 @@ Log.errorln("Reminder to self : check expanding values within Matrix when new fr
                   this.getSize().equals(((Quantity)obj).getSize())
 // FIXME                     &&
 //                  this.getValue().equals(((Quantity)obj).getValue())
-                      &&
-                  this.getMemberList().equals(((SemanticObject)obj).getMemberList()) // FIXME : need to iterate over members 
+//                      &&
+//                  this.getQuantities().equals(((ObjectWithQuantities)obj).getQuantities()) // FIXME : need to iterate over members 
                )
             return true;
         }
         return false;
     }
 
-
-    // Protected ops
-
-    /** A special protected method used by constructor methods to
-     *  conviently build the XML attribute list for a given class.
-     */
-    protected void init()
-    {
-
-       super.init(-1);
-
-       xmlNodeName = Constants.NodeName.MATRIX_QUANTITY;
-
-       AxisFrameList = new Vector();
-       // now initialize XML fields
-//       fieldOrder.add(3,AXIS_XML_FIELD_NAME);
-       fieldOrder.add(ALTERN_XML_FIELD_NAME);
-
-       fieldHash.put(ALTERN_XML_FIELD_NAME, new XMLSerializableField( new QuantityContainerImpl("altValues", false), Constants.FIELD_CHILD_NODE_TYPE));
-
-//       fieldHash.put(AXIS_XML_FIELD_NAME, new XMLSerializableField( new QuantityContainerImpl(null, false), Constants.FIELD_CHILD_NODE_TYPE));
-
-    }
 
 }
 

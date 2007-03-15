@@ -34,17 +34,15 @@
 
 package net.datamodel.qml.units;
 
-import java.util.Hashtable;
-
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Map;
 
 import net.datamodel.qml.Units;
-import net.datamodel.qml.XMLSerializableObject;
-import net.datamodel.qml.core.XMLSerializableField;
-import net.datamodel.qml.core.XMLSerializableObjectImpl;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.Constants.NodeName;
+import net.datamodel.xssp.ReferenceableXMLSerializableObject;
+import net.datamodel.xssp.XMLFieldType;
+import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
 
 /**
  * A simple units class where units are represented 
@@ -53,81 +51,63 @@ import net.datamodel.qml.support.Constants.NodeName;
  * readable representation is desirable.
  */
 
-public class UnitsImpl extends XMLSerializableObjectImpl 
-implements Units,XMLSerializableObject 
+public class UnitsImpl extends AbstractXMLSerializableObject 
+implements Units
 {
 
-    // fields
-    private static final String VALUE_XML_FIELD_NAME = new String("value");
+	// fields
+	private static final String valueFieldName = new String("value");
 
-    // Constructors
+	// Constructors
 
-    // Empty Constructor not allowed 
-    private UnitsImpl ( ) { } 
+	// Empty Constructor not allowed 
+	private UnitsImpl ( ) { } 
 
-    /** Construct these units with some value.
-     */
-    public UnitsImpl ( String value ) { 
-       init(value);
-    }
+	/** Construct these units with some value.
+	 */
+	public UnitsImpl ( String value ) { 
+		setXMLNodeName(Constants.NodeName.UNITS);
+		addField(valueFieldName, value, XMLFieldType.PCDATA); 
+	}
 
-    /** Get the value of these units.
-     */
-    public String getValue() {
-        return (String) ((XMLSerializableField) fieldHash.get(VALUE_XML_FIELD_NAME)).getValue();
-    }
+	/** Get the value of these units.
+	 */
+	public String getValue() {
+		return (String) getFields().get(valueFieldName).getValue();
+	}
 
-    /** Set the value of these units.
-     */
-    public void setValue (String value) {
-        ((XMLSerializableField) fieldHash.get(VALUE_XML_FIELD_NAME)).setValue(value);
-    }
+	/** Set the value of these units.
+	 */
+	public void setValue (String value) {
+		getFields().get(valueFieldName).setValue(value);
+	}
 
-    /** Get a string representation of the value of the units.
-     */
-    public String getString () {
-      return getValue();
-    }
+	/** Get a string representation of the value of the units.
+	 */
+	public String getString () { return getValue(); }
 
-    // Protected Methods
-    //
+	// Protected Methods
+	//
 
-    /**
-     * @return boolean value of whether or not some content was written.
-     */
-    protected boolean basicXMLWriter (
-                                      Hashtable idTable,
-                                      Hashtable prefixTable,
-                                      Writer outputWriter,
-                                      String indent,
-                                      String newNodeNameString, 
-                                      boolean doFirstIndent 
-                                    )
-    throws IOException
-    {
-       // DONT write out if its empty (e.g. "unitless")
-       if (getString().equals(""))
-          return false;
+	/**
+	 * @return boolean value of whether or not some content was written.
+	 */
+	protected boolean basicXMLWriter (
+			Map<String,ReferenceableXMLSerializableObject> idTable,
+			Map<String,String> prefixTable,
+			Writer outputWriter,
+			String indent,
+			String newNodeNameString, 
+			boolean doFirstIndent 
+	)
+	throws IOException
+	{
+		// DONT write out if its empty (e.g. "unitless")
+		if (getString().equals(""))
+			return false;
 
-       return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, newNodeNameString, doFirstIndent);
-    }
+		return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, newNodeNameString, doFirstIndent);
+	}
 
-    /** Special protected method used by constructor methods to
-        conviently build the XML attribute list for a given class.
-     */
-    protected void init(String value)
-    {
-
-      resetFields();
-
-      xmlNodeName = Constants.NodeName.UNITS;
-
-      // order matters! these are in *reverse* order of their
-      // occurence in the schema/DTD
-      fieldOrder.add(0, VALUE_XML_FIELD_NAME);
-
-      fieldHash.put(VALUE_XML_FIELD_NAME, new XMLSerializableField(value, Constants.FIELD_PCDATA_TYPE));
-
-    }
 
 }

@@ -28,56 +28,29 @@
 
 package net.datamodel.qml.support;
 
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Hashtable;
 import java.util.List;
 
-import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.Quantity;
+import net.datamodel.soml.support.SOMLDocument;
 
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * QMLDocument is a DOM-based document interface. It aggregates the common  signature of QML DOM Documents regardless of underlying DOM implementation  (Xerces 2 or Crimson, etc).
  */
 
-public interface QMLDocument extends Document 
+public interface QMLDocument extends SOMLDocument 
 {
 
-   public String toXMLString ();
-   public void toXMLWriter (Writer outputWriter) throws IOException;
-   public void toXMLFile (String fileName) throws IOException;
+  
+   public QMLElement createQMLElement(Quantity quantity) 
+   throws DOMException;
 
-   public void setDocumentElement (Element elem);
+   public QMLElement createQMLElementNS(String namespaceURI, 
+		   Quantity quantity) throws DOMException;
 
-   public QMLElement createQMLElement(SemanticObject quantity) throws DOMException;
+   public List<Quantity> getQuantities(boolean deep);
 
-   public QMLElement createQMLElementNS(String namespaceURI, SemanticObject quantity) throws DOMException;
-
-   /**
- * @uml.property  name="quantityIdTable"
- */
-public Hashtable getQuantityIdTable();
-
-   public List getQuantityList(boolean deep);
-
-   public void setPrefixNamespaceMapping(String prefix, String namespaceURI);
-
-   public String getNamespace(String prefix);
-
-   /**
- * @param prefixNamespaceMappings  the prefixNamespaceMappings to set
- * @uml.property  name="prefixNamespaceMappings"
- */
-public void setPrefixNamespaceMappings(Hashtable prefixMappings);
-
-   /**
- * Get the prefix mappings for this document.
- * @uml.property  name="prefixNamespaceMappings"
- */
-   public Hashtable getPrefixNamespaceMappings();
 
 }
 

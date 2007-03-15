@@ -1,5 +1,5 @@
 
-// DataType.java Copyright (c) 2006 Brian Thomas. All rights reserved.
+//DataType.java Copyright (c) 2006 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -17,14 +17,16 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
-*/
+ */
 
 package net.datamodel.qml;
+
+import net.datamodel.xssp.XMLSerializableObject;
 
 /**
  * An interface describing the format of the data value in all value-based
@@ -33,27 +35,24 @@ package net.datamodel.qml;
  * @author thomas
  *
  */
-public interface DataType extends XMLSerializableObject {
-    
-    /**
-     * The object which represents the "no data available" value.
-     * @throws IllegalAccessException if called for some datatypes (e.g. VectorDataType).
-     */
-    public void setNoDataValue ( Object value  )  throws IllegalAccessException; 
-    
-    /**
-     * The object which represents the "no data available" value.
-     */
-    public Object getNoDataValue (  );
+public interface DataType 
+extends XMLSerializableObject 
+{
 
-    /** Determine if other datatypes are equal to this one. 
-     *  @@Overrides
-     */
-    public boolean equals (Object obj);
+	/**
+	 * The object which represents the "no data available" value.
+	 * @throws IllegalAccessException if called for some datatypes (e.g. VectorDataType).
+	 */
+	public void setNoDataValue ( Object value  )  throws IllegalAccessException; 
 
-    /**
-     * The number of bytes this data type represents.
-     */
-    public int numOfBytes ( );
-    
+	/**
+	 * The object which represents the "no data available" value.
+	 */
+	public Object getNoDataValue (  );
+
+	/**
+	 * The number of bytes this data type represents.
+	 */
+	public int numOfBytes ( );
+
 }

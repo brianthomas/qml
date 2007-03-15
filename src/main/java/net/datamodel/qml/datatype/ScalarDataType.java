@@ -1,7 +1,7 @@
 
-// CVS $Id$
+//CVS $Id$
 
-// ScalarDataType.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+//ScalarDataType.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -19,24 +19,20 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
-   
-
-*/
-
-// code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 
+ */
+
+//code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.BaseDataType;
-import net.datamodel.qml.core.XMLSerializableField;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.xssp.XMLFieldType;
 
 /**
  * Class ScalarDataType
@@ -44,73 +40,62 @@ import net.datamodel.qml.support.Constants;
  */
 abstract public class ScalarDataType extends BaseDataType {
 
-    // Fields
+	// Fields
 
-    // The width (total length) of this scalar field, 
-    // in characters (Width is stored in this fashion so as 
-    // to separate it out from the actual encoding of the text).
-    private static final String WIDTH_XML_FIELD_NAME = new String("width");
+	// The width (total length) of this scalar field, 
+	// in characters (Width is stored in this fashion so as 
+	// to separate it out from the actual encoding of the text).
+	private static final String widthFieldName = "width";
 
-    // Methods
+	// Methods
 
-    // Constructors
+	// Constructors
 
-    // No-arguement Constructor
-    public ScalarDataType ( ) { 
-       init();
-    }
+	// No-arguement Constructor
+	public ScalarDataType ( ) { 
 
-    // Accessor Methods
+		setXMLNodeName(null);
 
-    /**
-     * Determine the width (total length) of this scalar field, in characters.
-     * (Width is stored in this fashion so as to separate it out from 
-     * the actual encoding of the text).
-     */
-    public Integer getWidth (  ) {
-        return (Integer) ((XMLSerializableField) fieldHash.get(WIDTH_XML_FIELD_NAME)).getValue();
-    }
+		// now initialize XML fields
+		// order matters!
+		addField(widthFieldName, null, XMLFieldType.ATTRIBUTE);
 
-    /**
-     * Set the width (total length) of this scalar field, in characters.
-     * (Width is stored in this fashion so as to separate it out from 
-     * the actual encoding of the text).
-     */
-    public void setWidth ( Integer value ) {
-        ((XMLSerializableField) fieldHash.get(WIDTH_XML_FIELD_NAME)).setValue(value);
-    }
+	}
 
-    /** Determine if other units are equivalent to this one.*/
-    public boolean equals (Object obj) {
-       if (obj instanceof ScalarDataType) {
-           if (
-                super.equals(obj)
-                     &&
-                this.getWidth().equals( ((ScalarDataType)obj).getWidth())
-              )
-           return true;
-       }
-       return false;
-    }
+	// Accessor Methods
 
-    // Protected Methods
-    //
+	/**
+	 * Determine the width (total length) of this scalar field, in characters.
+	 * (Width is stored in this fashion so as to separate it out from 
+	 * the actual encoding of the text).
+	 */
+	public final Integer getWidth (  ) {
+		return (Integer) getFields().get(widthFieldName).getValue();
+	}
 
-    /** Special protected method used by constructor methods to
-        conviently build the XML attribute list for a given class.
-     */
-    protected void init()
-    {
+	/**
+	 * Set the width (total length) of this scalar field, in characters.
+	 * (Width is stored in this fashion so as to separate it out from 
+	 * the actual encoding of the text).
+	 */
+	public final void setWidth ( Integer value ) {
+		getFields().get(widthFieldName).setValue(value);
+	}
 
-      super.init();
-      xmlNodeName = (String) null;
+	/** Determine if other units are equivalent to this one.*/
+	public boolean equals (Object obj) {
+		if (obj instanceof ScalarDataType) {
+			if (
+					super.equals(obj)
+					&&
+					this.getWidth().equals( ((ScalarDataType)obj).getWidth())
+			)
+				return true;
+		}
+		return false;
+	}
 
-      // now initialize XML fields
-      // order matters!
-      fieldOrder.add(WIDTH_XML_FIELD_NAME);
+	// TODO: implement hashCode!
 
-      fieldHash.put(WIDTH_XML_FIELD_NAME, new XMLSerializableField((Integer) null, Constants.FIELD_ATTRIB_TYPE));
-
-    }
 }
 

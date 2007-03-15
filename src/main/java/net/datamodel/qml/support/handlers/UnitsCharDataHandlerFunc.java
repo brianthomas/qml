@@ -30,16 +30,16 @@ package net.datamodel.qml.support.handlers;
 
 // import QML stuff
 import net.datamodel.qml.Component;
-import net.datamodel.qml.support.CharDataHandlerAction;
-import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.CharDataHandler;
 import net.datamodel.qml.units.UnitsImpl;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 // Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class UnitsCharDataHandlerFunc implements CharDataHandlerAction {
-       public void action (QMLDocumentHandler handler, char buf [], int offset, int len)
+public class UnitsCharDataHandlerFunc implements CharDataHandler {
+       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
        throws SAXException
        {
 

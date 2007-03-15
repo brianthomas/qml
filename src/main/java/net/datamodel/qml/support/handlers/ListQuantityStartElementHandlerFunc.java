@@ -31,26 +31,26 @@ package net.datamodel.qml.support.handlers;
 // import QML stuff
 import net.datamodel.qml.core.ListQuantityImpl;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class ListQuantityStartElementHandlerFunc implements StartElementHandlerAction {
+public class ListQuantityStartElementHandlerFunc implements StartElementHandler {
 	
 	private static final Logger logger = Logger.getLogger(ListQuantityStartElementHandlerFunc.class);
 	
-       public Object action ( QMLDocumentHandler handler, String namespaceURI, 
+       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 
           ListQuantityImpl listQ = new ListQuantityImpl();
-          logger.debug("Handler creates List SemanticObject:"+listQ);
+          logger.debug("Handler creates List ObjectWithQuantities:"+listQ);
           listQ.setFields(attrs); // set XML attributes from passed list
 
-          handler.recordObjectWithQuantities(listQ);
+          handler.recordQuantity(listQ);
 
           int expected = handler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
           handler.addExpectedValues(new Integer(expected));
@@ -63,7 +63,7 @@ public class ListQuantityStartElementHandlerFunc implements StartElementHandlerA
              // which we know is impossible in this case
           }
 
-          logger.debug("Handler returns List SemanticObject:"+listQ);
+          logger.debug("Handler returns List ObjectWithQuantities:"+listQ);
           return listQ;
        }
 }

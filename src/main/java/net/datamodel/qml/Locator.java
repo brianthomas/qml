@@ -1,7 +1,7 @@
 
-// CVS $Id$
+//CVS $Id$
 
-// Locator.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+//Locator.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -19,87 +19,67 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
-   
-
-*/
-
-// code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 
+ */
+
+//code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 package net.datamodel.qml;
 
 /**
- * Interface Locator. Problem: need to do something sensible for locator when we have Atomic/ListQuantities.  In other words.. NO AxisFrame exists then.
+ * Interface Locator. An iterator for values held in 
+ * @link{net.datamodel.qml.ObjectsWithValues}.
  */
-
 public interface Locator {
 
-    // Operations
+	/** Find the parent object to which the locator belongs.
+	 * 
+	 * @return  ObjectWithQuantities
+	 */
+	public ObjectWithValues getParent ( );
 
-    // preferred constructor.
-//    public Locator ( Quantity parent);
+	/** Change the location pointer to the next location. 
+	 */
+	public void next ( );
 
-    /**
-     * @return  AxisFrame
-     * @uml.property  name="currentAxisFrame"
-     * @uml.associationEnd  
-     */
-    public AxisFrame getCurrentAxisFrame ( );
-        
-    /**
-     * Set the current AxisFrame. If the frame is "null" then list-ordered iteration will be used by the locator. This method does nothing for non-matrix locators. 
-     * @param frame  to set. It may be "null".
-     * @uml.property  name="currentAxisFrame"
-     */
-    public void setCurrentAxisFrame ( AxisFrame frame);
-        
-    /**
-     * @return  SemanticObject
-     * @uml.property  name="parentQuantity"
-     * @uml.associationEnd  
-     */
-    public Quantity getParentQuantity ( );
-        
-    /** Change the location pointer to the next location. 
-     */
-    public void next ( );
+	/** Change the location pointer to the prior location. 
+	 */
+	public void prev ( );
 
-    /** Change the location pointer to the prior location. 
-     */
-    public void prev ( );
+	/** Determine if there are any more locations remaining.
+	 */
+	public boolean hasNext ( );
 
-    /** Determine if there are any more locations remaining.
-     */
-    public boolean hasNext ( );
+	/** Determine if there are any prior locations to the current one.
+	 */
+	public boolean hasPrevious ( );
 
-    /** Determine if there are any prior locations to the current one.
-     */
-    public boolean hasPrevious ( );
+	/** Get the list index. All values are held (or are idealized as being
+	 *  held) in 1-dimensional lists internally by data containers. This
+	 *  returns the index of where the locator is currently pointed in the
+	 *  internal list.
+	 *  @return int value of index.
+	 */
+	public int getListIndex();
 
-    /** Get the list index. All values are held (or are idealized as being
-     *  held) in 1-dimensional lists internally by data containers. This
-     *  returns the index of where the locator is currently pointed in the
-     *  internal list.
-     *  @return int value of index.
-     */
-    public int getListIndex();
+	/** Set the list index. All values are held (or are idealized as being
+	 *  held) in 1-dimensional lists internally by data containers. This
+	 *  returns the index of where the locator is currently pointed in the
+	 *  internal list.
+	 *
+	 * @throws IllegalArgumentException when a value which is negative or greater than the list size (quantity.getSize()-1) is passed.
+	 */
+	public void setListIndex(int index) throws IllegalArgumentException;
 
-    /** Set the list index. All values are held (or are idealized as being
-     *  held) in 1-dimensional lists internally by data containers. This
-     *  returns the index of where the locator is currently pointed in the
-     *  internal list.
-     *
-     * @throws IllegalArgumentException when a value which is negative or greater than the list size (quantity.getSize()-1) is passed.
-     */
-    public void setListIndex(int index) throws IllegalArgumentException;
-
-    /** reset the locator back to the origin */
-    public void reset();
+	/** Reset the locator back to the first value.
+	 *
+	 */ 
+	public void reset();
 }
 

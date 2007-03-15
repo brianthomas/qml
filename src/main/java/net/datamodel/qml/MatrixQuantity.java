@@ -37,11 +37,13 @@ import java.io.Writer;
 import java.util.List;
 
 /**
- * The interface for all Quantities.
+ * The interface for all Matrix Quantities. This is a type of quantity
+ * which holds multiple values, which are described by one or more frames
+ * of reference.
  */
-// hrmm. there doesnt seem to be a need for a "listQuantity"
-// interface, so we just extend "Quantity" instead.
-public interface MatrixQuantity extends ListQuantity {
+public interface MatrixQuantity 
+extends ListQuantity 
+{
 
     // Operations
 

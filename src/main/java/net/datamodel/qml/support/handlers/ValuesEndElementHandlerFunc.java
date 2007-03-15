@@ -35,17 +35,17 @@ import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.datatype.VectorDataType;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.EndElementHandlerAction;
-import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.EndElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
-public class ValuesEndElementHandlerFunc implements EndElementHandlerAction {
+public class ValuesEndElementHandlerFunc implements EndElementHandler {
 	
 	private static final Logger logger = Logger.getLogger(ValuesEndElementHandlerFunc.class);
 	
-       public void action (QMLDocumentHandler handler )
+       public void action (XSSPDocumentHandler handler )
        throws SAXException
        {
 
@@ -58,7 +58,7 @@ public class ValuesEndElementHandlerFunc implements EndElementHandlerAction {
 
               int nrof_components = 0;
               if(handler.HasVectorDataType)
-                 nrof_components = ((VectorDataType) qV.getDataType()).getComponentList().size();
+                 nrof_components = ((VectorDataType) qV.getDataType()).getComponents().size();
 
               // How we add this kind of data depends on whether we have a vector,
               // AND, if so, how many components it has.
@@ -66,7 +66,7 @@ public class ValuesEndElementHandlerFunc implements EndElementHandlerAction {
               {
                  // simple to do: just like scalar data, but use
                  // the components dataType
-                 Component comp = (Component) ((VectorDataType) qV.getDataType()).getComponentList().get(0);
+                 Component comp = (Component) ((VectorDataType) qV.getDataType()).getComponents().get(0);
                  DataType dataType = comp.getDataType();
                  for(int i=0; i<values.length; i++)
                  {

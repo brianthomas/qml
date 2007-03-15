@@ -35,7 +35,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.support.Constants;
 
 /**
@@ -44,14 +44,14 @@ import net.datamodel.qml.support.Constants;
  * one or more quantities which will be serialized as a group
  * of child objects.
  *
- * It is not intended for external (outside of the SemanticObject package) 
- * use as it can't be cast as a SemanticObject (this is intentional..this 
+ * It is not intended for external (outside of the ObjectWithQuantities package) 
+ * use as it can't be cast as a ObjectWithQuantities (this is intentional..this 
  * class models containers which aren't seperable from the parent 
  * quantity).
  *
  * For most people, you should use a CompositeQuantity instead.
  */
-public class QuantityContainerImpl extends XMLSerializableObjectImpl {
+public class QuantityContainerImpl extends AbstractXMLSerializableObject {
 
     // FIELDS
     private static final String QLIST_XML_FIELD_NAME = new String("qList");
@@ -116,7 +116,7 @@ public class QuantityContainerImpl extends XMLSerializableObjectImpl {
      * @param quantity 
      * @return boolean value of whether addition was successful or not. 
      */
-    public boolean addQuantity ( SemanticObject quantity) 
+    public boolean addQuantity ( ObjectWithQuantities quantity) 
     {
     	return getQuantityList().add(quantity);    
     }
@@ -126,7 +126,7 @@ public class QuantityContainerImpl extends XMLSerializableObjectImpl {
      * @param quantity
      * @return boolean value of whether removal was successful or not. 
      */
-    public boolean removeQuantity ( SemanticObject quantity) {
+    public boolean removeQuantity ( ObjectWithQuantities quantity) {
     	return getQuantityList().remove(quantity);    
     }
 

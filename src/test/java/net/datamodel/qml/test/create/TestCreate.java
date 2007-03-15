@@ -7,19 +7,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import net.datamodel.qml.AxisFrame;
+import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.URN;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.core.AtomicQuantityImpl;
-import net.datamodel.qml.core.AxisFrameImpl;
+import net.datamodel.qml.core.ReferenceFrameImpl;
 import net.datamodel.qml.core.ListQuantityImpl;
 import net.datamodel.qml.core.MatrixQuantityImpl;
-import net.datamodel.qml.core.URNImpl;
+import net.datamodel.qml.core.URI;
 import net.datamodel.qml.datatype.IntegerDataType;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.support.Constants;
@@ -140,11 +140,11 @@ public class TestCreate extends BaseCase {
 	 * @param memberList
 	 * @return
 	 */
-	public static SemanticObject addMembers (SemanticObject q, List memberList) {
+	public static ObjectWithQuantities addMembers (ObjectWithQuantities q, List memberList) {
 		
     	Iterator iter = memberList.iterator();
     	while (iter.hasNext()) {
-    		q.addMember((SemanticObject) iter.next());
+    		q.addMember((ObjectWithQuantities) iter.next());
     	}
     	return q;
 	}
@@ -192,7 +192,7 @@ public class TestCreate extends BaseCase {
 		String value = "data";
 		
 		try {
-			URN urn = new URNImpl (URNrep);
+			URN urn = new URI (URNrep);
 			AtomicQuantityImpl q = createAtomicQuantity(id, urn, units, datatype, value, new Vector());
 			assertNotNull(q);
 			
@@ -233,7 +233,7 @@ public class TestCreate extends BaseCase {
 		
 		try {
 			
-			URN URN = new URNImpl (URNrep);			
+			URN URN = new URI (URNrep);			
 			ListQuantityImpl q = createListQuantity(id, URN, units, datatype, values, new Vector());
 
 			assertNotNull(q);
@@ -292,9 +292,9 @@ public class TestCreate extends BaseCase {
 		
 		try {
 		
-			URN URN = new URNImpl (URNrep);
+			URN URN = new URI (URNrep);
 			// create the axisFrame and (1) member axis/dimension for the matrix
-			AxisFrame af = new AxisFrameImpl();
+			ReferenceFrame af = new ReferenceFrameImpl();
 			ListQuantityImpl axis1 = createListQuantity("axis1", URN, new UnitsImpl(""), createIntegerDataType(1, false), axisValues, new Vector() );
 			af.addAxis(axis1);
 			
@@ -313,14 +313,14 @@ public class TestCreate extends BaseCase {
 			validateQuantityAPI((Quantity) q, id, URNrep, units, datatype);
 			
 			logger.debug("check axisframe");
-			List actualMembers = q.getMemberList();  
+			List actualMembers = q.getQuantities();  
 			Iterator aiter = actualMembers.iterator();
 			int countAxisFrames = 0;
 			while (aiter.hasNext()) {
-				SemanticObject mem = (SemanticObject) aiter.next();
-				if (mem instanceof AxisFrame) {
-					AxisFrame maf = (AxisFrame) mem;
-					List maxisList = maf.getAxisList();
+				ObjectWithQuantities mem = (ObjectWithQuantities) aiter.next();
+				if (mem instanceof ReferenceFrame) {
+					ReferenceFrame maf = (ReferenceFrame) mem;
+					List maxisList = maf.getAxes();
 					assertEquals("number of axes in axis frame is 1", maxisList.size(), 1);
 					logger.debug("number of axes in frame is:"+maxisList.size());
 					countAxisFrames++;
@@ -394,11 +394,11 @@ public class TestCreate extends BaseCase {
 		
 		try {
 		
-			URN urn_no = new URNImpl (URNrep_no_meaning);
-			URN urn1 = new URNImpl (URNrep_x);
-			URN urn2 = new URNImpl (URNrep_y);
+			URN urn_no = new URI (URNrep_no_meaning);
+			URN urn1 = new URI (URNrep_x);
+			URN urn2 = new URI (URNrep_y);
 			// create the axisFrame and (1) member axis/dimension for the matrix
-			AxisFrame af = new AxisFrameImpl();
+			ReferenceFrame af = new ReferenceFrameImpl();
 			ListQuantityImpl axis1 = createListQuantity("axis1", urn1, new UnitsImpl(""), createIntegerDataType(1, false), axisValues1, new Vector() );
 			ListQuantityImpl axis2 = createListQuantity("axis2", urn2, new UnitsImpl(""), createStringDataType(1), axisValues2, new Vector() );
 			af.addAxis(axis1);
@@ -420,14 +420,14 @@ public class TestCreate extends BaseCase {
 			validateQuantityAPI((Quantity) q, id, URNrep_no_meaning, units, datatype);
 			
 			logger.debug("check axisframe");
-			List actualMembers = q.getMemberList();  
+			List actualMembers = q.getQuantities();  
 			Iterator aiter = actualMembers.iterator();
 			int countAxisFrames = 0;
 			while (aiter.hasNext()) {
-				SemanticObject mem = (SemanticObject) aiter.next();
-				if (mem instanceof AxisFrame) {
-					AxisFrame maf = (AxisFrame) mem;
-					List maxisList = maf.getAxisList();
+				ObjectWithQuantities mem = (ObjectWithQuantities) aiter.next();
+				if (mem instanceof ReferenceFrame) {
+					ReferenceFrame maf = (ReferenceFrame) mem;
+					List maxisList = maf.getAxes();
 					logger.debug("number of axes in frame is:"+maxisList.size());
 					assertEquals("number of axes in axis frame is 2", maxisList.size(), 2);
 					countAxisFrames++;
@@ -468,7 +468,7 @@ public class TestCreate extends BaseCase {
 	 * 
 	 * @param xmlRep
 	 */
-	private void checkVariousValidXMLRepresentations(SemanticObject q) 
+	private void checkVariousValidXMLRepresentations(ObjectWithQuantities q) 
 	throws Exception
 	{
 		logger.debug("Check valid string representation");

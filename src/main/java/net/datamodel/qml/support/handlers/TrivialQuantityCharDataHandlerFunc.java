@@ -31,17 +31,17 @@ package net.datamodel.qml.support.handlers;
 // import QML stuff
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.support.CharDataHandlerAction;
-import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 // Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 
-public class TrivialQuantityCharDataHandlerFunc implements CharDataHandlerAction 
+public class TrivialQuantityCharDataHandlerFunc implements CharDataHandler 
 {
-       public void action (QMLDocumentHandler handler, char buf [], int offset, int len)
+       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
        throws SAXException
        {
 

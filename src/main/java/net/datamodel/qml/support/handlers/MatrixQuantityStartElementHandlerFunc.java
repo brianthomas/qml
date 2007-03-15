@@ -31,15 +31,15 @@ package net.datamodel.qml.support.handlers;
 // import QML stuff
 import net.datamodel.qml.core.MatrixQuantityImpl;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 // Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class MatrixQuantityStartElementHandlerFunc implements StartElementHandlerAction {
-       public Object action ( QMLDocumentHandler handler, String namespaceURI, 
+public class MatrixQuantityStartElementHandlerFunc implements StartElementHandler {
+       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 
@@ -47,7 +47,7 @@ public class MatrixQuantityStartElementHandlerFunc implements StartElementHandle
           matrixQ.setFields(attrs); // set XML attributes from passed list
 
           // In order to look for referenced Quantities, we "record" this one if it has a qid
-          handler.recordObjectWithQuantities(matrixQ);
+          handler.recordQuantity(matrixQ);
 
           int expected = handler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
           handler.addExpectedValues(new Integer(expected));

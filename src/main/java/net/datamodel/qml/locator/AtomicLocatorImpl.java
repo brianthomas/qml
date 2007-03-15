@@ -32,12 +32,7 @@
 
 package net.datamodel.qml.locator;
 
-import net.datamodel.qml.AxisFrame;
-import net.datamodel.qml.Locator;
-import net.datamodel.qml.Quantity;
-
-import org.apache.log4j.Logger;
-
+import net.datamodel.qml.ObjectWithValues;
 
 /**
  * AtomicLocatorImpl is implementation of a locator for Atomic Quantities.
@@ -47,114 +42,82 @@ import org.apache.log4j.Logger;
  * 
  * @version $Revision$
  */
-public class AtomicLocatorImpl implements Locator {
+public class AtomicLocatorImpl 
+extends AbstractLocator
+{
 
-	private static final Logger logger = Logger.getLogger(AtomicLocatorImpl.class);
-    // Fields
+//	private static final Logger logger = Logger.getLogger(AtomicLocatorImpl.class);
 
-    // Get the value of parentQuantity  
-    // @return parentQuantity 
-    /**
-     * @uml.property  name="parentQuantity"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
-    protected Quantity parentQuantity;
+	/** Vanilla constructor. */
+	public AtomicLocatorImpl ( ObjectWithValues parent ) 
+	throws NullPointerException
+	{ 
+		if (parent == null)
+			throw new NullPointerException();
 
-    // Methods
-    //
+		setParent(parent);
+		reset();
+	}
 
-    // Constructor
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Locator#next()
+	 */
+	public final void next ( ) {
+		// DO NOTHING.. only one location ever exists
+	}
 
-    /* not allowed */
-    private AtomicLocatorImpl ( ) { } 
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Locator#prev()
+	 */
+	public final void prev ( ) {
+		// DO NOTHING.. only one location ever exists
+	}
 
-    /** Vanilla constructor */
-    public AtomicLocatorImpl ( Quantity parent ) 
-    throws NullPointerException
-    { 
-        if (parent == null)
-           throw new NullPointerException();
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Locator#hasNext()
+	 */
+	public final boolean hasNext ( ) {
+		// always false.. only one location ever exists
+		return false; 
+	}
 
-        parentQuantity = parent;
-        reset();
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Locator#hasPrevious()
+	 */
+	public final boolean hasPrevious ( ) {
+		// always false.. only one location ever exists
+		return false; 
+	}
 
-    // Accessor Methods
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Locator#reset()
+	 */
+	public final void reset () {
+		// do nothing
+	}
 
-    /**
-     * @return AxisFrame null value is always returned.
-     */
-    public AxisFrame getCurrentAxisFrame ( ) {
-        return (AxisFrame) null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Locator#getListIndex()
+	 */
+	public final int getListIndex () {
+		// only one location, so its always "1"
+		return 1;
+	}
 
-    /**
-     * Set the current AxisFrame. If the frame is "null" then list-ordered iteration
-     * will be used by the locator. This method does nothing for non-matrix locators. 
-     * @param frame to set. It may be "null".
-     */
-    public void setCurrentAxisFrame ( AxisFrame frame)
-    {
-       // do nothing
-    }
-
-    /**
-     * Get the value of parentQuantity  
-     * @return  parentQuantity
-     * @uml.property  name="parentQuantity"
-     */
-    public Quantity getParentQuantity (  ) {
-        return parentQuantity;
-    }
-
-    // Operations
-
-    public void next ( ) {
-	// DO NOTHING.. only one location ever exists
-    }
-
-    public void prev ( ) {
-	// DO NOTHING.. only one location ever exists
-    }
-
-    public boolean hasNext ( ) {
-        // always false.. only one location ever exists
-        return false; 
-    }
-
-    public boolean hasPrevious ( ) {
-        // always false.. only one location ever exists
-        return false; 
-    }
-
-    /** Reset the locator to the origin.
-     */
-    public void reset () 
-    {
-    }
-
-    /** Get the list index. All values are held (or are idealized as being
-     *  held) in 1-dimensional lists internally by data containers. This
-     *  returns the index of where the locator is currently pointed in the
-     *  internal list.
-     *  @return int value of index.
-     */
-    public int getListIndex () {
-       // only one location, so its always "1"
-       return 1;
-    }
-
-    /** Set the list index. All values are held (or are idealized as being
-     *  held) in 1-dimensional lists internally by data containers. This
-     *  returns the index of where the locator is currently pointed in the
-     *  internal list.
-     *
-     * @throws IllegalArgumentException when a value which is negative or greater than the list size (quantity.getSize()-1) is passed.
-     */
-    public void setListIndex (int index) throws IllegalArgumentException {
-       if (index != 1)
-          throw new IllegalArgumentException("setListIndex cant handle value of "+index);
-    }
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Locator#setListIndex(int)
+	 */
+	public final void setListIndex (int index) throws IllegalArgumentException {
+		if (index != 1)
+			throw new IllegalArgumentException("setListIndex cant handle value of "+index);
+	}
 
 }
 

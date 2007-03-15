@@ -1,7 +1,7 @@
 
-// CVS $Id$
+//CVS $Id$
 
-// StringDataType.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+//StringDataType.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -19,16 +19,16 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
-   
 
-*/
 
-// code generation timestamp: Tue Apr 20 2004-14:22:31 
+ */
+
+//code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 
 package net.datamodel.qml.datatype;
@@ -41,51 +41,40 @@ import net.datamodel.qml.support.Constants.NodeName;
  */
 public class StringDataType extends ScalarDataType {
 
-    // Constructors
-    // Empty Constructor
-    public StringDataType ( ) { 
-       init();
-    }
+	/** No-arg Constructor */ 
+	public StringDataType ( ) { 
 
-    /**
-     * The number of bytes this data type represents.
-     */
-    public int numOfBytes ( ) {
-        // FIX... need to check for encoding..
-        return getWidth().intValue();
-    }
+		setXMLNodeName(Constants.NodeName.STRING_DATATYPE);
 
-    /** Determine if other units are equivalent to these.
-      * @@Overrides
-      */
-    public boolean equals (Object obj)
-    {
-        if (obj instanceof StringDataType) {
-            if (
-                 super.equals(obj)
-               )
-            return true;
-        }
-        return false;
-    }
+		try {
+			setNoDataValue("");
+		} catch (Exception e) { }
 
-    // Protected Methods
-    //
+	}
 
-    /** Special protected method used by constructor methods to
-        conviently build the XML attribute list for a given class.
-     */
-    protected void init()
-    {
+	/**
+	 * The number of bytes this data type represents.
+	 */
+	public int numOfBytes ( ) {
+		// TODO: fix.. need to check for encoding..
+		return getWidth().intValue();
+	}
 
-       super.init();
-       xmlNodeName = Constants.NodeName.STRING_DATATYPE;
+	/** Determine if other units are equivalent to these.
+	 */
+	@Override
+	public boolean equals (Object obj)
+	{
+		if (obj instanceof StringDataType) {
+			if (
+					super.equals(obj)
+			)
+				return true;
+		}
+		return false;
+	}
 
-       try {
-          setNoDataValue("");
-       } catch (Exception e) { }
-
-    }
+	// TODO: implement hashCode!
 
 }
 

@@ -22,10 +22,7 @@
 */
 
 /* AUTHOR
-
    Brian Thomas  (baba-luu@earthlink.net)
-   
-
 */
 
 // code generation timestamp: Tue Apr 20 2004-14:22:31 
@@ -34,68 +31,40 @@ package net.datamodel.qml.core;
 
 import java.io.IOException;
 import java.io.Writer;
-
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Vector;
 
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.ValueContainer;
-import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.Constants.NodeName;
+import net.datamodel.xssp.XMLFieldType;
+import net.datamodel.xssp.XMLSerializableField;
+import net.datamodel.xssp.XMLSerializableObject;
 
 /**
  * A restricted atomic quantity. The trivial quantity may only hold a single "unitless", 
  * string value.
  */
-public class TrivialQuantityImpl extends AtomicQuantityImpl implements Quantity {
+public class TrivialQuantityImpl 
+extends AtomicQuantityImpl 
+{
 
-    // Fields
-
-    // Methods
-    //
-
-    // Constructors
-
-    // No-arg constructor 
-    public TrivialQuantityImpl ( ) { 
-       init(-1);
+    /** No-arg constructor  */
+    public TrivialQuantityImpl () { 
+       super(-1);
+       setXMLNodeName(Constants.NodeName.TRIVIAL_QUANTITY);
     }
 
-    /** Constuct the quantity with a number of pre-allocated locations (capacity) 
-     * for the list of values it contains.
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.core.ComponentImpl#setDataType(net.datamodel.qml.DataType)
      */
-    public TrivialQuantityImpl ( int capacity ) { 
-       if(capacity > 1) 
-         throw new IllegalArgumentException("TQ can't have a capacity greater than 1!");
-       init(capacity);
-    }
-
-    /* Construct this quantity with mapping rather than explicitly holding
-      * values. Trivial quantities DONT support this, so DONT use this constructor.
-      * @throws IllegalArgumentException if called.
-      */
-/*
-    public TrivialQuantityImpl ( ValueMapping mapping )
-    {
-       throw new IllegalArgumentException("TQ can't have a mapping!");
-    }
-*/
-
-    // Accessor Methods
-
-    /**
-     * Set the value of dataType. As this is, by definition, restricted to "String", 
-     * any other DataType will throw an error. 
-     * @throws IllegalArgumentException if any non-String dataType object is passed.
-     */
-    public void setDataType ( DataType value  ) 
+    @Override
+    public void setDataType (DataType value) 
     throws IllegalArgumentException
     {
         if (value instanceof StringDataType) {
@@ -105,10 +74,9 @@ public class TrivialQuantityImpl extends AtomicQuantityImpl implements Quantity 
         }
     }
 
-    /**
-     * Set the value of units. As this is, by definition, restricted to "Unitless", any
-     * other Units will throw an error. 
-     * @throws IllegalArgumentException if any non-empty units object (e.g. "unitless") is passed.
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.core.ComponentImpl#setUnits(net.datamodel.qml.Units)
      */
     public void setUnits ( Units value ) 
     throws IllegalArgumentException
@@ -120,30 +88,19 @@ public class TrivialQuantityImpl extends AtomicQuantityImpl implements Quantity 
         }
     }
 
-    /**
-     * Set the value at the specified location. These type of data are NOT allowed for TrivialQuantities.
-     * @param obj Byte value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param loc Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based quantities.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceedi
-ng locations.
-     */
+  /*
+   * (non-Javadoc)
+   * @see net.datamodel.qml.core.AtomicQuantityImpl#setValue(java.lang.Byte, net.datamodel.qml.Locator)
+   */
     public void setValue (Byte obj, Locator loc)
        throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
     {
         throw new IllegalAccessException("Byte data not allowed in Trivial Quantity");
     }
 
-    /**
-     * Set the value at the specified location. These type of data are NOT allowed for TrivialQuantities.
-     * @param obj Double value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param loc Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based quantities.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.core.AtomicQuantityImpl#setValue(java.lang.Double, net.datamodel.qml.Locator)
      */
     public void setValue (Double obj, Locator loc)
        throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
@@ -151,14 +108,9 @@ ng locations.
         throw new IllegalAccessException("Double data not allowed in Trivial Quantity");
     }
 
-    /**
-     * Set the value at the specified location. These type of data are NOT allowed for TrivialQuantities.
-     * @param obj Integer value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param loc Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based quantities.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.core.AtomicQuantityImpl#setValue(java.lang.Integer, net.datamodel.qml.Locator)
      */
     public void setValue (Integer obj, Locator loc)
        throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
@@ -166,14 +118,9 @@ ng locations.
         throw new IllegalAccessException("Integer data not allowed in Trivial Quantity");
     }
 
-    /**
-     * Set the value at the specified location. These type of data are NOT allowed for TrivialQuantities.
-     * @param obj Short value to set. Value cannot be "null" (use a noDataValue instead).
-     * @param loc Locator object to indicate where to set the value.
-     * @throws IllegalAccessException when called for mapping-based quantities.
-     * @throws IllegalArgumentException or a locator belonging to another quantity is passed.
-     * @throws NullPointerException when null parameters are passed.
-     * @throws SetDataException when setting a value at a location would require inserting null values in preceeding locations.
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.core.AtomicQuantityImpl#setValue(java.lang.Short, net.datamodel.qml.Locator)
      */
     public void setValue (Short obj, Locator loc)
        throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
@@ -181,11 +128,9 @@ ng locations.
         throw new IllegalAccessException("Short data not allowed in Trivial Quantity");
     }
 
-    // Operations
-
-    // Protected ops
-
+    // FIXME : we are overriding a method in XSSP package!!
     /** returns true if there were child nodes to handle */
+    @Override
     protected boolean handleChildNodes(Hashtable idTable, Hashtable prefixTable, Writer outputWriter, String nodeNameString,
                                        String indent, Vector childObjs, XMLSerializableField PCDATA)
     throws IOException
@@ -201,7 +146,7 @@ ng locations.
           for (int i = 0; i < objs_size; i++) {
             XMLSerializableField field = (XMLSerializableField) childObjs.get(i);
 
-            if (field.getType() == Constants.FIELD_CHILD_NODE_TYPE)
+            if (field.getType() == XMLFieldType.CHILD)
             {
 
                XMLSerializableObject containedObj = (XMLSerializableObject) field.getValue();
@@ -230,8 +175,11 @@ ng locations.
 
         return false;
     }
-
-    protected void doClosingNodeForChildren (String nodeNameString, String indent, boolean hasPCDATA,
+    
+    // FIXME: we are overriding a method which is in the XSSP package (!!)
+    @Override
+    protected void doClosingNodeForChildren (String nodeNameString, 
+    										String indent, boolean hasPCDATA,
                                              boolean isPrettyOutput,  Writer outputWriter)
     throws IOException
     {
@@ -242,18 +190,6 @@ ng locations.
                if(!nodeNameString.equals(""))
                    outputWriter.write("</"+nodeNameString+">");
           }
-
-    }
-
-    /** A special protected method used by constructor methods to
-     *  conviently build the XML attribute list for a given class.
-     */
-    protected void init( int capacity )
-    {
-
-       super.init(capacity);
-
-       xmlNodeName = Constants.NodeName.TRIVIAL_QUANTITY;
 
     }
 

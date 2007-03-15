@@ -29,17 +29,17 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.support.EndElementHandlerAction;
-import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.EndElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 
-public class IllegalEndElementHandlerFunc implements EndElementHandlerAction 
+public class IllegalEndElementHandlerFunc implements EndElementHandler 
 {
 
 	private static final Logger logger = Logger.getLogger(IllegalEndElementHandlerFunc.class);
 	
-       public void action (QMLDocumentHandler handler )
+       public void action (XSSPDocumentHandler handler )
        {
           // log error message
           logger.error("ERROR: current node in document but has IllegalEndHandlerType (e.g. schema is probably improperly written!)");

@@ -31,15 +31,15 @@ package net.datamodel.qml.support.handlers;
 // import QML stuff
 import net.datamodel.qml.core.ComponentImpl;
 import net.datamodel.qml.datatype.VectorDataType;
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 // Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class ComponentStartElementHandlerFunc implements StartElementHandlerAction {
-       public Object action (QMLDocumentHandler handler, String namespaceURI, String localName,
+public class ComponentStartElementHandlerFunc implements StartElementHandler {
+       public Object action (XSSPDocumentHandler handler, String namespaceURI, String localName,
                              String qName, Attributes attrs)
        throws SAXException {
 

@@ -1,7 +1,7 @@
 
 // CVS $Id$
 
-// AxisFrame.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// ReferenceFrame.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -30,37 +30,41 @@
 
 package net.datamodel.qml;
 
-import java.util.Iterator;
 import java.util.List;
+
+import net.datamodel.soml.SemanticObject;
 
 /**
  * Interface for axis frames. These objects contain the dimensional information that defines a unique frame of reference for one or more other quantities.
  * @version  $Revision$
  */
-public interface AxisFrame extends SemanticObject {
+public interface ReferenceFrame 
+extends SemanticObject
+{
 
     // Operations
 
-    /** A utility method for addMember(axis).
+    /** A method to add another dimension (axis) to this frame of refernence.
+     * 
      * @param axis 
      * @return boolean value of whether an axis was successfully added. 
      */
-    public boolean addAxis ( Quantity axis);
+    public boolean addAxis (ListQuantity axis);
 
-    /** A utility method for removeMember(axis).
+    /** A method to remove a dimension (axis) from this frame.
+     * 
      * @param axis 
      * @return boolean value of whether an axis was successfully removed. 
      */
-    public boolean removeAxis ( Quantity axis);
+    public boolean removeAxis (ListQuantity axis);
 
-    /**
-     * Utility method. Synonym for getMemberList().
-     * @return  List of axes in a given instance of AxisFrame.
-     * @uml.property  name="axisList"
+    /** Retrieve all dimensions (axes) described by this frame of reference.
+     * 
+     * @return  List of axes in a given instance of ReferenceFrame.
      */
-    public List getAxisList ( );
+    public List<ListQuantity> getAxes();
 
-    /** Utility method to find the number of locations implied by 
+    /** Utility method to find the total number of locations implied by 
       * the values held by child axes.
       */
     public int getNumberOfAxisLocations();

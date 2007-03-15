@@ -36,139 +36,135 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.datamodel.qml.Component;
-import net.datamodel.qml.BaseDataType;
-import net.datamodel.qml.core.QuantityContainerImpl;
-import net.datamodel.qml.core.XMLSerializableField;
+import net.datamodel.qml.DataType;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.Constants.NodeName;
+import net.datamodel.xssp.XMLFieldType;
+import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
+import net.datamodel.xssp.impl.AbstractXMLSerializableObjectList;
+
+import org.apache.log4j.Logger;
 
 /**
  * A vector (having one or more components) as a data type.
  */
-public class VectorDataType extends BaseDataType 
+public class VectorDataType 
+extends AbstractXMLSerializableObject 
+implements DataType
 {
 
-    // Fields
-    // 
-    private static final String COMPONENTS_XML_FIELD_NAME = new String("components");
+	private static final Logger logger = Logger.getLogger(VectorDataType.class);
+	private static final String componentsFieldName = "components";
 
-    // Methods
+	// Constructors
 
-    // Constructors
+	/** No-argument Constructor. */ 
+	public VectorDataType ( ) { 
 
-    // No-argument Constructor
-    public VectorDataType ( ) { 
-       init();
-    }
+		setXMLNodeName(Constants.NodeName.VECTOR_DATATYPE);
 
-    // Accessor Methods
+		// order matters! these are in *reverse* order of their
+		// occurence in the schema/DTD
+		addField(componentsFieldName, new ComponentList(), XMLFieldType.CHILD);
 
-    /**
-     * The object which represents the "no data available" value.
-     */
-    public Object getNoDataValue (  ) {
-        String noDataValue = "";
-        Iterator iter = getComponentList().iterator();
-        while (iter.hasNext()) {
-           Component comp = (Component) iter.next();
-           noDataValue += Constants.VALUE_SEPARATOR_STRING + comp.getDataType().getNoDataValue().toString(); 
-        }
-        return noDataValue.trim();
-    }
+	}
 
-    /**
-     * The object which represents the "no data available" value.
-     * This is actually constructed from the component dataTypes held by 
-     * the vector, therefore it is not kosher to call this method for VectorDataType.
-     * @throws IllegalAccessException if called for VectorDataType.
-     */
-    public void setNoDataValue ( Object value  ) 
-    throws IllegalAccessException
-    {
-        throw new IllegalAccessException("Can't set no data value for vectordatatype. You must set this in each of its components instead.");
-    }
+	// Accessor Methods
 
-    /**
-     * Add an object of type Component to represent a component of this vector.
-     *
-     * @throws NullPointerException if a null reference is passed.
-     * @return boolean value of whether addition was successfull or not.
-     */
-    public boolean addComponent ( Component value )
-    throws NullPointerException
-    {
-        // can't add ourselves as alternative value of ourselves (!)
-        if(value == null)
-           throw new NullPointerException ();
+	/**
+	 * The object which represents the "no data available" value.
+	 */
+	public final Object getNoDataValue () {
+		String noDataValue = "";
+		Iterator iter = getComponents().iterator();
+		while (iter.hasNext()) {
+			Component comp = (Component) iter.next();
+			noDataValue += Constants.VALUE_SEPARATOR_STRING + comp.getDataType().getNoDataValue().toString(); 
+		}
+		return noDataValue.trim();
+	}
 
-        return getComponentList().add(value);
-    }
+	/**
+	 * The object which represents the "no data available" value.
+	 * This is actually constructed from the component dataTypes held by 
+	 * the vector, therefore it is not kosher to call this method for VectorDataType.
+	 * @throws IllegalAccessException if called for VectorDataType.
+	 */
+	public final void setNoDataValue (Object value) 
+	throws IllegalAccessException
+	{
+		throw new IllegalAccessException("Can't set no data value for vectordatatype. You must set this in each of its components instead.");
+	}
 
-    /**
-     * Remove an object of type Component from the component List.
-     *
-     * @return boolean value of whether removal was successfull or not.
-     */
-    public boolean removeAltValue ( Component value )
-    {
-        return getComponentList().remove(value);
-    }
+	/**
+	 * Add an object of type Component to represent a component of this vector.
+	 *
+	 * @throws NullPointerException if a null reference is passed.
+	 * @return boolean value of whether addition was successfull or not.
+	 */
+	public final boolean addComponent ( Component value )
+	throws NullPointerException
+	{
+		// can't add ourselves as alternative value of ourselves (!)
+		if(value == null)
+			throw new NullPointerException ();
 
-    /**
-     * Get the list of component objects.
-     * 
-     * @return List of components held by this VectorDataType
-     */
-    public List getComponentList (  ) {
-        return (List) ((QuantityContainerImpl) ((XMLSerializableField) fieldHash.get(COMPONENTS_XML_FIELD_NAME)).getValue()).getQuantityList();
-    }
+		return getComponents().add(value);
+	}
 
-    /**
-     * The number of bytes this data type represents.
-     */
-    public int numOfBytes ( ) {
-        // FIX
-        return -1;
-    }
+	/**
+	 * Remove an object of type Component from the component List.
+	 *
+	 * @return boolean value of whether removal was successfull or not.
+	 */
+	public final boolean removeAltValue ( Component value )
+	{
+		return getComponents().remove(value);
+	}
 
-    /** Determine if other units are equivalent to these.
-      * @@Overrides
-      */
-    public boolean equals (Object obj)
-    {
-        if (obj instanceof VectorDataType) {
-            if (
-                 super.equals(obj)
-                      &&
-// FIXME : should iterate thru to find equivalence
-                 this.getComponentList().equals( ((VectorDataType)obj).getComponentList())
-               )
-            return true;
-        }
-        return false;
-    }
+	/**
+	 * Get the list of component objects.
+	 * 
+	 * @return List of components held by this VectorDataType
+	 */
+	public final List<Component> getComponents (  ) {
+		return (List<Component>) getFieldValue(componentsFieldName);
+	}
 
-    // 
-    // Protected Methods
-    //
+	/**
+	 * The number of bytes this data type represents.
+	 */
+	public final int numOfBytes ( ) {
+		// TODO: FIX  
+		logger.error("VectorDataType returns INCORRECT numOfBytes, please fix");
+		return -1;
+	}
 
-    /** Special protected method used by constructor methods to
-        conviently build the XML attribute list for a given class.
-     */
-    protected void init( )
-    {
+	/** Determine if other units are equivalent to these.
+	 */
+	@Override
+	public boolean equals (Object obj)
+	{
+		if (obj instanceof VectorDataType) {
+			if (
+					super.equals(obj)
+					&&
+					// TODO: FIXME : should iterate thru to find equivalence
+					this.getComponents().equals( ((VectorDataType)obj).getComponents())
+			)
+				return true;
+		}
+		return false;
+	}
 
-      resetFields();
+	// TODO: add hashCode method
 
-      xmlNodeName = Constants.NodeName.VECTOR_DATATYPE;
-
-      // order matters! these are in *reverse* order of their
-      // occurence in the schema/DTD
-      fieldOrder.add(0, COMPONENTS_XML_FIELD_NAME);
-
-      fieldHash.put(COMPONENTS_XML_FIELD_NAME, new XMLSerializableField( new QuantityContainerImpl(null, false), Constants.FIELD_CHILD_NODE_TYPE));
-
-    }
+	/** A little class to hold our components.
+	 * 
+	 */
+	private class ComponentList<Component> 
+	extends AbstractXMLSerializableObjectList {
+		public ComponentList( ) { super(""); }
+	}
 
 }
 

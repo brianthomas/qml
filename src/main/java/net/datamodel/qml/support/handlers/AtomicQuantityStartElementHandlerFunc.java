@@ -30,22 +30,21 @@ package net.datamodel.qml.support.handlers;
 
 // import QML stuff
 import net.datamodel.qml.core.AtomicQuantityImpl;
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.xssp.parse.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class AtomicQuantityStartElementHandlerFunc implements StartElementHandlerAction {
-       public Object action ( QMLDocumentHandler handler, String namespaceURI, String localName, 
+public class AtomicQuantityStartElementHandlerFunc implements StartElementHandler {
+       public Object action ( XSSPDocumentHandler handler, String namespaceURI, String localName, 
                               String qName, Attributes attrs)
        throws SAXException {
 
           AtomicQuantityImpl atomicQ = new AtomicQuantityImpl();
           atomicQ.setFields(attrs); // set XML attributes from passed list
 
-          handler.recordObjectWithQuantities(atomicQ);
+          handler.recordQuantity(atomicQ);
 
           handler.addExpectedValues(new Integer(1));
 

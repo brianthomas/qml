@@ -29,26 +29,26 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class RefQuantityStartElementHandlerFunc implements StartElementHandlerAction {
+public class RefQuantityStartElementHandlerFunc implements StartElementHandler {
 	
 	private static final Logger logger = Logger.getLogger(RefQuantityStartElementHandlerFunc.class);
 	
-       public Object action ( QMLDocumentHandler handler, String namespaceURI,
+       public Object action ( XSSPDocumentHandler handler, String namespaceURI,
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 
-          SemanticObject refQ = null;
+          ObjectWithQuantities refQ = null;
 
           String qIdRef = attrs.getValue(Constants.QIDREF_ATTRIBUTE_NAME);
 
@@ -58,7 +58,7 @@ public class RefQuantityStartElementHandlerFunc implements StartElementHandlerAc
              if (handler.ObjWithQuantities.containsKey(qIdRef)) {
 
                  try {
-                    refQ = (SemanticObject) ((XMLSerializableObject) handler.ObjWithQuantities.get(qIdRef)).clone();
+                    refQ = (ObjectWithQuantities) ((XMLSerializableObject) handler.ObjWithQuantities.get(qIdRef)).clone();
 
                     if(refQ instanceof Quantity)
                        handler.addExpectedValues(new Integer (((Quantity) refQ).getSize().intValue()));
@@ -66,7 +66,7 @@ public class RefQuantityStartElementHandlerFunc implements StartElementHandlerAc
                        handler.addExpectedValues(new Integer(0));
 
                     // record this new Q on the list of quantity objects
-                    handler.recordObjectWithQuantities(refQ);
+                    handler.recordQuantity(refQ);
 
                  } catch (CloneNotSupportedException e) {
                     logger.error("refQuantity couldnt be created, clone failed:"+e.getMessage());

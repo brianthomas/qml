@@ -30,7 +30,7 @@
 
 package net.datamodel.qml.support.DOMXerces2;
 
-import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.core.XMLSerializableField;
@@ -69,28 +69,28 @@ implements QMLElement
    // 
    // Fields
    //
-   SemanticObject myQuantity = null;
+   ObjectWithQuantities myQuantity = null;
 
    //
    // Constructors
    //
 
-   // hmm..badness. We expect SemanticObject interface, then demand (internally) the 
+   // hmm..badness. We expect ObjectWithQuantities interface, then demand (internally) the 
    // XMLSerializableObject interface. This could lead to problems down the
    // line. :P 
-   public QMLElementImpl (String namespaceURI, SemanticObject quantity, DocumentImpl doc) 
+   public QMLElementImpl (String namespaceURI, ObjectWithQuantities quantity, DocumentImpl doc) 
    throws IOException,NullPointerException
    {
-      super (doc, namespaceURI, ((XMLSerializableObject) quantity).getXMLNodeName());
+      super (doc, namespaceURI, ((XMLSerializableObject) quantity).getXMLTagName());
       ((XMLSerializableObject) quantity).setNamespaceURI(namespaceURI);
       setQuantity(quantity);
    }
 
    // this has same issue as the constructor above
-   public QMLElementImpl (SemanticObject quantity, DocumentImpl doc) 
+   public QMLElementImpl (ObjectWithQuantities quantity, DocumentImpl doc) 
    throws IOException,NullPointerException
    {
-      super (doc, Constants.QML_NAMESPACE_URI, ((XMLSerializableObject) quantity).getXMLNodeName());
+      super (doc, Constants.QML_NAMESPACE_URI, ((XMLSerializableObject) quantity).getXMLTagName());
       setQuantity(quantity);
    }
 
@@ -107,7 +107,7 @@ implements QMLElement
    }
 
    public String getTagName() {
-      return ((XMLSerializableObject) getQuantity()).getXMLNodeName();
+      return ((XMLSerializableObject) getQuantity()).getXMLTagName();
    }
 
    // hmmm. sense badness here..how to keep these in sync?
@@ -182,16 +182,16 @@ implements QMLElement
        return null;
    }
 
-   public SemanticObject getQuantity() 
+   public ObjectWithQuantities getQuantity() 
    {
       return myQuantity;
    }
 
-   public void setQuantity (SemanticObject object) 
+   public void setQuantity (ObjectWithQuantities object) 
    throws NullPointerException
    {
       if (object == null) 
-         throw new NullPointerException("Can't set QMLElement with null SemanticObject object pointer");
+         throw new NullPointerException("Can't set QMLElement with null ObjectWithQuantities object pointer");
       else
          myQuantity = object;
    }
@@ -208,7 +208,7 @@ implements QMLElement
       if (newChild instanceof QMLElement) 
       {
          QMLElement qElem = (QMLElement) newChild;
-         SemanticObject q = qElem.getQuantity();
+         ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().addMember(q);
@@ -236,7 +236,7 @@ implements QMLElement
       if (newChild instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) newChild;
-         SemanticObject q = qElem.getQuantity();
+         ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().addMember(q);
@@ -257,7 +257,7 @@ implements QMLElement
       if (oldChild instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) oldChild;
-         SemanticObject q = qElem.getQuantity();
+         ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().removeMember(q);
@@ -279,7 +279,7 @@ implements QMLElement
        if (oldChild instanceof QMLElement)
        {
           QMLElement qElem = (QMLElement) oldChild;
-          SemanticObject q = qElem.getQuantity();
+          ObjectWithQuantities q = qElem.getQuantity();
 
           // remove member
           getQuantity().removeMember(q);
@@ -291,7 +291,7 @@ implements QMLElement
        if (newChild instanceof QMLElement)
        {
           QMLElement qElem = (QMLElement) newChild;
-          SemanticObject q = qElem.getQuantity();
+          ObjectWithQuantities q = qElem.getQuantity();
 
           // add member
           getQuantity().addMember(q);
@@ -330,12 +330,12 @@ implements QMLElement
    throws java.io.IOException
    {
 
-      // How should we write ourselves out? IF we have a SemanticObject
+      // How should we write ourselves out? IF we have a ObjectWithQuantities
       // with an ID, then we need to check the document to see
       // if we write out as an refQuantity node or not. Otherwise..just
       // the normal proceedure is ok.
 
-      SemanticObject q = getQuantity();
+      ObjectWithQuantities q = getQuantity();
 
       // check parent document about this..
       if(getOwnerDocument() instanceof QMLDocumentImpl)

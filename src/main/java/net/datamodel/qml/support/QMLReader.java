@@ -124,19 +124,19 @@ public class QMLReader
 
     /** Set the default handler for the start elements in the document handler.  
      */
-    public void setDefaultStartElementHandler (StartElementHandlerAction handler) {
+    public void setDefaultStartElementHandler (StartElementHandler handler) {
        myDocumentHandler.setDefaultStartElementHandler(handler);
     }
 
    /** Set the default handler for the end elements in the document handler.  
      */
-    public void setDefaultEndElementHandler (EndElementHandlerAction handler) {
+    public void setDefaultEndElementHandler (EndElementHandler handler) {
        myDocumentHandler.setDefaultEndElementHandler(handler);
     }
 
     /** Set the default handler for character data in the document handler.  
      */
-    public void setDefaultCharDataHandler (CharDataHandlerAction handler) {
+    public void setDefaultCharDataHandler (CharDataHandler handler) {
        myDocumentHandler.setDefaultCharDataHandler(handler);
     }
 

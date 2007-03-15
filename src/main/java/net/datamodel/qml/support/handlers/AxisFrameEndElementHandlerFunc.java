@@ -29,34 +29,34 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.AxisFrame;
+import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.SemanticObject;
+import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.core.SemanticObjectImpl;
-import net.datamodel.qml.support.EndElementHandlerAction;
-import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.EndElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 // Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 
-public class AxisFrameEndElementHandlerFunc implements EndElementHandlerAction 
+public class AxisFrameEndElementHandlerFunc implements EndElementHandler 
 {
-       public void action (QMLDocumentHandler handler )
+       public void action (XSSPDocumentHandler handler )
        throws SAXException {
 
           // peel off the last quantity, which should be our axisFrame
-          SemanticObject q = handler.removeCurrentObjectWithQuantities();
-          SemanticObject cq = handler.getCurrentObjectWithQuantities();
+          ObjectWithQuantities q = handler.unrecordQuantity();
+          ObjectWithQuantities cq = handler.getCurrentQuantity();
 
-          if(q instanceof AxisFrame && cq instanceof MatrixQuantity)
+          if(q instanceof ReferenceFrame && cq instanceof MatrixQuantity)
           {
-              ((MatrixQuantity)cq).addMember((AxisFrame)q);
+              ((MatrixQuantity)cq).addMember((ReferenceFrame)q);
           } else if (cq instanceof SemanticObjectImpl) {
              // do nothing..we already added it as a member
           } else
-              throw new SAXException("Ugh. AxisFrame can't be found..bad parse.");
+              throw new SAXException("Ugh. ReferenceFrame can't be found..bad parse.");
 
           handler.removeExpectedValues();
 

@@ -29,20 +29,19 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.xssp.parse.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class AltValuesContainerStartElementHandlerFunc implements StartElementHandlerAction {
-       public Object action (QMLDocumentHandler handler, String namespaceURI,
+public class AltValuesContainerStartElementHandlerFunc implements StartElementHandler {
+       public Object action (XSSPDocumentHandler handler, String namespaceURI,
                              String localName, String qName, Attributes attrs)
        throws SAXException {
 
           handler.AddingAltValues = true;
-          handler.addParentQuantityNeedsAltValue(handler.getCurrentObjectWithQuantities());
+          handler.addParentQuantityNeedsAltValue(handler.getCurrentQuantity());
 
           return null;
        }

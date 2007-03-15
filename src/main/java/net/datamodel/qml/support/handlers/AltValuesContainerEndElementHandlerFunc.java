@@ -28,16 +28,13 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
-import net.datamodel.qml.support.EndElementHandlerAction;
-import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.EndElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class AltValuesContainerEndElementHandlerFunc implements EndElementHandlerAction {
-       public void action (QMLDocumentHandler handler )
+public class AltValuesContainerEndElementHandlerFunc implements EndElementHandler {
+       public void action (XSSPDocumentHandler handler )
        throws SAXException {
           handler.AddingAltValues = false;
           handler.removeParentQuantityNeedsAltValue();

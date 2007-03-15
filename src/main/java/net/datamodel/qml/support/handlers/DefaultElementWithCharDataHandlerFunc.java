@@ -30,8 +30,8 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.support.CharDataHandlerAction;
-import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
@@ -40,12 +40,12 @@ import org.xml.sax.SAXException;
 
 // default character data handler for Elements which 
 // contain either PCData or CDATASections.
-public class DefaultElementWithCharDataHandlerFunc implements CharDataHandlerAction 
+public class DefaultElementWithCharDataHandlerFunc implements CharDataHandler 
 {
 	
    	   private static final Logger logger = Logger.getLogger(DefaultElementWithCharDataHandlerFunc.class);
    	   
-       public void action (QMLDocumentHandler handler, char buf [], int offset, int len)
+       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
        throws SAXException
        {
 

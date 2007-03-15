@@ -13,16 +13,17 @@ Version Description
 
   0.2   Equivalence and Equals function support
 
-  0.3   Xerces Factory/Document Builder support
+  0.3   Refactor to use SOML package.
+  
+  0.4   Xerces Factory/Document Builder support
         and confirm support for XML version 1.1 under Xerces 
 
-  0.4   Quantity Math Function support (just basic stuff: Add, Subtract, 
-        Divide, Multiply, Exponent, Log only) 
+  0.5   Quantity Math Function support (just basic stuff: Add, Subtract, 
+        Divide, Multiply, Exponent, Log only) [Note: this may wait for a
+        measurement package instead] 
 
-  0.5   Mapped Values support w/ basic Linear and Polynomial algorithms 
+  0.6   Mapped Values support w/ basic Linear and Polynomial algorithms 
         for generation of values.
-
-  0.6   Basic accuracy sub-package including Gaussian/Normal errors 
 
   0.7   Basic units sub-package including fundamental 9 or so SI units
 

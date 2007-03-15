@@ -30,22 +30,22 @@ package net.datamodel.qml.support.handlers;
 
 // import QML stuff
 import net.datamodel.qml.core.SemanticObjectImpl;
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 // Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class ObjectWithQuantitesStartElementHandlerFunc implements StartElementHandlerAction {
-       public Object action ( QMLDocumentHandler handler, String namespaceURI, 
+public class ObjectWithQuantitesStartElementHandlerFunc implements StartElementHandler {
+       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
                               String localName, String qName, Attributes attrs)
        throws SAXException {
 
           SemanticObjectImpl objWithQ = new SemanticObjectImpl();
           objWithQ.setFields(attrs); // set XML attributes from passed list
 
-          handler.recordObjectWithQuantities(objWithQ);
+          handler.recordQuantity(objWithQ);
 
           handler.addExpectedValues(new Integer(0));
 

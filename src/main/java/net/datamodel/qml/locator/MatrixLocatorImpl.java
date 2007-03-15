@@ -33,114 +33,77 @@ package net.datamodel.qml.locator;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
-import net.datamodel.qml.AxisFrame;
+import net.datamodel.qml.ReferenceFrame;
+import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
+import net.datamodel.qml.MatrixLocator;
+import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.core.MatrixQuantityImpl;
 
 /**
  * Implementation of a locator for List quantities.
  */
-public class MatrixLocatorImpl extends ListLocatorImpl 
-implements Locator 
+public class MatrixLocatorImpl extends AbstractLocator
+implements MatrixLocator 
 {
 
-    // the current axis frame we are using (e.g. always "null")
-    /**
-     * @uml.property  name="currentAxisFrame"
-     * @uml.associationEnd  
-     */
-    private AxisFrame currentAxisFrame;
+    // the current axis frame we are using 
+    private ReferenceFrame currentAxisFrame;
 
     // for the current axisFrame, a list of axes, and how we wish to iterator over them 
-    /**
-     * @uml.property  name="axisOrderList"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="net.datamodel.qml.Quantity" qualifier="new:java.lang.Integer java.lang.Integer"
-     */
-    protected List axisOrderList;
+    private List<ListQuantity> axisOrderList;
 
     // cache value of whether next cell location exists
-    /**
-     * @uml.property  name="nextCellAvailable"
-     */
     private boolean nextCellAvailable;
 
     // cache value of whether previous cell location exists
-    /**
-     * @uml.property  name="prevCellAvailable"
-     */
     private boolean prevCellAvailable;
 
     // number of axes in the present axis frame
-    /**
-     * @uml.property  name="dimension"
-     */
-    private int dimension;
+    private int dimension = 0;
 
     //For the currentAxisFrame, a hashtable to store the (axis, index) pairs
-    /**
-     * @uml.property  name="locations"
-     * @uml.associationEnd  qualifier="axis:net.datamodel.qml.Quantity java.lang.Integer"
-     */
-    protected Hashtable locations;
+    protected Map<ListQuantity,Integer> locations = new Hashtable<ListQuantity, Integer>();
 
-    /**
-     * @uml.property  name="needToUpdateIndexMultiplier"
-     */
     public boolean needToUpdateIndexMultiplier = true;
-    /**
-     * @uml.property  name="indexMult" multiplicity="(0 -1)" dimension="1"
-     */
+    
     private int[] indexMult;
 
     // Fields
 
-    // where in the data container list we are
-    /**
-     * @uml.property  name="listIndex"
-     */
-    protected int listIndex;
-
-    // Methods
-    //
-
     // Constructor
     /** Vanilla constructor */
-    public MatrixLocatorImpl ( Quantity parent ) 
-    {
+    public MatrixLocatorImpl ( MatrixQuantity parent ) {
         super(parent);
     }
 
-    /** Construct locator with particular axis frame.
+    /** Construct locator with particular axis frame. The specified frame
+     * must belong to the specified MatrixQuantity.
      */
-    public MatrixLocatorImpl ( Quantity parent, AxisFrame useFrame ) 
+    public MatrixLocatorImpl ( MatrixQuantity parent, ReferenceFrame useFrame ) 
     throws NullPointerException
     {
         super(parent);
         setCurrentAxisFrame(currentAxisFrame);
     }
 
-    // Accessor Methods
-
-    /**
-     * @return  AxisFrame null value is always returned.
-     * @uml.property  name="currentAxisFrame"
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.locator.ListLocatorImpl#getCurrentAxisFrame()
      */
-    public AxisFrame getCurrentAxisFrame ( ) {
-        return currentAxisFrame;
-    }
+    public ReferenceFrame getCurrentAxisFrame ( ) { return currentAxisFrame; }
 
-    /**
-     * Set the current AxisFrame. If the frame is "null" then list-ordered iteration will be used by the locator.
-     * @param frame  to set. It may be "null".
-     * @uml.property  name="currentAxisFrame"
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.locator.ListLocatorImpl#setCurrentAxisFrame(net.datamodel.qml.ReferenceFrame)
      */
-    public void setCurrentAxisFrame ( AxisFrame frame)
+    public void setCurrentAxisFrame ( ReferenceFrame frame)
     {
 
-        if(frame != null && !((MatrixQuantityImpl) parentQuantity).getAxisFrameList().contains(frame))
+        if(frame != null && !((MatrixQuantity) getParent()).getAxisFrameList().contains(frame))
            throw new IllegalArgumentException("Can't setCurrentAxisFrame in locator : parent quantity contains no such object:"+frame);
 
         // reset our location to the origin
@@ -155,20 +118,20 @@ implements Locator
 
         // now do stuff to init our location, for the present frame, to the origin
 
-        axisOrderList = currentAxisFrame.getAxisList();
+        axisOrderList = currentAxisFrame.getAxes();
 
         // set all indices to '0'..the origin
         Iterator iter = axisOrderList.iterator();
         while (iter.hasNext())
         {
-            locations.put((Quantity)iter.next(), new Integer(0));
+            locations.put((ListQuantity)iter.next(), new Integer(0));
         }
 
         dimension = axisOrderList.size();
 
         updateIndexMultiplierArray();
 
-// FIX : need call back to make sure this is in sync with "current" AxisFrame.
+// FIX : need call back to make sure this is in sync with "current" ReferenceFrame.
 // ISSUE: if user changes/removes/adds) an axis, we should re=init the locator
 
     }
@@ -226,9 +189,9 @@ implements Locator
     throws IllegalArgumentException
     {
         if (currentAxisFrame == null)
-           throw new IllegalArgumentException("Can't setAxisIndex in locator with null current AxisFrame.");
-        if (!currentAxisFrame.getAxisList().contains(axis))
-           throw new IllegalArgumentException("Can't setAxisIndex. Passed Axis is not present in current locator AxisFrame.");
+           throw new IllegalArgumentException("Can't setAxisIndex in locator with null current ReferenceFrame.");
+        if (!currentAxisFrame.getAxes().contains(axis))
+           throw new IllegalArgumentException("Can't setAxisIndex. Passed Axis is not present in current locator ReferenceFrame.");
 
         // everything is kosher..return the current index
         return (Integer) locations.get(axis);
@@ -243,9 +206,9 @@ implements Locator
     {
 
         if (currentAxisFrame == null)
-           throw new IllegalArgumentException("Can't setAxisIndex in locator with null current AxisFrame.");
-        if (!currentAxisFrame.getAxisList().contains(axis))
-           throw new IllegalArgumentException("Can't setAxisIndex. Passed Axis is not present in current locator AxisFrame.");
+           throw new IllegalArgumentException("Can't setAxisIndex in locator with null current ReferenceFrame.");
+        if (!currentAxisFrame.getAxes().contains(axis))
+           throw new IllegalArgumentException("Can't setAxisIndex. Passed Axis is not present in current locator ReferenceFrame.");
 
         // everything is kosher..return the current index
         Integer index = (Integer) locations.get(axis);
@@ -255,15 +218,16 @@ implements Locator
 
     }
 
-    // Operations
-
-    /** Change the location pointer to the next location.
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.locator.ListLocatorImpl#next()
      */
-    public void next ( ) {
+    public void next() {
 
         if (currentAxisFrame == null)
+        {
             super.next(); // use list ordered iteration
-        else {
+        } else {
 
            boolean outOfDataCells = true;
        
@@ -271,7 +235,7 @@ implements Locator
        
            for (int i = 0; i < dimension; i++) {
 
-             Quantity axis = (Quantity) axisOrderList.get(i);
+             ListQuantity axis = axisOrderList.get(i);
              int index = ((Integer) locations.get(axis)).intValue();
 
              // are we still within the axis?
@@ -312,7 +276,7 @@ implements Locator
             prevCellAvailable = true;
         
             for (int i = 0; i < dimension ; i++) {
-              Quantity axis = (Quantity) axisOrderList.get(i);
+              ListQuantity axis = axisOrderList.get(i);
               int index = ((Integer) locations.get(axis)).intValue();
               index--;
               if (index < 0) {
@@ -361,13 +325,13 @@ implements Locator
     {
         super.reset();
 
-        currentAxisFrame = (AxisFrame) null;
+        currentAxisFrame = (ReferenceFrame) null;
 
         locations = new Hashtable();
         axisOrderList = new Vector();
         dimension = 0;
 
-        nextCellAvailable = (parentQuantity.getSize().intValue() > 1 ) ? true : false;
+        nextCellAvailable = (getParent().getSize().intValue() > 1 ) ? true : false;
         prevCellAvailable = false;
 
         needToUpdateIndexMultiplier = true;
@@ -376,13 +340,13 @@ implements Locator
 
     // update the list index for the current axisFrame
     // ONLY works if there is a currentAxisFrame 
-    protected void updateListIndex () 
+    private void updateListIndex () 
     {
 
       if(currentAxisFrame != null)
       {
 
-          List axisList = currentAxisFrame.getAxisList();
+          List axisList = currentAxisFrame.getAxes();
           int index = 0;
 
           if (dimension > 0) {
@@ -408,12 +372,12 @@ implements Locator
        }
     }
 
-    protected void updateIndexMultiplierArray() {
+    private void updateIndexMultiplierArray() {
 
          indexMult = new int[dimension];
          if (dimension > 1) {
 
-            List axisList = currentAxisFrame.getAxisList();
+            List axisList = currentAxisFrame.getAxes();
 
             // axis 0 as prev axis for axis #1
             int mult = ((Quantity) axisList.get(0)).getSize().intValue();

@@ -29,18 +29,18 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.support.QMLDocumentHandler;
-import net.datamodel.qml.support.StartElementHandlerAction;
+import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class IllegalStartElementHandlerFunc implements StartElementHandlerAction {
+public class IllegalStartElementHandlerFunc implements StartElementHandler {
 	
 	private static final Logger logger = Logger.getLogger(IllegalStartElementHandlerFunc.class);
 	
-       public Object action (QMLDocumentHandler handler, String namespaceURI,
+       public Object action (XSSPDocumentHandler handler, String namespaceURI,
                               String lName, String qName, Attributes attrs)
        throws SAXException
        {

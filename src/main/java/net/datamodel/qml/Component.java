@@ -30,30 +30,24 @@
 
 package net.datamodel.qml;
 
+import java.net.URI;
+
+import net.datamodel.soml.SemanticObject;
+
 
 /**
  * @author  thomas
  */
-public interface Component {
+public interface Component 
+extends SemanticObject 
+{
     
     /** Determine equivalence between components (or quantities). Equivalence is 
       * the same as 'equals' but without checking that the id fields between both
       * objects are the same.
       */
     public boolean equivalent ( Object object );
-
-    /**
-     * Get the id of an instance of this class. It should be unique across all components and quantities within a given document/object tree.
-     * @uml.property  name="id"
-     */
-    public String getId ( );
-
-    /**
-     * The id of an instance of this class. It should be unique across all components and quantities within a given document/object tree.
-     * @uml.property  name="id"
-     */
-    public void setId ( String value ); 
-
+    
     /*
      * Determine whether or not this quantity or component is immutable.
      * (e.g. may change meta-data/data within the instance) 
@@ -89,11 +83,5 @@ public interface Component {
      */
     public Units getUnits ( );
     
-    /** Get the URN which represents this object. URN is used to provide the
-     * id of the semantic meaning.
-     * @return URN of the object which represents its semantic meaning.
-     */
-	public URN getURN();
-
 }
 

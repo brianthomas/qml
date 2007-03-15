@@ -1,7 +1,7 @@
 
-// CVS $Id$
+//CVS $Id$
 
-// FloatDataType.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+//FloatDataType.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -19,145 +19,130 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
-   
-
-*/
-
-// code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 
+ */
+
+//code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.core.XMLSerializableField;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.Constants.NodeName;
+import net.datamodel.xssp.XMLFieldType;
 
 /**
  * Class FloatDataType
  * An IEEE floating point datatype (scalar). May be serialized as either float or exponential (scientific notation) depending on whether or not an exponent value is specified.
  */
-public class FloatDataType extends NumberDataType {
-    // Fields
+public class FloatDataType 
+extends NumberDataType 
+{
 
-    /** The precision (length after the ".") of this floating point datatype, in characters.
-     * (precision is stored in this fashion so as to separate it out from the actual encoding of the text).
-     */
-    private static final String PRECISION_XML_FIELD_NAME = new String("precision");
+	// Fields
 
-   /** The exponent width (length after the "e") of this floating point datatype, 
-     * in characters (precision is stored in this fashion so as to separate it 
-     * out from the actual encoding of the text). If exponent is greater than 1, 
-     * then an "e" will be inserted in the serialization of the field, so that 
-     * scientific notation is used to represent the number.
-    */
-    private static final String EXPONENT_XML_FIELD_NAME = new String("exponent");
+	/** The precision (length after the ".") of this floating point datatype, in characters.
+	 * (precision is stored in this fashion so as to separate it out from the actual encoding of the text).
+	 */
+	private static final String precisionFieldName = "precision";
 
-    // Methods
+	/** The exponent width (length after the "e") of this floating point datatype, 
+	 * in characters (precision is stored in this fashion so as to separate it 
+	 * out from the actual encoding of the text). If exponent is greater than 1, 
+	 * then an "e" will be inserted in the serialization of the field, so that 
+	 * scientific notation is used to represent the number.
+	 */
+	private static final String exponentFieldName = "exponent";
 
-    // Constructors
+	// Methods
 
-    /** No-argument Constructor
-     */
-    public FloatDataType ( ) { 
-       init();
-    }
-    // Accessor Methods
+	// Constructors
 
-    /** The precision (length after the ".") of this floating point datatype, in characters.
-     * (precision is stored in this fashion so as to separate it out from the actual encoding of the text).
-     */
-    public Integer getPrecision (  ) {
-        return (Integer) ((XMLSerializableField) fieldHash.get(PRECISION_XML_FIELD_NAME)).getValue();
-    }
+	/** No-argument Constructor
+	 */
+	public FloatDataType ( ) { 
+		setXMLNodeName(Constants.NodeName.FLOAT_DATATYPE);
 
-    /** The precision (length after the ".") of this floating point datatype, in characters.
-     * (precision is stored in this fashion so as to separate it out from the actual encoding of the text).
-     */
-// FIX : throw error for incorrect value
-    public void setPrecision ( Integer value ) {
-        ((XMLSerializableField) fieldHash.get(PRECISION_XML_FIELD_NAME)).setValue(value);
-    }
+		setWidth(new Integer(4));
 
-   /** The exponent width (length after the "e") of this floating point datatype,
-     * in characters (precision is stored in this fashion so as to separate it
-     * out from the actual encoding of the text). If exponent is greater than 1,
-     * then an "e" will be inserted in the serialization of the field, so that
-     * scientific notation is used to represent the number.
-    */
-    public Integer getExponent (  ) {
-        return (Integer) ((XMLSerializableField) fieldHash.get(EXPONENT_XML_FIELD_NAME)).getValue();
-    }
+		try {
+			setNoDataValue(new Double(-9.9));
+		} catch (Exception e) { }
 
-   /** The exponent width (length after the "e") of this floating point datatype,
-     * in characters (precision is stored in this fashion so as to separate it
-     * out from the actual encoding of the text). If exponent is greater than 1,
-     * then an "e" will be inserted in the serialization of the field, so that
-     * scientific notation is used to represent the number.
-    */
-    public void setExponent ( Integer value  ) {
-        ((XMLSerializableField) fieldHash.get(EXPONENT_XML_FIELD_NAME)).setValue(value);
-    }
+		// now initialize XML fields
+		// order matters!
+		addField(precisionFieldName, (Integer)null, XMLFieldType.ATTRIBUTE);
+		addField(exponentFieldName, new Integer(1), XMLFieldType.ATTRIBUTE);
 
-    /**
-     * The number of bytes this data type represents.
-     */
-    public int numOfBytes ( ) {
-        return getWidth().intValue();
-    }
+	}
+	// Accessor Methods
 
-    /** Determine if other units are equivalent to these 
-      * @@Overrides
-      */
-    public boolean equals (Object obj) 
-    {
-       if (obj instanceof FloatDataType) {
-           if (
-                super.equals(obj)
-                     &&
-                this.getExponent().equals( ((FloatDataType)obj).getExponent())
-                     &&
-                this.getPrecision().equals( ((FloatDataType)obj).getPrecision())
-              ) 
-           return true;
-       }
-       return false;
-    }
+	/** The precision (length after the ".") of this floating point datatype, in characters.
+	 * (precision is stored in this fashion so as to separate it out from the actual encoding of the text).
+	 */
+	public final Integer getPrecision (  ) {
+		return (Integer) getFields().get(precisionFieldName).getValue();
+	}
 
-    // Protected Methods
-    //
+	/** The precision (length after the ".") of this floating point datatype, in characters.
+	 * (precision is stored in this fashion so as to separate it out from the actual encoding of the text).
+	 */
+	public final void setPrecision ( Integer value ) {
+		// TODO: throw error for incorrect value
+		getFields().get(precisionFieldName).setValue(value);
+	}
 
-    /** Special protected method used by constructor methods to
-        conviently build the XML attribute list for a given class.
-     */
-    protected void init()
-    {
+	/** The exponent width (length after the "e") of this floating point datatype,
+	 * in characters (precision is stored in this fashion so as to separate it
+	 * out from the actual encoding of the text). If exponent is greater than 1,
+	 * then an "e" will be inserted in the serialization of the field, so that
+	 * scientific notation is used to represent the number.
+	 */
+	public final Integer getExponent (  ) {
+		return (Integer) getFields().get(exponentFieldName).getValue();
+	}
 
-      super.init();
-      xmlNodeName = Constants.NodeName.FLOAT_DATATYPE;
+	/** The exponent width (length after the "e") of this floating point datatype,
+	 * in characters (precision is stored in this fashion so as to separate it
+	 * out from the actual encoding of the text). If exponent is greater than 1,
+	 * then an "e" will be inserted in the serialization of the field, so that
+	 * scientific notation is used to represent the number.
+	 */
+	public final void setExponent ( Integer value  ) {
+		getFields().get(exponentFieldName).setValue(value);
+	}
 
-      setWidth(new Integer(4));
+	/**
+	 * The number of bytes this data type represents.
+	 */
+	@Override
+	public int numOfBytes ( ) {
+		return getWidth().intValue();
+	}
 
-      try {
-          setNoDataValue(new Double(-9.9));
-       } catch (Exception e) { }
+	/** Determine if other units are equivalent to these 
+	 */
+	@Override
+	public boolean equals (Object obj) 
+	{
+		if (obj instanceof FloatDataType) {
+			if (
+					super.equals(obj)
+					&&
+					this.getExponent().equals( ((FloatDataType)obj).getExponent())
+					&&
+					this.getPrecision().equals( ((FloatDataType)obj).getPrecision())
+			) 
+				return true;
+		}
+		return false;
+	}
 
-      // now initialize XML fields
-      // order matters!
-      fieldOrder.add(PRECISION_XML_FIELD_NAME);
-      fieldOrder.add(EXPONENT_XML_FIELD_NAME);
-
-      fieldHash.put(EXPONENT_XML_FIELD_NAME, new XMLSerializableField((Integer) null, Constants.FIELD_ATTRIB_TYPE));
-      fieldHash.put(PRECISION_XML_FIELD_NAME, new XMLSerializableField(new Integer(1), Constants.FIELD_ATTRIB_TYPE));
-
-    }
-
-
+	// TODO: implement hashCode!
 
 }
 

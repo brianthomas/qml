@@ -1,7 +1,7 @@
 
-// CVS $Id$
+//CVS $Id$
 
-// NumberDataFormat.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+//NumberDataFormat.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -19,22 +19,21 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
-   
 
-*/
 
-// code generation timestamp: Tue Apr 20 2004-14:22:31 
+ */
+
+//code generation timestamp: Tue Apr 20 2004-14:22:31 
 
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.core.XMLSerializableField;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.xssp.XMLFieldType;
 
 /**
  * Class NumberDataFormat
@@ -43,152 +42,140 @@ import net.datamodel.qml.support.Constants;
 abstract public class NumberDataType extends ScalarDataType 
 {
 
-    // Fields
-    private final static String INFINITE_XML_FIELD_NAME = "infinite";
-    private final static String NEG_INFINITE_XML_FIELD_NAME = "infiniteNegative";
-    private final static String NOT_A_NUMBER_XML_FIELD_NAME = "notANumber";
-    private final static String DISABLED_XML_FIELD_NAME = "disabledValue";
-    private final static String OVERFLOW_XML_FIELD_NAME = "overflowValue";
-    private final static String UNDERFLOW_XML_FIELD_NAME = "overflowValue";
+	// Fields
+	private final static String infiniteFieldName = "infinite";
+	private final static String negativeInfiniteFieldName = "infiniteNegative";
+	private final static String notANumberFieldName = "notANumber";
+	private final static String disabledFieldName = "disabledValue";
+	private final static String overflowFieldName = "overflowValue";
+	private final static String underflowFieldName = "overflowValue";
 
-    // Methods
-    // Constructors
-    /** No-argument Constructor
-     */
-    public NumberDataType ( ) { }
+	// Methods
+	// Constructors
+	/** No-argument Constructor
+	 */
+	public NumberDataType ( ) 
+	{ 
+		addField(infiniteFieldName, null, XMLFieldType.ATTRIBUTE);
+		addField(negativeInfiniteFieldName, null, XMLFieldType.ATTRIBUTE);
+		addField(notANumberFieldName, null, XMLFieldType.ATTRIBUTE);
+		addField(disabledFieldName, null, XMLFieldType.ATTRIBUTE);
+		addField(overflowFieldName, null, XMLFieldType.ATTRIBUTE);
+		addField(underflowFieldName, null, XMLFieldType.ATTRIBUTE);
+	}
 
-    // Accessor Methods
+	// Accessor Methods
 
-    /**
-     * The object which represents the "infinite" value.
-     */
-    public Object getInfinite ( ) 
-    {
-        return ((XMLSerializableField) fieldHash.get(INFINITE_XML_FIELD_NAME)).getValue();
-    }
-    /**
-     * The object which represents the "infinite" value.
-     */
-    public void setInfinite ( Object value  ) 
-    {
-        ((XMLSerializableField) fieldHash.get(INFINITE_XML_FIELD_NAME)).setValue(value);
-    }
-    /**
-     * The object which represents the "negative infinite" value.
-     */
-    public Object getInfiniteNegative (  ) {
-        return ((XMLSerializableField) fieldHash.get(NEG_INFINITE_XML_FIELD_NAME)).getValue();
-    }
-    /**
-     * The object which represents the "negative infinite" value.
-     */
-    public void setInfiniteNegative ( Object value  ) {
-        ((XMLSerializableField) fieldHash.get(NEG_INFINITE_XML_FIELD_NAME)).setValue(value);
-    }
-    /**
-     * The object which represents the "not a number" value.
-     */
-    public Object getNotANumber (  ) {
-        return ((XMLSerializableField) fieldHash.get(NOT_A_NUMBER_XML_FIELD_NAME)).getValue();
-    }
-    /**
-     * The object which represents the "not a number" value.
-     */
-    public void setNotANumber ( Object value  ) {
-        ((XMLSerializableField) fieldHash.get(NOT_A_NUMBER_XML_FIELD_NAME)).setValue(value);
-    }
-    /**
-     * The object which represents the "no data possible (disabled location)" value.
-     */
-    public Object getDisabledValue (  ) {
-        return ((XMLSerializableField) fieldHash.get(DISABLED_XML_FIELD_NAME)).getValue();
-    }
-    /**
-     * The object which represents the "no data possible (disabled location)" value.
-     */
-    public void setDisabledValue ( Object value  ) {
-        ((XMLSerializableField) fieldHash.get(DISABLED_XML_FIELD_NAME)).setValue(value);
-    }
-    /**
-     * The object which represents the "overflow" value.
-     */
-    public Object getOverflowValue (  ) {
-        return ((XMLSerializableField) fieldHash.get(OVERFLOW_XML_FIELD_NAME)).getValue();
-    }
-    /**
-     * The object which represents the "overflow" value.
-     */
-    public void setOverflowValue ( Object value  ) {
-        ((XMLSerializableField) fieldHash.get(OVERFLOW_XML_FIELD_NAME)).setValue(value);
-    }
-    /**
-     * The object which represents the "underflow" value.
-     */
-    public Object getUnderflowValue (  ) {
-        return ((XMLSerializableField) fieldHash.get(UNDERFLOW_XML_FIELD_NAME)).getValue();
-    }
-    /**
-     * The object which represents the "underflow" value.
-     */
-    public void setUnderflowValue ( Object value  ) {
-        ((XMLSerializableField) fieldHash.get(UNDERFLOW_XML_FIELD_NAME)).setValue(value);
-    }
+	/**
+	 * The object which represents the "infinite" value.
+	 */
+	public final Object getInfinite ( )  {
+		return getFields().get(infiniteFieldName).getValue();
+	}
 
-    /** Determine if other units are equivalent to these.
-      * @@Overrides
-      */
-    public boolean equals (Object obj) {
-       if (obj instanceof NumberDataType) {
-           if (
-                super.equals(obj)
-                     &&
-                this.getInfinite().equals( ((NumberDataType)obj).getInfinite())
-                     &&
-                this.getInfiniteNegative().equals( ((NumberDataType)obj).getInfiniteNegative())
-                     &&
-                this.getNotANumber().equals( ((NumberDataType)obj).getNotANumber())
-                     &&
-                this.getDisabledValue().equals( ((NumberDataType)obj).getDisabledValue())
-                     &&
-                this.getOverflowValue().equals( ((NumberDataType)obj).getOverflowValue())
-                     &&
-                this.getUnderflowValue().equals(((NumberDataType)obj).getUnderflowValue())
-              )
-           return true;
-       }
-       return false;
-    }
+	/**
+	 * The object which represents the "infinite" value.
+	 */
+	public final void setInfinite ( Object value  )  {
+		getFields().get(infiniteFieldName).setValue(value); 
+	}
 
-    // Protected Methods
-    //
+	/**
+	 * The object which represents the "negative infinite" value.
+	 */
+	public final Object getInfiniteNegative (  ) {
+		return getFields().get(negativeInfiniteFieldName).getValue();
+	}
 
-    /** Special protected method used by constructor methods to
-        conviently build the XML attribute list for a given class.
-     */
-    protected void init()
-    {
+	/**
+	 * The object which represents the "negative infinite" value.
+	 */
+	public final void setInfiniteNegative ( Object value  ) {
+		getFields().get(negativeInfiniteFieldName).setValue(value); 
+	}
 
-      super.init();
+	/**
+	 * The object which represents the "not a number" value.
+	 */
+	public final Object getNotANumber (  ) {
+		return getFields().get(notANumberFieldName).getValue();
+	}
 
-      // now initialize XML fields
-      // order matters!
-      fieldOrder.add(INFINITE_XML_FIELD_NAME);
-      fieldOrder.add(NEG_INFINITE_XML_FIELD_NAME);
-      fieldOrder.add(NOT_A_NUMBER_XML_FIELD_NAME);
-      fieldOrder.add(DISABLED_XML_FIELD_NAME);
-      fieldOrder.add(OVERFLOW_XML_FIELD_NAME);
-      fieldOrder.add(UNDERFLOW_XML_FIELD_NAME);
+	/**
+	 * The object which represents the "not a number" value.
+	 */
+	public final void setNotANumber ( Object value  ) {
+		getFields().get(notANumberFieldName).setValue(value);
+	}
 
-      // FIX : default is INTYTPE:Decimal
-      fieldHash.put(INFINITE_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
-      fieldHash.put(NEG_INFINITE_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
-      fieldHash.put(NOT_A_NUMBER_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
-      fieldHash.put(DISABLED_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
-      fieldHash.put(OVERFLOW_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
-      fieldHash.put(UNDERFLOW_XML_FIELD_NAME, new XMLSerializableField(null, Constants.FIELD_ATTRIB_TYPE));
+	/**
+	 * The object which represents the "no data possible (disabled location)" value.
+	 */
+	public final Object getDisabledValue (  ) {
+		return getFields().get(disabledFieldName).getValue();
+	}
 
-    }
+	/**
+	 * The object which represents the "no data possible (disabled location)" value.
+	 */
+	public final void setDisabledValue ( Object value  ) {
+		getFields().get(disabledFieldName).setValue(value);
+	}
 
+	/**
+	 * The object which represents the "overflow" value.
+	 */
+	public final Object getOverflowValue (  ) {
+		return getFields().get(overflowFieldName).getValue();
+	}
+
+	/**
+	 * The object which represents the "overflow" value.
+	 */
+	public final void setOverflowValue ( Object value  ) {
+		getFields().get(overflowFieldName).setValue(value);
+	}
+
+	/**
+	 * The object which represents the "underflow" value.
+	 */
+	public final Object getUnderflowValue (  ) {
+		return getFields().get(underflowFieldName).getValue();
+	}
+
+	/**
+	 * The object which represents the "underflow" value.
+	 */
+	public final void setUnderflowValue ( Object value  ) {
+		getFields().get(underflowFieldName).setValue(value);
+	}
+
+	/** Determine if other units are equivalent to these.
+	 */
+	@Override
+	public boolean equals (Object obj) {
+		if (obj instanceof NumberDataType) {
+			if (
+					super.equals(obj)
+					&&
+					this.getInfinite().equals( ((NumberDataType)obj).getInfinite())
+					&&
+					this.getInfiniteNegative().equals( ((NumberDataType)obj).getInfiniteNegative())
+					&&
+					this.getNotANumber().equals( ((NumberDataType)obj).getNotANumber())
+					&&
+					this.getDisabledValue().equals( ((NumberDataType)obj).getDisabledValue())
+					&&
+					this.getOverflowValue().equals( ((NumberDataType)obj).getOverflowValue())
+					&&
+					this.getUnderflowValue().equals(((NumberDataType)obj).getUnderflowValue())
+			)
+				return true;
+		}
+		return false;
+	}
+
+	// TODO: implement hashCode
 
 }
 
