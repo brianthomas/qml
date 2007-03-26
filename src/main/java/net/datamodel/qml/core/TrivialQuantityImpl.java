@@ -48,8 +48,8 @@ import net.datamodel.xssp.XMLSerializableField;
 import net.datamodel.xssp.XMLSerializableObject;
 
 /**
- * A restricted atomic quantity. The trivial quantity may only hold a single "unitless", 
- * string value.
+ * A restricted type of atomic quantity. The trivial quantity may only 
+ * hold a single "unitless", string value, and may not have properties.
  */
 public class TrivialQuantityImpl 
 extends AbstractQuantity
@@ -129,11 +129,20 @@ extends AbstractQuantity
 	{
 		throw new IllegalAccessException("Short data not allowed in Trivial Quantity");
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.Float, net.datamodel.qml.Locator)
+	 */
+	public void setValue(Float obj, Locator loc) throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException {
+		throw new IllegalAccessException("Float data not allowed in Trivial Quantity");
+	}
 
 	/** Returns true if there were child nodes to handle.
 	 * 
 	 */
 	// FIXME : we are overriding a method in XSSP package, bah!!
+	/*
 	@Override
 	protected boolean handleChildNodes(Map<String,String> idTable, 
 			Map<XMLSerializableObject, String> prefixTable, 
@@ -184,8 +193,10 @@ extends AbstractQuantity
 
 		return false;
 	}
+	*/
 
 	// FIXME: we are overriding a method which is in the XSSP package (!!)
+	/*
 	@Override
 	protected void doClosingNodeForChildren (
 			String nodeNameString, 
@@ -204,6 +215,7 @@ extends AbstractQuantity
 		}
 
 	}
+	*/
 	
 	/*
 	 * (non-Javadoc)
@@ -213,6 +225,12 @@ extends AbstractQuantity
 	public boolean addProperty(Quantity property) {
 		return false;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Quantity#removeProperty(net.datamodel.qml.Quantity)
+	 */
+	public final boolean removeProperty(Quantity property) { return false; }
 
 	/*
 	 * (non-Javadoc)
@@ -222,11 +240,6 @@ extends AbstractQuantity
 		return new Vector<Quantity>(); // empty 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.qml.Quantity#removeProperty(net.datamodel.qml.Quantity)
-	 */
-	public final boolean removeProperty(Quantity property) { return false; }
 
 }
 
