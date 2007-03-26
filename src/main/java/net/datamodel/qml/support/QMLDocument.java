@@ -42,7 +42,6 @@ import org.w3c.dom.DOMException;
 public interface QMLDocument extends SOMLDocument 
 {
 
-
 	/** Create an XML element node which represents the passed Quantity.
 	 * 
 	 * @param quantity
