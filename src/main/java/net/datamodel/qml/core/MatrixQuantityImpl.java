@@ -44,6 +44,7 @@ import net.datamodel.qml.ValueMapping;
 import net.datamodel.qml.locator.MatrixLocatorImpl;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.xssp.XMLFieldType;
+import net.datamodel.xssp.impl.AbstractXMLSerializableObjectList;
 
 import org.apache.log4j.Logger;
 
@@ -191,8 +192,7 @@ implements MatrixQuantity
      *
      * @return boolean value of whether removeal was successfull or not.
      */
-    public boolean removeAltValue ( ListQuantity value  )
-    {
+    public boolean removeAltValue ( ListQuantity value ) {
         return getAltValueList().remove(value);
     }
 
@@ -201,8 +201,8 @@ implements MatrixQuantity
      *
      * @return List of altvalueVector
      */
-    public List getAltValueList (  ) {
-    	return ((QuantityContainerImpl) getFieldValue(alternValuesFieldName)).getQuantityList();
+    public ListQuantity getAltValueList () {
+    	return ((ListQuantity) getFieldValue(alternValuesFieldName));
     }
 
     /** Determine equivalence between objects (quantities). Equivalence is the same
@@ -229,7 +229,25 @@ implements MatrixQuantity
         }
         return false;
     }
+    
+	/** Quick internal class to hold alternative values.
+	 */
+	class AltValues extends ListQuantityImpl 
+	{ 
+		// simply change the node name to "relationship"
+		// and set no serialization when its empty 
+		AltValues() { 
+			super(0); 
+			this.setXMLNodeName(""); // should *not* have a node name 
+			this.setSerializeWhenEmpty(false);
+		}
 
+		@Override
+		public String toString() {
+			return this.getClass()+"@"+this.hashCode();
+		}
+
+	}
 
 }
 
