@@ -83,7 +83,8 @@ implements Component
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Component#setUnits(net.datamodel.qml.Units)
 	 */
-	protected void setUnits (Units value) { setFieldValue(unitsFieldName, value); }
+	// TODO: make final
+	public void setUnits (Units value) { setFieldValue(unitsFieldName, value); }
 
 	/*
 	 * (non-Javadoc)
@@ -97,7 +98,8 @@ implements Component
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Component#setDataType(net.datamodel.qml.DataType)
 	 */
-	protected void setDataType (DataType value) { setFieldValue(datatypeFieldName, value); }
+	// TODO: make final
+	public void setDataType (DataType value) { setFieldValue(datatypeFieldName, value); }
 
 	// Operations
 	//
