@@ -91,7 +91,7 @@ implements MatrixQuantity
        setValueContainer (new MatrixValueContainerImpl(this));
 
        // now initialize XML fields
-       addField(alternValuesFieldName, new QuantityContainerImpl("altValues", false), XMLFieldType.CHILD);
+       addField(alternValuesFieldName, new AltValuesList(), XMLFieldType.CHILD);
 
     }
 
@@ -201,8 +201,8 @@ implements MatrixQuantity
      *
      * @return List of altvalueVector
      */
-    public ListQuantity getAltValueList () {
-    	return ((ListQuantity) getFieldValue(alternValuesFieldName));
+    public List<ListQuantity> getAltValueList () {
+    	return ((List<ListQuantity>) getFieldValue(alternValuesFieldName));
     }
 
     /** Determine equivalence between objects (quantities). Equivalence is the same
@@ -230,15 +230,16 @@ implements MatrixQuantity
         return false;
     }
     
-	/** Quick internal class to hold alternative values.
+	/** Quick internal class to hold all relationships between our object 
+	 * and other SO's. 
 	 */
-	class AltValues extends ListQuantityImpl 
+	class AltValuesList<ListQuantity> 
+	extends AbstractXMLSerializableObjectList
 	{ 
 		// simply change the node name to "relationship"
 		// and set no serialization when its empty 
-		AltValues() { 
-			super(0); 
-			this.setXMLNodeName(""); // should *not* have a node name 
+		AltValuesList() { 
+			super("altValues"); 
 			this.setSerializeWhenEmpty(false);
 		}
 
