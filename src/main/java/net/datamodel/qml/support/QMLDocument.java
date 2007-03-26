@@ -42,15 +42,35 @@ import org.w3c.dom.DOMException;
 public interface QMLDocument extends SOMLDocument 
 {
 
-  
-   public QMLElement createQMLElement(Quantity quantity) 
-   throws DOMException;
 
-   public QMLElement createQMLElementNS(String namespaceURI, 
-		   Quantity quantity) throws DOMException;
+	/** Create an XML element node which represents the passed Quantity.
+	 * 
+	 * @param quantity
+	 * @return
+	 * @throws DOMException
+	 */
+	public QMLElement createQMLElement (Quantity quantity) 
+	throws DOMException;
 
-   public List<Quantity> getQuantities(boolean deep);
+	/** Create a namespaced XML element node which represents the passed Quantity
+	 * under the indicated namespaceURI.
+	 * 
+	 * @param namespaceURI
+	 * @param quantity
+	 * @return
+	 * @throws DOMException
+	 */
+	public QMLElement createQMLElementNS (
+			String namespaceURI, 
+			Quantity quantity) 
+	throws DOMException;
 
+	/** Return a list of Quantities which are represented in the document.
+	 * 
+	 * @param deep
+	 * @return
+	 */
+	public List<Quantity> getQuantities(boolean deep);
 
 }
 
