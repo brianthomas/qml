@@ -46,40 +46,18 @@ extends SemanticObject
       * the same as 'equals' but without checking that the id fields between both
       * objects are the same.
       */
-    public boolean equivalent ( Object object );
+	// TODO: we need to really figure out what this means..
+    public boolean equivalent (Object object);
     
-    /*
-     * Determine whether or not this quantity or component is immutable.
-     * (e.g. may change meta-data/data within the instance) 
-     */
-    //public Boolean getImmutable ( );
-        
-    /**
-     * Set the value of dataType
-     * @uml.property  name="dataType"
-     */
-    public void setDataType ( DataType value  );
-
     /**
      * Get the value of dataType
      * @return  the value of dataType
-     * @uml.property  name="dataType"
-     * @uml.associationEnd  
      */
     public DataType getDataType (  );
  
     /**
-     * Set the value of units
-     * @param units to be set
-     * @uml.property  name="units"
-     */
-    public void setUnits ( Units value ); 
-
-    /**
      * Get the value of units
      * @return  the value of units
-     * @uml.property  name="units"
-     * @uml.associationEnd  
      */
     public Units getUnits ( );
     
