@@ -1,6 +1,6 @@
-// CVS $Id$
-// AltValuesContainerEndElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
- 
+//CVS $Id$
+//AltValuesContainerEndElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+
 /* LICENSE
 
    This library is free software; you can redistribute it and/or
@@ -17,26 +17,31 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
 
-*/
+ */
 
 
 package net.datamodel.qml.support.handlers;
 
+import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.xml.sax.SAXException;
 
 public class AltValuesContainerEndElementHandlerFunc implements EndElementHandler {
-       public void action (XSSPDocumentHandler handler )
-       throws SAXException {
-          handler.AddingAltValues = false;
-          handler.removeParentQuantityNeedsAltValue();
-       }
+	public void action (XSSPDocumentHandler handler )
+	throws SAXException {
+
+		// let it bomb if the cast doesnt go right
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
+
+		qhandler.setAddingAltValues(false);
+		qhandler.removeParentQuantityNeedsAltValue();
+	}
 }

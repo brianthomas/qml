@@ -46,7 +46,7 @@ public class ValueStartElementHandlerFunc implements StartElementHandler {
            Quantity qV = handler.getCurrentQuantity();
 
            // HACK : we need to return the value container ONLY if
-           // its an AtomicQuantity OR if its the only value within a
+           // its an AtomicQuantityImpl OR if its the only value within a
            // List/Matrix Q (which we can find by checking HasValues).
            // The reason for this is so that the prefix, and xmlnodename
            // of the "value" will be set correctly in the cases when it

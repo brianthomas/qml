@@ -28,26 +28,17 @@
 
 package net.datamodel.qml.support;
 
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.util.regex.Matcher;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.datatype.FloatDataType;
 import net.datamodel.qml.datatype.IntegerDataType;
 import net.datamodel.qml.datatype.StringDataType;
@@ -55,68 +46,28 @@ import net.datamodel.qml.datatype.VectorDataType;
 import net.datamodel.qml.support.handlers.AltValuesContainerEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.AltValuesContainerStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.AtomicQuantityStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.AxisFrameEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.AxisFrameStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.ComponentEndElementHandlerFunc;
-import net.datamodel.qml.support.handlers.ComponentStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.DefaultCharDataHandlerFunc;
-import net.datamodel.qml.support.handlers.DefaultElementWithCharDataHandlerFunc;
-import net.datamodel.qml.support.handlers.DefaultEndElementHandlerFunc;
-import net.datamodel.qml.support.handlers.DefaultStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.FloatDataTypeStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.IllegalCharDataHandlerFunc;
-import net.datamodel.qml.support.handlers.IllegalEndElementHandlerFunc;
-import net.datamodel.qml.support.handlers.IllegalStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.IntegerDataTypeStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.ListQuantityStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.MatrixQuantityStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.NullCharDataHandlerFunc;
-import net.datamodel.qml.support.handlers.NullEndElementHandlerFunc;
-import net.datamodel.qml.support.handlers.ObjectWithQuantitesStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.QuantityContainerStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.QuantityEndElementHandlerFunc;
-import net.datamodel.qml.support.handlers.RefQuantityStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.StringDataTypeStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.TrivialQuantityCharDataHandlerFunc;
-import net.datamodel.qml.support.handlers.TrivialQuantityStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.UnitsCharDataHandlerFunc;
-import net.datamodel.qml.support.handlers.UnitsStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.ValueCharDataHandlerFunc;
-import net.datamodel.qml.support.handlers.ValueStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.ValuesCharDataHandlerFunc;
-import net.datamodel.qml.support.handlers.ValuesEndElementHandlerFunc;
-import net.datamodel.qml.support.handlers.ValuesStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.VectorEndElementHandlerFunc;
-import net.datamodel.qml.support.handlers.VectorStartElementHandlerFunc;
 import net.datamodel.soml.support.SOMLDocument;
 import net.datamodel.soml.support.SOMLDocumentHandler;
-import net.datamodel.xssp.XMLSerializableObject;
 import net.datamodel.xssp.parse.CharDataHandler;
 import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Notation;
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.ext.LexicalHandler;
 
 /** 
      Contains the core SAX document handler for the Reader. It also contains
      the basic QML element/charData handlers (as internal classes).
      @version $Revision$
  */
-public class QMLDocumentHandler extends SOMLDocumentHandler 
-implements LexicalHandler
+public class QMLDocumentHandler 
+extends SOMLDocumentHandler 
 {
 
 	private static final Logger logger = Logger.getLogger(QMLDocumentHandler.class);
@@ -125,107 +76,188 @@ implements LexicalHandler
     // Fields
     //
 
-    protected List CurrentNodePath;
-    
-    protected Vector CurrentNodeList;
+    // TODO: check that this sort of thing isnt this duplicated at a lower level already?
+    private Map<String, Quantity> ReferencedQuantities = new Hashtable<String,Quantity>();
 
     /** */
-    protected List<Quantity> CurrentQuantityList = new Vector<Quantity>(); 
+    private List<Quantity> CurrentQuantityList = new Vector<Quantity>(); 
     
     /** */
-    protected List<Locator> CurrentLocatorList = new Vector<Locator>(); // The list of current locators for the current quantities
+    private List<Locator> CurrentLocatorList = new Vector<Locator>(); // The list of current locators for the current quantities
     
     /** */
-    protected List ParentQuantityAltValueList = new Vector();
+    private List<Quantity> ParentQuantityAltValueList = new Vector<Quantity>();
 
-    // a counter used for checking adding of multiple values
-    /** */
-    private List ExpectedValues; // a holder for expected number of values we should parse 
-
-   // public Hashtable ObjWithQuantities = new Hashtable();
+    /** a holder for expected number of values we should parse. */ 
+    private List<Integer> ExpectedValues = new Vector<Integer>(); 
 
     // Sigh. a list of fields which should be private/protected but arent
     // (yet) because Im too lazy to make the proper accessor methods.
-
-    public Component LastComponent; // the last component object we worked on
+    private Component LastComponent; // the last component object we worked on
+    
+    // Various fields which tell us the state of the values we are 
+    // dealing with as we parse along.
+    /** */
+    private int ActualValuesAdded = 0; 
     
     /** */
-    public int ActualValuesAdded;
+    private boolean AddingAltValues = false;
     
     /** */
-    public boolean AddingAltValues;
+    private boolean ValuesInCDATASection = false;
     
     /** */
-    public boolean ValuesInCDATASection;
+    private boolean HasCSVValues = false;
     
     /** */
-    public boolean HasCSVValues;
+    private boolean HasMultipleValues = false;
     
     /** */
-    public boolean HasMultipleValues;
+    private boolean HasVectorDataType = false;
     
     /** */
-    public boolean HasVectorDataType;
-    
-    /** */
-    public StringBuffer ValuesBuf;
+    private StringBuffer ValuesBuf = null;
     
     //
     // Constuctors
     //
-
-    /**
-     *
-     */
-    public QMLDocumentHandler (QMLDocument doc)
-    {
-    	super((SOMLDocument) doc);
-       init();
-       setDocument(doc);
+    public QMLDocumentHandler (QMLDocument doc) {
+    	this (doc, (Map<String,String>) null);
     }
 
-    public QMLDocumentHandler (QMLDocument doc, Map<String,String> options)
-    {
-    	super((SOMLDocument) doc, options);
+    public QMLDocumentHandler (QMLDocument doc, Map<String,String> options) {
+    	super ((SOMLDocument) doc, options);
     	
-       init();
-       Options = options;
-       setDocument(doc);
+    	// init start handlers
+        Map<String,StartElementHandler> qmlStartHandlers = new Hashtable<String,StartElementHandler>();
+        Map<String,StartElementHandler> mapStartHandlers = new Hashtable<String,StartElementHandler>();
+
+        qmlStartHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.AXISFRAME, new AxisFrameStartElementHandlerFunc());
+        /*
+        qmlStartHandlers.put(Constants.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.FLOAT_DATATYPE, new FloatDataTypeStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.INTEGER_DATATYPE, new IntegerDataTypeStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.LIST_QUANTITY, new ListQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.MATRIX_QUANTITY, new MatrixQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.QUANTITY, new IllegalStartElementHandlerFunc()); // its abstract..never invoked as a node! 
+        qmlStartHandlers.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new QuantityContainerStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new RefQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.STRING_DATATYPE, new StringDataTypeStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new TrivialQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.VECTOR_DATATYPE, new VectorStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.UNITS, new UnitsStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.VALUE, new ValueStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.VALUES, new ValuesStartElementHandlerFunc());
+        */
+
+        // FIX: hacked in mapping handlers until separate mapping package is built.
+        mapStartHandlers.put(Constants.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
+        
+        this.addStartElementHandlers(qmlStartHandlers, Constants.QML_NAMESPACE_URI);
+        this.addStartElementHandlers(mapStartHandlers, Constants.MAPPING_NAMESPACE_URI);
+
+    	// TODO: init end handlers
+        Map<String,EndElementHandler> mapEndHandlers = new Hashtable<String,EndElementHandler>();
+        Map<String,EndElementHandler> qmlEndHandlers = new Hashtable<String,EndElementHandler>();
+
+        qmlEndHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
+        /*
+        qmlEndHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.AXISFRAME, new AxisFrameEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.COMPONENT, new ComponentEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.LIST_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.MATRIX_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.QUANTITY, new IllegalEndElementHandlerFunc()); // its abstract..never invoked as a node! 
+        qmlEndHandlers.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new NullEndElementHandlerFunc()); // metaData 
+        qmlEndHandlers.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.FLOAT_DATATYPE, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.INTEGER_DATATYPE, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.STRING_DATATYPE, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.UNITS, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.VALUE, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.VALUES, new ValuesEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.VECTOR_DATATYPE, new VectorEndElementHandlerFunc());
+        */
+
+       // TODO: hacked in mapping handlers until separate mapping package is built.
+       // mapEndHandlers.put(Constants.NodeTypeName.MAP, new NullEndElementHandlerFunc());
+        
+        this.addEndElementHandlers(qmlEndHandlers, Constants.QML_NAMESPACE_URI);
+        this.addEndElementHandlers(mapEndHandlers, Constants.MAPPING_NAMESPACE_URI);
+
+    	// TODO: init chardata handlers
+        Map<String,CharDataHandler> mapCharDataHandler = new Hashtable <String,CharDataHandler>();
+        Map<String,CharDataHandler> qmlCharDataHandler = new Hashtable <String,CharDataHandler>();
+
+        /*
+        qmlCharDataHandler.put(Constants.NodeTypeName.ALTERN_VALUES, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.AXISFRAME, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.COMPONENT, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.FLOAT_DATATYPE, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.INTEGER_DATATYPE, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.LIST_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.MATRIX_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.QUANTITY, new IllegalCharDataHandlerFunc()); // its abstract..never invoked as a node! 
+        qmlCharDataHandler.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.STRING_DATATYPE, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new TrivialQuantityCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.UNITS, new UnitsCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.VALUE, new ValueCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.VALUES, new ValuesCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.VECTOR_DATATYPE, new NullCharDataHandlerFunc());
+        */
+
+        // FIX: hacked in mapping handlers until separate mapping package is built.
+        // mapCharDataHandler.put(Constants.NodeTypeName.MAP, new NullCharDataHandlerFunc());
+        
+        addCharDataHandlers(qmlCharDataHandler, Constants.QML_NAMESPACE_URI); 
+        addCharDataHandlers(mapCharDataHandler, Constants.MAPPING_NAMESPACE_URI); 
+
+    	// TODO: init element associations
+        
     }
 
     //
     // Non-Sax Public Methods
     //
+    public void setAddingAltValues (boolean value) { AddingAltValues = value; }
 
     /** In order to look for referenced Quantities, we 
      * "record" each that we parse.
      */
-    public void recordQuantity (Quantity q) {
+    public final void recordQuantity (Quantity q) {
 
        String QId = q.getId();
        if (!QId.equals(""))
        {
           // add this into the list of quantity objects we have
-          ObjWithQuantities.put(QId, q);
+          ReferencedQuantities.put(QId, q);
        }
     }
 
     /** Get the current object with quantities we are working on. 
      */
-    public Quantity getCurrentQuantity() {
-       ObjectWithQuantities lastQ = (ObjectWithQuantities) null;
+    public final Quantity getCurrentQuantity() {
        if (CurrentQuantityList.size() > 0)
-          lastQ = (ObjectWithQuantities) CurrentQuantityList.get(CurrentQuantityList.size()-1);
-       return lastQ;
+          return CurrentQuantityList.get(CurrentQuantityList.size()-1);
+       return null;
     }
 
     /** Remove the current quantity.
-     *  @return ObjectWithQuantities that was removed from the list of "current" quantities.
+     *  @return Quantity that was removed from the list of "current" quantities.
      */
-    public Quantity unrecordQuantity() 
+    public final Quantity unrecordQuantity() 
     {
 
-       ObjectWithQuantities q = (ObjectWithQuantities) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
+       Quantity q = (Quantity) CurrentQuantityList.remove(CurrentQuantityList.size()-1);
        // to keep things in sync, we need to remove this too
        if(q != null && q instanceof Quantity)
        {
@@ -240,20 +272,20 @@ implements LexicalHandler
      * Expected values are compared to the number of actual values counted
      * at parse time as an added check for correctness.
      */
-    public void addExpectedValues(Integer value) {
+    public final void addExpectedValues(Integer value) {
          ExpectedValues.add(value);
     }
 
     /** remove the present expected value from our list.
      * @return Integer value of the last expected value.
      */
-    public Integer removeExpectedValues() {
+    public final Integer removeExpectedValues() {
        return (Integer) ExpectedValues.remove(ExpectedValues.size()-1);
     }
 
     /** Get the number of values we expected for current quantity we worked on.
      */
-    public Integer getCurrentExpectedValues() {
+    public final Integer getCurrentExpectedValues() {
        Integer expected = new Integer(-1);
        if (ExpectedValues.size() > 0)
           expected = (Integer) ExpectedValues.get(ExpectedValues.size()-1);
@@ -261,7 +293,7 @@ implements LexicalHandler
     }
 
     /** Gets the last component-compliant object we worked on.
-     * This could be some types of ObjectWithQuantities as well as components.
+     * This could be some types of Quantity as well as components.
      */
     public Component getCurrentComponent() {
        Component lastC = LastComponent;
@@ -276,7 +308,7 @@ implements LexicalHandler
 
     /** Get the locator which belongs to the current Quantity.
      */
-    public Locator getCurrentLocator() {
+    public final Locator getCurrentLocator() {
        Locator lastLoc = (Locator) null;
        if (CurrentLocatorList.size() > 0)
           lastLoc = (Locator) CurrentLocatorList.get(CurrentLocatorList.size()-1);
@@ -286,10 +318,9 @@ implements LexicalHandler
    /** Remove the current locator.
      *  @return Locator that was removed from the list of "current" quantities.
      */
-    protected Locator removeCurrentLocator () {
+    private Locator removeCurrentLocator () {
        return (Locator) CurrentLocatorList.remove(CurrentLocatorList.size()-1);
     }
-
 
     /** Get the current working parent matrix quantity that alt values
      *  should be added to.
@@ -301,7 +332,7 @@ implements LexicalHandler
        return mq;
     }
 
-    public void addParentQuantityNeedsAltValue (ObjectWithQuantities q) 
+    public void addParentQuantityNeedsAltValue (Quantity q) 
     {
           ParentQuantityAltValueList.add(q);
     }
@@ -338,7 +369,7 @@ implements LexicalHandler
     		// Quantities, AxisFrames, etc here to prevent repeating code
     		// that defaults to adding QElements here rather than in the Element Handler (?)
     		// I know that it looks bad to have this call here, but I'd rather 
-    		// treat this here rather repeat this code in all ObjectWithQuantities handlers..
+    		// treat this here rather repeat this code in all Quantity handlers..
 
     		// TODO: make a handler for this...
     		startHandlerAddQuantityToParent(namespaceURI, q);
@@ -357,12 +388,18 @@ implements LexicalHandler
     }
 
 
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.xssp.parse.XSSPDocumentHandler#endDocument()
+     */
+    @Override
     public void endDocument()
     throws SAXException
     {
     	
     	super.endDocument();
 
+    	// TODO: is this commented out section used or not?
 /*
         if (DoctypeObjectAttributes != null || ForceSetXMLHeaderStuff ) {
             
@@ -370,7 +407,7 @@ implements LexicalHandler
            XMLDeclaration xmlDecl = new XMLDeclaration();
            xmlDecl.setStandalone("no");
 
-           DocumentType doctype = new DocumentType(ObjectWithQuantities);
+           DocumentType doctype = new DocumentType(Quantity);
 
            // set the values of the DocumentType object appropriately
            if (!ForceSetXMLHeaderStuff) {
@@ -383,20 +420,20 @@ implements LexicalHandler
               doctype.setSystemId(Constants.Quantity_DTD_NAME); 
            }
 
-           ObjectWithQuantities.setXMLDeclaration (xmlDecl);
-           ObjectWithQuantities.setDocumentType(doctype);
+           Quantity.setXMLDeclaration (xmlDecl);
+           Quantity.setDocumentType(doctype);
         }
 
         // Now that it exists, lets
-        // set the notation hash for the ObjectWithQuantities structure
+        // set the notation hash for the Quantity structure
         Iterator iter = Notation.iterator();
         while (iter.hasNext()) {
            Hashtable initValues = (Hashtable) iter.next(); 
-           if (ObjectWithQuantities.getDocumentType() == null) {
+           if (Quantity.getDocumentType() == null) {
               // force having document type
-              ObjectWithQuantities.setDocumentType(new DocumentType(ObjectWithQuantities)); 
+              Quantity.setDocumentType(new DocumentType(Quantity)); 
            }
-           ObjectWithQuantities.getDocumentType().addNotation(new NotationNode(initValues));
+           Quantity.getDocumentType().addNotation(new NotationNode(initValues));
         }
 */
 
@@ -412,7 +449,7 @@ implements LexicalHandler
         // Find the index of the "size" attribute..
         // hrm.. this *might* get us into trouble if ppl start using
         // a qualified attribute "somenamspaceuri:size" which doesn't
-        // belong to the www.datamodel.net/ObjectWithQuantities namespace. Its not
+        // belong to the www.datamodel.net/Quantity namespace. Its not
         // likely, and, I cant get the namespaced "getIndex" function to
         // work, so this will have to do for now.
         int index = attrs.getIndex(Constants.SIZE_ATTRIBUTE_NAME);
@@ -477,22 +514,16 @@ implements LexicalHandler
     // Protected Methods
     //
 
-    // Placeholder to remind me to do some version checking w/ base class
-    protected boolean checkDocVersion (String version)
-    {
-// FIX
-      // if(version != qmlVersion) { return false; } else { return true; }
-      return false;
-    }
-
     /** Do special check for dealing with adding quantities. 
      *  This method exists because its easier to deal with adding member
      *  Quantities, AxisFrames, etc in a global fashion rather than repeating code
-     *  in each of the ObjectWithQuantities handlers.
+     *  in each of the Quantity handlers.
      *  At any rate the logic is that if no parent Q exists, then it defaults to 
      *  adding the quantities as QElements in the QMLDocument.
      */
-    protected void startHandlerAddQuantityToParent(String namespaceURI, Quantity q) 
+    // FIXME: this amounts to a dedicated handler for all quantities.. need to 
+    // implement differently as an actual handler?
+    private void startHandlerAddQuantityToParent(String namespaceURI, Quantity q) 
     {
 
             Quantity currentQ = getCurrentQuantity();
@@ -500,7 +531,7 @@ implements LexicalHandler
 
                  // IF its an ReferenceFrame, AND currentQ is a Matrix, we add
                  // it to the axisFrame List (just not yet..), otherwise, we add this new Q
-                 // as a member to current ObjectWithQuantities
+                 // as a member to current Quantity
                  if(currentQ instanceof MatrixQuantity && q instanceof ReferenceFrame)
                  {
                    // do nothing for now.. we want to wait to populate the ReferenceFrame
@@ -514,15 +545,15 @@ implements LexicalHandler
                    //if(q instanceof ListQuantity)
                    //   ParentMatrixQ.addAltValue((ListQuantity)q);
                    //else
-                   //   throw new SAXException("Alternative value not a list ObjectWithQuantities");
+                   //   throw new SAXException("Alternative value not a list Quantity");
                  } else
-                   currentQ.addMember(q); // everything else becomes a "member"
+                   currentQ.addProperty(q); // everything else becomes a "member"
 
              } else {
 
                  // Add as a QElement to our document, as appropriate (e.g.
                  // either to current node or as document root).
-                Element elem = getDocument().createQMLElementNS(namespaceURI, q);
+                Element elem = ((QMLDocument) getDocument()).createQMLElementNS(namespaceURI, q);
                 Node current = getCurrentNode();
                 if(current != null)
                    current.appendChild(elem);
@@ -532,8 +563,6 @@ implements LexicalHandler
              }
 
     }
-
-
 
     // base type of a complex/simple type decl.
     private static String findBaseType(Element typeDecl, String prefix)
@@ -580,410 +609,10 @@ implements LexicalHandler
        return base;
     }
 
-    // set up QML handler associtions w/ schema complexTypes
-    @Override
-    protected void initStartElementHandlers ()
-    {
-
-        Map<String,StartElementHandler> qmlAssoc = new Hashtable<String,StartElementHandler>();
-        Map<String,StartElementHandler> mapAssoc = new Hashtable<String,StartElementHandler>();
-        Map<String,StartElementHandler> xmlAssoc = new Hashtable<String,StartElementHandler>();
-
-        qmlAssoc.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.AXISFRAME, new AxisFrameStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.FLOAT_DATATYPE, new FloatDataTypeStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.INTEGER_DATATYPE, new IntegerDataTypeStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.LIST_QUANTITY, new ListQuantityStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.MATRIX_QUANTITY, new MatrixQuantityStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.QUANTITY, new IllegalStartElementHandlerFunc()); // its abstract..never invoked as a node! 
-        qmlAssoc.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new QuantityContainerStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new RefQuantityStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.STRING_DATATYPE, new StringDataTypeStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new TrivialQuantityStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VECTOR_DATATYPE, new VectorStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.UNITS, new UnitsStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VALUE, new ValueStartElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VALUES, new ValuesStartElementHandlerFunc());
-
-        // FIX: hacked in mapping handlers until separate mapping package is built.
-        mapAssoc.put(Constants.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
-
-        // generic XML handlers. we can certainly treat simple string and anyURI -based elements 
-        xmlAssoc.put("string", new DefaultStartElementHandlerFunc());
-        xmlAssoc.put("anyURI", new DefaultStartElementHandlerFunc());
-
-        StartElementHandlers.put(Constants.QML_NAMESPACE_URI, qmlAssoc); 
-        StartElementHandlers.put(Constants.MAPPING_NAMESPACE_URI, mapAssoc); 
-        StartElementHandlers.put(Constants.XML_SCHEMA_NAMESPACE_URI, xmlAssoc); 
-
-    }
-
-    // set up QML handler associtions w/ schema complexTypes
-    protected void initCharDataHandlers()
-    {
-        Hashtable mapAssoc = new Hashtable();
-        Hashtable qmlAssoc = new Hashtable();
-        Hashtable xmlAssoc = new Hashtable();
-
-        qmlAssoc.put(Constants.NodeTypeName.ALTERN_VALUES, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.AXISFRAME, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.COMPONENT, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.FLOAT_DATATYPE, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.INTEGER_DATATYPE, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.LIST_QUANTITY, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.MATRIX_QUANTITY, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.QUANTITY, new IllegalCharDataHandlerFunc()); // its abstract..never invoked as a node! 
-        qmlAssoc.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.STRING_DATATYPE, new NullCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new TrivialQuantityCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.UNITS, new UnitsCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VALUE, new ValueCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VALUES, new ValuesCharDataHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VECTOR_DATATYPE, new NullCharDataHandlerFunc());
-
-       // FIX: hacked in mapping handlers until separate mapping package is built.
-        mapAssoc.put(Constants.NodeTypeName.MAP, new NullCharDataHandlerFunc());
-
-        // generic XML handlers. we can certainly treat simple string and anyURI-based elements 
-        xmlAssoc.put("string", new DefaultElementWithCharDataHandlerFunc());
-        xmlAssoc.put("anyURI", new DefaultElementWithCharDataHandlerFunc());
-
-        CharDataHandlers.put(Constants.QML_NAMESPACE_URI, qmlAssoc);
-        CharDataHandlers.put(Constants.MAPPING_NAMESPACE_URI, mapAssoc);
-        CharDataHandlers.put(Constants.XML_SCHEMA_NAMESPACE_URI, xmlAssoc);
-
-    }
-
-   // set up QML handler associtions w/ schema complexTypes
-    protected void initEndElementHandlers ()
-    {
-        Hashtable mapAssoc = new Hashtable();
-        Hashtable qmlAssoc = new Hashtable();
-        Hashtable xmlAssoc = new Hashtable();
-
-        qmlAssoc.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.AXISFRAME, new AxisFrameEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.COMPONENT, new ComponentEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.LIST_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.MATRIX_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.QUANTITY, new IllegalEndElementHandlerFunc()); // its abstract..never invoked as a node! 
-        qmlAssoc.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new NullEndElementHandlerFunc()); // metaData 
-        qmlAssoc.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.FLOAT_DATATYPE, new NullEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.INTEGER_DATATYPE, new NullEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.STRING_DATATYPE, new NullEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.UNITS, new NullEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VALUE, new NullEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VALUES, new ValuesEndElementHandlerFunc());
-        qmlAssoc.put(Constants.NodeTypeName.VECTOR_DATATYPE, new VectorEndElementHandlerFunc());
-
-       // FIX: hacked in mapping handlers until separate mapping package is built.
-        mapAssoc.put(Constants.NodeTypeName.MAP, new NullEndElementHandlerFunc());
-
-        // generic XML handlers. we can certainly treat simple string and anyURI-based elements 
-        xmlAssoc.put("string", new DefaultEndElementHandlerFunc());
-        xmlAssoc.put("anyURI", new DefaultEndElementHandlerFunc());
-
-        EndElementHandlers.put(Constants.QML_NAMESPACE_URI, qmlAssoc); 
-        EndElementHandlers.put(Constants.MAPPING_NAMESPACE_URI, mapAssoc); 
-        EndElementHandlers.put(Constants.XML_SCHEMA_NAMESPACE_URI, xmlAssoc); 
-
-    }
-
-    protected void InitFromSchema (Attributes attrs) {
-
-           String schema_info = findSchemaLocationFromAttribs(attrs);
-
-           Matcher myMatcher = SchemaLocationPattern.matcher(schema_info);
-           if(myMatcher.matches()) {
-              String uri = myMatcher.group(1).trim();
-              String url = myMatcher.group(2).trim();
-              List handlers = LoadSchema (uri,url);
-              Iterator iter = handlers.iterator();
-
-              // second pass: try to recover missing handlers
-              while (iter.hasNext()) {
-                  HandlerMapInfo info = (HandlerMapInfo) iter.next();
-                  boolean gotHandler = false;
-
-                  switch (info.type) {
-                       case START_HANDLER_TYPE:
-                           StartElementHandler shandler = findStartHandler(info.name2,info.uri2);
-                           if(shandler != null) {
-                               ((Hashtable) StartElementHandlers.get(info.uri1)).put(info.name1,shandler);
-                               gotHandler = true;
-                           }
-                           break;
-                       case END_HANDLER_TYPE:
-                           EndElementHandler ehandler = findEndHandler(info.name2,info.uri2);
-                           if(ehandler != null) {
-                               ((Hashtable) EndElementHandlers.get(info.uri1)).put(info.name1,ehandler);
-                               gotHandler = true;
-                           }
-                           break;
-                       case CHAR_HANDLER_TYPE:
-                           CharDataHandler cdhandler = findCharDataHandler(info.name2,info.uri2,info.mixed);
-                           if(cdhandler != null) {
-                               ((Hashtable) CharDataHandlers.get(info.uri1)).put(info.name1,cdhandler);
-                               gotHandler = true;
-                           }
-                           break;
-                  }
-
-                  if(gotHandler)
-                      logger.debug(" ==> Mapping complexType:"+info.name1+"["+info.uri1+"] to"+Constants.NEW_LINE+"       start Handler:"+info.name2+"["+info.uri2+"] for type:"+info.type);
-                  else
-                  {
-                      String handlerType = "start element";
-                      if(info.type == 1) handlerType = "end element";
-                      if(info.type == 2) handlerType = "char data";
-                      logger.error(" ==> Mapping complexType:"+info.name1+"["+info.uri1+"] to"+Constants.NEW_LINE+"       start Handler:"+info.name2+"["+info.uri2+"] for type:"+info.type);
-                      logger.error(" ** Can't find "+handlerType+" Handler for complexType:"+info.name1
-                                  +"["+info.uri1+"] "+Constants.NEW_LINE
-                                  +"       (Missing handler:"+info.name2+"["+info.uri2+"])");
-                  }
-
-              }
-           }
-
-    }
-
-    // convenience method
-    protected List LoadSchema (String uri, String url )
-    {
-        return LoadSchema (uri, url, true);
-    }
-
-    /** Base method for loading handlers from XML schema. Will trace back (and forward)
-      * through the indicated schema to identify all the element handlers (and the associated
-      * namespaces) which are needed.
-      */
-    protected List LoadSchema (String uri, String url, boolean warnLoaded )
-    {
-
-      List handlers = new Vector();
-
-      // tack in the relative path to our source in the url
-      url = RelativePath + url;
-
-      if(LoadedSchema.containsKey(uri))
-      {
-         String priorUrl = (String) LoadedSchema.get(uri);
-         if(priorUrl.equals(url))
-         {
-//            logger.debug("    returning..already loaded schema:"+uri+" "+url);
-            return handlers;
-         } else
-            logger.info(" H_LOAD_SCHEMA: hmmm..already loaded schema with uri:"+uri
-                          +" but this has different URL prior_url:["+priorUrl+
-                          "] current_url:[" +url
-                          +"] If this is a schema that simply extends the orignal namespace, then things are OK, otherwise, maddess may reign.");
-      }
-      LoadedSchema.put(uri,url);
-
-      logger.info("H_LOAD_SCHEMA : ["+uri+","+url+"]");
-
-      // parse the schema into a DOM representation
-      DocumentBuilderFactory fac = DocumentBuilderFactory.newInstance();
-
-      try {
-
-          DocumentBuilder docBuilder = fac.newDocumentBuilder();
-          InputSource is = new InputSource (url);
-          Document schemaDoc = docBuilder.parse(is);
-
-          // find prefix/namespacesURI pairs for this schema.
-          String targetNamespace = "";
-          Hashtable schemaPrefixNamespaces = new Hashtable();
-          Element root = schemaDoc.getDocumentElement();
-          NamedNodeMap attrs = root.getAttributes();
-          int at_size = attrs.getLength();
-          for (int i = 0; i < at_size; i++) {
-             Node item = attrs.item(i);
-             String nodeName = item.getNodeName();
-
-             if(nodeName.equals("targetNamespace")) {
-                targetNamespace = item.getNodeValue();
-             } else {
-               Matcher myMatcher = XMLNamespacePrefixPattern.matcher(nodeName);
-               if(myMatcher.matches()) {
-                  String prefix = myMatcher.group(2).trim();
-                  schemaPrefixNamespaces.put(prefix,item.getNodeValue());
-               }
-             }
-          }
-
-          // now gather information about included/imported/redefined sub-schema..
-          List imports = new Vector();
-          List redefine = new Vector();
-          List includes = new Vector();
-          Hashtable elements = new Hashtable();
-          Map types = new Hashtable();
-          Enumeration prefixes = schemaPrefixNamespaces.keys();
-          while (prefixes.hasMoreElements()) {
-             String prefix = (String) prefixes.nextElement();
-
-             imports.addAll(findElements(schemaDoc,"import",prefix));
-             redefine.addAll(findElements(schemaDoc,"redefine",prefix));
-             includes.addAll(findElements(schemaDoc,"include",prefix));
-             elements.put(prefix, findElements(schemaDoc,"element",prefix));
-             types.put(prefix, findElements(schemaDoc,"complexType",prefix));
-
-          }
-
-          // init handlers for INCLUDEd schema..
-          Iterator iiter = includes.iterator();
-          while (iiter.hasNext()) {
-              Element includeElem = (Element) iiter.next();
-              List missingImportSchemaHandlers =
-                   LoadSchema(uri, includeElem.getAttribute("schemaLocation"), false);
-              handlers.addAll(missingImportSchemaHandlers);
-          }
-
-          // init handlers for IMPORTed schema..
-//          logger.debug(" FOUND "+imports.size()+" imports in schema:"+url);
-          Iterator iter = imports.iterator();
-          while (iter.hasNext()) {
-              Element importElem = (Element) iter.next();
-              List missingImportSchemaHandlers =
-                   LoadSchema(importElem.getAttribute("namespace"),importElem.getAttribute("schemaLocation"));
-              handlers.addAll(missingImportSchemaHandlers);
-          }
-
-          // init handlers for REDEFINEd schema..
-          // There should ONLY be 1 of these 
-          logger.debug(" FOUND "+redefine.size()+" redefines in schema:"+url);
-          iter = redefine.iterator();
-          while (iter.hasNext()) {
-              Element redefineElem = (Element) iter.next();
- // check if redefine namespace is same as our present schema?
-              String schemaLoc = redefineElem.getAttribute("schemaLocation");
-              logger.debug(" redef namespace : "+targetNamespace+" schema:"+schemaLoc);
-
-              // Q: isnt it more efficient to just to find the reference to these handlers 
-              // rather than re-load them afresh again?
-              List missingRedefineSchemaHandlers =
-                   LoadSchema(targetNamespace,redefineElem.getAttribute("schemaLocation"), false);
-              handlers.addAll(missingRedefineSchemaHandlers);
-
-              // Q: do I need to remove the older namespace stuff??
-          }
-
-          // init handlers for this schema..
-          // lets cheat a little..we have already "by hand" set the element handlers
-          // for the QML schema, so no need to go thru this to do it
-          Matcher myMatcher = QMLSchemaPattern.matcher(url);
-          if(uri.equals(Constants.QML_NAMESPACE_URI) && myMatcher.matches()) {
-              logger.debug("   skipping loading element handlers for QML schema.");
-              return handlers;
-          }
-
-          prefixes = schemaPrefixNamespaces.keys();
-          Hashtable complexTypes = new Hashtable();
-          while (prefixes.hasMoreElements()) {
-             String prefix = (String) prefixes.nextElement();
-             logger.debug(" Check input COMPLEXTYPE prefix:"+prefix);
-             complexTypes.putAll(getBaseTypesOfComplexTypes((List) types.get(prefix), prefix));
-          }
-
-          handlers.addAll(initHandlerAssociations(targetNamespace, schemaPrefixNamespaces, complexTypes));
-
-          //logger.debug(" FOUND "+elements.size()+" elements, "+types.size()+" complexTypes in schema:"+url);
-          initElementTypeAssociations(targetNamespace, schemaPrefixNamespaces, elements);
-
-      } catch (IOException e) {
-    	  // TODO: this this really a warning??
-          logger.warn("Can't create input source for schema parser : "+e.getMessage());
-          logger.warn("Using the default QML handlers (there may be further problems related to this...)");
-      } catch (SAXException e) {
-    	  // TODO: this this really a warning??
-          logger.warn("Can't parse schema input source : "+e.getMessage());
-          logger.warn("Using the default QML handlers (there may be further problems related to this...)");
-      } catch (ParserConfigurationException e) {
-    	  // TODO: this this really a warning??
-          logger.warn("Can't create schema DOM parser : "+e.getMessage());
-          logger.warn("Using the default QML handlers (there may be further problems related to this...)");
-      }
-
-      return handlers;
-
-    }
-
-
     //
     // Private Methods
     //
-
-    /** called by all constructors. May be used to re-initalize reader. 
-     */
-    private void init () {
-
-      // assign/init 'globals' (e.g. object fields)
-      Options = new Hashtable();  
-      myDocument = (QMLDocument) null;
-
-      Notation = new HashSet();
-      UnParsedEntity = new Hashtable();
-      PrefixNamespaceMapping = new Hashtable();
-
-      CurrentNodePath = new Vector();
-      CurrentNodeList = new Vector();
-      ParentQuantityAltValueList = new Vector();
-      ElementNamespaceURIList = new Vector();
-
-      RelativePath = "";
-
-      // initialize the default parser dispatch tables
-      // and element/type associations
-      initHandlers();
-
-      LoadedSchema = new Hashtable(); 
-      AttemptedSchemaLoad = false;
-      AddingAltValues = false;
-      ExpectedValues = new Vector();
-
-    }
-
-    private void initHandlers() {
  
-      // default handlers
-      DefaultHandlers = new Hashtable(); // table of default handlers 
-      initDefaultHandlerHashtable();
-
-      // element to complexType association
-      ElementTypeAssoc = new Hashtable(); // assoc between element names and handler keys 
-      initElementTypeAssoc();
-
-      // start Element
-      StartElementHandlers = new Hashtable(); // start node handler
-      initStartElementHandlers(); 
-    
-      // end Element
-      EndElementHandlers = new Hashtable(); // end node handler
-      initEndElementHandlers();
-
-      // character data 
-      CharDataHandlers = new Hashtable(); // charData handler
-      initCharDataHandlers();
-
-    }
-
-    private void initDefaultHandlerHashtable () {
-       DefaultHandlers.put("startElement", new DefaultStartElementHandlerFunc());
-       DefaultHandlers.put("endElement", new DefaultEndElementHandlerFunc());
-       DefaultHandlers.put("ignoreCharData", new DefaultCharDataHandlerFunc());
-       DefaultHandlers.put("charData", new DefaultElementWithCharDataHandlerFunc());
-    }
-
     // initialize the associations between element names and complextypes (aka. keys for 
     // the dispatch table for start handler events) 
     // You may ask: why "hardwire" this table?
@@ -992,12 +621,16 @@ implements LexicalHandler
     //
     // Optionally, it might be nice to have this table declared in the "Constants" class..that
     // seems better..
+    // TODO:!!
     private void initElementTypeAssoc() {
 
-       Hashtable qmlAssoc = new Hashtable();
-       Hashtable xmlAssoc = new Hashtable();
+//       Map<String, HandlerInfo> qmlAssoc = new Hashtable<String, HandlerInfo>();
 
        // QML namespace associations
+       // WARNING: you need to specify the QML_NAMESPACE_URI on the HandlerInfo constructor line!!!
+       // Besure to modify all of the following!!
+       // 
+       /*
        qmlAssoc.put(Constants.NodeName.ALTERN_VALUES, new HandlerInfo(Constants.NodeTypeName.ALTERN_VALUES));
        qmlAssoc.put(Constants.NodeName.ATOMIC_QUANTITY, new HandlerInfo(Constants.NodeTypeName.ATOMIC_QUANTITY));
        qmlAssoc.put(Constants.NodeName.AXISFRAME, new HandlerInfo(Constants.NodeTypeName.AXISFRAME));
@@ -1014,32 +647,12 @@ implements LexicalHandler
        qmlAssoc.put(Constants.NodeName.VECTOR_DATATYPE, new HandlerInfo(Constants.NodeTypeName.VECTOR_DATATYPE));
        qmlAssoc.put(Constants.NodeName.VALUE, new HandlerInfo(Constants.NodeTypeName.VALUE));
        qmlAssoc.put(Constants.NodeName.VALUES, new HandlerInfo(Constants.NodeTypeName.VALUES));
+       */
 
-       // Simple string-based elements get the default handler
-       xmlAssoc.put("string", new HandlerInfo("string"));
-       xmlAssoc.put("anyURI", new HandlerInfo("anyURI"));
- 
        // set up the associated namespace stuff
-       ElementTypeAssoc.put(Constants.QML_NAMESPACE_URI, qmlAssoc);
-       ElementTypeAssoc.put(Constants.XML_SCHEMA_NAMESPACE_URI, xmlAssoc);
+//       ElementTypeAssoc.put(Constants.QML_NAMESPACE_URI, qmlAssoc);
 
     }
-    
-    /*
-    private Hashtable attribListToHashtable ( Attributes attrs ) {
-
-       Hashtable hash = new Hashtable();
-       int size = attrs.getLength();
-       for (int i = 0; i < size; i++) {
-          String name = attrs.getQName(i);
-          String value; 
-          if ((value = attrs.getValue(i)) != null) 
-             hash.put(name, value);
-       }
-         
-       return hash;
-    }
-    */
 
     //
     // Internal Classes
@@ -1048,73 +661,13 @@ implements LexicalHandler
     // MAPPING HANDLERS - dont really belong here (!)
     //
 
-    // FIX: we need to put in a separate mapping package..
+    // TODO: we need to put in a separate mapping package..
     class mappingStartElementHandlerFunc implements StartElementHandler {
        public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
                               String localName, String qName, Attributes attrs)
        throws SAXException {
            throw new SAXException("Current package cannot handle mapped values.");
        }
-    }
-
-    /** A small class to hold information about ComplexTypes */
-    protected class ComplexTypeInfo {
-       public String name = "";
-       public String base = "";
-       public String mixed = "";
-
-       public ComplexTypeInfo (String n, String b, String m) {
-         name = n; 
-         base = b; 
-         mixed = m; 
-       }
-
-    }
-
-    /** A small class to hold information about SAX handler to element mappings.
-     */
-    protected class HandlerInfo {
-       public String name = "";
-       public String uri = Constants.QML_NAMESPACE_URI;
-
-       public HandlerInfo (String n ) {
-         name = n; 
-       }
-
-       public HandlerInfo (String n, String u) {
-         name = n; uri = u;
-       }
-
-    }
-
-   /** A small class to hold information about Mappings between SAX handlers.
-     */
-   protected class HandlerMapInfo {
-       public String name1 = "";
-       public String uri1 = Constants.QML_NAMESPACE_URI;
-       public String name2 = "";
-       public String uri2 = Constants.QML_NAMESPACE_URI;
-       public String mixed = "";
-       public int type = START_HANDLER_TYPE;
-
-       public HandlerMapInfo (String n1, String u1, String n2, String u2, int t, String mx ) {
-         name1 = n1; uri1 = u1;
-         name2 = n2; uri2 = u2;
-         type = t;
-         mixed = mx;
-       }
-
-       public HandlerMapInfo (String n1, String u1, String n2, String u2 ) {
-         name1 = n1; uri1 = u1;
-         name2 = n2; uri2 = u2;
-       }
-
-       public HandlerMapInfo (String n1, String u1, String n2, String u2, int t) {
-         name1 = n1; uri1 = u1;
-         name2 = n2; uri2 = u2;
-         type = t;
-       }
-
     }
 
 } // End of QMLDocumentHandler class 

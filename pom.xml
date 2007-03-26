@@ -106,7 +106,7 @@
     <dependency>
       <groupId>net.datamodel</groupId>
       <artifactId>soml</artifactId>
-      <version>0.5</version>
+      <version>0.50.1</version>
     </dependency>
   </dependencies>
 

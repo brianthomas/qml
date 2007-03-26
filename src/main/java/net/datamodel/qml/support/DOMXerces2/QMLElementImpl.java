@@ -211,7 +211,7 @@ implements QMLElement
          ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
-         getQuantity().addMember(q);
+         getQuantity().addProperty(q);
 
          newChild = super.appendChild(newChild); // needed? 
 
@@ -239,7 +239,7 @@ implements QMLElement
          ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
-         getQuantity().addMember(q);
+         getQuantity().addProperty(q);
 
          node = super.insertBefore(newChild,refChild);
 
@@ -260,7 +260,7 @@ implements QMLElement
          ObjectWithQuantities q = qElem.getQuantity();
 
          // Add as a member
-         getQuantity().removeMember(q);
+         getQuantity().removeProperty(q);
 
          oldChild = super.removeChild(oldChild); 
 
@@ -282,7 +282,7 @@ implements QMLElement
           ObjectWithQuantities q = qElem.getQuantity();
 
           // remove member
-          getQuantity().removeMember(q);
+          getQuantity().removeProperty(q);
 
        } else {
          throw new DOMException (DOMException.NOT_SUPPORTED_ERR, "Can't insertBefore w/ DOM Element in QMLElement object.");
@@ -294,7 +294,7 @@ implements QMLElement
           ObjectWithQuantities q = qElem.getQuantity();
 
           // add member
-          getQuantity().addMember(q);
+          getQuantity().addProperty(q);
 
        } else {
          throw new DOMException (DOMException.NOT_SUPPORTED_ERR, "Can't insertBefore w/ DOM Element in QMLElement object.");

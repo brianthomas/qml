@@ -46,8 +46,8 @@ import net.datamodel.xssp.XMLFieldType;
  * a structure which looks like a Quantity without any values.
  */
 public class ComponentImpl 
-extends SemanticObjectImpl
-implements Component 
+extends AbstractObjectWithProperties
+implements Component
 {
 
 	// Fields
@@ -63,7 +63,8 @@ implements Component
 	// Constructors
 
 	/** No-arg Constructor. */ 
-	public ComponentImpl ( ) { 
+	public ComponentImpl () { 
+		super();
 		setXMLNodeName("component");
 
 		// initialize XML fields

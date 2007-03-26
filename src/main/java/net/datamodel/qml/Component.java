@@ -39,7 +39,7 @@ import net.datamodel.soml.SemanticObject;
  * @author  thomas
  */
 public interface Component 
-extends SemanticObject 
+extends SemanticObject, ObjectWithProperties
 {
     
     /** Determine equivalence between components (or quantities). Equivalence is 

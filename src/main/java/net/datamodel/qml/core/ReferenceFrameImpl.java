@@ -47,7 +47,7 @@ import net.datamodel.soml.impl.SemanticObjectImpl;
  * @version $Revision$
  */
 public class ReferenceFrameImpl 
-extends SemanticObjectImpl 
+extends AbstractObjectWithProperties
 implements ReferenceFrame {
 
     /** No-argument constructor.

@@ -50,10 +50,26 @@ extends ListQuantity
     /**
      * Get the list of axisframes in this quantity.
      * @return  List of axisframes
-     * @uml.property  name="axisFrameList"
      */
-    public List getAxisFrameList (  );
-
+    public List<ReferenceFrame> getReferenceFrames ( );
+    
+    /** add a frame of reference to the MatrixQuantity.
+     * 
+     * @param frame
+     * @throws IllegalArgumentException if the number of locations differ between 
+     *         what is declared in the ReferenceFrame and the MatrixQuantity
+     * @return true if it may add the ReferenceFrame 
+     */
+    public boolean addReferenceFrame(ReferenceFrame frame)
+    throws IllegalArgumentException;
+    
+    /** remove a frame of reference from the Quantity.
+     * 
+     * @param frame
+     * @return true if it may remove the ReferenceFrame 
+     */ 
+    public boolean removeReferenceFrame(ReferenceFrame frame);
+    
     /**
      * Add an object of type ListQuantity to represent an equivalent, but
      *  alternative represention of this quantity. The alternative quantity must

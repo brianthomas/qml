@@ -29,15 +29,14 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.core.SemanticObjectImpl;
-import net.datamodel.qml.support.EndElementHandler;
+import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ReferenceFrame;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.soml.impl.SemanticObjectImpl;
+import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 
@@ -46,15 +45,21 @@ public class AxisFrameEndElementHandlerFunc implements EndElementHandler
        public void action (XSSPDocumentHandler handler )
        throws SAXException {
 
+   		// let it bomb if the cast doesnt go right
+   		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
+
           // peel off the last quantity, which should be our axisFrame
-          ObjectWithQuantities q = handler.unrecordQuantity();
-          ObjectWithQuantities cq = handler.getCurrentQuantity();
+          Quantity q = qhandler.unrecordQuantity();
+          Quantity cq = qhandler.getCurrentQuantity();
 
           if(q instanceof ReferenceFrame && cq instanceof MatrixQuantity)
           {
-              ((MatrixQuantity)cq).addMember((ReferenceFrame)q);
+        	  
+              ((MatrixQuantity)cq).addReferenceFrame(q); 
+              
           } else if (cq instanceof SemanticObjectImpl) {
-             // do nothing..we already added it as a member
+             // do nothing..we already added it as some other 
+        	 // type of relationship
           } else
               throw new SAXException("Ugh. ReferenceFrame can't be found..bad parse.");
 

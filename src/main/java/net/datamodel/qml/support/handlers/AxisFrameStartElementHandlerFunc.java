@@ -25,30 +25,37 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
 import net.datamodel.qml.core.ReferenceFrameImpl;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
+public class AxisFrameStartElementHandlerFunc 
+implements StartElementHandler 
+{
 
-public class AxisFrameStartElementHandlerFunc implements StartElementHandler {
-       public Object action (XSSPDocumentHandler handler, String namespaceURI, String localName,
-                             String qName, Attributes attrs)
-       throws SAXException {
+	public Object action (
+			XSSPDocumentHandler handler, 
+			String namespaceURI, 
+			String localName,
+			String qName, 
+			Attributes attrs
+	)
+	throws SAXException {
 
-          ReferenceFrameImpl axisFrame = new ReferenceFrameImpl();
-          axisFrame.setFields(attrs); // set XML attributes from passed list
+		ReferenceFrameImpl refFrame = new ReferenceFrameImpl();
+		refFrame.setAttributeFields(attrs); // set XML attributes from passed list
 
-          handler.addExpectedValues(new Integer(0));
+		((QMLDocumentHandler) handler).addExpectedValues(new Integer(0));
 
-          return axisFrame;
-       }
+		return refFrame;
+	}
+
 }
 
