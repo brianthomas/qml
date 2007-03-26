@@ -1,6 +1,4 @@
-/**
- * 
- */
+
 package net.datamodel.qml.locator;
 
 import net.datamodel.qml.Locator;
@@ -20,32 +18,33 @@ implements Locator
 	private ObjectWithValues parent;
 
 	// where in the data container list we are
-	protected int listIndex;
-	
-	// Constructor
-	private AbstractLocator () {}
-	
+	protected int listIndex = 0;
+
+	// Constructors
+//	private AbstractLocator () {}
+
 	/** Vanilla constructor. */
 	public AbstractLocator ( ObjectWithValues parent )
 	{
-		logger.debug("NEW LOCATOR CREATED");
+		logger.debug("NEW LOCATOR CREATED type:"+this.getClass());
 		if (parent == null) {
 			throw new NullPointerException("Cant construct Locator with NULL parent!!");
 		}
 
 		setParent(parent);
-		reset();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Locator#getParent()
 	 */
-	public final ObjectWithValues getParent (  ) {
+	public final ObjectWithValues getParent ( ) {
 		return parent;
 	}
 
-	protected final void  setParent (ObjectWithValues p) { parent = p; } 
+	// Setting the parent should be at the descresion of the locator
+	// and not by the public (in general).
+	protected final void setParent (ObjectWithValues p) { parent = p; } 
 
 	/*
 	 * (non-Javadoc)
@@ -57,28 +56,26 @@ implements Locator
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Locator#setListIndex(int)
 	 */
-	public final void setListIndex ( int index ) throws IllegalArgumentException {
-
-		if(index < 0)
-			throw new IllegalArgumentException ("setListIndex can't set index to negative value");
-
-		listIndex = index;
-	}
+	abstract public void setListIndex ( int index ) throws IllegalArgumentException;
 
 	/*
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Locator#reset()
 	 */
-	public final void reset () {
+	public void reset () {
 		listIndex = 0; // set to first location 
 	}
 
 
+	/** Find the index value of the maximum utilized Index in the container
+	 * to which this locator belongs.
+	 * 
+	 * @return
+	 */
 	protected final int getMaxLocation() {
 		logger.debug("getMaxLocation called");
 		//int maxUtilIndex = parent.getValueContainer().getMaxUtilizedIndex();
 		return getParent().getCapacity() -1;
 	}
-
 
 }

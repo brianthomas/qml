@@ -1,6 +1,6 @@
-// CVS $Id$
+//CVS $Id$
 
-// ListLocatorImpl.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+//ListLocatorImpl.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -18,14 +18,14 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
-   
 
-*/
+
+ */
 
 
 package net.datamodel.qml.locator;
@@ -41,7 +41,7 @@ public class ListLocatorImpl extends AbstractLocator
 {
 
 	private static final Logger logger = Logger.getLogger(ListLocatorImpl.class);
-	
+
 	/** */
 	public ListLocatorImpl(ObjectWithValues parent) {
 		super(parent);
@@ -95,6 +95,19 @@ public class ListLocatorImpl extends AbstractLocator
 		if ( listIndex > 0) // 0 is the lowest indice
 			return true;
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.locator.AbstractLocator#setListIndex(int)
+	 */
+	@Override
+	public final void setListIndex(int index) throws IllegalArgumentException {
+
+		if(index < 0)
+			throw new IllegalArgumentException ("setListIndex can't set index to negative value");
+
+		listIndex = index;
 	}
 
 
