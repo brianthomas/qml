@@ -45,6 +45,9 @@ extends AbstractQuantity
 	
 	private static final Logger logger = Logger.getLogger(AtomicQuantityImpl.class);
 
+	/** no-arg constructor. */
+	public AtomicQuantityImpl () { super (1); }
+	
 	/** Construct a quantity for a given capacity.
 	 * 
 	 * @param capacity
