@@ -31,18 +31,19 @@
 
 package net.datamodel.qml.core;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Vector;
 
 import net.datamodel.qml.Component;
 import net.datamodel.qml.ListQuantity;
-import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ValueMapping;
-import net.datamodel.qml.locator.MatrixLocatorImpl;
 import net.datamodel.qml.support.Constants;
+import net.datamodel.soml.Relationship;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObjectList;
 
@@ -63,10 +64,9 @@ implements MatrixQuantity
     // Fields
     // 
 
-    // reference (coordinate) frames of this quantity
-    List<ReferenceFrame> ReferenceFrameList = new Vector<ReferenceFrame>();
-    
     private static final String alternValuesFieldName = new String("altValue");
+    
+    private URI refFrameURN = null;
 
     // Methods
     //
@@ -84,14 +84,22 @@ implements MatrixQuantity
      * @param capacity
      */
     public MatrixQuantityImpl (int capacity) { 
-       super(capacity);
-       
-       setXMLNodeName (Constants.NodeName.MATRIX_QUANTITY);
-       
-       setValueContainer (new MatrixValueContainerImpl(this));
+    	super(capacity);
 
-       // now initialize XML fields
-       addField(alternValuesFieldName, new AltValuesList(), XMLFieldType.CHILD);
+    	setXMLNodeName (Constants.NodeName.MATRIX_QUANTITY);
+
+    	setValueContainer (new MatrixValueContainerImpl(this));
+
+    	// now initialize XML fields
+    	addField(alternValuesFieldName, new AltValuesList(), XMLFieldType.CHILD);
+
+    	try {
+    		refFrameURN = new URI(Constants.QML_REF_FRAME_URN);
+    	} catch (URISyntaxException e) {
+    		String msg = "cant construct quantity..URN syntax bogus in class";
+    		logger.error(msg);
+    		e.printStackTrace();
+    	}
 
     }
 
@@ -153,13 +161,34 @@ implements MatrixQuantity
     }
 */
 
-    /**
-     * Get the list of axisframes in this quantity.
-     * @return  List of axisframes
-     * @uml.property  name="axisFrameList"
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.MatrixQuantity#addReferenceFrame(net.datamodel.qml.ReferenceFrame)
      */
-    public List getAxisFrameList ( ) {
-        return ReferenceFrameList;
+    public final boolean addReferenceFrame(ReferenceFrame frame) {
+    	return this.addRelationship(frame, refFrameURN);
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.MatrixQuantity#getReferenceFrames()
+     */
+    public final List<ReferenceFrame> getReferenceFrames() {
+		List<ReferenceFrame> rList = new Vector<ReferenceFrame>(); 
+		// tool through our list of related objects and find ones which
+		// match the indicated urn
+		for (Relationship rel : getRelationships(refFrameURN)) {;
+			rList.add((ReferenceFrame) rel.getTarget());
+		}
+		return rList;
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see net.datamodel.qml.MatrixQuantity#removeReferenceFrame(net.datamodel.qml.ReferenceFrame)
+     */
+    public boolean removeReferenceFrame(ReferenceFrame frame) {
+    	return removeRelationship(refFrameURN, frame);
     }
 
     /**
@@ -170,7 +199,7 @@ implements MatrixQuantity
      * @throws IllegalArgumentException if either self or a quantity of different size from the parent is passed.
      * @return boolean value of whether addition was successfull or not.
      */
-    public boolean addAltValue ( ListQuantity value  )
+    public final boolean addAltValue ( ListQuantity value  )
     throws IllegalArgumentException
     {
         // can't add ourselves as alternative value of ourselves (!)
@@ -192,7 +221,7 @@ implements MatrixQuantity
      *
      * @return boolean value of whether removeal was successfull or not.
      */
-    public boolean removeAltValue ( ListQuantity value ) {
+    public final boolean removeAltValue ( ListQuantity value ) {
         return getAltValueList().remove(value);
     }
 
@@ -201,7 +230,7 @@ implements MatrixQuantity
      *
      * @return List of altvalueVector
      */
-    public List<ListQuantity> getAltValueList () {
+    public final List<ListQuantity> getAltValueList () {
     	return ((List<ListQuantity>) getFieldValue(alternValuesFieldName));
     }
 
