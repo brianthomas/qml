@@ -63,7 +63,7 @@ implements Quantity, XMLSerializableObjectWithValues
 	// XML attribute names 
 	private static final String sizeFieldName = Constants.SIZE_ATTRIBUTE_NAME;
 	private static final String dataFieldName = Constants.DATA_FIELD_NAME;
-
+	
 	// Constructors
 
 	/** No argument constructor. Values will be explicitly held.
@@ -112,6 +112,10 @@ implements Quantity, XMLSerializableObjectWithValues
 		return getValueContainer().getCapacity(); // only ever one location
 	}
 	
+	// a little accessor to determine if we have mapping
+	// This is overkill..probably just use the field instead?
+	// but if we did that then the inheriting class could change the value
+	// which I think we dont want to allow.
 	protected final boolean hasMapping() { return hasMapping; }
 
 	/*
@@ -231,7 +235,7 @@ implements Quantity, XMLSerializableObjectWithValues
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 
-		if (hasMapping)
+		if (hasMapping())
 			throw new IllegalAccessException("setValue() illegal. This quantity has mapping-generated values.");
 
 		getValueContainer().setValue(obj,loc);
@@ -246,7 +250,7 @@ implements Quantity, XMLSerializableObjectWithValues
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 
-		if (hasMapping)
+		if (hasMapping())
 			throw new IllegalAccessException("setValue() illegal. This quantity has mapping-generated values.");
 
 		getValueContainer().setValue(obj,loc);
@@ -261,7 +265,7 @@ implements Quantity, XMLSerializableObjectWithValues
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 
-		if (hasMapping)
+		if (hasMapping())
 			throw new IllegalAccessException("setValue() illegal. This quantity has mapping-generated values.");
 
 		getValueContainer().setValue(obj,loc);
@@ -276,7 +280,7 @@ implements Quantity, XMLSerializableObjectWithValues
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 
-		if (hasMapping)
+		if (hasMapping())
 			throw new IllegalAccessException("setValue() illegal. This quantity has mapping-generated values.");
 
 		getValueContainer().setValue(obj,loc);
@@ -291,7 +295,7 @@ implements Quantity, XMLSerializableObjectWithValues
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 
-		if (hasMapping)
+		if (hasMapping())
 			throw new IllegalAccessException("setValue() illegal. This quantity has mapping-generated values.");
 
 		getValueContainer().setValue(obj,loc);
@@ -306,7 +310,7 @@ implements Quantity, XMLSerializableObjectWithValues
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 
-		if (hasMapping)
+		if (hasMapping())
 			throw new IllegalAccessException("setValue() illegal. This quantity has mapping-generated values.");
 
 		getValueContainer().setValue(obj,loc);
@@ -505,6 +509,12 @@ implements Quantity, XMLSerializableObjectWithValues
 			throw new IllegalAccessException("Can't setCapacity, values container doesn't allow.");
 
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithValues#getNumberOfValues()
+	 */
+	public int getNumberOfValues() { return getValueContainer().getNumberOfValues(); }
 
 
 }

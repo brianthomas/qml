@@ -34,6 +34,7 @@ package net.datamodel.qml.core;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -42,7 +43,6 @@ import net.datamodel.qml.Locator;
 import net.datamodel.qml.ObjectWithValues;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
-import net.datamodel.qml.locator.ListLocatorImpl;
 import net.datamodel.qml.support.Specification;
 import net.datamodel.xssp.ReferenceableXMLSerializableObject;
 import net.datamodel.xssp.XMLFieldType;
@@ -89,6 +89,12 @@ implements ValueContainer
 	/** The maximum index which is a utilized location.
 	 */
 	protected int maxUtilizedIndex;
+	
+	/** Name of the locator class we will use.
+	 * 
+	 */
+	// TODO: is there a better way to do this?
+	protected static String locatorClassName = "net.datamodel.qml.locator.ListLocator";
 
 	/** */
 	private boolean cdataSerialization = false;
@@ -189,7 +195,7 @@ implements ValueContainer
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.String, net.datamodel.qml.Locator)
 	 */
-	public void setValue (String obj, Locator locator)
+	public final void setValue (String obj, Locator locator)
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 		setValue((Object) obj, locator);
@@ -238,7 +244,7 @@ implements ValueContainer
 	 * @throws IllegalArgumentException  if a value of 0 or less is passed.
 	 * @uml.property  name="capacity"
 	 */
-	public void setCapacity (int new_capacity) 
+	public final void setCapacity (int new_capacity) 
 	throws IllegalArgumentException
 	{
 
@@ -326,8 +332,21 @@ implements ValueContainer
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.ObjectWithValues#createLocator()
 	 */
-	public Locator createLocator ( ) {
-		Locator loc = new ListLocatorImpl (this);
+	public final Locator createLocator ( ) {
+		// Locator loc = new ListLocatorImpl (this);
+		Locator loc = null;
+		try {
+			Class locatorClass = Class.forName(locatorClassName);
+			Class[] paramType = { this.getClass() };
+			Constructor locConst = locatorClass.getDeclaredConstructor(paramType);
+			Object[] parm = {this};
+			loc = (Locator) locConst.newInstance(parm);
+		} catch (Exception e) {
+			// shouldnt happen, but..
+			String msg =  "Badly configured value container class can't create indicated locator class:"+locatorClassName+" because:"+e.getMessage();
+			logger.error(msg);
+			e.printStackTrace();
+		}
 		locatorList.add(loc);
 		return loc;
 	}

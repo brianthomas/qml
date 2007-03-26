@@ -87,8 +87,7 @@ implements MatrixQuantity
        
        setXMLNodeName (Constants.NodeName.MATRIX_QUANTITY);
        
-       // FIXME: we need this next line so that we make matrix locators
-//        setValueContainer (new MatrixValueContainerImpl(this));
+       setValueContainer (new MatrixValueContainerImpl(this));
 
        // now initialize XML fields
        addField(alternValuesFieldName, new QuantityContainerImpl("altValues", false), XMLFieldType.CHILD);
@@ -204,19 +203,6 @@ implements MatrixQuantity
      */
     public List getAltValueList (  ) {
     	return ((QuantityContainerImpl) getFieldValue(alternValuesFieldName)).getQuantityList();
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see net.datamodel.qml.core.AtomicQuantityImpl#createLocator()
-     */
-    @Override
-    public Locator createLocator()
-    {
-        Locator loc = new MatrixLocatorImpl (this);
-        // FIXME
-//        locatorList.add(loc);
-        return loc;
     }
 
     /** Determine equivalence between objects (quantities). Equivalence is the same

@@ -27,13 +27,19 @@ public interface ObjectWithValues {
 	 */
 	public List<Locator> getLocators();
 	
-	/** The ultimate number of values that may be held within the 
+	/** The ultimate number of values that <i>may</i> be held within the 
 	 *  object. The capacity is always equal to or greater than 
 	 *  the size of the object.
 	 *  
 	 * @return int capacity 
 	 */
 	public int getCapacity();
+	
+	/** Get the number of values which are held within the object.
+	 * 
+	 * @return  Integer value of number of values contained within the quantity.
+	 */
+	public int getNumberOfValues();
 	
 	/** Set the capacity of this object to hold values. This value
      * is the allocated size of the object to hold values, not 

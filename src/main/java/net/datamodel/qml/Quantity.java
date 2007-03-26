@@ -39,18 +39,19 @@ package net.datamodel.qml;
 public interface Quantity 
 extends Component, XMLSerializableObjectWithValues 
 {
-
-	/** Get the size of the quantity.
-	 * 
-	 * @return  Integer value of number of values contained within the quantity.
-	 */
-	public Integer getSize();
-
+	
 	/** Determine if this object is similar to the comparison object.
 	 *  Similarity means that all child-objects, fields of the two quantities 
 	 *  are the same with the exception of the values held by both Quantities,
 	 *  which may be the same or not (must have the same number of values however).
 	 */
 //	public boolean isSimilar (Quantity q);
+	
+	/** Get the number of values which are held within the object.
+	 * 
+	 * @return Integer value of number of values contained within the quantity.
+	 */
+	public Integer getSize();
+	// TODO: merge with ObjectWValues.getNumberOfValues() method..
 
 }

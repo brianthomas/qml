@@ -46,15 +46,15 @@ public interface Locator {
 
 	/** Change the location pointer to the next location. 
 	 */
-	public void next ( );
-
+	public void next ();
+	
 	/** Change the location pointer to the prior location. 
 	 */
 	public void prev ( );
 
 	/** Determine if there are any more locations remaining.
 	 */
-	public boolean hasNext ( );
+	public boolean hasNext();
 
 	/** Determine if there are any prior locations to the current one.
 	 */

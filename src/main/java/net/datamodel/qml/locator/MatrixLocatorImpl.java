@@ -339,7 +339,7 @@ implements MatrixLocator
 		axisOrderList = new Vector<ListQuantity>();
 		dimension = 0;
 
-		nextCellAvailable = (getParent().getSize().intValue() > 1 ) ? true : false;
+		nextCellAvailable = (getParent().getNumberOfValues() > 1 ) ? true : false;
 		prevCellAvailable = false;
 
 		needToUpdateIndexMultiplier = true;
@@ -388,12 +388,12 @@ implements MatrixLocator
 			List<ListQuantity> axisList = currentAxisFrame.getAxes();
 
 			// axis 0 as prev axis for axis #1
-			int mult = axisList.get(0).getSize().intValue();
+			int mult = axisList.get(0).getNumberOfValues();
 			indexMult[1] = mult;
 
 			// algorithm for higher dimension axes
 			for (int i = 2; i < dimension; i++) {
-				mult *= ((Quantity) axisList.get(i-1)).getSize().intValue();
+				mult *= axisList.get(i-1).getNumberOfValues();
 				indexMult[i] = mult;
 			}
 
