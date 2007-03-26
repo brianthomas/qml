@@ -33,9 +33,11 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.ValueContainer;
@@ -50,7 +52,7 @@ import net.datamodel.xssp.XMLSerializableObject;
  * string value.
  */
 public class TrivialQuantityImpl 
-extends ComponentImpl 
+extends AbstractQuantity
 {
 
 	/** No-arg constructor  */
@@ -90,9 +92,9 @@ extends ComponentImpl
 
 	/*
 	 * (non-Javadoc)
-	 * @see net.datamodel.qml.core.AtomicQuantityImpl#setValue(java.lang.Byte, net.datamodel.qml.Locator)
+	 * @see net.datamodel.qml.core.AbstractQuantity#setValue(java.lang.Byte, net.datamodel.qml.Locator)
 	 */
-	public void setValue (Byte obj, Locator loc)
+	public final void setValue (Byte obj, Locator loc)
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 		throw new IllegalAccessException("Byte data not allowed in Trivial Quantity");
@@ -100,9 +102,9 @@ extends ComponentImpl
 
 	/*
 	 * (non-Javadoc)
-	 * @see net.datamodel.qml.core.AtomicQuantityImpl#setValue(java.lang.Double, net.datamodel.qml.Locator)
+	 * @see net.datamodel.qml.core.AbstractQuantity#setValue(java.lang.Double, net.datamodel.qml.Locator)
 	 */
-	public void setValue (Double obj, Locator loc)
+	public final void setValue (Double obj, Locator loc)
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 		throw new IllegalAccessException("Double data not allowed in Trivial Quantity");
@@ -110,9 +112,9 @@ extends ComponentImpl
 
 	/*
 	 * (non-Javadoc)
-	 * @see net.datamodel.qml.core.AtomicQuantityImpl#setValue(java.lang.Integer, net.datamodel.qml.Locator)
+	 * @see net.datamodel.qml.core.AbstractQuantity#setValue(java.lang.Integer, net.datamodel.qml.Locator)
 	 */
-	public void setValue (Integer obj, Locator loc)
+	public final void setValue (Integer obj, Locator loc)
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 		throw new IllegalAccessException("Integer data not allowed in Trivial Quantity");
@@ -120,9 +122,9 @@ extends ComponentImpl
 
 	/*
 	 * (non-Javadoc)
-	 * @see net.datamodel.qml.core.AtomicQuantityImpl#setValue(java.lang.Short, net.datamodel.qml.Locator)
+	 * @see net.datamodel.qml.core.AbstractQuantity#setValue(java.lang.Short, net.datamodel.qml.Locator)
 	 */
-	public void setValue (Short obj, Locator loc)
+	public final void setValue (Short obj, Locator loc)
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 		throw new IllegalAccessException("Short data not allowed in Trivial Quantity");
@@ -202,6 +204,29 @@ extends ComponentImpl
 		}
 
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Quantity#addProperty(net.datamodel.qml.Quantity)
+	 */
+	// cant add properties to trivial quantity
+	public boolean addProperty(Quantity property) {
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Quantity#getProperties()
+	 */
+	public List<Quantity> getProperties() {
+		return new Vector<Quantity>(); // empty 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.Quantity#removeProperty(net.datamodel.qml.Quantity)
+	 */
+	public final boolean removeProperty(Quantity property) { return false; }
 
 }
 

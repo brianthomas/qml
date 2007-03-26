@@ -279,7 +279,7 @@ implements ListQuantity
 
     /*
      * (non-Javadoc)
-     * @see net.datamodel.qml.core.AtomicQuantityImpl#getValue(net.datamodel.qml.Locator)
+     * @see net.datamodel.qml.core.AbstractQuantity#getValue(net.datamodel.qml.Locator)
      */
     public final Object getValue ( Locator loc ) 
         throws IllegalArgumentException, NullPointerException
