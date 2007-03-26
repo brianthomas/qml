@@ -1,6 +1,8 @@
 package net.datamodel.qml;
 
-public interface MatrixLocator  extends Locator {
+import java.util.List;
+
+public interface MatrixLocator extends Locator {
 
 	/**
 	 * @return  ReferenceFrame
@@ -18,5 +20,27 @@ public interface MatrixLocator  extends Locator {
 	 * @param frame  to set. It may be "null".
 	 */
 	public void setCurrentAxisFrame ( ReferenceFrame frame);
+	
+    /** Set the location by identified axis list index.
+     */
+	public void setLocationIndex ( ListQuantity axis, int listIndex ) 
+	throws IllegalArgumentException;
+	
+    /** Determine the location in terms of the listIndex for a particular
+     * quantity which is serving as an axis.
+     */ 
+    public Integer getLocationIndex ( ListQuantity axis ) 
+    throws IllegalArgumentException;
+    
+    /** Utility method to allow determination of the value of the location 
+     * in terms of a particular quantity which is serving as an axis.
+     */
+    public Object getLocationValue ( ListQuantity axis )
+    throws IllegalArgumentException;
+	
+	/** Get the iteration order for the current frame. List may be empty
+     *  if no current frame is specified.
+     */
+    public List<ListQuantity> getIterationOrder ( );
 	
 }
