@@ -32,6 +32,8 @@
 
 package net.datamodel.qml;
 
+import java.util.List;
+
 /**
  * The interface for all Quantities which hold "values" as data. 
  * By values we mean Strings and numbers, and not other quanities.
@@ -51,7 +53,27 @@ extends Component, XMLSerializableObjectWithValues
 	 * 
 	 * @return Integer value of number of values contained within the quantity.
 	 */
-	public Integer getSize();
 	// TODO: merge with ObjectWValues.getNumberOfValues() method..
+	public Integer getSize();
+	
+	/** Add a property to this quantity (which is represented as
+	 * by a different, child Quantity).
+	 */
+	public boolean addProperty (Quantity property);
+	
+	/** Remove the indicated property of the quantity (which is represented by
+	 * a different, child Quantity). 
+	 * 
+	 * @param property
+	 * @return
+	 */
+	public boolean removeProperty (Quantity property);
+	
+	/** Return the list of quantities which represent properties of
+	 * this quantity.
+	 * 
+	 * @return
+	 */
+	public List<Quantity> getProperties();
 
 }

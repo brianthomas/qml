@@ -62,7 +62,7 @@ public interface ObjectWithValues {
 	
 	/**
 	 * Get the value at the specified location. 
-	 * For some objects (such as @link{net.datamodel.qml.core.AtomicQuantityImpl}) only one location will exist.
+	 * For some objects (such as @link{net.datamodel.qml.core.AbstractQuantity}) only one location will exist.
 	 * 
 	 * @throws IllegalArgumentException when a locator belonging to another quantity is passed.
 	 * @throws NullPointerException when null parameters are passed.
@@ -72,7 +72,7 @@ public interface ObjectWithValues {
 
 	/**
 	 * Set the value at the specified location.
-	 * For some objects (such as @link{net.datamodel.qml.core.AtomicQuantityImpl}) only one location will exist.
+	 * For some objects (such as @link{net.datamodel.qml.core.AbstractQuantity}) only one location will exist.
 	 * 
 	 * @param obj Byte value to set. Value cannot be "null" (use a noDataValue instead).
 	 * @param loc Locator object to indicate where to set the value.
@@ -86,7 +86,7 @@ public interface ObjectWithValues {
 
 	/**
 	 * Set the value at the specified location.
-	 * For some objects (such as @link{net.datamodel.qml.core.AtomicQuantityImpl}) only one location will exist.
+	 * For some objects (such as @link{net.datamodel.qml.core.AbstractQuantity}) only one location will exist.
 	 * 
 	 * @param obj Double value to set. Value cannot be "null" (use a noDataValue instead).
 	 * @param loc Locator object to indicate where to set the value.
@@ -100,7 +100,7 @@ public interface ObjectWithValues {
 
 	/**
 	 * Set the value at the specified location.
-	 * For some objects (such as @link{net.datamodel.qml.core.AtomicQuantityImpl}) only one location will exist.
+	 * For some objects (such as @link{net.datamodel.qml.core.AbstractQuantity}) only one location will exist.
 	 * 
 	 * @param obj Float value to set. Value cannot be "null" (use a noDataValue instead).
 	 * @param loc Locator object to indicate where to set the value.
@@ -114,7 +114,7 @@ public interface ObjectWithValues {
 
 	/**
 	 * Set the value at the specified location.
-	 * For some objects (such as @link{net.datamodel.qml.core.AtomicQuantityImpl}) only one location will exist.
+	 * For some objects (such as @link{net.datamodel.qml.core.AbstractQuantity}) only one location will exist.
 	 * 
 	 * @param obj Integer value to set. Value cannot be "null" (use a noDataValue instead).
 	 * @param loc Locator object to indicate where to set the value.
@@ -128,7 +128,7 @@ public interface ObjectWithValues {
 
 	/**
 	 * Set the value at the specified location.
-	 * For some objects (such as @link{net.datamodel.qml.core.AtomicQuantityImpl}) only one location will exist.
+	 * For some objects (such as @link{net.datamodel.qml.core.AbstractQuantity}) only one location will exist.
 	 * 
 	 * @param obj Short value to set. Value cannot be "null" (use a noDataValue instead).
 	 * @param loc Locator object to indicate where to set the value.
@@ -142,7 +142,7 @@ public interface ObjectWithValues {
 
 	/**
 	 * Set the value at the specified location.
-	 * For some objects (such as @link{net.datamodel.qml.core.AtomicQuantityImpl}) only one location will exist.
+	 * For some objects (such as @link{net.datamodel.qml.core.AbstractQuantity}) only one location will exist.
 	 * 
 	 * @param obj String value to set. Value cannot be "null" (use a noDataValue instead).
 	 * @param loc Locator object to indicate where to set the value.

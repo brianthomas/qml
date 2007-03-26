@@ -55,11 +55,22 @@ extends SemanticObject
      */
     public DataType getDataType (  );
  
+    /** Set the value of the datatype.
+     * 
+     * @param type
+     */
+    public void setDataType(DataType type);
+    
     /**
      * Get the value of units
      * @return  the value of units
      */
     public Units getUnits ( );
     
+    /** Set the value of the units for this object.
+     * 
+     * @param u
+     */
+    public void setUnits(Units u);
 }
 

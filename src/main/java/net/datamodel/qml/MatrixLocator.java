@@ -2,24 +2,29 @@ package net.datamodel.qml;
 
 import java.util.List;
 
-public interface MatrixLocator extends Locator {
+public interface MatrixLocator 
+extends Locator 
+{
 
-	/**
+	/** Find the reference frame which the matrix locator is using
+	 * to traverse the values of its parent MatrixQuantity.  
+	 * 
 	 * @return  ReferenceFrame
 	 */
-	// TODO: create sub-inteface 'MatrixLocator' which adds this
-	public ReferenceFrame getCurrentAxisFrame ( );
+	public ReferenceFrame getCurrentReferenceFrame ( );
 
-	// TODO: create sub-inteface 'MatrixLocator' which adds this
 	/**
-	 * Set the current ReferenceFrame. If the frame is "null" 
+	 * Set the ReferenceFrame to use for traversal of the parent
+	 * MatrixQuantity. If the frame is "null" 
 	 * then list-ordered iteration will be used by the 
-	 * locator. This method does nothing for non-matrix 
-	 * locators. 
+	 * locator. 
 	 * 
-	 * @param frame  to set. It may be "null".
+	 * @param frame to set. It may be "null".
+	 * @throws ReferenceFrameNotFoundException if the frame of reference doesnt exist in the parent MatrixQuantity.
+	 * 
 	 */
-	public void setCurrentAxisFrame ( ReferenceFrame frame);
+	public void setCurrentReferenceFrame ( ReferenceFrame frame)
+	throws ReferenceFrameNotFoundException;
 	
     /** Set the location by identified axis list index.
      */

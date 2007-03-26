@@ -75,6 +75,9 @@ public abstract class Constants {
 // right now.
   public static final String MAPPING_NAMESPACE_URI = "http://www.data-model.net/Mappings";
  
+  public static final String QML_PROPERTY_URN = "urn:qml-property";
+  public static final String QML_REF_FRAME_URN = "urn:qml-ref-frame";
+  
 
   /** QML notation information.
    */

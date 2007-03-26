@@ -39,7 +39,7 @@ import java.util.List;
 
 /** The interface for all Quantities.
  */
-// hrmm. there doesnt seem to be a need for an "AtomicQuantity"
+// hrmm. there doesnt seem to be a need for an "AtomicQuantityImpl"
 // interface, so we just extend "Quantity" instead.
 public interface ListQuantity extends Quantity 
 {

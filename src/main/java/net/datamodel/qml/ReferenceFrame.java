@@ -35,7 +35,8 @@ import java.util.List;
 import net.datamodel.soml.SemanticObject;
 
 /**
- * Interface for axis frames. These objects contain the dimensional information that defines a unique frame of reference for one or more other quantities.
+ * Interface for axis frames. These objects contain the dimensional information 
+ * that defines a unique frame of reference for one or more other quantities.
  * @version  $Revision$
  */
 public interface ReferenceFrame 

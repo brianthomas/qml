@@ -89,7 +89,7 @@ implements MatrixLocator
 	throws NullPointerException
 	{
 		super(parent);
-		setCurrentAxisFrame(currentAxisFrame);
+		setCurrentReferenceFrame(currentAxisFrame);
 		listLocator = new ListLocatorImpl(parent);
 	}
 
@@ -97,16 +97,16 @@ implements MatrixLocator
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.locator.ListLocatorImpl#getCurrentAxisFrame()
 	 */
-	public final ReferenceFrame getCurrentAxisFrame ( ) { return currentAxisFrame; }
+	public final ReferenceFrame getCurrentReferenceFrame ( ) { return currentAxisFrame; }
 
 	/*
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.locator.ListLocatorImpl#setCurrentAxisFrame(net.datamodel.qml.ReferenceFrame)
 	 */
-	public final void setCurrentAxisFrame ( ReferenceFrame frame)
+	public final void setCurrentReferenceFrame ( ReferenceFrame frame)
 	{
 
-		if(frame != null && !((MatrixQuantity) getParent()).getAxisFrameList().contains(frame))
+		if(frame != null && !((MatrixQuantity) getParent()).getReferenceFrames().contains(frame))
 			throw new IllegalArgumentException("Can't setCurrentAxisFrame in locator : parent quantity contains no such object:"+frame);
 
 		// reset our location to the origin

@@ -165,7 +165,20 @@ implements MatrixQuantity
      * (non-Javadoc)
      * @see net.datamodel.qml.MatrixQuantity#addReferenceFrame(net.datamodel.qml.ReferenceFrame)
      */
-    public final boolean addReferenceFrame(ReferenceFrame frame) {
+    public final boolean addReferenceFrame(ReferenceFrame frame) 
+    throws IllegalArgumentException 
+    {
+    	
+    	int axisLocations = frame.getNumberOfAxisLocations();
+    	if (axisLocations == 0)
+    		throw new IllegalArgumentException("ReferenceFrame has no locations defined!");
+
+    	if (axisLocations != getSize().intValue()) {
+    		logger.error("Reminder to self : check expanding values within Matrix when new frame is added");
+    		throw new IllegalArgumentException("ReferenceFrame has different number of locations ["+axisLocations+"] from parent Q ["+getSize().intValue()+"]");
+    	}
+
+
     	return this.addRelationship(frame, refFrameURN);
     }
     
