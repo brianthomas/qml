@@ -57,11 +57,11 @@ public interface QMLElement extends Element
 	 */
 	public Quantity getQuantity();
 
-	/** Set the Quantity associated with this Element node. 
+	/* Set the Quantity associated with this Element node. 
 	 * @param quantity  the quantity to set
 	 */
 //	Needed? We should limit this to construction time I think...
-	public void setQuantity(Quantity q);
+//	public void setQuantity(Quantity q);
 
 }
 
