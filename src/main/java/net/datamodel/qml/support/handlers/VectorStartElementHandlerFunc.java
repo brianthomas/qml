@@ -44,7 +44,7 @@ public class VectorStartElementHandlerFunc implements StartElementHandler {
        throws SAXException {
 
           VectorDataType dataType = new VectorDataType();
-          dataType.setFields(attrs);
+          dataType.setAttributeFields(attrs);
 
           Component cp = handler.getCurrentComponent();
           cp.setDataType(dataType);

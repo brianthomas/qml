@@ -29,11 +29,10 @@
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.support.EndElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class ComponentEndElementHandlerFunc implements EndElementHandler {
@@ -41,7 +40,7 @@ public class ComponentEndElementHandlerFunc implements EndElementHandler {
        throws SAXException {
 
           // unset.
-          handler.LastComponent = null;
+          ((QMLDocumentHandler) handler).setLastComponent(null);
 
        }
 }

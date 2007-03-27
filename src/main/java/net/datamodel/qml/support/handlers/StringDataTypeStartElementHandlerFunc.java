@@ -44,7 +44,7 @@ public class StringDataTypeStartElementHandlerFunc implements StartElementHandle
        throws SAXException {
 
           StringDataType dataType = new StringDataType();
-          dataType.setFields(attrs);
+          dataType.setAttributeFields(attrs);
 
           Component cp = handler.getCurrentComponent();
           cp.setDataType(dataType);

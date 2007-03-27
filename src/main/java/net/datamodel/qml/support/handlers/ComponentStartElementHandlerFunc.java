@@ -25,37 +25,38 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.core.ComponentImpl;
 import net.datamodel.qml.datatype.VectorDataType;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class ComponentStartElementHandlerFunc implements StartElementHandler {
-       public Object action (XSSPDocumentHandler handler, String namespaceURI, String localName,
-                             String qName, Attributes attrs)
-       throws SAXException {
+	public Object action (XSSPDocumentHandler handler, String namespaceURI, String localName,
+			String qName, Attributes attrs)
+	throws SAXException {
 
-          ComponentImpl newComponent = new ComponentImpl();
-          newComponent.setFields(attrs); // set XML attributes from passed list
+		// allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          VectorDataType vector = (VectorDataType) handler.getLastObject();
+		ComponentImpl newComponent = new ComponentImpl();
+		newComponent.setAttributeFields(attrs); // set XML attributes from passed list
 
-          if(vector == null)
-              throw new SAXException("Can't find parent vector to add component to.");
+		VectorDataType vector = (VectorDataType) qhandler.getCurrentObject();
 
-          vector.addComponent(newComponent);
+		if(vector == null)
+			throw new SAXException("Can't find parent vector to add component to.");
 
-          // record this as the last component we worked on
-          handler.LastComponent = newComponent;
+		vector.addComponent(newComponent);
 
-          return newComponent;
-       }
+		// record this as the last component we worked on
+		qhandler.setLastComponent(newComponent);
+
+		return newComponent;
+	}
 }

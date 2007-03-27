@@ -1,5 +1,5 @@
 // CVS $Id$
-// AxisFrameEndElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// ReferenceFrameEndElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
  
 /* LICENSE
 
@@ -40,7 +40,7 @@ import net.datamodel.xssp.parse.XSSPDocumentHandler;
 import org.xml.sax.SAXException;
 
 
-public class AxisFrameEndElementHandlerFunc implements EndElementHandler 
+public class ReferenceFrameEndElementHandlerFunc implements EndElementHandler 
 {
        public void action (XSSPDocumentHandler handler )
        throws SAXException {

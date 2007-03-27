@@ -44,7 +44,7 @@ public class IntegerDataTypeStartElementHandlerFunc implements StartElementHandl
        throws SAXException {
 
           IntegerDataType dataType = new IntegerDataType();
-          dataType.setFields(attrs);
+          dataType.setAttributeFields(attrs);
 
           Component cp = handler.getCurrentComponent();
           cp.setDataType(dataType);

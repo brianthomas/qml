@@ -43,7 +43,7 @@ public class TrivialQuantityStartElementHandlerFunc implements StartElementHandl
        throws SAXException {
 
           TrivialQuantityImpl trivQ = new TrivialQuantityImpl();
-          trivQ.setFields(attrs); // set XML attributes from passed list
+          trivQ.setAttributeFields(attrs); // set XML attributes from passed list
 
           handler.recordQuantity(trivQ);
 

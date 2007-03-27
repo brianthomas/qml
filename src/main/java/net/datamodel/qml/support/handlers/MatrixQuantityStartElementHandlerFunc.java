@@ -44,7 +44,7 @@ public class MatrixQuantityStartElementHandlerFunc implements StartElementHandle
        throws SAXException {
 
           MatrixQuantityImpl matrixQ = new MatrixQuantityImpl();
-          matrixQ.setFields(attrs); // set XML attributes from passed list
+          matrixQ.setAttributeFields(attrs); // set XML attributes from passed list
 
           // In order to look for referenced Quantities, we "record" this one if it has a qid
           handler.recordQuantity(matrixQ);

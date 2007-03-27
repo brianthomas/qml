@@ -28,27 +28,26 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.Component;
 import net.datamodel.qml.datatype.FloatDataType;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class FloatDataTypeStartElementHandlerFunc implements StartElementHandler {
-       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
-                              String localName, String qName, Attributes attrs)
-       throws SAXException {
+	public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
+			String localName, String qName, Attributes attrs)
+	throws SAXException {
 
-          FloatDataType dataType = new FloatDataType();
-          dataType.setFields(attrs);
+		FloatDataType dataType = new FloatDataType();
+		dataType.setAttributeFields(attrs);
 
-          Component cp = handler.getCurrentComponent();
-          cp.setDataType(dataType);
+		Component cp = ((QMLDocumentHandler) handler).getLastComponent();
+		cp.setDataType(dataType);
 
-          return dataType;
-       }
+		return dataType;
+	}
 }

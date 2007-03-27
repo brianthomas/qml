@@ -1,5 +1,5 @@
 // CVS $Id$
-// DefaultCharDataHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// ReferenceFrameStartElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
  
 /* LICENSE
 
@@ -25,28 +25,37 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
 // import QML stuff
-import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.qml.core.ReferenceFrameImpl;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-import org.apache.log4j.Logger;
+import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-// default character data handler
-public class DefaultCharDataHandlerFunc implements CharDataHandler 
+public class ReferenceFrameStartElementHandlerFunc 
+implements StartElementHandler 
 {
 
-	private static final Logger logger = Logger.getLogger(DefaultCharDataHandlerFunc.class);
-	
-       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
-       throws SAXException
-       {
-    	   
-    	   // do nothing with other character data
-    	   logger.debug("  DefaultCharDataHandler called for :["+new String(buf,offset,len)+"], Ignoring item.");
+	public Object action (
+			XSSPDocumentHandler handler, 
+			String namespaceURI, 
+			String localName,
+			String qName, 
+			Attributes attrs
+	)
+	throws SAXException {
 
-       }
+		ReferenceFrameImpl refFrame = new ReferenceFrameImpl();
+		refFrame.setAttributeFields(attrs); // set XML attributes from passed list
+
+		((QMLDocumentHandler) handler).addExpectedValues(new Integer(0));
+
+		return refFrame;
+	}
+
 }
+

@@ -43,7 +43,7 @@ public class ObjectWithQuantitesStartElementHandlerFunc implements StartElementH
        throws SAXException {
 
           SemanticObjectImpl objWithQ = new SemanticObjectImpl();
-          objWithQ.setFields(attrs); // set XML attributes from passed list
+          objWithQ.setAttributeFields(attrs); // set XML attributes from passed list
 
           handler.recordQuantity(objWithQ);
 

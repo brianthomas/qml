@@ -48,7 +48,7 @@ public class ListQuantityStartElementHandlerFunc implements StartElementHandler 
 
           ListQuantityImpl listQ = new ListQuantityImpl();
           logger.debug("Handler creates List ObjectWithQuantities:"+listQ);
-          listQ.setFields(attrs); // set XML attributes from passed list
+          listQ.setAttributeFields(attrs); // set XML attributes from passed list
 
           handler.recordQuantity(listQ);
 
