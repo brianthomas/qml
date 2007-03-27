@@ -37,7 +37,6 @@ import net.datamodel.qml.DataType;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.units.UnitsImpl;
-import net.datamodel.soml.impl.SemanticObjectImpl;
 import net.datamodel.xssp.XMLFieldType;
 
 /**

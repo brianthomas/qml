@@ -222,7 +222,8 @@ extends AbstractQuantity
 	 * @see net.datamodel.qml.Quantity#addProperty(net.datamodel.qml.Quantity)
 	 */
 	// cant add properties to trivial quantity
-	public boolean addProperty(Quantity property) {
+	@Override
+	public final boolean addProperty(Quantity property) {
 		return false;
 	}
 	
@@ -230,13 +231,15 @@ extends AbstractQuantity
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Quantity#removeProperty(net.datamodel.qml.Quantity)
 	 */
+	@Override
 	public final boolean removeProperty(Quantity property) { return false; }
 
 	/*
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Quantity#getProperties()
 	 */
-	public List<Quantity> getProperties() {
+	@Override
+	public final List<Quantity> getProperties() {
 		return new Vector<Quantity>(); // empty 
 	}
 

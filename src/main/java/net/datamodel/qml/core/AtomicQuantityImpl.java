@@ -1,7 +1,13 @@
 package net.datamodel.qml.core;
 
+import java.util.List;
+
 import net.datamodel.qml.Locator;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
+import net.datamodel.qml.ValueContainer;
+import net.datamodel.qml.ValueMapping;
+import net.datamodel.qml.support.Constants;
 
 import org.apache.log4j.Logger;
 
@@ -26,11 +32,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 Brian Thomas  (baba-luu@earthlink.net)
-*/
+ */
 
 //code generation timestamp: Tue Apr 20 2004-14:22:31 
 
@@ -42,18 +48,32 @@ Brian Thomas  (baba-luu@earthlink.net)
 public class AtomicQuantityImpl 
 extends AbstractQuantity 
 {
-	
+
 	private static final Logger logger = Logger.getLogger(AtomicQuantityImpl.class);
 
 	/** no-arg constructor. */
-	public AtomicQuantityImpl () { super (1); }
-	
+	public AtomicQuantityImpl () { this(1); }
+
 	/** Construct a quantity for a given capacity.
 	 * 
 	 * @param capacity
 	 */
-	protected AtomicQuantityImpl (int capacity) { super (capacity); }
-	
+	protected AtomicQuantityImpl (int capacity) {  
+		super (capacity);  
+		setXMLNodeName(Constants.NodeName.ATOMIC_QUANTITY);
+	}
+
+	/* Construct this quantity with mapping rather than explicitly holding 
+	 * values. Values will be generated on demand from the (value) mapping.
+	 */
+	// Make this protected as there is little sense in creating a mapping
+	// when you have 1 value (!)
+	protected AtomicQuantityImpl ( ValueMapping mapping ) 
+	{ 
+		this(1);
+		setValueContainer ((ValueContainer) mapping);
+	}
+
 	/** Set the first (and prehaps only) value of this quantity.
 	 * 
 	 * @param obj Byte to set the value to. It may be "null".
@@ -151,7 +171,7 @@ extends AbstractQuantity
 		}
 		updateSize();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.Byte, net.datamodel.qml.Locator)
@@ -227,5 +247,29 @@ extends AbstractQuantity
 		updateSize();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithProperties#addProperty(net.datamodel.qml.Quantity)
+	 */
+	@Override
+	public final boolean addProperty (Quantity property) {
+		return super.addProperty(property);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithProperties#getProperties()
+	 */
+	@Override
+	public final List<Quantity> getProperties() { return super.getProperties(); }
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.ObjectWithProperties#removeProperty(net.datamodel.qml.Quantity)
+	 */
+	@Override
+	public final boolean removeProperty(Quantity property) {
+		return super.removeProperty(property);
+	}
 
 }

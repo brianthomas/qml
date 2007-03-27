@@ -39,7 +39,7 @@ implements ObjectWithProperties
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.ObjectWithProperties#addProperty(net.datamodel.qml.Quantity)
 	 */
-	public final boolean addProperty (Quantity property) {
+	public boolean addProperty (Quantity property) {
 		return addRelationship(property, propertyURN);
 	}
 
@@ -47,7 +47,7 @@ implements ObjectWithProperties
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.ObjectWithProperties#getProperties()
 	 */
-	public final List<Quantity> getProperties() {
+	public List<Quantity> getProperties() {
 		List<Quantity> qList = new Vector<Quantity>(); 
 		// tool through our list of related objects and find ones which
 		// match the indicated urn
@@ -61,7 +61,7 @@ implements ObjectWithProperties
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.ObjectWithProperties#removeProperty(net.datamodel.qml.Quantity)
 	 */
-	public final boolean removeProperty(Quantity property) {
+	public boolean removeProperty(Quantity property) {
 		return removeRelationship (propertyURN, property);
 	}
 
