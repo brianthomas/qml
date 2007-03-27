@@ -30,10 +30,7 @@
 
 package net.datamodel.qml;
 
-import java.net.URI;
-
 import net.datamodel.soml.SemanticObject;
-
 
 /**
  * @author  thomas
