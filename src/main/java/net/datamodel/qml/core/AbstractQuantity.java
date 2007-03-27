@@ -32,10 +32,7 @@
 
 package net.datamodel.qml.core;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Vector;
 
 import net.datamodel.qml.Component;
 import net.datamodel.qml.Locator;
@@ -45,7 +42,6 @@ import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
 import net.datamodel.qml.XMLSerializableObjectWithValues;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.soml.Relationship;
 import net.datamodel.xssp.XMLFieldType;
 
 import org.apache.log4j.Logger;
@@ -346,6 +342,15 @@ implements Quantity, XMLSerializableObjectWithValues
 	 * @see net.datamodel.qml.ObjectWithValues#getNumberOfValues()
 	 */
 	public int getNumberOfValues() { return getValueContainer().getNumberOfValues(); }
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone(); // TODO Auto-generated method stub
+	}
 
 }
 

@@ -32,14 +32,12 @@
 
 package net.datamodel.qml;
 
-import java.util.List;
-
 /**
  * The interface for all Quantities which hold "values" as data. 
  * By values we mean Strings and numbers, and not other quanities.
  */
 public interface Quantity 
-extends Component, ObjectWithProperties, XMLSerializableObjectWithValues 
+extends Component, XMLSerializableObjectWithValues, Cloneable 
 {
 	
 	/** Determine if this object is similar to the comparison object.
@@ -55,5 +53,13 @@ extends Component, ObjectWithProperties, XMLSerializableObjectWithValues
 	 */
 	// TODO: merge with ObjectWValues.getNumberOfValues() method..
 	public Integer getSize();
+	
+	
+	/** Quantities can be cloned. 
+	 * 
+	 * @return
+	 */
+	// This is needed to make referenced ids within a document work right.
+	public Object clone() throws CloneNotSupportedException;
 	
 }
