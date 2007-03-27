@@ -46,7 +46,7 @@ import net.datamodel.qml.datatype.VectorDataType;
 import net.datamodel.qml.support.handlers.AltValuesContainerEndElementHandlerFunc;
 import net.datamodel.qml.support.handlers.AltValuesContainerStartElementHandlerFunc;
 import net.datamodel.qml.support.handlers.AtomicQuantityStartElementHandlerFunc;
-import net.datamodel.qml.support.handlers.AxisFrameStartElementHandlerFunc;
+import net.datamodel.qml.support.handlers.ReferenceFrameStartElementHandlerFunc;
 import net.datamodel.soml.support.SOMLDocument;
 import net.datamodel.soml.support.SOMLDocumentHandler;
 import net.datamodel.xssp.parse.CharDataHandler;
@@ -98,7 +98,8 @@ extends SOMLDocumentHandler
     // Various fields which tell us the state of the values we are 
     // dealing with as we parse along.
     /** */
-    private int ActualValuesAdded = 0; 
+    // TODO: make this private..add accessors!
+    public int ActualValuesAdded = 0; 
     
     /** */
     private boolean AddingAltValues = false;
@@ -116,7 +117,8 @@ extends SOMLDocumentHandler
     private boolean HasVectorDataType = false;
     
     /** */
-    private StringBuffer ValuesBuf = null;
+    // TODO: make this private..add accessors!
+    public StringBuffer ValuesBuf = null;
     
     //
     // Constuctors
@@ -134,7 +136,7 @@ extends SOMLDocumentHandler
 
         qmlStartHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
         qmlStartHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.AXISFRAME, new AxisFrameStartElementHandlerFunc());
+        qmlStartHandlers.put(Constants.NodeTypeName.AXISFRAME, new ReferenceFrameStartElementHandlerFunc());
         /*
         qmlStartHandlers.put(Constants.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
         qmlStartHandlers.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
@@ -166,7 +168,7 @@ extends SOMLDocumentHandler
         qmlEndHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
         /*
         qmlEndHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.AXISFRAME, new AxisFrameEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.AXISFRAME, new ReferenceFrameEndElementHandlerFunc());
         qmlEndHandlers.put(Constants.NodeTypeName.COMPONENT, new ComponentEndElementHandlerFunc());
         qmlEndHandlers.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new QuantityEndElementHandlerFunc());
         qmlEndHandlers.put(Constants.NodeTypeName.LIST_QUANTITY, new QuantityEndElementHandlerFunc());
@@ -228,7 +230,37 @@ extends SOMLDocumentHandler
     //
     // Non-Sax Public Methods
     //
-    public void setAddingAltValues (boolean value) { AddingAltValues = value; }
+    
+    public final void setHasCSVValues (boolean val) { HasCSVValues = val; }
+    
+    public final boolean hasCSVValues () { return HasCSVValues; }
+    
+    public final boolean hasVectorDataType() { return HasVectorDataType; }
+    
+    public final void setHasVectorDataType (boolean val) { HasVectorDataType = val; }
+    
+    public final void setHasMultipleValues (boolean val) { HasMultipleValues = val; }
+    
+    public final boolean hasMultipleValues() { return HasMultipleValues; }
+    
+    public final void setHasValuesInCDATASection(boolean val) { ValuesInCDATASection = val; }
+    
+    public final boolean hasValuesInCDATASection() { return ValuesInCDATASection; }
+    
+    public final boolean hasRecordedQuantityWithId(String qIdRef) {
+    	return ReferencedQuantities.containsKey(qIdRef);
+    }
+    public final boolean isAddingAltValues () { return AddingAltValues; }
+    
+    public final Component getLastComponent () { return LastComponent; }
+    
+    public final void setLastComponent (Component val) { LastComponent = val; }
+    
+    public final void setAddingAltValues (boolean value) { AddingAltValues = value; }
+    
+    public final Quantity getRecordedQuantity (String qIdRef) {
+    	return ReferencedQuantities.get(qIdRef);
+    }
 
     /** In order to look for referenced Quantities, we 
      * "record" each that we parse.
