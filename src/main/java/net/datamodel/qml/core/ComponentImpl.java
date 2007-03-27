@@ -62,7 +62,10 @@ implements Component
 	//
 
 	// Constructors
-
+	public ComponentImpl () {
+		this (null);
+	}
+	
 	/** Create a Component with indicated URI. 
 	 */ 
 	public ComponentImpl (URI uri) { 
