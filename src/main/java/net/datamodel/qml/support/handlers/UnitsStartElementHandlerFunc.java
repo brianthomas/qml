@@ -25,28 +25,25 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.Component;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
- 
+
 public class UnitsStartElementHandlerFunc implements StartElementHandler 
 {
 
-       public Object action ( XSSPDocumentHandler handler, String namespaceURI, String localName, 
-                              String qName, Attributes attrs)
-       throws SAXException
-       {
-          // do nothing
-          Component cp = handler.getCurrentComponent();
-          return cp.getUnits();
-       }
+	public Object action ( XSSPDocumentHandler handler, String namespaceURI, String localName, 
+			String qName, Attributes attrs)
+	throws SAXException
+	{
+		// do nothing but return units of present component 
+		Component cp = ((QMLDocumentHandler) handler).getCurrentComponent();
+		return cp.getUnits();
+	}
 }
-

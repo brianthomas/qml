@@ -1,6 +1,6 @@
-// CVS $Id$
-// RefQuantityStartElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
- 
+//CVS $Id$
+//RefQuantityStartElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+
 /* LICENSE
 
    This library is free software; you can redistribute it and/or
@@ -17,23 +17,20 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
 
-*/
-
+ */
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
-import net.datamodel.qml.ObjectWithQuantities;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.XMLSerializableObject;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
@@ -41,45 +38,57 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class RefQuantityStartElementHandlerFunc implements StartElementHandler {
-	
+
 	private static final Logger logger = Logger.getLogger(RefQuantityStartElementHandlerFunc.class);
-	
-       public Object action ( XSSPDocumentHandler handler, String namespaceURI,
-                              String localName, String qName, Attributes attrs)
-       throws SAXException {
 
-          ObjectWithQuantities refQ = null;
+	public Object action ( XSSPDocumentHandler handler, String namespaceURI,
+			String localName, String qName, Attributes attrs)
+	throws SAXException {
 
-          String qIdRef = attrs.getValue(Constants.QIDREF_ATTRIBUTE_NAME);
+		Quantity refQ = null;
 
-          //  If there is a reference object, clone it to get the new quantity
-          if (qIdRef != null) {
+		String qIdRef = attrs.getValue(Constants.QIDREF_ATTRIBUTE_NAME);
 
-             if (handler.ObjWithQuantities.containsKey(qIdRef)) {
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-                 try {
-                    refQ = (ObjectWithQuantities) ((XMLSerializableObject) handler.ObjWithQuantities.get(qIdRef)).clone();
+		//  If there is a reference object, clone it to get the new quantity
+		if (qIdRef != null) {
 
-                    if(refQ instanceof Quantity)
-                       handler.addExpectedValues(new Integer (((Quantity) refQ).getSize().intValue()));
-                    else
-                       handler.addExpectedValues(new Integer(0));
+			// if (qhandler.ObjWithQuantities.containsKey(qIdRef)) {
 
-                    // record this new Q on the list of quantity objects
-                    handler.recordQuantity(refQ);
+			if (qhandler.hasRecordedQuantityWithId(qIdRef)) 
+			{
 
-                 } catch (CloneNotSupportedException e) {
-                    logger.error("refQuantity couldnt be created, clone failed:"+e.getMessage());
-                    e.printStackTrace();
-                 }
+				try {
 
-             } else
-                 logger.error("QMLReader got a quantity with qidRef=\""+qIdRef+"\" but no previous quantity has that id! Ignoring. Errors may result later.");
-          } else
-             logger.error("QMLReader got a refQuantity with NO qidRef! Didn't you validate this file before loading??");
+					refQ = (Quantity) qhandler.getRecordedQuantity(qIdRef).clone();
 
-          return refQ;
+					if(refQ instanceof Quantity)
+					{
+						qhandler.addExpectedValues(new Integer (((Quantity) refQ).getSize().intValue()));
+					} else {
+						qhandler.addExpectedValues(new Integer(0));
+					}
 
-       }
+					// record this new Q on the list of quantity objects
+					qhandler.recordQuantity(refQ);
+
+				} catch (CloneNotSupportedException e) {
+					logger.error("refQuantity couldnt be created, clone failed:"+e.getMessage());
+					e.printStackTrace();
+				}
+
+			} else { 
+				logger.error("QMLReader got a quantity with qidRef=\""+qIdRef+"\" but no previous quantity has that id! Ignoring. Errors may result later.");
+			}
+
+		} else {
+			logger.error("QMLReader got a refQuantity with NO qidRef! Didn't you validate this file before loading??");
+		}
+
+		return refQ;
+
+	}
 }
 

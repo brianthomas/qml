@@ -25,31 +25,31 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.Component;
 import net.datamodel.qml.datatype.StringDataType;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class StringDataTypeStartElementHandlerFunc implements StartElementHandler {
-       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
-                              String localName, String qName, Attributes attrs)
-       throws SAXException {
+public class StringDataTypeStartElementHandlerFunc 
+implements StartElementHandler {
+	public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
+			String localName, String qName, Attributes attrs)
+	throws SAXException {
 
-          StringDataType dataType = new StringDataType();
-          dataType.setAttributeFields(attrs);
+		StringDataType dataType = new StringDataType();
+		dataType.setAttributeFields(attrs);
 
-          Component cp = handler.getCurrentComponent();
-          cp.setDataType(dataType);
+		// allow the cast the chance to bomb
+		Component cp = ((QMLDocumentHandler) handler).getLastComponent();
+		cp.setDataType(dataType);
 
-          return dataType;
-       }
+		return dataType;
+	}
 
 }

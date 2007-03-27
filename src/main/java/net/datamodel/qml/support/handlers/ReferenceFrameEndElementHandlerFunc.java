@@ -28,7 +28,6 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.ReferenceFrame;
@@ -38,7 +37,6 @@ import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.xml.sax.SAXException;
-
 
 public class ReferenceFrameEndElementHandlerFunc implements EndElementHandler 
 {
@@ -63,7 +61,7 @@ public class ReferenceFrameEndElementHandlerFunc implements EndElementHandler
           } else
               throw new SAXException("Ugh. ReferenceFrame can't be found..bad parse.");
 
-          handler.removeExpectedValues();
+          qhandler.removeExpectedValues();
 
        }
 }

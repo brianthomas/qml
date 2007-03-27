@@ -25,36 +25,34 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.CharDataHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
 
 public class TrivialQuantityCharDataHandlerFunc implements CharDataHandler 
 {
-       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
-       throws SAXException
-       {
+	public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
+	throws SAXException
+	{
 
-          // 1. get our value as a string
-          String value = new String (buf, offset, len);
-          value = value.trim();
+		// 1. get our value as a string
+		String value = new String (buf, offset, len);
+		value = value.trim();
 
-          // 2. get the current quantity
-          Quantity qV = handler.getCurrentQuantity();
-          Locator loc = qV.createLocator();
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          handler.setValue(qV,value,loc);
+		// 2. get the current quantity
+		Quantity qV = qhandler.getCurrentQuantity();
+		Locator loc = qV.createLocator();
 
-      }
+		QMLDocumentHandler.setValue(qV,value,loc);
+
+	}
 }
-

@@ -28,43 +28,48 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.core.ListQuantityImpl;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class ListQuantityStartElementHandlerFunc implements StartElementHandler {
-	
+public class ListQuantityStartElementHandlerFunc 
+implements StartElementHandler 
+{
+
 	private static final Logger logger = Logger.getLogger(ListQuantityStartElementHandlerFunc.class);
-	
-       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
-                              String localName, String qName, Attributes attrs)
-       throws SAXException {
 
-          ListQuantityImpl listQ = new ListQuantityImpl();
-          logger.debug("Handler creates List ObjectWithQuantities:"+listQ);
-          listQ.setAttributeFields(attrs); // set XML attributes from passed list
+	public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
+			String localName, String qName, Attributes attrs)
+	throws SAXException {
 
-          handler.recordQuantity(listQ);
+		ListQuantityImpl listQ = new ListQuantityImpl();
+		logger.debug("Handler creates List Quantity:"+listQ);
+		listQ.setAttributeFields(attrs); // set XML attributes from passed list
 
-          int expected = handler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
-          handler.addExpectedValues(new Integer(expected));
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          try {
-             if(expected > listQ.getCapacity())
-                listQ.setCapacity(expected+1);
-          } catch (IllegalAccessException e) {
-             // do nothing.. means we tried to raise the capacity of mapping-based valuescontainer
-             // which we know is impossible in this case
-          }
+		qhandler.recordQuantity(listQ);
 
-          logger.debug("Handler returns List ObjectWithQuantities:"+listQ);
-          return listQ;
-       }
+		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
+		qhandler.addExpectedValues(new Integer(expected));
+
+		try {
+			if(expected > listQ.getCapacity())
+				listQ.setCapacity(expected+1);
+		} catch (IllegalAccessException e) {
+			// do nothing.. means we tried to raise the capacity of mapping-based valuescontainer
+			// which we know is impossible in this case
+		}
+
+		logger.debug("Handler returns List Quantity:"+listQ);
+		return listQ;
+	}
 }
 

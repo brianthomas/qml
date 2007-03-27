@@ -25,41 +25,44 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.CharDataHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class ValueCharDataHandlerFunc implements CharDataHandler {
-       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
-       throws SAXException
-       {
+public class ValueCharDataHandlerFunc 
+implements CharDataHandler 
+{
+	public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
+	throws SAXException
+	{
 
-          // 1. get our value as a string
-          String value = new String (buf, offset, len);
+		// 1. get our value as a string
+		String value = new String (buf, offset, len);
 
-          value = value.trim();
+		value = value.trim();
 
-          if(!handler.IgnoreWhitespaceOnlyData || !value.equals(""))
-          {
+		if(!handler.IgnoreWhitespaceOnlyData || !value.equals(""))
+		{
+			
 
-             // 2. get the current quantity
-             Quantity qV = handler.getCurrentQuantity();
-             Locator loc = handler.getCurrentLocator();
+			// Allow it to crash if the cast fails
+			QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-             handler.setValue(qV,value, loc);
+			// 2. get the current quantity
+			Quantity qV = qhandler.getCurrentQuantity();
+			Locator loc = qhandler.getCurrentLocator();
 
-             loc.next(); // advance the locator
-             handler.ActualValuesAdded++;
-         }
-      }
+			QMLDocumentHandler.setValue(qV,value, loc);
+
+			loc.next(); // advance the locator
+			qhandler.ActualValuesAdded++;
+		}
+	}
 }
 

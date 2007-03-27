@@ -25,30 +25,33 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.core.TrivialQuantityImpl;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
-public class TrivialQuantityStartElementHandlerFunc implements StartElementHandler {
-       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
-                              String localName, String qName, Attributes attrs)
-       throws SAXException {
+public class TrivialQuantityStartElementHandlerFunc 
+implements StartElementHandler 
+{
+	public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
+			String localName, String qName, Attributes attrs)
+	throws SAXException {
 
-          TrivialQuantityImpl trivQ = new TrivialQuantityImpl();
-          trivQ.setAttributeFields(attrs); // set XML attributes from passed list
+		TrivialQuantityImpl trivQ = new TrivialQuantityImpl();
+		trivQ.setAttributeFields(attrs); // set XML attributes from passed list
 
-          handler.recordQuantity(trivQ);
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          handler.addExpectedValues(new Integer(1));
+		qhandler.recordQuantity(trivQ);
 
-          return trivQ;
-       }
+		qhandler.addExpectedValues(new Integer(1));
+
+		return trivQ;
+	}
 }

@@ -1,5 +1,5 @@
 // CVS $Id$
-// ValuesEndElementHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// ValuesEndElementqhandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
  
 /* LICENSE
 
@@ -28,109 +28,116 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.datatype.VectorDataType;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.EndElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
 public class ValuesEndElementHandlerFunc implements EndElementHandler {
-	
+
 	private static final Logger logger = Logger.getLogger(ValuesEndElementHandlerFunc.class);
-	
-       public void action (XSSPDocumentHandler handler )
-       throws SAXException
-       {
 
-           Quantity qV = handler.getCurrentQuantity();
-           qV.getValueContainer().setCDATASerialization(handler.ValuesInCDATASection);
+	public void action (XSSPDocumentHandler handler )
+	throws SAXException
+	{
 
-           if(handler.HasCSVValues || handler.HasVectorDataType) {
-              Locator loc = handler.getCurrentLocator();
-              String[] values = handler.ValuesBuf.toString().trim().split(Constants.VALUE_SEPARATOR_STRING);
 
-              int nrof_components = 0;
-              if(handler.HasVectorDataType)
-                 nrof_components = ((VectorDataType) qV.getDataType()).getComponents().size();
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-              // How we add this kind of data depends on whether we have a vector,
-              // AND, if so, how many components it has.
-              if(nrof_components == 1)
-              {
-                 // simple to do: just like scalar data, but use
-                 // the components dataType
-                 Component comp = (Component) ((VectorDataType) qV.getDataType()).getComponents().get(0);
-                 DataType dataType = comp.getDataType();
-                 for(int i=0; i<values.length; i++)
-                 {
-                    handler.setValue(qV,dataType,values[i],loc);
-                    loc.next();
-                    handler.ActualValuesAdded++;
-                 }
 
-              }
-              else if (nrof_components > 1)
-              {
-            	 
-            	  // for extreme debugging..
-                // for(int i=0; i<values.length; i++) logger.debug("Value "+i+":"+values[i]);
-                	 
-                 String componentValue = "";
-                 for(int i=1; i<=values.length; i++)
-                 {
-                    componentValue += Constants.VALUE_SEPARATOR_STRING + values[i-1];
-                    logger.debug("   build vc value is now:["+componentValue+"] i:"+i);
-                    if((i % nrof_components) == 0 && i >= nrof_components)
-                    {
-                       try {
-                          qV.setValue(componentValue.trim(),loc);
-                          logger.debug("DID vector component value add:["+componentValue+"] i:"+i+" li:"+loc.getListIndex());
-                       } catch (Exception e) {
-                          throw new SAXException("Can't set value in quantity :"+e.getMessage());
-                       }
-                       componentValue = "";
-                       handler.ActualValuesAdded++;
-                       logger.debug(" values added:"+handler.ActualValuesAdded);
-                       loc.next(); // advance the locator
-                    }
-                 }
+		Quantity qV = qhandler.getCurrentQuantity();
+		qV.setValueCDATASerialization(qhandler.hasValuesInCDATASection());
 
-              }
-              else // just regular "scalar" data
-              {
-                 DataType dataType = qV.getDataType();
-                 for(int i=0; i<values.length; i++)
-                 {
-                    handler.setValue(qV, dataType, values[i], loc);
-                    handler.ActualValuesAdded++;
-                    loc.next(); // advance the locator
-                 }
-              }
+		if(qhandler.hasCSVValues() || qhandler.hasVectorDataType()) {
+			Locator loc = qhandler.getCurrentLocator();
+			String[] values = qhandler.ValuesBuf.toString().trim().split(Constants.VALUE_SEPARATOR_STRING);
 
-              if(handler.HasCSVValues)
-                 qV.getValueContainer().setTaggedValuesSerialization(false);
+			int nrof_components = 0;
+			if(qhandler.hasVectorDataType()) {
+				nrof_components = ((VectorDataType) qV.getDataType()).getComponents().size();
+			}
 
-              // reset vector type to false
-              handler.HasVectorDataType = false;
-           }
+			// How we add this kind of data depends on whether we have a vector,
+			// AND, if so, how many components it has.
+			if(nrof_components == 1) {
 
-           int expected = handler.getCurrentExpectedValues().intValue();
-           // A Quick check to see if we have correct number of values
-           
-           if(expected > -1 && handler.ActualValuesAdded != expected) {
-              throw new SAXException("Parser Error: got different number of values ("+handler.ActualValuesAdded
-                          +") from expected size ("+expected+"). Is the file values section appropriately formatted?");
-           }
+				// simple to do: just like scalar data, but use
+				// the components dataType
+				Component comp = (Component) ((VectorDataType) qV.getDataType()).getComponents().get(0);
+				DataType dataType = comp.getDataType();
+				for(int i=0; i<values.length; i++)
+				{
+					QMLDocumentHandler.setValue(qV,dataType,values[i],loc);
+					loc.next();
+					qhandler.ActualValuesAdded++;
+				}
 
-           handler.HasMultipleValues = false;
+			}
+			else if (nrof_components > 1)
+			{
 
-       }
+				// for extreme debugging..
+				// for(int i=0; i<values.length; i++) logger.debug("Value "+i+":"+values[i]);
+
+				String componentValue = "";
+				for(int i=1; i<=values.length; i++)
+				{
+					componentValue += Constants.VALUE_SEPARATOR_STRING + values[i-1];
+					logger.debug("   build vc value is now:["+componentValue+"] i:"+i);
+					if((i % nrof_components) == 0 && i >= nrof_components)
+					{
+						try {
+							qV.setValue(componentValue.trim(),loc);
+							logger.debug("DID vector component value add:["+componentValue+"] i:"+i+" li:"+loc.getListIndex());
+						} catch (Exception e) {
+							throw new SAXException("Can't set value in quantity :"+e.getMessage());
+						}
+						componentValue = "";
+						qhandler.ActualValuesAdded++;
+						logger.debug(" values added:"+qhandler.ActualValuesAdded);
+						loc.next(); // advance the locator
+					}
+				}
+
+			}
+			else // just regular "scalar" data
+			{
+				DataType dataType = qV.getDataType();
+				for(int i=0; i<values.length; i++)
+				{
+					qhandler.setValue(qV, dataType, values[i], loc);
+					qhandler.ActualValuesAdded++;
+					loc.next(); // advance the locator
+				}
+			}
+
+			if(qhandler.hasCSVValues()) {
+				qV.setTaggedValuesSerialization(false);
+			}
+
+			// reset vector type to false
+			qhandler.setHasVectorDataType(false);
+		}
+
+		int expected = qhandler.getCurrentExpectedValues().intValue();
+		// A Quick check to see if we have correct number of values
+
+		if(expected > -1 && qhandler.ActualValuesAdded != expected) {
+			throw new SAXException("Parser Error: got different number of values ("+qhandler.ActualValuesAdded
+					+") from expected size ("+expected+"). Is the file values section appropriately formatted?");
+		}
+
+		qhandler.setHasMultipleValues(false);
+
+	}
 }
 

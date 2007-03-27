@@ -28,8 +28,7 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
@@ -37,16 +36,16 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class IllegalStartElementHandlerFunc implements StartElementHandler {
-	
+
 	private static final Logger logger = Logger.getLogger(IllegalStartElementHandlerFunc.class);
-	
-       public Object action (XSSPDocumentHandler handler, String namespaceURI,
-                              String lName, String qName, Attributes attrs)
-       throws SAXException
-       {
-          // Print error message!
-          logger.error("ERROR: node:"+qName+" exists in document but has illegalStartHandlerType (e.g. schema is probably improperly written!)");
-          return null;
-       }
+
+	public Object action (XSSPDocumentHandler handler, String namespaceURI,
+			String lName, String qName, Attributes attrs)
+	throws SAXException
+	{
+		// Print error message!
+		logger.error("ERROR: node:"+qName+" exists in document but has illegalStartHandlerType (e.g. schema is probably improperly written!)");
+		return null;
+	}
 }
 

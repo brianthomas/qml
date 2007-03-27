@@ -1,6 +1,6 @@
-// CVS $Id$
-// ValuesCharDataHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
- 
+//CVS $Id$
+//ValuesCharDataHandlerFunc.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+
 /* LICENSE
 
    This library is free software; you can redistribute it and/or
@@ -17,47 +17,49 @@
    License along with this library; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-*/
+ */
 
 /* AUTHOR
 
    Brian Thomas  (baba-luu@earthlink.net)
 
-*/
-
+ */
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
-import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.CharDataHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
+public class ValuesCharDataHandlerFunc 
+implements CharDataHandler {
+	public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
+	throws SAXException
+	{
+		// append to our buffer
+		String value = new String (buf, offset, len);
+		value = value.trim();
 
-public class ValuesCharDataHandlerFunc implements CharDataHandler {
-       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
-       throws SAXException
-       {
-          // append to our buffer
-          String value = new String (buf, offset, len);
-          value = value.trim();
+		if(!handler.IgnoreWhitespaceOnlyData || !value.equals(""))
+		{
 
-          if(!handler.IgnoreWhitespaceOnlyData || !value.equals(""))
-          {
-             // looks good..so we will add it to our buffer of data
-             handler.ValuesBuf.append(new String (buf, offset, len));
+			// Allow it to crash if the cast fails
+			QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-             // note that we must have had CSVValues to get here..
-             handler.HasCSVValues = true;
+			// looks good..so we will add it to our buffer of data
+			qhandler.ValuesBuf.append(new String (buf, offset, len));
 
-             // record that we are in cdata section or not.
-             if(handler.ReadingCDATASection)
-                handler.ValuesInCDATASection = true;
-          }
+			// note that we must have had CSVValues to get here..
+			qhandler.setHasCSVValues(true);
 
-      }
+			// record that we are in cdata section or not.
+			if(qhandler.isReadingCDATASection()) {
+				qhandler.setHasValuesInCDATASection(true);
+			}
+		}
+
+	}
 }
 

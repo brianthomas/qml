@@ -25,32 +25,33 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.Component;
 import net.datamodel.qml.datatype.VectorDataType;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class VectorStartElementHandlerFunc implements StartElementHandler {
-       public Object action (XSSPDocumentHandler handler, String namespaceURI,
-                             String localName, String qName, Attributes attrs)
-       throws SAXException {
+	public Object action (XSSPDocumentHandler handler, String namespaceURI,
+			String localName, String qName, Attributes attrs)
+	throws SAXException {
 
-          VectorDataType dataType = new VectorDataType();
-          dataType.setAttributeFields(attrs);
+		VectorDataType dataType = new VectorDataType();
+		dataType.setAttributeFields(attrs);
 
-          Component cp = handler.getCurrentComponent();
-          cp.setDataType(dataType);
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          handler.HasVectorDataType = true;
+		Component cp = qhandler.getCurrentComponent();
+		cp.setDataType(dataType);
 
-          return dataType;
-       }
+		qhandler.setHasVectorDataType(true);
+
+		return dataType;
+	}
 }

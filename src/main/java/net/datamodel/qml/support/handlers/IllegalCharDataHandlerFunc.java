@@ -28,24 +28,19 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
-import net.datamodel.qml.core.AtomicQuantityImpl;
-import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.xssp.parse.CharDataHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.apache.log4j.Logger;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 
 public class IllegalCharDataHandlerFunc implements CharDataHandler {
-	
+
 	private static final Logger logger = Logger.getLogger(IllegalCharDataHandlerFunc.class);
-	
-       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
-       {
-          // log error message
-          logger.error("ERROR: charData for current node in document but has illegalCharDataHandlerType (e.g. schema is probably improperly written!)");
-       }
+
+	public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
+	{
+		// log error message
+		logger.error("ERROR: charData for current node in document but has illegalCharDataHandlerType (e.g. schema is probably improperly written!)");
+	}
 }
 

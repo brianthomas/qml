@@ -28,7 +28,7 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
+
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;

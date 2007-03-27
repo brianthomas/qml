@@ -28,29 +28,38 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
+
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
+import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class ValuesStartElementHandlerFunc implements StartElementHandler {
-       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
-                              String localName, String qName, Attributes attrs)
-       throws SAXException {
 
-           // set meta-data about values..
-           handler.ActualValuesAdded = 0; // values counter to "0"
-           handler.HasCSVValues = false;  // default is we have tagged values
-           handler.HasMultipleValues = true;
-           handler.ValuesInCDATASection = false;
-           handler.ValuesBuf = new StringBuffer(); // reset the values stringbuffer
+	private static final Logger logger = Logger.getLogger(ValuesStartElementHandlerFunc.class);
 
-           Quantity qV = handler.getCurrentQuantity();
-           return qV.getValueContainer();
-       }
+	public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
+			String localName, String qName, Attributes attrs)
+	throws SAXException {
+
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
+
+
+		// set meta-data about values..
+		qhandler.ActualValuesAdded = 0; // values counter to "0"
+		qhandler.setHasCSVValues(false);  // default is we have tagged values
+		qhandler.setHasMultipleValues(true);
+		qhandler.setHasValuesInCDATASection(false);
+		qhandler.ValuesBuf = new StringBuffer(); // reset the values stringbuffer
+
+		Quantity qV = qhandler.getCurrentQuantity();
+		return qV.getValueContainer();
+
+	}
 }
 

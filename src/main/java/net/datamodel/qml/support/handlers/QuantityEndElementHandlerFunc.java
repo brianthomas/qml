@@ -25,40 +25,49 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.ListQuantity;
-import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.support.EndElementHandler;
+import net.datamodel.qml.Quantity;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
-// end handler for all quantities
-public class QuantityEndElementHandlerFunc implements EndElementHandler 
+//end handler for all quantities
+public class QuantityEndElementHandlerFunc 
+implements EndElementHandler 
 {
 	private static final Logger logger = Logger.getLogger(QuantityEndElementHandlerFunc.class);
-	
+
 	public void action (XSSPDocumentHandler handler )
-       throws SAXException {
+	throws SAXException {
 
-          logger.debug("ObjectWithQuantities End Handler called");
-          // peel off the last quantity, and locator, in the current list
-          ObjectWithQuantities q = handler.unrecordQuantity();
+		logger.debug("Quantities End Handler called");
 
-          // Are we adding altValues? If so, we  should
-          // now add this quantity to altvalues section of current parent Q
-          if(handler.AddingAltValues)
-             if (q instanceof ListQuantity)
-                 handler.getCurrentParentQuantityAltValue().addAltValue((ListQuantity)q);
-             else
-                 throw new SAXException("Alternative value not a list ObjectWithQuantities");
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          handler.removeExpectedValues();
-          logger.debug("ObjectWithQuantities End Handler - FINISH");
-       }
+		// peel off the last quantity, and locator, in the current list
+		Quantity q = qhandler.unrecordQuantity();
+
+		// Are we adding altValues? If so, we  should
+		// now add this quantity to altvalues section of current parent Q
+		if(qhandler.isAddingAltValues())
+			if (q instanceof ListQuantity)
+			{
+				qhandler.getCurrentParentQuantityAltValue().addAltValue((ListQuantity)q);
+			} else { 
+				throw new SAXException("Alternative value not a list Quantity");
+			}
+
+		qhandler.removeExpectedValues();
+
+		logger.debug("Quantity End Handler - FINISH");
+
+	}
+	
 }
 

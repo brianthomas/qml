@@ -28,39 +28,41 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.core.MatrixQuantityImpl;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.StartElementHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class MatrixQuantityStartElementHandlerFunc implements StartElementHandler {
-       public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
-                              String localName, String qName, Attributes attrs)
-       throws SAXException {
+	public Object action ( XSSPDocumentHandler handler, String namespaceURI, 
+			String localName, String qName, Attributes attrs)
+	throws SAXException {
 
-          MatrixQuantityImpl matrixQ = new MatrixQuantityImpl();
-          matrixQ.setAttributeFields(attrs); // set XML attributes from passed list
+		MatrixQuantityImpl matrixQ = new MatrixQuantityImpl();
+		matrixQ.setAttributeFields(attrs); // set XML attributes from passed list
+		
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          // In order to look for referenced Quantities, we "record" this one if it has a qid
-          handler.recordQuantity(matrixQ);
+		// In order to look for referenced Quantities, we "record" this one if it has a qid
+		qhandler.recordQuantity(matrixQ);
 
-          int expected = handler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
-          handler.addExpectedValues(new Integer(expected));
+		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
+		qhandler.addExpectedValues(new Integer(expected));
 
-          try {
-            if(expected > matrixQ.getCapacity())
-               matrixQ.setCapacity(expected+1);
-          } catch (IllegalAccessException e) {
-             // do nothing.. means we tried to raise the capacity of mapping-based valuescontainer
-             // which is impossible in this case
-          }
+		try {
+			if(expected > matrixQ.getCapacity())
+				matrixQ.setCapacity(expected+1);
+		} catch (IllegalAccessException e) {
+			// do nothing.. means we tried to raise the capacity of mapping-based valuescontainer
+			// which is impossible in this case
+		}
 
-          return matrixQ;
-       }
+		return matrixQ;
+	}
 }
 

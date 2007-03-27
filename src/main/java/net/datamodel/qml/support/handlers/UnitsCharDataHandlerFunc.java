@@ -25,34 +25,34 @@
 
 */
 
-
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
 import net.datamodel.qml.Component;
-import net.datamodel.qml.support.CharDataHandler;
+import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.qml.units.UnitsImpl;
+import net.datamodel.xssp.parse.CharDataHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
-// Import needed SAX stuff
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 public class UnitsCharDataHandlerFunc implements CharDataHandler {
-       public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
-       throws SAXException
-       {
+	public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
+	throws SAXException
+	{
 
-          // 1. get our value as a string
-          String value = new String (buf, offset, len);
-          value = value.trim();
+		// 1. get our value as a string
+		String value = new String (buf, offset, len);
+		value = value.trim();
 
-          // 2. get the current quantity
-          Component cp = handler.getCurrentComponent();
+		// Allow it to crash if the cast fails
+		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          // 3. retrive , and set, the value on our units
-          ((UnitsImpl) cp.getUnits()).setValue(value);
+		// 2. get the current quantity
+		Component cp = qhandler.getCurrentComponent();
 
-      }
+		// 3. retrive , and set, the value on our units
+		((UnitsImpl) cp.getUnits()).setValue(value);
+
+	}
 }
 

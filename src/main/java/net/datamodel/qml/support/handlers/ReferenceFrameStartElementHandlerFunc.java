@@ -27,7 +27,7 @@
 
 package net.datamodel.qml.support.handlers;
 
-// import QML stuff
+
 import net.datamodel.qml.core.ReferenceFrameImpl;
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.xssp.parse.StartElementHandler;
