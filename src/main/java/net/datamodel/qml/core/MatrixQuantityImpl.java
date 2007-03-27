@@ -114,8 +114,7 @@ implements MatrixQuantity
     /** Construct this quantity with mapping rather than explicitly holding
       * values. Values will be generated on demand from the (value) mapping.
      */
-    public MatrixQuantityImpl (URI uri, ValueMapping mapping)
-    {
+    public MatrixQuantityImpl (URI uri, ValueMapping mapping) {
     	this(uri, -1);
     	setValueContainer(mapping);
     }
