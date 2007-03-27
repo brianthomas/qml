@@ -109,4 +109,13 @@ Version Description
     As can be seen, you actual have more compact, neater, notation with the later anyways.
 
   * Clean up compiler warnings
+  
+  * NumberOfValues vs Size in Quantity.
+  
+  * Altvalues..
+  
+  * Properties in Component? If so, finalize prop methods in ComponentImpl
+    (but this will cause an issue with Trivial Q) 
+    
+  * Exposing ValueContainer? Seems like bad idea..
 
