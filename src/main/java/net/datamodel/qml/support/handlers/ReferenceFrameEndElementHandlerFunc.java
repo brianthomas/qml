@@ -46,15 +46,13 @@ public class ReferenceFrameEndElementHandlerFunc implements EndElementHandler
    		// let it bomb if the cast doesnt go right
    		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-          // peel off the last quantity, which should be our axisFrame
-          Quantity q = qhandler.unrecordQuantity();
+          // peel off the last ref frame
+          ReferenceFrame r = qhandler.unrecordReferenceFrame();
           Quantity cq = qhandler.getCurrentQuantity();
 
-          if(q instanceof ReferenceFrame && cq instanceof MatrixQuantity)
+          if(cq instanceof MatrixQuantity)
           {
-        	  
-              ((MatrixQuantity)cq).addReferenceFrame(q); 
-              
+              ((MatrixQuantity) cq).addReferenceFrame(r); 
           } else if (cq instanceof SemanticObjectImpl) {
              // do nothing..we already added it as some other 
         	 // type of relationship

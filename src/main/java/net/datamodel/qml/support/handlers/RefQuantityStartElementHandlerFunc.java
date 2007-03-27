@@ -64,8 +64,7 @@ public class RefQuantityStartElementHandlerFunc implements StartElementHandler {
 
 					refQ = (Quantity) qhandler.getRecordedQuantity(qIdRef).clone();
 
-					if(refQ instanceof Quantity)
-					{
+					if(refQ instanceof Quantity) {
 						qhandler.addExpectedValues(new Integer (((Quantity) refQ).getSize().intValue()));
 					} else {
 						qhandler.addExpectedValues(new Integer(0));

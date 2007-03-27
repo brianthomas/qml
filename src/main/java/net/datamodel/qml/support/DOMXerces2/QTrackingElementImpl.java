@@ -31,27 +31,13 @@
 
 package net.datamodel.qml.support.DOMXerces2;
 
-import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.XMLSerializableObject;
-import net.datamodel.qml.core.AtomicQuantityImpl;
-import net.datamodel.qml.core.XMLSerializableField;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.support.QMLElement;
 
-// import net.datamodel.qml.QMLDocumentImpl;
-
 import org.apache.log4j.Logger;
-import org.apache.xerces.dom.ElementNSImpl;
 import org.apache.xerces.dom.CoreDocumentImpl;
-
-// import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
+import org.apache.xerces.dom.ElementNSImpl;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** 
@@ -142,7 +128,7 @@ public class QTrackingElementImpl extends ElementNSImpl
       if (node instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) node;
-         ObjectWithQuantities q = qElem.getQuantity();
+         Quantity q = qElem.getQuantity();
 
          // now tell parent document about this..
          if(getOwnerDocument() instanceof QMLDocumentImpl)
@@ -162,7 +148,7 @@ public class QTrackingElementImpl extends ElementNSImpl
       if (node instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) node;
-         ObjectWithQuantities q = qElem.getQuantity();
+         Quantity q = qElem.getQuantity();
 
          // now tell parent document about this..
          if(getOwnerDocument() instanceof QMLDocumentImpl)
