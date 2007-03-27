@@ -32,6 +32,7 @@
 
 package net.datamodel.qml.core;
 
+import java.net.URI;
 import java.util.List;
 
 import net.datamodel.qml.Component;
@@ -66,17 +67,17 @@ implements Quantity, XMLSerializableObjectWithValues
 
 	/** No argument constructor. Values will be explicitly held.
 	 */
-	public AbstractQuantity() { 
-		this(1);
+	public AbstractQuantity(URI uri) { 
+		this(uri,1);
 	}
 	
 	/** Construct a quantity for a given capacity.
 	 * 
 	 * @param capacity
 	 */
-	protected AbstractQuantity (int capacity) { 
+	protected AbstractQuantity (URI uri, int capacity) { 
 		
-		super();
+		super(uri);
 
 		ValueContainer dataContain 
 			= new ListValueContainerImpl(this, capacity);
@@ -97,9 +98,9 @@ implements Quantity, XMLSerializableObjectWithValues
 	// Make this protected as some quantities (like trivial, atomic) wont
 	// need it...there is little sense in creating a mapping
 	// when you have 1 value (!)
-	protected AbstractQuantity ( ValueMapping mapping ) 
+	protected AbstractQuantity ( URI uri, ValueMapping mapping ) 
 	{ 
-		this(1);
+		this(uri, 1);
 		setValueContainer ((ValueContainer) mapping);
 	}
 

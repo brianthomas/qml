@@ -22,8 +22,8 @@ implements ObjectWithProperties
 
 	private static URI propertyURN = null;
 	
-	protected AbstractObjectWithProperties () {
-		super();
+	protected AbstractObjectWithProperties (URI uri) {
+		super(uri);
 		
 		// TODO: Argh. Isnt there a better way to do this?
 		try {

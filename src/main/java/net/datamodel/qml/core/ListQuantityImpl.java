@@ -32,6 +32,8 @@
 
 package net.datamodel.qml.core;
 
+import java.net.URI;
+
 import net.datamodel.qml.Component;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
@@ -60,14 +62,22 @@ implements ListQuantity
      * default capacity.
      */
     public ListQuantityImpl () { 
-    	this(-1); 
+    	this(null, -1); 
     }
-
+    
+    /** Construct with the indicated URI.
+     * 
+     * @param uri
+     */
+    public ListQuantityImpl (URI uri) { 
+    	this (uri, -1);
+    }
+    
     /** Constuct the quantity with a number of pre-allocated locations (capacity) 
      * for the list of values it contains.
      */
-    public ListQuantityImpl ( int capacity ) { 
-    	super(capacity);
+    public ListQuantityImpl ( URI uri, int capacity ) { 
+    	super(uri, capacity);
         
         if(capacity < 1)
            capacity = Specification.getInstance().getDefaultValueContainerCapacity();
@@ -80,9 +90,9 @@ implements ListQuantity
     /** Construct this quantity with mapping rather than explicitly holding
      *  values. Values will be generated on demand from the (value) mapping.
      */
-    public ListQuantityImpl ( ValueMapping mapping )
+    public ListQuantityImpl ( URI uri, ValueMapping mapping )
     {
-    	this(-1);
+    	this(uri, -1);
     	setValueContainer ((ValueContainer) mapping);
     }
 

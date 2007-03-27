@@ -76,15 +76,23 @@ implements MatrixQuantity
 
     /** No-argument Constructor */
     public MatrixQuantityImpl () { 
-    	this(-1);
+    	this(null, -1);
+    }
+    
+    /** Construct with the indicated uri.
+     * 
+     * @param uri
+     */
+    public MatrixQuantityImpl (URI uri) { 
+    	this (uri, -1);
     }
     
     /** Construct with some initial capacity.
      * 
      * @param capacity
      */
-    public MatrixQuantityImpl (int capacity) { 
-    	super(capacity);
+    public MatrixQuantityImpl (URI uri, int capacity) { 
+    	super(uri, capacity);
 
     	setXMLNodeName (Constants.NodeName.MATRIX_QUANTITY);
 
@@ -106,9 +114,9 @@ implements MatrixQuantity
     /** Construct this quantity with mapping rather than explicitly holding
       * values. Values will be generated on demand from the (value) mapping.
      */
-    public MatrixQuantityImpl ( ValueMapping mapping)
+    public MatrixQuantityImpl (URI uri, ValueMapping mapping)
     {
-    	this(-1);
+    	this(uri, -1);
     	setValueContainer(mapping);
     }
 

@@ -32,6 +32,8 @@
 
 package net.datamodel.qml.core;
 
+import java.net.URI;
+
 import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Units;
@@ -61,9 +63,10 @@ implements Component
 
 	// Constructors
 
-	/** No-arg Constructor. */ 
-	public ComponentImpl () { 
-		super();
+	/** Create a Component with indicated URI. 
+	 */ 
+	public ComponentImpl (URI uri) { 
+		super(uri);
 		setXMLNodeName("component");
 
 		// initialize XML fields

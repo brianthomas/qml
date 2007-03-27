@@ -1,5 +1,6 @@
 package net.datamodel.qml.core;
 
+import java.net.URI;
 import java.util.List;
 
 import net.datamodel.qml.Locator;
@@ -52,14 +53,20 @@ extends AbstractQuantity
 	private static final Logger logger = Logger.getLogger(AtomicQuantityImpl.class);
 
 	/** no-arg constructor. */
-	public AtomicQuantityImpl () { this(1); }
+	public AtomicQuantityImpl () { this(null, 1); }
+	
+	/** Construct the Quantity with the indicated URI.
+	 * 
+	 * @param uri
+	 */
+	public AtomicQuantityImpl (URI uri) { this(uri, 1); }
 
 	/** Construct a quantity for a given capacity.
 	 * 
 	 * @param capacity
 	 */
-	protected AtomicQuantityImpl (int capacity) {  
-		super (capacity);  
+	protected AtomicQuantityImpl (URI uri, int capacity) {  
+		super (uri, capacity);  
 		setXMLNodeName(Constants.NodeName.ATOMIC_QUANTITY);
 	}
 
@@ -68,9 +75,9 @@ extends AbstractQuantity
 	 */
 	// Make this protected as there is little sense in creating a mapping
 	// when you have 1 value (!)
-	protected AtomicQuantityImpl ( ValueMapping mapping ) 
+	protected AtomicQuantityImpl (URI uri, ValueMapping mapping ) 
 	{ 
-		this(1);
+		this(uri, 1);
 		setValueContainer ((ValueContainer) mapping);
 	}
 

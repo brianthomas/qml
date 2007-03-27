@@ -32,11 +32,11 @@
 
 package net.datamodel.qml.core;
 
+import java.net.URI;
 import java.util.List;
 
-import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ListQuantity;
-import net.datamodel.soml.impl.SemanticObjectImpl;
+import net.datamodel.qml.ReferenceFrame;
 
 /**
  * This special quantity is a description of a frame of reference for 
@@ -53,7 +53,11 @@ implements ReferenceFrame {
     /** No-argument constructor.
      */
     public ReferenceFrameImpl () {
-    	super();
+    	this(null);
+    }
+    
+    public ReferenceFrameImpl (URI uri) {
+    	super(uri);
     	setXMLNodeName("axisFrame");
     }
 

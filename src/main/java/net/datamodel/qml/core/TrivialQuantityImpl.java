@@ -29,10 +29,8 @@
 
 package net.datamodel.qml.core;
 
-import java.io.IOException;
-import java.io.Writer;
+import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import net.datamodel.qml.DataType;
@@ -40,12 +38,8 @@ import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
-import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.support.Constants;
-import net.datamodel.xssp.XMLFieldType;
-import net.datamodel.xssp.XMLSerializableField;
-import net.datamodel.xssp.XMLSerializableObject;
 
 /**
  * A restricted type of atomic quantity. The trivial quantity may only 
@@ -57,7 +51,11 @@ extends AbstractQuantity
 
 	/** No-arg constructor  */
 	public TrivialQuantityImpl () { 
-		super();
+		this(null);
+	}
+	
+	public TrivialQuantityImpl (URI uri) { 
+		super(uri);
 		setXMLNodeName(Constants.NodeName.TRIVIAL_QUANTITY);
 	}
 
