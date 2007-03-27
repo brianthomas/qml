@@ -32,11 +32,12 @@ package net.datamodel.qml.support.DOMXerces2;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Hashtable;
+import java.util.Map;
 
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.QMLElement;
+import net.datamodel.xssp.ReferenceableXMLSerializableObject;
 import net.datamodel.xssp.XMLSerializableField;
 import net.datamodel.xssp.XMLSerializableObject;
 import net.datamodel.xssp.XMLSerializableObjectWithFields;
@@ -335,8 +336,8 @@ implements QMLElement
       // check parent document about this..
       if(getOwnerDocument() instanceof QMLDocumentImpl)
       {
-         Hashtable idTable = ((QMLDocumentImpl) getOwnerDocument()).getQuantityIdTable();
-         Hashtable prefixTable = ((QMLDocumentImpl) getOwnerDocument()).getPrefixNamespaceMappings();
+         Map<String,ReferenceableXMLSerializableObject> idTable = ((QMLDocumentImpl) getOwnerDocument()).getQuantityIdTable();
+         Map<String,String> prefixTable = ((QMLDocumentImpl) getOwnerDocument()).getPrefixNamespaceMappings();
          ((XMLSerializableObject) q).toXMLWriter(idTable, prefixTable, outputWriter, indent, doFirstIndent, doLastNewLine);
       } else 
          ((XMLSerializableObject) q).toXMLWriter(outputWriter, indent, doFirstIndent, doLastNewLine);
