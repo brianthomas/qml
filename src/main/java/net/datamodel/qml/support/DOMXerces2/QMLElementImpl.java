@@ -30,30 +30,23 @@
 
 package net.datamodel.qml.support.DOMXerces2;
 
-import net.datamodel.qml.ObjectWithQuantities;
-import net.datamodel.qml.XMLSerializableObject;
-import net.datamodel.qml.core.AtomicQuantityImpl;
-import net.datamodel.qml.core.XMLSerializableField;
-import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.QMLDocument;
-import net.datamodel.qml.support.QMLElement;
-import net.datamodel.qml.support.Specification;
-
-import org.apache.log4j.Logger;
-import org.apache.xerces.dom.ElementNSImpl;
-import org.apache.xerces.dom.DocumentImpl;
-
 import java.io.IOException;
-import java.io.StringWriter;
 import java.io.Writer;
-
 import java.util.Hashtable;
 
+import net.datamodel.qml.Quantity;
+import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.QMLElement;
+import net.datamodel.xssp.XMLSerializableField;
+import net.datamodel.xssp.XMLSerializableObject;
+import net.datamodel.xssp.XMLSerializableObjectWithFields;
+
+import org.apache.log4j.Logger;
+import org.apache.xerces.dom.DocumentImpl;
+import org.apache.xerces.dom.ElementNSImpl;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /** 
@@ -69,16 +62,16 @@ implements QMLElement
    // 
    // Fields
    //
-   ObjectWithQuantities myQuantity = null;
+   Quantity myQuantity = null;
 
    //
    // Constructors
    //
 
-   // hmm..badness. We expect ObjectWithQuantities interface, then demand (internally) the 
+   // hmm..badness. We expect Quantity interface, then demand (internally) the 
    // XMLSerializableObject interface. This could lead to problems down the
    // line. :P 
-   public QMLElementImpl (String namespaceURI, ObjectWithQuantities quantity, DocumentImpl doc) 
+   public QMLElementImpl (String namespaceURI, Quantity quantity, DocumentImpl doc) 
    throws IOException,NullPointerException
    {
       super (doc, namespaceURI, ((XMLSerializableObject) quantity).getXMLTagName());
@@ -87,7 +80,7 @@ implements QMLElement
    }
 
    // this has same issue as the constructor above
-   public QMLElementImpl (ObjectWithQuantities quantity, DocumentImpl doc) 
+   public QMLElementImpl (Quantity quantity, DocumentImpl doc) 
    throws IOException,NullPointerException
    {
       super (doc, Constants.QML_NAMESPACE_URI, ((XMLSerializableObject) quantity).getXMLTagName());
@@ -100,7 +93,7 @@ implements QMLElement
 
    public String getAttribute(String name) 
    {
-      XMLSerializableField field = ((XMLSerializableObject) getQuantity()).findXMLSerializableField(name);
+      XMLSerializableField field = ((XMLSerializableObjectWithFields) getQuantity()).getXMLSerializableField(name);
       if (field != null)
          return field.getValue().toString();
       return null;
@@ -110,11 +103,12 @@ implements QMLElement
       return ((XMLSerializableObject) getQuantity()).getXMLTagName();
    }
 
-   // hmmm. sense badness here..how to keep these in sync?
    public void setAttribute(String name, String value) 
    {
 //      super(name,value);
-      ((XMLSerializableObject)getQuantity()).addXMLSerializableField(name,value); 
+   // hmmm. sense badness here..how to keep these in sync?
+//      ((XMLSerializableObjectWithFields) getQuantity()).addXMLSerializableField(name,value); 
+	   logger.error("Can't setAttribute on QMLElement"); 
    }
 
    public String getAttributeNS(String namespaceURI, String localName) 
@@ -156,7 +150,7 @@ implements QMLElement
 
    public boolean hasAttribute (String name) 
    {
-      XMLSerializableField field = ((XMLSerializableObject) getQuantity()).findXMLSerializableField(name);
+      XMLSerializableField field = ((XMLSerializableObjectWithFields) getQuantity()).getXMLSerializableField(name);
       return (field == null) ? false : true;
    }
 
@@ -168,7 +162,8 @@ implements QMLElement
 
    public void removeAttribute(String name) 
    {
-      ((XMLSerializableObject) getQuantity()).removeXMLSerializableField(name);
+//      ((XMLSerializableObject) getQuantity()).removeXMLSerializableField(name);
+       logger.error("removeAttribute not allowed for Xerces2DOM.QMLElementImpl");
    }
 
    public void removeAttributeNS (String namespaceURI, String name) 
@@ -182,16 +177,16 @@ implements QMLElement
        return null;
    }
 
-   public ObjectWithQuantities getQuantity() 
+   public Quantity getQuantity() 
    {
       return myQuantity;
    }
 
-   public void setQuantity (ObjectWithQuantities object) 
+   public void setQuantity (Quantity object) 
    throws NullPointerException
    {
       if (object == null) 
-         throw new NullPointerException("Can't set QMLElement with null ObjectWithQuantities object pointer");
+         throw new NullPointerException("Can't set QMLElement with null Quantity object pointer");
       else
          myQuantity = object;
    }
@@ -208,7 +203,7 @@ implements QMLElement
       if (newChild instanceof QMLElement) 
       {
          QMLElement qElem = (QMLElement) newChild;
-         ObjectWithQuantities q = qElem.getQuantity();
+         Quantity q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().addProperty(q);
@@ -236,7 +231,7 @@ implements QMLElement
       if (newChild instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) newChild;
-         ObjectWithQuantities q = qElem.getQuantity();
+         Quantity q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().addProperty(q);
@@ -257,7 +252,7 @@ implements QMLElement
       if (oldChild instanceof QMLElement)
       {
          QMLElement qElem = (QMLElement) oldChild;
-         ObjectWithQuantities q = qElem.getQuantity();
+         Quantity q = qElem.getQuantity();
 
          // Add as a member
          getQuantity().removeProperty(q);
@@ -279,7 +274,7 @@ implements QMLElement
        if (oldChild instanceof QMLElement)
        {
           QMLElement qElem = (QMLElement) oldChild;
-          ObjectWithQuantities q = qElem.getQuantity();
+          Quantity q = qElem.getQuantity();
 
           // remove member
           getQuantity().removeProperty(q);
@@ -291,7 +286,7 @@ implements QMLElement
        if (newChild instanceof QMLElement)
        {
           QMLElement qElem = (QMLElement) newChild;
-          ObjectWithQuantities q = qElem.getQuantity();
+          Quantity q = qElem.getQuantity();
 
           // add member
           getQuantity().addProperty(q);
@@ -330,12 +325,12 @@ implements QMLElement
    throws java.io.IOException
    {
 
-      // How should we write ourselves out? IF we have a ObjectWithQuantities
+      // How should we write ourselves out? IF we have a Quantity
       // with an ID, then we need to check the document to see
       // if we write out as an refQuantity node or not. Otherwise..just
       // the normal proceedure is ok.
 
-      ObjectWithQuantities q = getQuantity();
+      Quantity q = getQuantity();
 
       // check parent document about this..
       if(getOwnerDocument() instanceof QMLDocumentImpl)
