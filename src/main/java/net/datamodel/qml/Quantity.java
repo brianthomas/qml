@@ -62,4 +62,10 @@ extends Component, XMLSerializableObjectWithValues, Cloneable
 	// This is needed to make referenced ids within a document work right.
 	public Object clone() throws CloneNotSupportedException;
 	
+	/** Return the container in this object which holds the values.
+	 * 
+	 * @return
+	 */
+	public ValueContainer getValueContainer();
+	
 }
