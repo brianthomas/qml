@@ -31,7 +31,7 @@ package net.datamodel.qml.support;
 
 import java.io.Writer;
 
-import net.datamodel.qml.ObjectWithQuantities;
+import net.datamodel.qml.Quantity;
 
 import org.w3c.dom.Element;
 
@@ -42,21 +42,26 @@ import org.w3c.dom.Element;
 public interface QMLElement extends Element
 {
 
-   public String toXMLString ();
+	/** Write the Element out as an XML string.
+	 * 
+	 * @return string 
+	 */
+	public String toXMLString ();
 
-   public void toXMLWriter (Writer outputWriter) throws java.io.IOException;
+	/** Write the Element out as XML to the indicated Writer.
+	 * 
+	 */
+	public void toXMLWriter (Writer outputWriter) throws java.io.IOException;
 
-   /**
- * @uml.property  name="quantity"
- * @uml.associationEnd  
- */
-public ObjectWithQuantities getQuantity();
+	/** Get the Quantity associated with this Element node. 
+	 */
+	public Quantity getQuantity();
 
-   /**
- * @param quantity  the quantity to set
- * @uml.property  name="quantity"
- */
-public void setQuantity(ObjectWithQuantities q);
+	/** Set the Quantity associated with this Element node. 
+	 * @param quantity  the quantity to set
+	 */
+//	Needed? We should limit this to construction time I think...
+	public void setQuantity(Quantity q);
 
 }
 
