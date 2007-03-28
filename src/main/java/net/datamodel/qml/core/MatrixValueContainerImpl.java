@@ -3,6 +3,8 @@
  */
 package net.datamodel.qml.core;
 
+import net.datamodel.qml.MatrixQuantity;
+
 
 /**
  * @author thomas
@@ -15,14 +17,14 @@ extends ListValueContainerImpl
 	/**
 	 * @param parent
 	 */
-	public MatrixValueContainerImpl ( ) { this(-1); }
+	public MatrixValueContainerImpl ( MatrixQuantity parent ) { this(parent, -1); }
 
 	/**
 	 * @param parent
 	 * @param capacity
 	 */
-	public MatrixValueContainerImpl (int capacity) {
-		super(capacity);
+	public MatrixValueContainerImpl (MatrixQuantity parent, int capacity) {
+		super(parent, capacity);
 		locatorClassName = "net.datamodel.qml.locator.MatrixLocatorImpl";
 	}
 

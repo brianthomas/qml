@@ -79,12 +79,11 @@ implements Quantity, XMLSerializableObjectWithValues
 		
 		super(uri);
 
-		ValueContainer dataContain 
-			= new ListValueContainerImpl(capacity);
+		ValueContainer dataContainer = new ListValueContainerImpl(this, capacity);
 
 		// now initialize XML fields
-		addField(sizeFieldName, new Integer(dataContain.getNumberOfValues()), XMLFieldType.ATTRIBUTE );
-		addField(dataFieldName, dataContain, XMLFieldType.CHILD);
+		addField(sizeFieldName, new Integer(dataContainer.getNumberOfValues()), XMLFieldType.ATTRIBUTE );
+		addField(dataFieldName, dataContainer, XMLFieldType.CHILD);
 
 		// setSize(capacity); 
 		setSize(1); 

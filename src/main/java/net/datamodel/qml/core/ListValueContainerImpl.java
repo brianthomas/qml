@@ -43,10 +43,13 @@ import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
+import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.Specification;
 import net.datamodel.xssp.ReferenceableXMLSerializableObject;
 import net.datamodel.xssp.XMLFieldType;
+import net.datamodel.xssp.XMLSerializableField;
 import net.datamodel.xssp.impl.AbstractReferenceableXMLSerializableObject;
+import net.datamodel.xssp.parse.Utility;
 
 import org.apache.log4j.Logger;
 
@@ -87,6 +90,8 @@ implements ValueContainer
 	 */
 	protected int maxUtilizedIndex;
 	
+	private Quantity parent;
+	
 	/** Name of the locator class we will use.
 	 * 
 	 */
@@ -105,22 +110,27 @@ implements ValueContainer
 	/** Vanilla constructor. Will create a list with default capacity
 	 * (Specification.getDefaultValueContainerCapacity() 
 	 */
-	public ListValueContainerImpl () { this(-1); }
+	public ListValueContainerImpl (Quantity parent) { this(parent, -1); }
 
 	/** Constuct the container with a number of pre-allocated capacity of the list.
 	 */
-	public ListValueContainerImpl ( int capacity) 
+	public ListValueContainerImpl ( Quantity parent, int capacity) 
 	{ 
+		super("values");
+		
 		logger.debug("New ListValueContainerImpl with capacity of"+capacity);
+		
+		if (parent == null) 
+			throw new NullPointerException("Cant create data container with null parent Quantity");
+		
+		this.parent = parent;
 		
 		if(capacity < 1)
 			capacity = Specification.getInstance().getDefaultValueContainerCapacity();
 		
-		setXMLNodeName("values");
-		
 		// FIXME: Code badness..This is onlY here to kludge basicXMLWriter 
 		// into seeing we have pcdata
-		// addField("PCDATA", "pcdataExists", XMLFieldType.PCDATA);
+		addField("PCDATA", "", XMLFieldType.PCDATA);
 
 		resetValues(capacity);
 
@@ -427,10 +437,20 @@ implements ValueContainer
 
 	}
 	
-	// TODO: fix this..we overwrote this method from XMLSerializableObject (!)
 	/*
-	protected boolean handleChildNodes(Hashtable idTable, Hashtable prefixTable, Writer outputWriter, String nodeNameString,
-			String indent, Vector childObjs, XMLSerializableField PCDATA)
+	 * (non-Javadoc)
+	 * @see net.datamodel.xssp.impl.AbstractXMLSerializableObject#handleChildNodes(java.util.Map, java.util.Map, java.io.Writer, java.lang.String, java.lang.String, java.util.Vector, net.datamodel.xssp.XMLSerializableField)
+	 */
+	@Override
+	protected boolean handleChildNodes (
+				Map<String,ReferenceableXMLSerializableObject> idTable, 
+				Map<String,String> prefixTable, 
+				Writer outputWriter, 
+				String nodeNameString, 
+				String indent, 
+				Vector childObjs, 
+				XMLSerializableField PCDATA 
+	) 
 	throws IOException
 	{
 
@@ -447,16 +467,16 @@ implements ValueContainer
 		if (nodeNameString != null && !nodeNameString.equals(""))
 		{
 			outputWriter.write(">");
-			
-  //         if (Specification.getInstance().isPrettyOutput() && writeTaggedValues)
-  //         {
-  //             String newindent = indent + spec.getPrettyOutputIndentation();
-  //             outputWriter.write(Constants.NEW_LINE+newindent);
-  //         }
+
+			//         if (Specification.getInstance().isPrettyOutput() && writeTaggedValues)
+			//         {
+			//             String newindent = indent + spec.getPrettyOutputIndentation();
+			//             outputWriter.write(Constants.NEW_LINE+newindent);
+			//         }
 		}
 
 		Object noDataValue = parent.getDataType().getNoDataValue();
-		String noDataValueStr = entifyString(noDataValue.toString());
+		String noDataValueStr = Utility.entifyString(noDataValue.toString());
 
 		// we write tagged values if requested OR we only have ONE value
 		// (the latter is because we set the master nodeName to "", so its
@@ -464,8 +484,7 @@ implements ValueContainer
 		if(writeTaggedValues || maxUtilizedIndex == 0) 
 		{
 
-
-			String prefix = getXMLNodePrefix(prefixTable);
+			String prefix = "TODO-prefix";// getXMLNodePrefix(prefixTable);
 
 			String nodeName = Constants.TAGGED_DATA_NODE_NAME;
 			if(prefix != null && !prefix.equals("") && nodeName != null)
@@ -483,7 +502,7 @@ implements ValueContainer
 				if(isNoDataValue[i] == 1 || value == null)
 					outputWriter.write(noDataValueStr);
 				else
-					outputWriter.write(entifyString(value.toString()));
+					outputWriter.write(Utility.entifyString(value.toString()));
 
 				if(cdataSerialization)
 					outputWriter.write("]]>");
@@ -506,7 +525,7 @@ implements ValueContainer
 				if(isNoDataValue[i] == 1 || value == null)
 					outputWriter.write(noDataValueStr);
 				else
-					outputWriter.write(entifyString(value.toString()));
+					outputWriter.write(Utility.entifyString(value.toString()));
 
 				if(i != maxUtilizedIndex)
 					outputWriter.write(separator);
@@ -519,7 +538,6 @@ implements ValueContainer
 
 		return true;
 	}
-	*/
 
 	/** Reset the values within the container. 
 	 */
