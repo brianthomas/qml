@@ -30,6 +30,12 @@
 
 package net.datamodel.qml.support;
 
+import java.net.URI;
+
+import net.datamodel.soml.Constant;
+
+import org.xml.sax.Attributes;
+
 
 /**
  * Shared (utility) routines.
@@ -61,6 +67,17 @@ package net.datamodel.qml.support;
           return true;
       }
       return false;
+    }
+    
+    public static URI getURIFromAttribs(Attributes attrs) {
+    	String strValue = attrs.getValue(Constant.SOML_URI_ATTRIBUTE_NAME); 
+    	URI uri = null;
+    	try {
+    		uri = new URI (strValue);
+    	} catch (Exception e) {
+    		// do nothing, pass thru 
+    	}
+    	return uri; 
     }
 
     /** Determine if string is a valid xml declaration standalone 
