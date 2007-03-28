@@ -54,7 +54,7 @@ abstract public class ScalarDataType extends BaseDataType {
 	// No-arguement Constructor
 	public ScalarDataType ( ) { 
 
-		setXMLNodeName(null);
+		setXMLNodeName("");
 
 		// now initialize XML fields
 		// order matters!
