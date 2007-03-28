@@ -76,10 +76,23 @@ implements QMLDocument
 	// Fields
 	//
 	// protected Map<String,String> PrefixNamespaceMappingHashtable = new Hashtable<String,String> ();
-	protected Map<String,ReferenceableXMLSerializableObject> QuantityIdTable = new Hashtable<String,ReferenceableXMLSerializableObject>();
+	// protected Map<String,ReferenceableXMLSerializableObject> QuantityIdTable = new Hashtable<String,ReferenceableXMLSerializableObject>();
 
 	// package private.. 
 	List<Quantity> QuantityList = new Vector<Quantity>();
+
+	/** Create a QMLDocument. This implementation will automatically set up
+	 * the basic default namespace mappings for target namespace 
+	 * (set to {@link Constants.QML_NAMESPACE_URI})
+	 * and "xsi" equal to {@link Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI}.
+	 * Both of these settings may be overridden after construction using
+	 * the {@link net.datamodel.xssp.parse.XSSPDocument#setPrefixNamespaceMapping(java.lang.String, java.lang.String)} method.
+	 */
+	public QMLDocumentImpl() {
+		super();
+		setPrefixNamespaceMapping("", Constants.QML_NAMESPACE_URI);
+		setPrefixNamespaceMapping("xsi", Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -106,7 +119,7 @@ implements QMLDocument
 	 * @see org.apache.xerces.dom.NodeImpl#appendChild(org.w3c.dom.Node)
 	 */
 	@Override
-	public Node appendChild(Node newChild) throws DOMException
+	public final Node appendChild(Node newChild) throws DOMException
 	{
 		Node node = super.appendChild(newChild);
 
@@ -261,78 +274,9 @@ implements QMLDocument
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.xssp.parse.DOMXerces2.AbstractXSSPDocument#toXMLString()
-	 */
-	public final String toXMLString () 
-	{
-
-		StringWriter writer = new StringWriter();
-		try {
-			toXMLWriter(writer);
-		} catch (IOException e) {
-			logger.error("Can't create string representation of QML document");
-			e.printStackTrace();
-		}
-
-		return writer.toString();
-
-	}
-
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.xssp.parse.DOMXerces2.AbstractXSSPDocument#toXMLWriter(java.io.Writer)
-	 */
-	public final void toXMLWriter (Writer outputWriter) 
-	throws java.io.IOException 
-	{
-
-//		unfortunately, enforcing an update at this point
-//		is the only way to be sure
-		updateQuantityIdTable();
-
-		Specification spec = Specification.getInstance();
-		int indentLevel = spec.getPrettyOutputIndentationLength();
-		// boolean isPretty = spec.isPrettyOutput();
-
-		// need to add in attributes which are part of the prefix-namespaceURI
-		// mappings...
-		insertPrefixMappings();
-
-		logger.debug("Normalize the document");
-		getDocumentElement().normalize();
-
-		XMLWriter xmlWriter = new XMLWriter (outputWriter, false);
-		xmlWriter.write(this);
-
-//		if(isPretty)
-//		outputWriter.write(Constants.NEW_LINE);
-
-		// and now remove them.
-		logger.debug("Remove prefix mappings");
-		removePrefixMappings();
-
-		logger.debug("Finish write document");
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.xssp.parse.DOMXerces2.AbstractXSSPDocument#toXMLFile(java.lang.String)
-	 */
-	public final void toXMLFile (String filename)
-	throws java.io.IOException
-	{
-
-		// open file writer
-		Writer fileout = new BufferedWriter (new FileWriter(filename));
-		// FileWriter fileout = new FileWriter(filename);
-		toXMLWriter(fileout);
-		fileout.close();
-	}
-
 	// insert prefix mappings in root element
+	// TODO: need to override?
+	/*
 	private void insertPrefixMappings() 
 	{
 
@@ -444,10 +388,13 @@ implements QMLDocument
 			}
 		}
 	}
+	*/
 
-	/** (re-)build a hashtable of all Q's with qIds. 
+	/* (re-)build a hashtable of all Q's with qIds. 
 	 * Repeat ids in q's are ignored
 	 */
+	// TODO: needed?
+	/*
 	private void updateQuantityIdTable() 
 	{
 		List deepList = getQuantities(true);
@@ -461,6 +408,7 @@ implements QMLDocument
 			}
 		}
 	}
+	*/
 
 	/** Find all the quantities of the passed Q. This will include
 	 * a recursive traversal for all of the sub-Quantities of the 
