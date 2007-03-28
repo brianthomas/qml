@@ -96,7 +96,7 @@ implements MatrixQuantity
 
     	setXMLNodeName (Constants.NodeName.MATRIX_QUANTITY);
 
-    	setValueContainer (new MatrixValueContainerImpl(this));
+    	setValueContainer (new MatrixValueContainerImpl());
 
     	// now initialize XML fields
     	addField(alternValuesFieldName, new AltValuesList(), XMLFieldType.CHILD);

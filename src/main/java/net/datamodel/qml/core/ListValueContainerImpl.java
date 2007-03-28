@@ -75,9 +75,6 @@ implements ValueContainer
 	// XML attribute name 
 	protected static final String valuesFieldName = "values";
 
-	// parent object to which this container belongs
-	private Quantity parent;
-	
 	// couple of arrays to store the actual values
 	private Object[] valueList;
 	private byte [] isNoDataValue;
@@ -108,17 +105,14 @@ implements ValueContainer
 	/** Vanilla constructor. Will create a list with default capacity
 	 * (Specification.getDefaultValueContainerCapacity() 
 	 */
-	public ListValueContainerImpl ( Quantity parent ) 
-	{
-		this(parent, Specification.getInstance().getDefaultValueContainerCapacity());
-	}
+	public ListValueContainerImpl () { this(-1); }
 
 	/** Constuct the container with a number of pre-allocated capacity of the list.
 	 */
-	public ListValueContainerImpl ( Quantity parent, int capacity) 
+	public ListValueContainerImpl ( int capacity) 
 	{ 
 		logger.debug("New ListValueContainerImpl with capacity of"+capacity);
-		this.parent = parent;
+		
 		if(capacity < 1)
 			capacity = Specification.getInstance().getDefaultValueContainerCapacity();
 		

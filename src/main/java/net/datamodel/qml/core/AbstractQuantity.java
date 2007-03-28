@@ -80,7 +80,7 @@ implements Quantity, XMLSerializableObjectWithValues
 		super(uri);
 
 		ValueContainer dataContain 
-			= new ListValueContainerImpl(this, capacity);
+			= new ListValueContainerImpl(capacity);
 
 		// now initialize XML fields
 		addField(sizeFieldName, new Integer(dataContain.getNumberOfValues()), XMLFieldType.ATTRIBUTE );
