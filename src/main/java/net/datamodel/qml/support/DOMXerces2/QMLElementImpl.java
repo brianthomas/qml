@@ -116,10 +116,10 @@ implements QMLElement
 	@Override
 	public final void setAttribute(String name, String value) 
 	{
-//		super(name,value);
-		// hmmm. sense badness here..how to keep these in sync?
-//		((XMLSerializableObjectWithFields) getQuantity()).addXMLSerializableField(name,value); 
-		logger.error("Can't setAttribute on QMLElement"); 
+		
+		if (!getQuantity().addAttributeField(name, value))
+			logger.error("setAttribute not allowed on existing attribute.");
+		
 	}
 
 	/*
@@ -149,10 +149,11 @@ implements QMLElement
 	 * @see org.apache.xerces.dom.ElementImpl#setAttributeNode(org.w3c.dom.Attr)
 	 */
 	@Override
-	public final Attr setAttributeNode ( Attr node) 
+	public final Attr setAttributeNode (Attr node) 
 	{
-//		((XMLSerializableObject)getQuantity()).addXMLSerializableField(node.getName(),node.getValue()); 
-		logger.error("setAttributeNode not allowed for Xerces2DOM.QMLElementImpl");
+		if (!getQuantity().addAttributeField(node.getName(), node.getValue()))
+			logger.error("setAttributeNode not allowed on existing attribute."); 
+		// FIXME: return an attribute Node from method 
 		return null;
 	}
 
@@ -219,7 +220,9 @@ implements QMLElement
 	public final void removeAttribute(String name) 
 	{
 //		((XMLSerializableObject) getQuantity()).removeXMLSerializableField(name);
-		logger.error("removeAttribute not allowed for Xerces2DOM.QMLElementImpl");
+		if (!getQuantity().removeAttributeField(name))
+			logger.error("removeAttributeNode could not remove Attribute node:"+name);
+		
 	}
 
 	/*
@@ -240,6 +243,8 @@ implements QMLElement
 	public final Attr removeAttributeNode (Attr oldAttr) 
 	{
 		logger.error("removeAttributeNode not allowed for Xerces2DOM.QMLElementImpl");
+
+		// FIXME: need to return an attribute node we removed?
 		return null;
 	}
 
