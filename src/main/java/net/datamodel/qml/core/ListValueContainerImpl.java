@@ -128,7 +128,7 @@ implements ValueContainer
 		if(capacity < 1)
 			capacity = Specification.getInstance().getDefaultValueContainerCapacity();
 		
-		// FIXME: Code badness..This is onlY here to kludge basicXMLWriter 
+		// Code badness..This is onlY here to kludge basicXMLWriter 
 		// into seeing we have pcdata
 		addField("PCDATA", "", XMLFieldType.PCDATA);
 
@@ -609,14 +609,6 @@ implements ValueContainer
 	 */
 	public final Object getValue() { return getFirstValue(); }
 
-//	TODO: remove commented out block 
-	/*
-	public void dump () {
-		for (int i = 0; i <= maxUtilizedIndex; i++) {
-			System.err.println(" data : "+valueList[i]);
-		}
-	}
-	*/
 
 }
 
