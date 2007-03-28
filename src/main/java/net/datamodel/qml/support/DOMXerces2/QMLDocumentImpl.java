@@ -81,63 +81,11 @@ implements QMLDocument
 	// package private.. 
 	List<Quantity> QuantityList = new Vector<Quantity>();
 
-	//
-	// Constructors
-	//
-
 	/*
-	@Override
-	public void setPrefixNamespaceMappings(Map<String,String> prefixMappings) {
-		PrefixNamespaceMappingHashtable.clear();
-		PrefixNamespaceMappingHashtable.putAll(prefixMappings);
-	}
-
-	@Override
-	public Map<String,String> getPrefixNamespaceMappings() {
-		return PrefixNamespaceMappingHashtable;
-	}
-
-	@Override
-	public void setPrefixNamespaceMapping (String prefix, String namespaceURI) 
-	{
-		PrefixNamespaceMappingHashtable.put(prefix, namespaceURI);
-	}
-
-	// Get a the namespaceURI for a particular prefix.
-	@Override
-	public String getNamespaceURI (String prefix) {
-		return PrefixNamespaceMappingHashtable.get(prefix);
-	}
-
-	// Set the (root) document element.
-	@Override
-	public void setDocumentElement (Element elem) 
-	{
-
-		Element oldRoot = getDocumentElement();
-		if(oldRoot != null) 
-			this.replaceChild(elem, oldRoot);
-		else
-			this.appendChild(elem);
-
-	}
-
-	// public void renameNode (org.w3c.dom.Node node, java.lang.String s1, java.lang.String s2) { }
-	@Override
-	public Map<String,ReferenceableXMLSerializableObject> getXMLSerializeableObjectIdTable () 
-	{
-		//    updateQuantityIdTable();
-		return  QuantityIdTable;
-	}
-	*/
-
-	/** Get the quantities held by this document.
-	 * @param deep if true then get all quantities in the document. A false value will
-	 *             only return quantities which are not "owned" by other quantities.
-	 * @return List of quantity objects
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.support.QMLDocument#getQuantities(boolean)
 	 */
-
-	public List<Quantity> getQuantities (boolean deep) 
+	public final List<Quantity> getQuantities (boolean deep) 
 	{
 		//return findQuantities(this, deep);
 		if(deep)
@@ -174,7 +122,7 @@ implements QMLDocument
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#removeChild(org.w3c.dom.Node)
 	 */
 	@Override
-	public Node removeChild(Node oldChild) throws DOMException
+	public final Node removeChild(Node oldChild) throws DOMException
 	{
 		Node node = super.removeChild(oldChild);
 		if(node instanceof QMLElement) {
@@ -188,7 +136,7 @@ implements QMLDocument
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#replaceChild(org.w3c.dom.Node, org.w3c.dom.Node)
 	 */
 	@Override
-	public Node replaceChild(Node newChild, Node oldChild) throws DOMException
+	public final Node replaceChild(Node newChild, Node oldChild) throws DOMException
 	{
 		Node node = super.replaceChild(newChild,oldChild);
 
@@ -206,7 +154,7 @@ implements QMLDocument
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#insertBefore(org.w3c.dom.Node, org.w3c.dom.Node)
 	 */
 	@Override
-	public Node insertBefore(Node newChild, Node refChild) throws DOMException
+	public final Node insertBefore(Node newChild, Node refChild) throws DOMException
 	{
 		Node node = super.insertBefore(newChild,refChild);
 
@@ -221,7 +169,7 @@ implements QMLDocument
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#createElement(java.lang.String)
 	 */
 	@Override
-	public Element createElement (String tagName) throws DOMException
+	public final Element createElement (String tagName) throws DOMException
 	{
 
 		ElementImpl retval = null;
@@ -240,7 +188,7 @@ implements QMLDocument
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#createElementNS(java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Element createElementNS (String uri, String tagName) 
+	public final Element createElementNS (String uri, String tagName) 
 	throws DOMException
 	{
 
@@ -260,7 +208,7 @@ implements QMLDocument
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#createElementNS(java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public Element createElementNS (String uri, String qName, String lName) 
+	public final Element createElementNS (String uri, String qName, String lName) 
 	throws DOMException
 	{
 		ElementNSImpl retval = null;
@@ -280,7 +228,7 @@ implements QMLDocument
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.support.QMLDocument#createQMLElement(net.datamodel.qml.Quantity)
 	 */
-	public QMLElement createQMLElement(Quantity quantity) 
+	public final QMLElement createQMLElement(Quantity quantity) 
 	throws DOMException
 	{
 
@@ -298,7 +246,7 @@ implements QMLDocument
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.support.QMLDocument#createQMLElementNS(java.lang.String, net.datamodel.qml.Quantity)
 	 */
-	public QMLElement createQMLElementNS(String namespaceURI, Quantity quantity)
+	public final QMLElement createQMLElementNS(String namespaceURI, Quantity quantity)
 	throws DOMException
 	{
 
@@ -313,10 +261,11 @@ implements QMLDocument
 
 	}
 
-	/** Write the XML representation of this document as a string.
-	 * @return String representation in XML
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.xssp.parse.DOMXerces2.AbstractXSSPDocument#toXMLString()
 	 */
-	public String toXMLString () 
+	public final String toXMLString () 
 	{
 
 		StringWriter writer = new StringWriter();
@@ -332,10 +281,11 @@ implements QMLDocument
 	}
 
 
-	/** Write this document out the supplied Writer.
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.xssp.parse.DOMXerces2.AbstractXSSPDocument#toXMLWriter(java.io.Writer)
 	 */
-	public void toXMLWriter (Writer outputWriter) 
+	public final void toXMLWriter (Writer outputWriter) 
 	throws java.io.IOException 
 	{
 
@@ -367,11 +317,11 @@ implements QMLDocument
 		logger.debug("Finish write document");
 	}
 
-	/** Write this document out to the indicated file. The file will be clobbered
-	 *  by the output, so it is advisable to check for the existence of the file
-	 *  <i>before</i> using this method if you are worried about losing prior information.
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.xssp.parse.DOMXerces2.AbstractXSSPDocument#toXMLFile(java.lang.String)
 	 */
-	public void toXMLFile (String filename)
+	public final void toXMLFile (String filename)
 	throws java.io.IOException
 	{
 
