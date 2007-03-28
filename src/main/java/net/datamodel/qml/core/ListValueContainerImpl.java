@@ -484,7 +484,7 @@ implements ValueContainer
 		if(writeTaggedValues || maxUtilizedIndex == 0) 
 		{
 
-			String prefix = "TODO-prefix";// getXMLNodePrefix(prefixTable);
+			String prefix = Utility.getXMLNodePrefix(parent.getNamespaceURI(), prefixTable);
 
 			String nodeName = Constants.TAGGED_DATA_NODE_NAME;
 			if(prefix != null && !prefix.equals("") && nodeName != null)
