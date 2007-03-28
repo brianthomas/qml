@@ -12,17 +12,21 @@ import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.io.Writer;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import junit.framework.TestCase;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.Units;
+import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.QMLDocument;
+import net.datamodel.qml.support.QMLElement;
 import net.datamodel.qml.support.QMLReader;
+import net.datamodel.qml.support.Specification;
+import net.datamodel.qml.support.DOMXerces2.QMLDocumentImpl;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.AttributeList;
@@ -31,10 +35,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.XMLReader;
 import org.xml.sax.ext.LexicalHandler;
 import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
 
 /** Has a number of re-usable items for various QML tests.
  * @author thomas
@@ -48,9 +50,11 @@ abstract public class BaseCase extends TestCase {
 	protected static final String samplesDirectory = "samples";
 	protected static final String testDirectory = "target/test-samples";
 	
+	protected static final String unknownURNStr = "urn:qml:unknown-object";
+	protected static URI unknownURI = null;
+	
 	// defaults to use Xerces2
 	protected static Class docClass; 
-	protected static String SaxParserName = "org.apache.xerces.parsers.SAXParser";
 	
 	protected static String [] samplefiles = null;
 		
@@ -83,6 +87,12 @@ abstract public class BaseCase extends TestCase {
 			e.printStackTrace();
 		}
 		
+		try {
+			unknownURI = new URI (unknownURNStr);
+		} catch (URISyntaxException e) { 
+			logger.error("Can't construct unknown URI for tests: "+ e.getMessage());
+			e.printStackTrace();
+		}
 	}
 	
 	public class OnlySchema implements FilenameFilter {
@@ -99,6 +109,47 @@ abstract public class BaseCase extends TestCase {
 				return true;
 			return false;
 		}
+	}
+	
+	protected static void checkValidXMLRepresentation(QMLDocument doc, boolean pretty, int type)
+	throws Exception
+	{
+		String xmlRep = doc.toXMLString();
+		StringReader sr = new StringReader(xmlRep);
+
+		logger.debug("XMLRepresentation:\n"+xmlRep);
+		
+		Specification.getInstance().setPrettyOutput(pretty);
+		Specification.getInstance().setSerializeValuesStyle(type);
+
+		assertTrue("Is valid version pretty:"+pretty+" type:"+type, Utility.validateSource(new InputSource(sr)));
+
+	}
+	
+	/** Check the XMLrepresentation of the quantity is valid.
+	 * 
+	 * @param xmlRep
+	 */
+	public static void checkVariousValidXMLRepresentations ( Quantity q ) 
+	throws Exception
+	{
+		logger.debug("Check valid string representation");
+
+		// use the xerces representation
+		QMLDocument doc = new QMLDocumentImpl();
+
+		// create a new element, which will be the document root
+		QMLElement elem = doc.createQMLElementNS (Constants.QML_NAMESPACE_URI, q);
+		String schemaLoc = Constants.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constants.QML_SCHEMA_NAME;
+		elem.setAttribute("xsi:schemaLocation",schemaLoc);
+		doc.setDocumentElement(elem);
+
+		// now check various representations
+		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_TAGGED);
+		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_TAGGED);
+		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_SPACE);
+
 	}
 	
 	protected static void copyFiles (String[] files, String sourceDirectory, String destDirectory) 
@@ -138,92 +189,31 @@ abstract public class BaseCase extends TestCase {
 	protected static boolean validateFile (String filename)
 	throws Exception 
 	{
-		return validateSource(new InputSource(filename));
+		return Utility.validateSource(new InputSource(filename));
 	}
 	
 	/** check basic quantity API on given quantity.
 	 * 
 	 * @param q
-	 * @param id
 	 * @param URNrep
 	 * @param units
 	 * @param datatype
 	 */
-	protected static void validateQuantityAPI (Quantity q, String id, String URNrep, 
-			Units units, DataType datatype)
+	protected static void validateQuantityAPI (Quantity q, String URNrep, Units units, 
+			DataType datatype)
 	{
 	
 		logger.debug("- validateQuantityAPI (no values check) id:"+q.getId()); 
-		logger.debug("   is id OK? "+q.getId()+" vs "+id); 
-		assertEquals("id OK", q.getId(), id);
-		logger.debug("   is urn OK? ["+q.getURI().toString() +"] vs ["+URNrep+"]"); 
+		logger.debug("   is id OK? "+q.getId()); 
+		assertNotNull("id is not NULL", q.getId());
+		assertNotNull("Stored URI is not null.", q.getURI());
+		logger.debug("   is urn OK? ["+q.getURI().toASCIIString() +"] vs ["+URNrep+"]"); 
 		assertEquals("URN OK", q.getURI().toString(), URNrep);
 		logger.debug("   are units OK?"); 
 		assertEquals("units OK", q.getUnits().toString(), units.toString());
 		logger.debug("   is datatype OK?"); 
 		assertEquals("datatype OK", q.getDataType().toString(), datatype.toString());
 		
-	}
-	
-	/** All purpose validator method, should work with any SAX level 2 
-	 * compliant parser.
-	 * 
-	 * @param input
-	 * @return
-	 * @throws Exception
-	 */
-	protected static boolean validateSource (InputSource inputsource )
-	throws Exception 
-	{
-		
-        //
-        // turn it into an in-memory object.
-        //
-
-		try {
-			
-		logger.debug("create inputsource/sax parser");
-        
-        SAXParserFactory spf = SAXParserFactory.newInstance ();
-        SAXParser sp = spf.newSAXParser ();
-        XMLReader parser = XMLReaderFactory.createXMLReader(SaxParserName);
-
-		logger.debug("set parser feature sets");
-        parser.setFeature("http://xml.org/sax/features/validation", true);
-        parser.setFeature("http://apache.org/xml/features/validation/schema", true);
-        parser.setFeature("http://xml.org/sax/features/namespaces", true);
-        //parser.setFeature("http://xml.org/sax/features/xmlns-uris", true);
-
-        logger.debug(" set parser handlers");
-        parser.setContentHandler (new MyValidator ());
-        parser.setErrorHandler (new MyErrorHandler ());
-        
-        logger.debug(" Parsing uri:"+inputsource.getSystemId());
-        parser.parse (inputsource);
-
-     } catch (SAXParseException err) {
-         String message =  "Failed: ** Parsing error"
-             + ", line " + err.getLineNumber ()
-             + ", uri " + err.getSystemId () + "\n" + err.getMessage();
-            logger.error(message);
-            return false;
-     	} catch (SAXException e) {
-     		Exception   x = e;
-     		if (e.getException () != null)
-     		{
-     			x = e.getException ();
-     		}
-     		// x.printStackTrace ();
-            logger.error(x.getMessage());
-            return false;
-
-     	} catch (Throwable t) {
-         	t.printStackTrace ();
-         	logger.error(" Failed parse:"+t.getMessage());
-         	throw new Exception("Failed:"+t.getMessage());
-     	}
-
-		return true;
 	}
 	
 	protected static QMLDocument loadFile (String inputfile ) throws Exception {
