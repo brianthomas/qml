@@ -120,7 +120,7 @@ implements ValueContainer
 		
 		// FIXME: Code badness..This is onlY here to kludge basicXMLWriter 
 		// into seeing we have pcdata
-		addField("PCDATA", "pcdataExists", XMLFieldType.PCDATA);
+		// addField("PCDATA", "pcdataExists", XMLFieldType.PCDATA);
 
 		resetValues(capacity);
 
