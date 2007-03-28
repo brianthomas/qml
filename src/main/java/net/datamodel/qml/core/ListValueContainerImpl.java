@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.ObjectWithValues;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.support.Specification;
@@ -76,7 +76,7 @@ implements ValueContainer
 	protected static final String valuesFieldName = "values";
 
 	// parent object to which this container belongs
-	private ObjectWithValues parent;
+	private Quantity parent;
 	
 	// couple of arrays to store the actual values
 	private Object[] valueList;
@@ -94,7 +94,7 @@ implements ValueContainer
 	 * 
 	 */
 	// TODO: is there a better way to do this?
-	protected static String locatorClassName = "net.datamodel.qml.locator.ListLocator";
+	protected static String locatorClassName = "net.datamodel.qml.locator.ListLocatorImpl";
 
 	/** */
 	private boolean cdataSerialization = false;
@@ -108,14 +108,14 @@ implements ValueContainer
 	/** Vanilla constructor. Will create a list with default capacity
 	 * (Specification.getDefaultValueContainerCapacity() 
 	 */
-	public ListValueContainerImpl ( ObjectWithValues parent ) 
+	public ListValueContainerImpl ( Quantity parent ) 
 	{
 		this(parent, Specification.getInstance().getDefaultValueContainerCapacity());
 	}
 
 	/** Constuct the container with a number of pre-allocated capacity of the list.
 	 */
-	public ListValueContainerImpl ( ObjectWithValues parent, int capacity) 
+	public ListValueContainerImpl ( Quantity parent, int capacity) 
 	{ 
 		logger.debug("New ListValueContainerImpl with capacity of"+capacity);
 		this.parent = parent;
@@ -215,9 +215,9 @@ implements ValueContainer
 		}
 
 		// quick check to see if the locator is kosher, however
-		if (locator.getParent() != this.parent)
+		if (locator.getParent() != this)
 		{
-			throw new  IllegalArgumentException("Can't getValue with locator "+locator+" does not belong to ObjectWithValues "+this.parent);
+			throw new  IllegalArgumentException("Can't getValue with locator "+locator+" does not belong to this container:"+this);
 		}
 
 		logger.debug("ValueContainer getValue has value:"+valueList[locator.getListIndex()]+" at list index"+locator.getListIndex()); 
@@ -333,6 +333,7 @@ implements ValueContainer
 	 * @see net.datamodel.qml.ObjectWithValues#createLocator()
 	 */
 	public final Locator createLocator ( ) {
+		
 		// Locator loc = new ListLocatorImpl (this);
 		Locator loc = null;
 		try {
@@ -351,8 +352,10 @@ implements ValueContainer
 		return loc;
 	}
 
-	/*Make a deep copy of this Data object
+	/*
+	 * Make a deep copy of this Data object. 
 	 */
+	// TODO: for now we want only exact copies..this may never get done...need to review need. 
 	/*
 	public Object clone() {
 		ListValueContainerImpl cloneObj = null;
@@ -556,9 +559,9 @@ implements ValueContainer
 			throw new NullPointerException("Error: setValue - was passed a null object/locator parameter.");
 		}
 
-		if (locator.getParent() != this.parent)
+		if (locator.getParent() != this)
 		{
-			throw new  IllegalArgumentException("Can't setValue with locator "+locator+" does not belong to parent object"+this.parent);
+			throw new  IllegalArgumentException("Can't setValue with locator "+locator+" does not belong to parent\n object:"+this+" it belongs to:"+locator.getParent());
 		}
 
 		// ugh. Java wont let us set an unpopulated location. Check
