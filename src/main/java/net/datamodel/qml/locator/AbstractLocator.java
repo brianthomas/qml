@@ -3,6 +3,7 @@ package net.datamodel.qml.locator;
 
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.ObjectWithValues;
+import net.datamodel.qml.ValueContainer;
 
 import org.apache.log4j.Logger;
 
@@ -15,7 +16,7 @@ implements Locator
 
 	private static final Logger logger = Logger.getLogger(AbstractLocator.class);
 
-	private ObjectWithValues parent;
+	private ValueContainer parent;
 
 	// where in the data container list we are
 	protected int listIndex = 0;
@@ -24,7 +25,7 @@ implements Locator
 //	private AbstractLocator () {}
 
 	/** Vanilla constructor. */
-	public AbstractLocator ( ObjectWithValues parent )
+	public AbstractLocator ( ValueContainer parent )
 	{
 		logger.debug("NEW LOCATOR CREATED type:"+this.getClass());
 		if (parent == null) {
@@ -38,13 +39,13 @@ implements Locator
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Locator#getParent()
 	 */
-	public final ObjectWithValues getParent ( ) {
+	public final ValueContainer getParent ( ) {
 		return parent;
 	}
 
 	// Setting the parent should be at the descresion of the locator
 	// and not by the public (in general).
-	protected final void setParent (ObjectWithValues p) { parent = p; } 
+	protected final void setParent (ValueContainer p) { parent = p; } 
 
 	/*
 	 * (non-Javadoc)

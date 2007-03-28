@@ -31,6 +31,7 @@
 package net.datamodel.qml.locator;
 
 import net.datamodel.qml.ObjectWithValues;
+import net.datamodel.qml.core.ListValueContainerImpl;
 
 import org.apache.log4j.Logger;
 
@@ -43,9 +44,11 @@ public class ListLocatorImpl extends AbstractLocator
 	private static final Logger logger = Logger.getLogger(ListLocatorImpl.class);
 
 	/** */
-	public ListLocatorImpl(ObjectWithValues parent) {
-		super(parent);
+	public ListLocatorImpl (ListValueContainerImpl parent) {
+		super (parent);
 	}
+	
+	// public ListLocatorImpl (ObjectWithValues parent) { super(parent); }
 
 	/*
 	 * (non-Javadoc)

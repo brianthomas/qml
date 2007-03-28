@@ -32,7 +32,7 @@
 
 package net.datamodel.qml.locator;
 
-import net.datamodel.qml.ObjectWithValues;
+import net.datamodel.qml.ValueContainer;
 
 /**
  * AtomicLocatorImpl is implementation of a locator for Atomic Quantities.
@@ -49,7 +49,7 @@ extends AbstractLocator
 //	private static final Logger logger = Logger.getLogger(AtomicLocatorImpl.class);
 
 	/** Vanilla constructor. */
-	public AtomicLocatorImpl (ObjectWithValues parent ) {  super (parent); }
+	public AtomicLocatorImpl ( ValueContainer parent ) {  super (parent); }
 
 	/*
 	 * (non-Javadoc)

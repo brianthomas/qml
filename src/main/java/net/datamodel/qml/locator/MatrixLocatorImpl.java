@@ -36,12 +36,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixLocator;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ObjectWithValues;
+import net.datamodel.qml.ReferenceFrame;
+import net.datamodel.qml.core.MatrixValueContainerImpl;
 
 /**
  * Implementation of a locator for List quantities.
@@ -78,19 +79,19 @@ implements MatrixLocator
 
 	// Constructor
 	/** Vanilla constructor */
-	public MatrixLocatorImpl ( MatrixQuantity parent ) {
+	public MatrixLocatorImpl ( MatrixValueContainerImpl parent ) {
 		this(parent, null);
 	}
 
 	/** Construct locator with particular axis frame. The specified frame
 	 * must belong to the specified MatrixQuantity.
 	 */
-	public MatrixLocatorImpl ( MatrixQuantity parent, ReferenceFrame useFrame ) 
+	public MatrixLocatorImpl ( MatrixValueContainerImpl parent, ReferenceFrame useFrame ) 
 	throws NullPointerException
 	{
 		super(parent);
 		setCurrentReferenceFrame(currentAxisFrame);
-		listLocator = new ListLocatorImpl(parent);
+		listLocator = new ListLocatorImpl(parent); // TODO: do we want hardwired? 
 	}
 
 	/*
