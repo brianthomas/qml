@@ -61,9 +61,8 @@ implements ListQuantity
     /** Construct a ListQUantity with no values and
      * default capacity.
      */
-    public ListQuantityImpl () { 
-    	this(null, -1); 
-    }
+	// TODO: I dont think we want to allow this
+    protected ListQuantityImpl () {  this(null, -1);  }
     
     /** Construct with the indicated URI.
      * 

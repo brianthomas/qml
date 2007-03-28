@@ -75,9 +75,8 @@ implements MatrixQuantity
     //
 
     /** No-argument Constructor */
-    public MatrixQuantityImpl () { 
-    	this(null, -1);
-    }
+    // TODO: I dont think we want to allow this
+    protected MatrixQuantityImpl () {  this(null, -1); }
     
     /** Construct with the indicated uri.
      * 

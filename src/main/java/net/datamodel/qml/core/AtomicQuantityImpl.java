@@ -53,7 +53,8 @@ extends AbstractQuantity
 	private static final Logger logger = Logger.getLogger(AtomicQuantityImpl.class);
 
 	/** no-arg constructor. */
-	public AtomicQuantityImpl () { this(null, 1); }
+	// I dont think we want to allow this
+	protected AtomicQuantityImpl () { this (null, 1); }
 	
 	/** Construct the Quantity with the indicated URI.
 	 * 
