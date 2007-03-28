@@ -28,9 +28,12 @@
 
 package net.datamodel.qml.support.handlers;
 
+import java.net.URI;
+
 import net.datamodel.qml.core.ListQuantityImpl;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.Utility;
 import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
@@ -48,7 +51,8 @@ implements StartElementHandler
 			String localName, String qName, Attributes attrs)
 	throws SAXException {
 
-		ListQuantityImpl listQ = new ListQuantityImpl();
+		URI uri = Utility.getURIFromAttribs(attrs);
+		ListQuantityImpl listQ = new ListQuantityImpl(uri);
 		logger.debug("Handler creates List Quantity:"+listQ);
 		listQ.setAttributeFields(attrs); // set XML attributes from passed list
 

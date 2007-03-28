@@ -28,9 +28,12 @@
 
 package net.datamodel.qml.support.handlers;
 
+import java.net.URI;
+
 import net.datamodel.qml.core.MatrixQuantityImpl;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.Utility;
 import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
@@ -42,7 +45,8 @@ public class MatrixQuantityStartElementHandlerFunc implements StartElementHandle
 			String localName, String qName, Attributes attrs)
 	throws SAXException {
 
-		MatrixQuantityImpl matrixQ = new MatrixQuantityImpl();
+		URI uri = Utility.getURIFromAttribs(attrs);
+		MatrixQuantityImpl matrixQ = new MatrixQuantityImpl(uri);
 		matrixQ.setAttributeFields(attrs); // set XML attributes from passed list
 		
 		// Allow it to crash if the cast fails

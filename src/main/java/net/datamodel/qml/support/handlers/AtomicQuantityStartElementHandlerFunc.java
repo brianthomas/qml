@@ -29,8 +29,11 @@
 package net.datamodel.qml.support.handlers;
 
 //import QML stuff
+import java.net.URI;
+
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.Utility;
 import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
@@ -45,8 +48,10 @@ public class AtomicQuantityStartElementHandlerFunc implements StartElementHandle
 
 		// let it bomb if the cast doesnt go right
 		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
-
-		AtomicQuantityImpl atomicQ = new AtomicQuantityImpl();
+		
+		URI uri = Utility.getURIFromAttribs(attrs);
+		AtomicQuantityImpl atomicQ = new AtomicQuantityImpl(uri);
+		
 		atomicQ.setAttributeFields(attrs); // set XML attributes from passed list
 
 		qhandler.recordQuantity(atomicQ);
