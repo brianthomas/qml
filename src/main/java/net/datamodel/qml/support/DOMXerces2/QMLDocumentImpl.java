@@ -34,7 +34,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -70,11 +69,13 @@ implements QMLDocument
 {
 
 	private static final Logger logger = Logger.getLogger(QMLDocumentImpl.class);
+	
+	private static final long serialVersionUID = 2635262244735617568L;
 
 	// 
 	// Fields
 	//
-	protected Map<String,String> PrefixNamespaceMappingHashtable = new Hashtable<String,String> ();
+	// protected Map<String,String> PrefixNamespaceMappingHashtable = new Hashtable<String,String> ();
 	protected Map<String,ReferenceableXMLSerializableObject> QuantityIdTable = new Hashtable<String,ReferenceableXMLSerializableObject>();
 
 	// package private.. 
@@ -84,35 +85,32 @@ implements QMLDocument
 	// Constructors
 	//
 
-	/** Set the prefix mappings for this document.
-	 */
+	/*
+	@Override
 	public void setPrefixNamespaceMappings(Map<String,String> prefixMappings) {
 		PrefixNamespaceMappingHashtable.clear();
 		PrefixNamespaceMappingHashtable.putAll(prefixMappings);
 	}
 
-	/** Get the prefix mappings for this document.
-	 */
+	@Override
 	public Map<String,String> getPrefixNamespaceMappings() {
 		return PrefixNamespaceMappingHashtable;
 	}
 
-	/** Set a particular prefix/namespaceURI mapping in this document.
-	 */
+	@Override
 	public void setPrefixNamespaceMapping (String prefix, String namespaceURI) 
 	{
 		PrefixNamespaceMappingHashtable.put(prefix, namespaceURI);
 	}
 
-	/** Get a the namespaceURI for a particular prefix.
-	 */
-	public String getNamespace (String prefix)
-	{
+	// Get a the namespaceURI for a particular prefix.
+	@Override
+	public String getNamespaceURI (String prefix) {
 		return PrefixNamespaceMappingHashtable.get(prefix);
 	}
 
-	/** Set the (root) document element.
-	 */
+	// Set the (root) document element.
+	@Override
 	public void setDocumentElement (Element elem) 
 	{
 
@@ -125,12 +123,13 @@ implements QMLDocument
 	}
 
 	// public void renameNode (org.w3c.dom.Node node, java.lang.String s1, java.lang.String s2) { }
-
-	public Map<String,ReferenceableXMLSerializableObject> getQuantityIdTable () 
+	@Override
+	public Map<String,ReferenceableXMLSerializableObject> getXMLSerializeableObjectIdTable () 
 	{
 		//    updateQuantityIdTable();
 		return  QuantityIdTable;
 	}
+	*/
 
 	/** Get the quantities held by this document.
 	 * @param deep if true then get all quantities in the document. A false value will
@@ -143,11 +142,8 @@ implements QMLDocument
 		//return findQuantities(this, deep);
 		if(deep)
 		{
-			List deepList = new Vector(); 
-			Iterator iter = QuantityList.iterator();
-			while (iter.hasNext()) 
-			{
-				Quantity q = (Quantity) iter.next();
+			List<Quantity> deepList = new Vector<Quantity>(); 
+			for (Quantity q : QuantityList) {
 				deepList.add(q);
 				deepList.addAll(findQuantities(q));
 			}
@@ -349,7 +345,7 @@ implements QMLDocument
 
 		Specification spec = Specification.getInstance();
 		int indentLevel = spec.getPrettyOutputIndentationLength();
-		boolean isPretty = spec.isPrettyOutput();
+		// boolean isPretty = spec.isPrettyOutput();
 
 		// need to add in attributes which are part of the prefix-namespaceURI
 		// mappings...
@@ -435,8 +431,8 @@ implements QMLDocument
 			}
 
 			if(root instanceof QMLElement) {
-				Quantity q = ((QMLElement) root).getQuantity(); 
-				XMLSerializableObject xmlq = (XMLSerializableObject) q;
+//				Quantity q = ((QMLElement) root).getQuantity(); 
+//				XMLSerializableObject xmlq = (XMLSerializableObject) q;
 				for (String prefix : PrefixNamespaceMappingHashtable.keySet()) {
 					String namespaceURI = (String) PrefixNamespaceMappingHashtable.get(prefix);
 					String name = "xmlns";
@@ -476,8 +472,8 @@ implements QMLDocument
 		if(root != null) {
 
 			if(root instanceof QMLElement) {
-				Quantity q = ((QMLElement) root).getQuantity();
-				XMLSerializableObject xmlq = (XMLSerializableObject) q;
+//				Quantity q = ((QMLElement) root).getQuantity();
+//				XMLSerializableObject xmlq = (XMLSerializableObject) q;
 				for (String prefix : PrefixNamespaceMappingHashtable.keySet()) {
 					String name = "xmlns";
 					if(!prefix.equals(""))
