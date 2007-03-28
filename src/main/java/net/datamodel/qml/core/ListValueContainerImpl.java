@@ -124,7 +124,7 @@ implements ValueContainer
 		if(capacity < 1)
 			capacity = Specification.getInstance().getDefaultValueContainerCapacity();
 		
-		// Code badness..This is onlY here to kludge basicXMLWriter 
+		// TODO: a better way? Code badness..This is onlY here to kludge basicXMLWriter 
 		// into seeing we have pcdata
 		addField("PCDATA", "", XMLFieldType.PCDATA);
 
