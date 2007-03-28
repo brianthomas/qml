@@ -65,14 +65,14 @@ implements Quantity, XMLSerializableObjectWithValues
 	
 	// Constructors
 
-	/** No argument constructor. Values will be explicitly held.
+	/** URI argument constructor. Values will be explicitly held.
+	 * @param uri of the Quantity
 	 */
-	public AbstractQuantity(URI uri) { 
-		this(uri,1);
-	}
+	public AbstractQuantity(URI uri) {  this(uri,1); }
 	
 	/** Construct a quantity for a given capacity.
 	 * 
+	 * @param uri of the Quantity
 	 * @param capacity
 	 */
 	protected AbstractQuantity (URI uri, int capacity) { 
@@ -92,8 +92,10 @@ implements Quantity, XMLSerializableObjectWithValues
 		
 	}
 
-	/* Construct this quantity with mapping rather than explicitly holding 
+	/** Construct this quantity with mapping rather than explicitly holding 
 	 * values. Values will be generated on demand from the (value) mapping.
+	 * @param uri of the Quantity
+	 * @param mapping which will create the values held by the Quantity
 	 */
 	// Make this protected as some quantities (like trivial, atomic) wont
 	// need it...there is little sense in creating a mapping
