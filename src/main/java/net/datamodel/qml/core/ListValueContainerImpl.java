@@ -93,7 +93,6 @@ implements ValueContainer
 	private Quantity parent;
 	
 	/** Name of the locator class we will use.
-	 * 
 	 */
 	// TODO: is there a better way to do this?
 	protected static String locatorClassName = "net.datamodel.qml.locator.ListLocatorImpl";
@@ -104,9 +103,6 @@ implements ValueContainer
 	/** */
 	private boolean taggedValuesSerialization = true;
 
-	// Constructors
-
-	// Constructor
 	/** Vanilla constructor. Will create a list with default capacity
 	 * (Specification.getDefaultValueContainerCapacity() 
 	 */
