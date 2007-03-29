@@ -69,6 +69,7 @@ implements QMLElement
 	 * (non-Javadoc)
 	 * @see org.apache.xerces.dom.ParentNode#appendChild(org.w3c.dom.Node, org.w3c.dom.Node)
 	 */
+	/*
 	// TODO: doc on overriding this method
 	@Override
 	public Node appendChild(Node newChild) 
@@ -81,6 +82,7 @@ implements QMLElement
 			Quantity q = qElem.getQuantity();
 
 			// Add as a member
+			// TODO: this should be handled by SOML element, no?
 			getQuantity().addProperty(q);
 
 			newChild = super.appendChild(newChild); // needed? 
@@ -96,11 +98,13 @@ implements QMLElement
 
 		return newChild;
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.apache.xerces.dom.ParentNode#insertBefore(org.w3c.dom.Node, org.w3c.dom.Node)
 	 */
+	/*
 	// TODO: notes on overriding this method
 	@Override
 	public Node insertBefore(Node newChild, Node refChild) throws DOMException
@@ -124,11 +128,13 @@ implements QMLElement
 
 		return node;
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.apache.xerces.dom.ParentNode#removeChild(org.w3c.dom.Node)
 	 */
+	/*
 	// TODO: notes on overriding this method
 	public Node removeChild(Node oldChild) throws DOMException
 	{
@@ -149,11 +155,13 @@ implements QMLElement
 
 		return oldChild;
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.apache.xerces.dom.ParentNode#replaceChild(org.w3c.dom.Node, org.w3c.dom.Node)
 	 */
+	/*
 	// TODO: doc on overriding this method
 	public Node replaceChild(Node newChild, Node oldChild) throws DOMException
 	{
@@ -185,6 +193,7 @@ implements QMLElement
 
 		return node;
 	}
+	*/
 
 	/*
 	public void toXMLWriter (Writer outputWriter, String indent, boolean doFirstIndent, boolean doLastNewLine)
