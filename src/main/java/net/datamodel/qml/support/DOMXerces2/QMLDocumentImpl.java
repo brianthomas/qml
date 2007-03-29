@@ -29,32 +29,19 @@
 
 package net.datamodel.qml.support.DOMXerces2;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.QMLDocument;
 import net.datamodel.qml.support.QMLElement;
-import net.datamodel.qml.support.Specification;
-import net.datamodel.qml.support.XMLWriter;
 import net.datamodel.soml.support.DOMXerces2.SOMLDocumentImpl;
-import net.datamodel.xssp.ReferenceableXMLSerializableObject;
-import net.datamodel.xssp.XMLSerializableObject;
-import net.datamodel.xssp.parse.Utility;
 
 import org.apache.log4j.Logger;
 import org.apache.xerces.dom.ElementImpl;
 import org.apache.xerces.dom.ElementNSImpl;
-import org.w3c.dom.Attr;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -265,7 +252,8 @@ implements QMLDocument
 
 		QMLElementImpl qElem = null;
 		try {
-			qElem = new QMLElementImpl(namespaceURI, quantity, this);
+			quantity.setNamespaceURI(namespaceURI);
+			qElem = new QMLElementImpl(quantity, this);
 		} catch (IOException e) {
 			// dunno if this is the right error code.. but what the hell
 			throw new DOMException(DOMException.INVALID_STATE_ERR, e.getMessage());
@@ -273,6 +261,13 @@ implements QMLDocument
 		return qElem;
 
 	}
+	
+	@Override
+	public String getNamespaceURI() { return Constants.QML_NAMESPACE_URI; }
+
+	@Override
+	public String getSchemaName() { return Constants.QML_SCHEMA_NAME; }
+
 
 	// insert prefix mappings in root element
 	// TODO: need to override?
