@@ -480,7 +480,7 @@ implements ValueContainer
 		if(writeTaggedValues || maxUtilizedIndex == 0) 
 		{
 
-			String prefix = Utility.getXMLNodePrefix(parent.getNamespaceURI(), prefixTable);
+			String prefix = Utility.getPrefix(parent.getNamespaceURI(), prefixTable);
 
 			String nodeName = Constants.TAGGED_DATA_NODE_NAME;
 			if(prefix != null && !prefix.equals("") && nodeName != null)
