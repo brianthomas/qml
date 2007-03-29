@@ -29,8 +29,6 @@
 
 package net.datamodel.qml.support;
 
-import java.io.Writer;
-
 import net.datamodel.qml.Quantity;
 import net.datamodel.soml.support.SOMLElement;
 
