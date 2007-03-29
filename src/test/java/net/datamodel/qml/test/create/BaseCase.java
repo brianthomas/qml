@@ -34,7 +34,7 @@ extends net.datamodel.qml.test.BaseCase
 		try {
 			
 			URI uri = new URI (URIrep);
-			q = Utility.createAtomicQuantity(uri, units, AQdatatype, AQvalue, new Vector<Quantity>());
+			q = Utility.createAtomicQuantity(uri, units, AQdatatype, AQvalue);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

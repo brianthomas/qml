@@ -27,7 +27,7 @@ public class TestCreatedSerialization extends BaseCase {
 			
 			AtomicQuantityImpl q = createSimpleAtomicQuantity(); 
 			
-			logger.debug("Test AtomicQ XML output:"+q.toXMLString());
+			logger.debug("Test AtomicQ XML output:"+System.getProperty("line.separator")+q.toXMLString());
 			
 			checkVariousValidXMLRepresentations(q);
 			
