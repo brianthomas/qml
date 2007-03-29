@@ -40,7 +40,7 @@
   0.01 Jun. 14 2004 - first draft schema 
                       (brian thomas; baba-luu@earthlink.net)
   0.02 Jul.  8 2004 - Allow inheriting Q schema to add attributes to their Q's.
-  0.06 Sep. 19 2006 - Add in urn field to allow holding of semantic meaning/id.
+  0.06 Sep. 19 2006 - Add in URI field to allow holding of semantic meaning/id.
     </xsd:documentation>
   </xsd:annotation>
 
@@ -257,7 +257,7 @@
   <xsd:attributeGroup name="ComponentAttribs">
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="description" type="xsd:string"/>
-    <xsd:attribute name="urn" type="xsd:anyURI" use="optional"/> <!-- technically not true..only URN allowed--> 
+    <xsd:attribute name="URI" type="xsd:anyURI" use="optional"/> <!-- technically not true..only URN allowed--> 
     <xsd:attribute name="fid" type="xsd:ID" use="optional"/>
   </xsd:attributeGroup>
 
@@ -265,7 +265,7 @@
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="description" type="xsd:string"/>
     <xsd:attribute name="qid" type="xsd:ID" use="optional"/>
-    <xsd:attribute name="urn" type="xsd:anyURI" use="optional"/> <!-- technically not true..only URN allowed--> 
+    <xsd:attribute name="URI" type="xsd:anyURI" use="optional"/> <!-- technically not true..only URN allowed--> 
     <xsd:anyAttribute namespace="##any"/> <!-- allow other namespaces to add attribs to Q's -->
   </xsd:attributeGroup>
 
