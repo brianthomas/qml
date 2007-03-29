@@ -255,29 +255,4 @@ extends AbstractQuantity
 		updateSize();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.qml.ObjectWithProperties#addProperty(net.datamodel.qml.Quantity)
-	 */
-	@Override
-	public final boolean addProperty (Quantity property) {
-		return super.addProperty(property);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.qml.ObjectWithProperties#getProperties()
-	 */
-	@Override
-	public final List<Quantity> getProperties() { return super.getProperties(); }
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.qml.ObjectWithProperties#removeProperty(net.datamodel.qml.Quantity)
-	 */
-	@Override
-	public final boolean removeProperty(Quantity property) {
-		return super.removeProperty(property);
-	}
-
 }

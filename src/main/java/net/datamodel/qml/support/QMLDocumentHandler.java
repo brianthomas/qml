@@ -590,13 +590,16 @@ extends SOMLDocumentHandler
 			// IF its an ReferenceFrame, AND currentQ is a Matrix, we add
 			// it to the axisFrame List (just not yet..), otherwise, we add this new Q
 			// as a member to current Quantity
-			/*                  if(currentQ instanceof MatrixQuantity && q instanceof ReferenceFrame)
+			/* if(currentQ instanceof MatrixQuantity && q instanceof ReferenceFrame)
                  {
                    // do nothing for now.. we want to wait to populate the ReferenceFrame
                    // so that we can check if its really kosher to addit
                    // ((MatrixQuantity)currentQ).addMember((ReferenceFrame)q);
                  }
-                 else */ if (AddingAltValues)
+                 else */ 
+			
+			/*
+			if (AddingAltValues)
                  {
                 	 // do nothing here...we have to populate the child Q with values
                 	 // before we may addit to the parent..so we wait.
@@ -606,6 +609,7 @@ extends SOMLDocumentHandler
                 	 //   throw new SAXException("Alternative value not a list Quantity");
                  } else
                 	 lastQ.addProperty(q); // everything else becomes a "member"
+              */
 
 		} else {
 

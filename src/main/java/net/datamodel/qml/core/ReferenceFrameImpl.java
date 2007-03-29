@@ -37,6 +37,7 @@ import java.util.List;
 
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.ReferenceFrame;
+import net.datamodel.soml.impl.SemanticObjectImpl;
 
 /**
  * This special quantity is a description of a frame of reference for 
@@ -47,7 +48,7 @@ import net.datamodel.qml.ReferenceFrame;
  * @version $Revision$
  */
 public class ReferenceFrameImpl 
-extends AbstractObjectWithProperties
+extends SemanticObjectImpl
 implements ReferenceFrame {
 
     /** No-argument constructor.

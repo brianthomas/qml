@@ -40,7 +40,7 @@ import net.datamodel.soml.SemanticObject;
  * @version  $Revision$
  */
 public interface ReferenceFrame 
-extends SemanticObject, ObjectWithProperties 
+extends SemanticObject
 {
 
     // Operations

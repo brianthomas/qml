@@ -45,6 +45,9 @@ import net.datamodel.qml.support.Constants;
  * A restricted type of atomic quantity. The trivial quantity may only 
  * hold a single "unitless", string value, and may not have properties.
  */
+// FIXME: Do we need this to inherit XMLSerializableObjectWithFields instead of
+// SemanticObject...its not allowed to have any relationships..hrmm. This
+// is a problematic class and should probably be deleted..
 public class TrivialQuantityImpl 
 extends AbstractQuantity
 {
@@ -214,32 +217,6 @@ extends AbstractQuantity
 
 	}
 	*/
-	
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.qml.Quantity#addProperty(net.datamodel.qml.Quantity)
-	 */
-	// cant add properties to trivial quantity
-	@Override
-	public final boolean addProperty(Quantity property) {
-		return false;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.qml.Quantity#removeProperty(net.datamodel.qml.Quantity)
-	 */
-	@Override
-	public final boolean removeProperty(Quantity property) { return false; }
-
-	/*
-	 * (non-Javadoc)
-	 * @see net.datamodel.qml.Quantity#getProperties()
-	 */
-	@Override
-	public final List<Quantity> getProperties() {
-		return new Vector<Quantity>(); // empty 
-	}
 
 
 }

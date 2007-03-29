@@ -37,6 +37,7 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.support.Constants;
 import net.datamodel.qml.support.QMLDocument;
 import net.datamodel.qml.support.QMLElement;
+import net.datamodel.soml.Relationship;
 import net.datamodel.soml.support.DOMXerces2.SOMLDocumentImpl;
 
 import org.apache.log4j.Logger;
@@ -87,7 +88,6 @@ implements QMLDocument
 	 */
 	public final List<Quantity> getQuantities (boolean deep) 
 	{
-		//return findQuantities(this, deep);
 		if(deep)
 		{
 			List<Quantity> deepList = new Vector<Quantity>(); 
@@ -416,9 +416,16 @@ implements QMLDocument
 	private List<Quantity> findQuantities (Quantity target)
 	{
 		List<Quantity> qList = new Vector<Quantity>();
-		for (Quantity q : target.getProperties()) {
-			qList.add(q);
-			qList.addAll(findQuantities(q));
+		// troll thru our relationships looking for objects which
+		// are Quantities
+		for (Relationship r : target.getRelationships()) 
+		{
+			if (r.getTarget() instanceof Quantity)
+			{
+				Quantity q = (Quantity) r.getTarget();
+				qList.add(q);
+				qList.addAll(findQuantities(q));
+			}
 		}
 		return qList;
 	}
