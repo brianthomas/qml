@@ -48,7 +48,7 @@ abstract public class NumberDataType extends ScalarDataType
 	private final static String notANumberFieldName = "notANumber";
 	private final static String disabledFieldName = "disabledValue";
 	private final static String overflowFieldName = "overflowValue";
-	private final static String underflowFieldName = "overflowValue";
+	private final static String underflowFieldName = "underflowValue";
 
 	// Methods
 	// Constructors
