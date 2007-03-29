@@ -28,8 +28,12 @@
 package net.datamodel.qml.support.handlers;
 
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import net.datamodel.qml.core.ReferenceFrameImpl;
 import net.datamodel.qml.support.QMLDocumentHandler;
+import net.datamodel.qml.support.Utility;
 import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
 
@@ -48,10 +52,10 @@ implements StartElementHandler
 			Attributes attrs
 	)
 	throws SAXException {
-
-		ReferenceFrameImpl refFrame = new ReferenceFrameImpl();
+		
+		URI uri = Utility.getURIFromAttribs(attrs);
+		ReferenceFrameImpl refFrame = new ReferenceFrameImpl(uri);
 		refFrame.setAttributeFields(attrs); // set XML attributes from passed list
-
 		((QMLDocumentHandler) handler).addExpectedValues(new Integer(0));
 
 		return refFrame;
