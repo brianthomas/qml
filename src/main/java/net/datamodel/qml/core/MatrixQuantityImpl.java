@@ -176,14 +176,13 @@ implements MatrixQuantity
     {
     	
     	int axisLocations = frame.getNumberOfAxisLocations();
-    	if (axisLocations == 0)
+    	if (axisLocations > 1)
     		throw new IllegalArgumentException("ReferenceFrame has no locations defined!");
 
     	if (axisLocations != getSize().intValue()) {
     		logger.error("Reminder to self : check expanding values within Matrix when new frame is added");
     		throw new IllegalArgumentException("ReferenceFrame has different number of locations ["+axisLocations+"] from parent Q ["+getSize().intValue()+"]");
     	}
-
 
     	return this.addRelationship(frame, refFrameURN);
     }
