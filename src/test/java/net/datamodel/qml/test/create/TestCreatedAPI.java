@@ -1,10 +1,13 @@
 package net.datamodel.qml.test.create;
 
 import java.util.Iterator;
+import java.util.List;
 
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
+import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.Quantity;
+import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 
 import org.apache.log4j.Logger;
@@ -72,7 +75,6 @@ public class TestCreatedAPI extends BaseCase {
 	
 	}
 	
-	/*
 
 	// Create an matrix quantity and exercise its interface to insure we
 	// get some sane answers.
@@ -81,69 +83,34 @@ public class TestCreatedAPI extends BaseCase {
 		// create a matrix quantity
 		logger.info("testCreateSimple1DMatrixQuantity");
 
-		String id = "matrix1";
-		DataType datatype = createStringDataType(5); 
-		Units units = new UnitsImpl("");
-		String URIrep = "URI:no-semantic-meaning";
-		List values = new Vector ();
-		values.add("data1");
-		values.add("data2");
-		values.add("data3");
-
-		// create our 1D axis frame
-		List axisValues = new Vector ();
-		axisValues.add("1");
-		axisValues.add("2");
-		axisValues.add("4");
-
 		try {
 
-			URI URI = new URI (URIrep);
-			// create the axisFrame and (1) member axis/dimension for the matrix
-			ReferenceFrame af = new ReferenceFrameImpl();
-			ListQuantityImpl axis1 = createListQuantity(URI, new UnitsImpl(""), createIntegerDataType(1, false), axisValues, new Vector() );
-			af.addAxis(axis1);
 
-			// Now the members which bbelong to the parent (matrix) will include our
-			// axis frame
-			List members = new Vector();
-			members.add(af);
-
-			MatrixQuantityImpl q = createMatrixQuantity(URI, units, datatype, values, members);
+			MatrixQuantity q = createSimple1DMatrixQuantity();
 			assertNotNull(q);
 
+			// TODO
 			// check the string representation 
-			checkVariousValidXMLRepresentations(q);
+			// checkVariousValidXMLRepresentations(q);
 
 			// check the API a bit
-			validateQuantityAPI((Quantity) q, id, URIrep, units, datatype);
+			validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
 
 			logger.debug("check axisframe");
-			List<Quantity> actualMembers = q.getProperties();  
-			Iterator aiter = actualMembers.iterator();
-			int countAxisFrames = 0;
-			while (aiter.hasNext()) {
-				Quantity mem = (Quantity) aiter.next();
-				if (mem instanceof ReferenceFrame) {
-					ReferenceFrame maf = (ReferenceFrame) mem;
-					List maxisList = maf.getAxes();
+			for (ReferenceFrame r : q.getReferenceFrames())
+			{
+					List<ListQuantity> maxisList = r.getAxes();
 					assertEquals("number of axes in axis frame is 1", maxisList.size(), 1);
 					logger.debug("number of axes in frame is:"+maxisList.size());
-					countAxisFrames++;
-				} else {
-					fail ("No non-axis members should exist in simple1DMatrixQ constructed");
-				}
 			}
 
-			logger.debug("number of axis frames is "+countAxisFrames+" should be 1");
-			assertEquals("Number of axis frames is 1", countAxisFrames, 1);
-
-			assertEquals("Number of members is 1", actualMembers.size(), 1);
+			logger.debug("number of axis frames is "+q.getReferenceFrames().size()+" should be 1");
+			assertEquals("Number of axis frames is 1", q.getReferenceFrames().size(), 1);
 
 			// Order of injection should match our list, iterate thru both and compare
 			// nothing has been changed/dropped or inserted erroneously
 			logger.debug("check values");
-			Iterator iter = values.iterator();
+			Iterator iter = LQvalues.iterator();
 			Locator loc = q.createLocator();
 			// we have to use the iterator as the limit..because locator iterates
 			// up to the capacity of the container, not the last utilized index
@@ -163,6 +130,7 @@ public class TestCreatedAPI extends BaseCase {
 		}
 	}
 
+	/*
 	// Create a matrix quantity with 2 dimensions and exercise its interface to insure we
 	// get some sane answers.
 	public void testCreateSimple2DMatrixQuantity ( ) {

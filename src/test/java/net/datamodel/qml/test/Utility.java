@@ -11,6 +11,7 @@ import net.datamodel.qml.DataType;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
+import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.core.AtomicQuantityImpl;
@@ -114,15 +115,14 @@ public class Utility {
 	}
 
 	public static MatrixQuantity createMatrixQuantity (URI uri, 
-			Units units,  DataType datatype, List<Object> values )
+			Units units,  DataType datatype, List<Object> values,
+			List<ReferenceFrame> frames)
 	throws SetDataException, IllegalAccessException
 	{
 
 		MatrixQuantity q = new MatrixQuantityImpl (uri);
 
 		// populate all of the known fields to test if they are working
-//		FIXME: setId no longer available because Id gen should be handled by computer
-//		q.setId(id);
 		q.setUnits(units);
 		q.setDataType(datatype);
 
@@ -135,6 +135,8 @@ public class Utility {
 			loc.next();
 		}
 
+		for (ReferenceFrame frame : frames) { q.addReferenceFrame(frame); }
+		
 		return q;
 	}
 
@@ -144,7 +146,7 @@ public class Utility {
 	 * @param signed
 	 * @return
 	 */
-	public static IntegerDataType createIntegerDataType (int length, boolean signed) {
+	public static DataType createIntegerDataType (int length, boolean signed) {
 		IntegerDataType dt = new IntegerDataType();
 		dt.setWidth(new Integer(length));
 		dt.setSigned(signed);
