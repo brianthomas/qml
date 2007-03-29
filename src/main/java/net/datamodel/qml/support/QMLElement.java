@@ -32,14 +32,14 @@ package net.datamodel.qml.support;
 import java.io.Writer;
 
 import net.datamodel.qml.Quantity;
-
-import org.w3c.dom.Element;
+import net.datamodel.soml.support.SOMLElement;
 
 /**
  * QMLElement is a DOM element interface for elements which hold Quantities within.
  */
 
-public interface QMLElement extends Element
+public interface QMLElement 
+extends SOMLElement
 {
 
 	/** Write the Element out as an XML string.
@@ -56,12 +56,6 @@ public interface QMLElement extends Element
 	/** Get the Quantity associated with this Element node. 
 	 */
 	public Quantity getQuantity();
-
-	/* Set the Quantity associated with this Element node. 
-	 * @param quantity  the quantity to set
-	 */
-//	Needed? We should limit this to construction time I think...
-//	public void setQuantity(Quantity q);
 
 }
 
