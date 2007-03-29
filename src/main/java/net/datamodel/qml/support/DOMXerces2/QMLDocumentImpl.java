@@ -69,12 +69,11 @@ implements QMLDocument
 		setPrefixNamespaceMapping("xsi", Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
 	}
 	
+	// TODO: remove when done testing.
 	private void dumpUserData () {
 		logger.debug("DOC userData is:");
 		for (Object key : userData.keySet()) {
-			logger.debug("key:"+key+" : "+userData.get(key));
-//			logger.debug (" key class: "+key.getClass());
-			logger.debug("   is Quantity Element -- "+ ((key instanceof QMLElement) ? " YES" : "NO"));
+			logger.debug("key:"+key+" : "+userData.get(key)+" class: "+key.getClass());
 		}
 	}
 		
