@@ -41,11 +41,7 @@ import net.datamodel.soml.Relationship;
 import net.datamodel.soml.support.DOMXerces2.SOMLDocumentImpl;
 
 import org.apache.log4j.Logger;
-import org.apache.xerces.dom.ElementImpl;
-import org.apache.xerces.dom.ElementNSImpl;
 import org.w3c.dom.DOMException;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /** 
  *  Read any XML Document into a specialized DOM document -- QMLDocumentImpl.
@@ -60,15 +56,6 @@ implements QMLDocument
 	
 	private static final long serialVersionUID = 2635262244735617568L;
 
-	// 
-	// Fields
-	//
-	// protected Map<String,String> PrefixNamespaceMappingHashtable = new Hashtable<String,String> ();
-	// protected Map<String,ReferenceableXMLSerializableObject> QuantityIdTable = new Hashtable<String,ReferenceableXMLSerializableObject>();
-
-	// package private.. 
-	List<Quantity> QuantityList = new Vector<Quantity>();
-
 	/** Create a QMLDocument. This implementation will automatically set up
 	 * the basic default namespace mappings for target namespace 
 	 * (set to {@link Constants.QML_NAMESPACE_URI})
@@ -81,93 +68,43 @@ implements QMLDocument
 		setPrefixNamespaceMapping("", Constants.QML_NAMESPACE_URI);
 		setPrefixNamespaceMapping("xsi", Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
 	}
-
+	
+	private void dumpUserData () {
+		logger.debug("DOC userData is:");
+		for (Object key : userData.keySet()) {
+			logger.debug("key:"+key+" : "+userData.get(key));
+//			logger.debug (" key class: "+key.getClass());
+			logger.debug("   is Quantity Element -- "+ ((key instanceof QMLElement) ? " YES" : "NO"));
+		}
+	}
+		
 	/*
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.support.QMLDocument#getQuantities(boolean)
 	 */
 	public final List<Quantity> getQuantities (boolean deep) 
 	{
-		if(deep)
-		{
-			List<Quantity> deepList = new Vector<Quantity>(); 
-			for (Quantity q : QuantityList) {
-				deepList.add(q);
-				deepList.addAll(findQuantities(q));
+		List<Quantity> qList = new Vector<Quantity>(); 
+
+		for (Object key : userData.keySet()) {
+			if (key instanceof QMLElement)
+			{
+				QMLElement qElem = (QMLElement) key;
+				qList.add(qElem.getQuantity()); 
+				if (deep)
+					qList.addAll(findQuantities(qElem.getQuantity()));
 			}
-			return deepList;
 		}
 
-		return QuantityList;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.apache.xerces.dom.NodeImpl#appendChild(org.w3c.dom.Node)
-	 */
-	@Override
-	public final Node appendChild(Node newChild) throws DOMException
-	{
-		Node node = super.appendChild(newChild);
-
-		if(node instanceof QMLElement) {
-			QuantityList.add(((QMLElement) node).getQuantity());
-		}
-
-		return node;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.apache.xerces.dom.CoreDocumentImpl#removeChild(org.w3c.dom.Node)
-	 */
-	@Override
-	public final Node removeChild(Node oldChild) throws DOMException
-	{
-		Node node = super.removeChild(oldChild);
-		if(node instanceof QMLElement) {
-			QuantityList.remove(((QMLElement) node).getQuantity());
-		}
-		return node;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.apache.xerces.dom.CoreDocumentImpl#replaceChild(org.w3c.dom.Node, org.w3c.dom.Node)
-	 */
-	@Override
-	public final Node replaceChild(Node newChild, Node oldChild) throws DOMException
-	{
-		Node node = super.replaceChild(newChild,oldChild);
-
-		if(oldChild instanceof QMLElement) 
-			QuantityList.remove(((QMLElement) oldChild).getQuantity());
-
-		if(newChild instanceof QMLElement) 
-			QuantityList.add(((QMLElement) newChild).getQuantity());
-
-		return node;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.apache.xerces.dom.CoreDocumentImpl#insertBefore(org.w3c.dom.Node, org.w3c.dom.Node)
-	 */
-	@Override
-	public final Node insertBefore(Node newChild, Node refChild) throws DOMException
-	{
-		Node node = super.insertBefore(newChild,refChild);
-
-		if(newChild instanceof QMLElement) 
-			QuantityList.add(((QMLElement) newChild).getQuantity());
-
-		return node;
+		return qList;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#createElement(java.lang.String)
 	 */
+	// TODO: evaluate need for tracking element..
+	/*
 	@Override
 	public final Element createElement (String tagName) throws DOMException
 	{
@@ -182,11 +119,14 @@ implements QMLDocument
 		}
 		return retval;
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#createElementNS(java.lang.String, java.lang.String)
 	 */
+	// TODO: evaluate need for tracking element..
+	/*
 	@Override
 	public final Element createElementNS (String uri, String tagName) 
 	throws DOMException
@@ -202,11 +142,14 @@ implements QMLDocument
 		}
 		return retval;
 	}
+	*/
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.apache.xerces.dom.CoreDocumentImpl#createElementNS(java.lang.String, java.lang.String, java.lang.String)
 	 */
+	// TODO: evaluate need for tracking element..
+	/*
 	@Override
 	public final Element createElementNS (String uri, String qName, String lName) 
 	throws DOMException
@@ -222,7 +165,7 @@ implements QMLDocument
 
 		return retval;
 	}
-
+	*/
 
 	/*
 	 * (non-Javadoc)
@@ -239,6 +182,7 @@ implements QMLDocument
 			// dunno if this is the right error code.. but what the hell
 			throw new DOMException(DOMException.INVALID_STATE_ERR, e.getMessage());
 		}
+		dumpUserData();
 		return qElem;
 	}
 
@@ -258,6 +202,7 @@ implements QMLDocument
 			// dunno if this is the right error code.. but what the hell
 			throw new DOMException(DOMException.INVALID_STATE_ERR, e.getMessage());
 		}
+		dumpUserData();
 		return qElem;
 
 	}
