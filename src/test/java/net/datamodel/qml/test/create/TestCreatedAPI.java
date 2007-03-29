@@ -1,30 +1,17 @@
 package net.datamodel.qml.test.create;
 
-import java.io.StringReader;
-import java.net.URI;
-import java.util.Hashtable;
-import java.util.Map;
-import java.util.Vector;
+import java.util.Iterator;
 
-import net.datamodel.qml.DataType;
+import net.datamodel.qml.ListQuantity;
+import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.Units;
 import net.datamodel.qml.core.AtomicQuantityImpl;
-import net.datamodel.qml.support.Constants;
-import net.datamodel.qml.support.QMLDocument;
-import net.datamodel.qml.support.QMLElement;
-import net.datamodel.qml.support.Specification;
-import net.datamodel.qml.support.DOMXerces2.QMLDocumentImpl;
-import net.datamodel.qml.test.Utility;
-import net.datamodel.qml.units.UnitsImpl;
 
 import org.apache.log4j.Logger;
-import org.xml.sax.InputSource;
 
 public class TestCreatedAPI extends BaseCase {
 
 	private static final Logger logger = Logger.getLogger(TestCreatedAPI.class);
-	private Specification spec = Specification.getInstance();
 
 
 	// Tests
@@ -41,7 +28,7 @@ public class TestCreatedAPI extends BaseCase {
 			
 			AtomicQuantityImpl q = createSimpleAtomicQuantity(); 
 			assertNotNull(q);
-
+			
 			// check the value of the Atomic Q
 			assertEquals("value OK", q.getValue(), AQvalue);
 			
@@ -57,7 +44,6 @@ public class TestCreatedAPI extends BaseCase {
 		}
 	}
 
-	/*
 	// Create an list quantity and exercise its interface to insure we
 	// get some sane answers.
 	public void testCreateSimpleListQuantity ( ) {
@@ -65,49 +51,28 @@ public class TestCreatedAPI extends BaseCase {
 		// create a list quantity
 		logger.info("testCreateSimpleListQuantity");
 
-		String URIrep = "URI:no-semantic-value";
-		DataType datatype = createStringDataType(5); 
-		Units units = new UnitsImpl("");
-		List values = new Vector ();
+		ListQuantity q = createSimpleListQuantity(); 
+		assertNotNull(q);
 
-		values.add("data1");
-		values.add("data2");
-		values.add("data3");
-
-		try {
-
-			URI URI = new URI (URIrep);			
-			ListQuantityImpl q = createListQuantity(URI, units, datatype, values, new Vector());
-
-			assertNotNull(q);
-
-			// check the string representation
-			checkVariousValidXMLRepresentations(q);
-
-			// check the API a bit
-			validateQuantityAPI((Quantity) q, q.getId(), URIrep, units, datatype);
-
-			// Order of injection should match our list, iterate thru both and compare
-			// nothing has been changed/dropped or inserted erroneously
-			logger.debug("check values");
-			Iterator iter = values.iterator();
-			Locator loc = q.createLocator();
-			// we have to use the iterator as the limit..because locator iterates
-			// up to the capacity of the container, not the last utilized index
-			while (loc.hasNext() && iter.hasNext()) 
-			{
-				String value = (String) iter.next();
-				String qval = (String) q.getValue(loc);
-				assertEquals("value OK", qval, value);
-				loc.next();
-			}
-
-		} catch (Exception e) {
-			logger.error("test error: "+e.getMessage());
-			e.printStackTrace();
-			fail(e.getMessage());
+		// Order of injection should match our list, iterate thru both and compare
+		// nothing has been changed/dropped or inserted erroneously
+		Iterator iter = LQvalues.iterator();
+		Locator loc = q.createLocator();
+		// we have to use the iterator as the limit..because locator iterates
+		// up to the capacity of the container, not the last utilized index
+		while (loc.hasNext() && iter.hasNext()) 
+		{
+			String value = (String) iter.next();
+			String qval = (String) q.getValue(loc);
+			assertEquals("value OK", qval, value);
+			loc.next();
 		}
+
+		validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
+	
 	}
+	
+	/*
 
 	// Create an matrix quantity and exercise its interface to insure we
 	// get some sane answers.
