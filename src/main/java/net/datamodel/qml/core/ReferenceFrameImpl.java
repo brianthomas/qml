@@ -35,10 +35,14 @@ package net.datamodel.qml.core;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Vector;
 
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.ReferenceFrame;
+import net.datamodel.soml.SemanticObject;
 import net.datamodel.soml.impl.SemanticObjectImpl;
+
+import org.apache.log4j.Logger;
 
 /**
  * This special quantity is a description of a frame of reference for 
@@ -51,22 +55,55 @@ import net.datamodel.soml.impl.SemanticObjectImpl;
 public class ReferenceFrameImpl 
 extends SemanticObjectImpl
 implements ReferenceFrame {
+
+	private static final Logger logger = Logger.getLogger(ReferenceFrameImpl.class);
+
+	/** The string value of the URI describing which Axes (all are ListQuantities)
+	 * the ReferenceFrame "owns". 
+	 */
+	public final String RelatedAxisURIStrValue = "urn:qml:related-ref-axis";
+	
+	/** The string value of the URI describing which ReferenceFrames 
+	 * 'own' the indicated Axis (ListQuanity).
+	 */
+	public final String RelatedRefFrameURIStrValue = "urn:qml:related-ref-frame";
+	
+	private URI relatedAxisURI = null; 
+	private URI relatedRefFrameURI = null; 
 	
     public ReferenceFrameImpl (URI uri) {
     	super(uri);
     	setXMLNodeName("axisFrame");
+    	
+    	try {
+    		relatedAxisURI = new URI(RelatedAxisURIStrValue); 
+    		relatedRefFrameURI = new URI(RelatedRefFrameURIStrValue); 
+    	} catch (URISyntaxException e) {
+    		logger.error("Cant construct Reference Frame. One or more URIS are bogus"+e.getMessage()); 
+    		e.printStackTrace();
+    	}
     }
 
     /*
      * (non-Javadoc)
      * @see net.datamodel.qml.ReferenceFrame#addAxis(net.datamodel.qml.ListQuantity)
      */
-    public boolean addAxis ( ListQuantity axis) {
-    	// TODO
-// NEED TO signal all locators which belong to quantities which have this axis frame
-// to update themselves (perhaps reinitialize and log a warning for the user).
-    	//return addMember(axis);
-    	return false;
+    public boolean addAxis (ListQuantity axis) {
+    	
+    	// check we arent re-adding an existing axis
+    	List<ListQuantity> existing = getAxes();
+    	if (existing.contains(axis)) {
+    		logger.warn("ReferenceFrame won't add axis. It already contains it!"); 
+    		return false;
+    	}
+    	
+    	// add relationships in both objects
+    	boolean success = axis.addRelationship(this, relatedRefFrameURI);
+    	if (success)
+    		return addRelationship(axis, relatedAxisURI); 
+    	
+    	return false; // if we get here we had a problem setting up the relationships 
+    	
     }
 
     /*
@@ -76,13 +113,20 @@ implements ReferenceFrame {
     public boolean removeAxis ( ListQuantity axis )
     {
     	
-        if (axis == null)
-            throw new NullPointerException();
-        
-        /*
-    	return super.addMember(axis, relationship);
-    	*/
-    	return false;
+    	// check we arent re-adding an existing axis
+    	List<ListQuantity> existing = getAxes();
+    	if (!existing.contains(axis)) {
+    		logger.warn("ReferenceFrame won't remove axis is doesnt have!"); 
+    		return false;
+    	}
+    	
+//    	 add relationships in both objects
+    	boolean success = axis.removeRelationship(relatedRefFrameURI, this);
+    	if (success)
+    		return removeRelationship(relatedAxisURI, axis); 
+    	
+    	// TODO: should we throw an exception instead??
+    	return false; // if we get here we had a problem removing the relationships 
     }
     
     /*
@@ -90,7 +134,13 @@ implements ReferenceFrame {
      * @see net.datamodel.qml.ReferenceFrame#getAxes()
      */
     public List<ListQuantity> getAxes ( ) {
-    	// TODO
+    	List<ListQuantity> axes = new Vector<ListQuantity>();
+    	List<SemanticObject> related = this.getRelatedSemanticObjects(relatedAxisURI);  
+    	for (SemanticObject so : related) {
+    		// Let it be possible for the cast to fail (e.g. no run time check). Shouldnt 
+    		// fail if the package is working as advertised, however.
+    		axes.add((ListQuantity) so); // should always be of type ListQuantity 
+    	}
         return null;
     }
 
