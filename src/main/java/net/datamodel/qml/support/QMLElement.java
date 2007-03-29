@@ -42,17 +42,6 @@ public interface QMLElement
 extends SOMLElement
 {
 
-	/** Write the Element out as an XML string.
-	 * 
-	 * @return string 
-	 */
-	public String toXMLString ();
-
-	/** Write the Element out as XML to the indicated Writer.
-	 * 
-	 */
-	public void toXMLWriter (Writer outputWriter) throws java.io.IOException;
-
 	/** Get the Quantity associated with this Element node. 
 	 */
 	public Quantity getQuantity();
