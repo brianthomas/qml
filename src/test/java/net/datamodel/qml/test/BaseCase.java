@@ -27,8 +27,10 @@ import net.datamodel.qml.support.QMLElement;
 import net.datamodel.qml.support.QMLReader;
 import net.datamodel.qml.support.Specification;
 import net.datamodel.qml.support.DOMXerces2.QMLDocumentImpl;
+import net.datamodel.xssp.parse.XSSPElement;
 
 import org.apache.log4j.Logger;
+import org.w3c.dom.Element;
 import org.xml.sax.AttributeList;
 import org.xml.sax.HandlerBase;
 import org.xml.sax.InputSource;
@@ -140,10 +142,13 @@ abstract public class BaseCase extends TestCase {
 
 		// use the xerces representation
 		QMLDocument doc = new QMLDocumentImpl();
-		doc.setPrefixNamespaceMapping("q", Constants.QML_NAMESPACE_URI);
+		// TODO : check setting another prefix on the QML namespace.
+//		doc.setPrefixNamespaceMapping("q", Constants.QML_NAMESPACE_URI);
 
 		// create a new element, which will be the document root
 		QMLElement elem = doc.createQMLElementNS (Constants.QML_NAMESPACE_URI, q);
+		// TODO: try it this way as well
+//		q.setNamespaceURI(Constants.QML_NAMESPACE_URI); // needed? doesnt it default to this? Check! 
 //		QMLElement elem = doc.createQMLElement(q);
 	
 		// set the schema location
@@ -154,19 +159,11 @@ abstract public class BaseCase extends TestCase {
 		// now set the root element
 		doc.setDocumentElement(elem);
 		
-		logger.debug ("QMLElement representation:"+elem.toXMLString());
-		
-		for (String prefix: doc.getPrefixNamespaceMappings().keySet()) {
-			logger.debug(" DOC prefix:["+prefix+"] URI:["+doc.getPrefixNamespaceMappings().get(prefix)+"]");
-		}
-		
 		// now check various representations
 		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_TAGGED);
-		/*
 		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_TAGGED);
 		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_SPACE);
 		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_SPACE);
-		*/
 
 	}
 	
