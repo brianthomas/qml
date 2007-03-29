@@ -28,7 +28,7 @@ public class TestLoad extends BaseXerces2Case
 	// TODO
 	public void testLoadSamples () throws Exception {
 		
-		logger.info("testLoadSamples - TODO");
+		logger.warn("testLoadSamples - TODO");
 		assertTrue(true);
 		
 	/*
@@ -53,7 +53,7 @@ public class TestLoad extends BaseXerces2Case
 	// TODO
 	public void testLoadAndWriteSamples () throws Exception {
 		
-		logger.error("testLoadAndWriteSamples - TODO");
+		logger.warn("testLoadAndWriteSamples - TODO");
 		assertTrue(true);
 		
 	/*
@@ -98,7 +98,7 @@ public class TestLoad extends BaseXerces2Case
 	// TODO
 	public void testMulitLoadAndWriteSamples () throws Exception {
 		
-		logger.info("testMultiLoadAndWriteSamples - TODO");
+		logger.warn("testMultiLoadAndWriteSamples - TODO");
 		assertTrue(true);
 		/*
 		logger.info("testMultiLoadAndWriteSamples");
