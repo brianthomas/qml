@@ -60,15 +60,6 @@ implements QMLElement
 	}
 
 	/*
-	public QMLElementImpl (String namespaceURI, Quantity quantity, DocumentImpl doc) 
-	throws IOException,NullPointerException
-	{
-		super (doc, namespaceURI, quantity.getXMLTagName());
-		quantity.setNamespaceURI(namespaceURI);
-	}
-	*/
-
-	/*
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.support.QMLElement#getQuantity()
 	 */
