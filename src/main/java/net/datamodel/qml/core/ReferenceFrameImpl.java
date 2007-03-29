@@ -33,6 +33,7 @@
 package net.datamodel.qml.core;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import net.datamodel.qml.ListQuantity;
@@ -50,13 +51,7 @@ import net.datamodel.soml.impl.SemanticObjectImpl;
 public class ReferenceFrameImpl 
 extends SemanticObjectImpl
 implements ReferenceFrame {
-
-    /** No-argument constructor.
-     */
-    public ReferenceFrameImpl () {
-    	this(null);
-    }
-    
+	
     public ReferenceFrameImpl (URI uri) {
     	super(uri);
     	setXMLNodeName("axisFrame");
