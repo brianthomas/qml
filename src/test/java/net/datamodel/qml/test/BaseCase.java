@@ -55,6 +55,7 @@ abstract public class BaseCase extends TestCase {
 	
 	// defaults to use Xerces2
 	protected static Class docClass; 
+	protected static String SaxParserName = "org.apache.xerces.parsers.SAXParser";
 	
 	protected static String [] samplefiles = null;
 		
@@ -122,7 +123,7 @@ abstract public class BaseCase extends TestCase {
 		Specification.getInstance().setPrettyOutput(pretty);
 		Specification.getInstance().setSerializeValuesStyle(type);
 
-		assertTrue("Is valid version pretty:"+pretty+" type:"+type, Utility.validateSource(new InputSource(sr)));
+		assertTrue("Is valid version pretty:"+pretty+" type:"+type, Utility.validateSrc(new InputSource(sr), SaxParserName));
 
 	}
 	
@@ -189,7 +190,7 @@ abstract public class BaseCase extends TestCase {
 	protected static boolean validateFile (String filename)
 	throws Exception 
 	{
-		return Utility.validateSource(new InputSource(filename));
+		return Utility.validateSrc(new InputSource(filename), SaxParserName);
 	}
 	
 	/** check basic quantity API on given quantity.
@@ -407,6 +408,6 @@ abstract public class BaseCase extends TestCase {
 	            System.out.println("   " + err.getMessage ());
 	        }
     } // end class MyErrorHandler 
-
+    
 
 }

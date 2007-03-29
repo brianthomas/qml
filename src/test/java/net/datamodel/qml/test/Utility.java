@@ -44,8 +44,6 @@ public class Utility {
 
 	private static final Logger logger = Logger.getLogger(Utility.class);
 	
-	private static String SaxParserName = "org.apache.xerces.parsers.SAXParser";
-
 	private Utility () {}
 
 	/** General helper method to construct atomic quantities for testing.
@@ -191,7 +189,7 @@ public class Utility {
 	 * @return
 	 * @throws Exception
 	 */
-	protected static boolean validateSource (InputSource inputsource )
+	public static boolean validateSrc (InputSource inputsource, String parserName )
 	throws Exception 
 	{
 		
@@ -205,7 +203,7 @@ public class Utility {
         
         SAXParserFactory spf = SAXParserFactory.newInstance ();
         SAXParser sp = spf.newSAXParser ();
-        XMLReader parser = XMLReaderFactory.createXMLReader(SaxParserName);
+        XMLReader parser = XMLReaderFactory.createXMLReader(parserName);
 
 		logger.debug("set parser feature sets");
         parser.setFeature("http://xml.org/sax/features/validation", true);
