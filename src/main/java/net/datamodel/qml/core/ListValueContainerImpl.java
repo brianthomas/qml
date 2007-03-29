@@ -114,7 +114,7 @@ implements ValueContainer
 	{ 
 		super("values");
 		
-		logger.debug("New ListValueContainerImpl with capacity of"+capacity);
+		logger.debug("New ListValueContainerImpl with capacity of:"+capacity);
 		
 		if (parent == null) 
 			throw new NullPointerException("Cant create data container with null parent Quantity");
@@ -449,6 +449,8 @@ implements ValueContainer
 	) 
 	throws IOException
 	{
+		
+		logger.debug("ListValueContainer special handleChildNodes called");
 
 		Specification spec = Specification.getInstance();
 		boolean writeTaggedValues = true;
