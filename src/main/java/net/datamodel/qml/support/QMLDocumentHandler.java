@@ -139,7 +139,7 @@ extends SOMLDocumentHandler
 
 		qmlStartHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
 		qmlStartHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
-		qmlStartHandlers.put(Constants.NodeTypeName.AXISFRAME, new ReferenceFrameStartElementHandlerFunc());
+		qmlStartHandlers.put(Constants.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameStartElementHandlerFunc());
 		/*
         qmlStartHandlers.put(Constants.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
         qmlStartHandlers.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
@@ -171,7 +171,7 @@ extends SOMLDocumentHandler
 		qmlEndHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
 		/*
         qmlEndHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.AXISFRAME, new ReferenceFrameEndElementHandlerFunc());
+        qmlEndHandlers.put(Constants.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameEndElementHandlerFunc());
         qmlEndHandlers.put(Constants.NodeTypeName.COMPONENT, new ComponentEndElementHandlerFunc());
         qmlEndHandlers.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new QuantityEndElementHandlerFunc());
         qmlEndHandlers.put(Constants.NodeTypeName.LIST_QUANTITY, new QuantityEndElementHandlerFunc());
@@ -202,7 +202,7 @@ extends SOMLDocumentHandler
 		/*
         qmlCharDataHandler.put(Constants.NodeTypeName.ALTERN_VALUES, new NullCharDataHandlerFunc());
         qmlCharDataHandler.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.AXISFRAME, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constants.NodeTypeName.REFERENCE_FRAME, new NullCharDataHandlerFunc());
         qmlCharDataHandler.put(Constants.NodeTypeName.COMPONENT, new NullCharDataHandlerFunc());
         qmlCharDataHandler.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new NullCharDataHandlerFunc());
         qmlCharDataHandler.put(Constants.NodeTypeName.FLOAT_DATATYPE, new NullCharDataHandlerFunc());
@@ -646,7 +646,7 @@ extends SOMLDocumentHandler
 		/*
        qmlAssoc.put(Constants.NodeName.ALTERN_VALUES, new HandlerInfo(Constants.NodeTypeName.ALTERN_VALUES));
        qmlAssoc.put(Constants.NodeName.ATOMIC_QUANTITY, new HandlerInfo(Constants.NodeTypeName.ATOMIC_QUANTITY));
-       qmlAssoc.put(Constants.NodeName.AXISFRAME, new HandlerInfo(Constants.NodeTypeName.AXISFRAME));
+       qmlAssoc.put(Constants.NodeName.REFERENCE_FRAME, new HandlerInfo(Constants.NodeTypeName.REFERENCE_FRAME));
        qmlAssoc.put(Constants.NodeName.COMPONENT, new HandlerInfo(Constants.NodeTypeName.COMPONENT));
        qmlAssoc.put(Constants.NodeName.COMPOSITE_QUANTITY, new HandlerInfo(Constants.NodeTypeName.COMPOSITE_QUANTITY));
        qmlAssoc.put(Constants.NodeName.FLOAT_DATATYPE, new HandlerInfo(Constants.NodeTypeName.FLOAT_DATATYPE));
