@@ -32,8 +32,6 @@
 
 package net.datamodel.qml;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 /**
@@ -54,7 +52,13 @@ extends ListQuantity
     public List<ReferenceFrame> getReferenceFrames ( );
     
     /** add a frame of reference to the MatrixQuantity.
+     * Incorrectly dimensioned ReferenceFrames are not allowed.
      * 
+     * Correct dimensionality is when the multiple of the numberOfLocations of
+     * all the child axes equal that of the parent size. For example, an ReferenceFrame
+     * with "X" and "Y" axes quantities have numberOfLocations of 10 and 30 respectively.
+     * This ReferenceFrame may be added to any quantity which itself has 10 x 30 = 300 locations.
+     *
      * @param frame
      * @throws IllegalArgumentException if the number of locations differ between 
      *         what is declared in the ReferenceFrame and the MatrixQuantity
