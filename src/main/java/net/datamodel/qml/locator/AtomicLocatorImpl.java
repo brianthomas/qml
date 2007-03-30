@@ -90,5 +90,13 @@ extends AbstractLocator
 			throw new IllegalArgumentException("setListIndex cant handle value of "+index);
 	}
 
+	@Override
+	public final int getListIndex() { return 0; }
+
+	@Override
+	public final void reset() {
+		// does nothing
+	}
+
 }
 

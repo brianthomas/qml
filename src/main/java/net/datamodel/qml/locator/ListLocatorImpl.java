@@ -42,6 +42,8 @@ public class ListLocatorImpl extends AbstractLocator
 {
 
 	private static final Logger logger = Logger.getLogger(ListLocatorImpl.class);
+	
+	private int listIndex = 0;
 
 	/** */
 	public ListLocatorImpl (ListValueContainerImpl parent) {
@@ -106,12 +108,25 @@ public class ListLocatorImpl extends AbstractLocator
 	 */
 	@Override
 	public final void setListIndex(int index) throws IllegalArgumentException {
-
 		if(index < 0)
 			throw new IllegalArgumentException ("setListIndex can't set index to negative value");
 
 		listIndex = index;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.locator.AbstractLocator#getListIndex()
+	 */
+	@Override
+	public final int getListIndex() { return listIndex; }
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.locator.AbstractLocator#reset()
+	 */
+	@Override
+	public final void reset() { listIndex = 0; }
 
 
 }

@@ -40,16 +40,19 @@ import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixLocator;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.ObjectWithValues;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.core.MatrixValueContainerImpl;
+
+import org.apache.log4j.Logger;
 
 /**
  * Implementation of a locator for List quantities.
  */
-public class MatrixLocatorImpl extends AbstractLocator
+public class MatrixLocatorImpl 
+extends AbstractLocator
 implements MatrixLocator 
 {
+	private static final Logger logger = Logger.getLogger(MatrixLocatorImpl.class);
 
 	// the current axis frame we are using 
 	private ReferenceFrame currentAxisFrame = null;
@@ -75,7 +78,6 @@ implements MatrixLocator
 	
 	private ListLocatorImpl listLocator = null;
 
-	// Fields
 
 	// Constructor
 	/** Vanilla constructor */
@@ -90,8 +92,8 @@ implements MatrixLocator
 	throws NullPointerException
 	{
 		super(parent);
-		setCurrentReferenceFrame(currentAxisFrame);
-		listLocator = new ListLocatorImpl(parent); // TODO: do we want hardwired? 
+		listLocator = new ListLocatorImpl(parent); 
+		setCurrentReferenceFrame(useFrame);
 	}
 
 	/*
@@ -106,16 +108,18 @@ implements MatrixLocator
 	 */
 	public final void setCurrentReferenceFrame ( ReferenceFrame frame)
 	{
+		
+		logger.debug("SetCurrentReferenceFrame to:"+frame);
 
-		if(frame != null && !((MatrixQuantity) getParent()).getReferenceFrames().contains(frame))
+		if(frame != null 
+				&& !((MatrixQuantity) getParent()).getReferenceFrames().contains(frame))
 			throw new IllegalArgumentException("Can't setCurrentAxisFrame in locator : parent quantity contains no such object:"+frame);
 
 		// reset our location to the origin
 		reset();
 
 		// no need to do anything else if its set to "null"
-		if (frame == null)
-			return;
+		if (frame == null) { return; }
 
 		// note it is the current frame
 		currentAxisFrame = frame;
@@ -126,8 +130,7 @@ implements MatrixLocator
 
 		// set all indices to '0'..the origin
 		Iterator iter = axisOrderList.iterator();
-		while (iter.hasNext())
-		{
+		while (iter.hasNext()) {
 			locations.put((ListQuantity)iter.next(), new Integer(0));
 		}
 
@@ -135,8 +138,8 @@ implements MatrixLocator
 
 		updateIndexMultiplierArray();
 
-//		FIX : need call back to make sure this is in sync with "current" ReferenceFrame.
-//		ISSUE: if user changes/removes/adds) an axis, we should re=init the locator
+//		FIXME : need call back to make sure this is in sync with "current" ReferenceFrame.
+//		TODO: if user changes/removes/adds) an axis, we should re=init the locator
 
 	}
 
@@ -330,11 +333,12 @@ implements MatrixLocator
 
 	/** Reset the locator back to the origin.
 	 */
-	public void reset () 
+	public final void reset () 
 	{
-		super.reset();
+		
+		listLocator.reset();
 
-		currentAxisFrame = (ReferenceFrame) null;
+		currentAxisFrame = null;
 
 		locations = new Hashtable<ListQuantity, Integer>();
 		axisOrderList = new Vector<ListQuantity>();
@@ -404,14 +408,27 @@ implements MatrixLocator
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.locator.AbstractLocator#setListIndex(int)
+	 */
 	@Override
-	public void setListIndex(int index) 
+	public final void setListIndex(int index) 
 	throws IllegalArgumentException {
 		listLocator.setListIndex(index);
 		// TODO: We have to update the axis index values, which will require some
 		// kind of calculation. Also: Watch out for call to setListIndex in updateListIndex!!
 		// if we call updateListIndex here we get infinite recursion.
 		// updateListIndex();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.locator.AbstractLocator#getListIndex()
+	 */
+	@Override
+	public final int getListIndex() {
+		return listLocator.getListIndex();
 	}
 
 }

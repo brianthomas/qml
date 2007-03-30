@@ -18,12 +18,6 @@ implements Locator
 
 	private ValueContainer parent;
 
-	// where in the data container list we are
-	protected int listIndex = 0;
-
-	// Constructors
-//	private AbstractLocator () {}
-
 	/** Vanilla constructor. */
 	public AbstractLocator ( ValueContainer parent )
 	{
@@ -51,7 +45,7 @@ implements Locator
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Locator#getListIndex()
 	 */
-	public final int getListIndex( ) { return listIndex; }
+	abstract public int getListIndex();
 
 	/*
 	 * (non-Javadoc)
@@ -63,10 +57,7 @@ implements Locator
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Locator#reset()
 	 */
-	public void reset () {
-		listIndex = 0; // set to first location 
-	}
-
+	abstract public void reset ();
 
 	/** Find the index value of the maximum utilized Index in the container
 	 * to which this locator belongs.
