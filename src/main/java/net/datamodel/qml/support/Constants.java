@@ -29,6 +29,9 @@
 
 package net.datamodel.qml.support;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 // Hmm. This file amounts to a header file in C. 
 //
 // TODO: Put these various things in the objects where they are used. 
@@ -75,10 +78,51 @@ public abstract class Constants {
 // right now.
   public static final String MAPPING_NAMESPACE_URI = "http://www.data-model.net/Mappings";
  
-  public static final String QML_PROPERTY_URN = "urn:qml-property";
-  public static final String QML_REF_FRAME_URN = "urn:qml-ref-frame";
   
-
+  // URI's
+  
+  // MatrixQ 'hasReferenceFrame' relationship
+  public static final String QML_HAS_REF_FRAME_URN_STRVALUE = "urn:qml:hasRefFrame";
+  private static URI QML_HAS_REF_FRAME_URN = null;
+  public static final URI getHasReferenceFrameURN() {
+	  if(null == QML_HAS_REF_FRAME_URN) {
+		  try {
+			 QML_HAS_REF_FRAME_URN = new URI(QML_HAS_REF_FRAME_URN_STRVALUE); 
+		  } catch (URISyntaxException e) {
+			 e.printStackTrace(); // shouldnt happen 
+		  }
+	  }
+	  return QML_HAS_REF_FRAME_URN;
+  }
+  
+  // Axis/ListQ 'hasParentReferenceFrame' relationship
+  public static final String QML_HAS_PARENT_REF_FRAME_URN_STRVALUE = "urn:qml:hasParentRefFrame";
+  private static URI QML_HAS_PARENT_REF_FRAME_URN = null;
+  public static final URI getHasParentReferenceFrameURN() {
+	  if (null == QML_HAS_PARENT_REF_FRAME_URN) {
+		  try {
+			  QML_HAS_PARENT_REF_FRAME_URN = new URI(QML_HAS_PARENT_REF_FRAME_URN_STRVALUE);
+		  } catch (URISyntaxException e) {
+			 e.printStackTrace(); // shouldnt happen 
+		  } 
+	  }
+	  return QML_HAS_PARENT_REF_FRAME_URN;
+  }
+  
+  // ReferenceFrame 'hasAxis' relationship
+  public static final String QML_HAS_AXIS_URN_STRVALUE = "urn:qml:hasAxis";
+  private static URI QML_HAS_AXIS_URN = null;
+  public static final URI getHasAxisURN() {
+	  if (null == QML_HAS_AXIS_URN) {
+		  try {
+			  QML_HAS_AXIS_URN = new URI(QML_HAS_AXIS_URN_STRVALUE);
+		  } catch (URISyntaxException e) {
+			 e.printStackTrace(); // shouldnt happen 
+		  } 
+	  }
+	  return QML_HAS_AXIS_URN;
+  }
+  
   /** QML notation information.
    */
   public static final String QML_NOTATION_NAME = "qml";
@@ -206,7 +250,7 @@ public abstract class Constants {
        // *sigh* cant decide if making this hashtable is better or not.
        public static final String ALTERN_VALUES = "altValues";
        public static final String ATOMIC_QUANTITY = "atomicQuantity";
-       public static final String AXISFRAME = "axisFrame";
+       public static final String REFERENCE_FRAME = "axisFrame";
        public static final String COMPONENT = "component";
        public static final String COMPOSITE_QUANTITY = "compositeQuantity";
        public static final String FLOAT_DATATYPE = "float";
@@ -227,7 +271,7 @@ public abstract class Constants {
   {
        public static final String ALTERN_VALUES = "AltValuesContainerType";
        public static final String ATOMIC_QUANTITY = "AtomicQuantityType";
-       public static final String AXISFRAME = "AxisFrameType";
+       public static final String REFERENCE_FRAME = "AxisFrameType";
        public static final String COMPONENT = "ComponentType";
        public static final String COMPOSITE_QUANTITY = "CompositeQuantityType";
        public static final String FLOAT_DATATYPE = "floatType";
