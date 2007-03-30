@@ -4,6 +4,7 @@
 package net.datamodel.qml.test.create;
 
 import net.datamodel.qml.ListQuantity;
+import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 
 import org.apache.log4j.Logger;
@@ -50,6 +51,29 @@ public class TestCreatedSerialization extends BaseCase {
 			ListQuantity q = createSimpleListQuantity(); 
 			
 			logger.debug("Test ListQ XML output:"+System.getProperty("line.separator")+q.toXMLString());
+			
+			checkVariousValidXMLRepresentations(q);
+			
+		} catch (Exception e) {
+			logger.error("test error: "+e.getMessage());
+			// fail(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+
+	// Create an atomic quantity and exercise its interface to insure we
+	// get some sane answers.
+	public void testCreateSimple1DMatrixQuantitySerialization ( ) {
+
+		// create an atomic quantity
+		logger.info("testCreateSimple1DMatrixQ - serialization");
+
+		try {
+			
+			MatrixQuantity q = createSimple1DMatrixQuantity(); 
+			
+			logger.debug("Test 1D MatrixQ XML output:"+System.getProperty("line.separator")+q.toXMLString());
 			
 			checkVariousValidXMLRepresentations(q);
 			
