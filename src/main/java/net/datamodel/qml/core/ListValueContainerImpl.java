@@ -94,7 +94,6 @@ implements ValueContainer
 	
 	/** Name of the locator class we will use.
 	 */
-	// TODO: is there a better way to do this?
 	protected static String locatorClassName = "net.datamodel.qml.locator.ListLocatorImpl";
 
 	/** */
@@ -165,7 +164,7 @@ implements ValueContainer
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.ObjectWithValues#setValue(java.lang.Float, net.datamodel.qml.Locator)
 	 */
-	public void setValue (Float obj, Locator locator)
+	public final void setValue (Float obj, Locator locator)
 	throws IllegalAccessException, IllegalArgumentException, NullPointerException, SetDataException
 	{
 		setValue((Object) obj, locator);
@@ -230,7 +229,7 @@ implements ValueContainer
 	 * Get a list of all values held by the container.
 	 * @return List of values held by this ObjectWithValues.
 	 */
-	public List<Object> getValues ()
+	public final List<Object> getValues ()
 	{
 		logger.debug("ListValueContainer getValueList() returns"+valueList.toString());
 		return java.util.Arrays.asList(valueList);
@@ -537,8 +536,7 @@ implements ValueContainer
 
 	/** Reset the values within the container. 
 	 */
-	// TODO: determine if we need this outside of the constructor
-	protected final void resetValues (int numOfLocations) 
+	private void resetValues (int numOfLocations) 
 	{
 
 		isNoDataValue = new byte[numOfLocations];
