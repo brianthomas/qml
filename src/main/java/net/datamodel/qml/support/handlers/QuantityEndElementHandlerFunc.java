@@ -56,12 +56,14 @@ implements EndElementHandler
 		// Are we adding altValues? If so, we  should
 		// now add this quantity to altvalues section of current parent Q
 		if(qhandler.isAddingAltValues())
+		/*
 			if (q instanceof ListQuantity)
 			{
 				qhandler.getCurrentParentQuantityAltValue().addAltValue((ListQuantity)q);
 			} else { 
+			*/
 				throw new SAXException("Alternative value not a list Quantity");
-			}
+			// }
 
 		qhandler.removeExpectedValues();
 

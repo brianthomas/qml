@@ -82,19 +82,21 @@ extends ListQuantity
      * @throws IllegalArgumentException if either self or a quantity of different size from the parent is passed.
      * @return boolean value of whether addition was successfull or not.
      */
-    public boolean addAltValue ( ListQuantity value ) throws IllegalArgumentException;
+    // TODO
+    // public boolean addAltValue ( ListQuantity value ) throws IllegalArgumentException;
 
     /**
      * Remove an object of type ListQuantityImpl from the List altvalueVector
      *
      * @return boolean value of whether removeal was successfull or not.
      */
-    public boolean removeAltValue ( ListQuantity value ); 
+    // TODO
+    // public boolean removeAltValue ( ListQuantity value ); 
 
     /**
      * Get the list of altvalueVector
      * @return  List of altvalueVector
-     * @uml.property  name="altValueList"
      */
-    public List getAltValueList ( ); 
+    // TODO
+    // public List getAltValueList ( ); 
 }

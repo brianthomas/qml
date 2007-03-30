@@ -60,7 +60,7 @@ implements MatrixQuantity
 
 	// private static final Logger logger = Logger.getLogger(MatrixQuantityImpl.class);
 
-	private static final String alternValuesFieldName = new String("altValue");
+//	private static final String alternValuesFieldName = "altValue";
 
 	/** No-argument Constructor. */
 	protected MatrixQuantityImpl () {  this(null, -1); }
@@ -85,7 +85,7 @@ implements MatrixQuantity
 		setValueContainer (new MatrixValueContainerImpl(this));
 
 		// now initialize XML fields
-		addField(alternValuesFieldName, new AltValuesList(), XMLFieldType.CHILD);
+		// addField(alternValuesFieldName, new AltValuesList(), XMLFieldType.CHILD);
 	}
 
 	/** Construct this quantity with mapping rather than explicitly holding
@@ -138,7 +138,7 @@ implements MatrixQuantity
 		return removeRelationship(Constants.getHasReferenceFrameURN(), frame);
 	}
 
-	/**
+	/*
 	 * Add an object of type ListQuantity to represent an equivalent, but
 	 *  alternative represention of this quantity. The alternative quantity must
 	 * have the same size (number of values) as the parent quantity that it represents.
@@ -146,6 +146,8 @@ implements MatrixQuantity
 	 * @throws IllegalArgumentException if either self or a quantity of different size from the parent is passed.
 	 * @return boolean value of whether addition was successfull or not.
 	 */
+	// TODO
+	/*
 	public final boolean addAltValue ( ListQuantity value  )
 	throws IllegalArgumentException
 	{
@@ -162,31 +164,34 @@ implements MatrixQuantity
 
 		return getAltValueList().add(value);
 	}
+	*/
 
-	/**
+	/*
 	 * Remove an object of type ListQuantity from the List altvalueVector
 	 *
 	 * @return boolean value of whether removeal was successfull or not.
 	 */
+	// TODO
+	/*
 	public final boolean removeAltValue ( ListQuantity value ) {
 		return getAltValueList().remove(value);
 	}
+	*/
 
-	/**
-	 * Get the list of altvalueVector
-	 *
-	 * @return List of altvalueVector
-	 */
+	// TODO
+	/*
 	public final List<ListQuantity> getAltValueList () {
-		return ((List<ListQuantity>) getFieldValue(alternValuesFieldName));
+		// return ((List<ListQuantity>) getFieldValue(alternValuesFieldName));
 	}
+	*/
 
-	/** Determine equivalence between objects (quantities). Equivalence is the same
+	/* Determine equivalence between objects (quantities). Equivalence is the same
 	 * as 'equals' but without checking that the id fields between both
 	 * objects are the same.
-	 * @@Overrides
 	 */
 //	FIXME : not testing matrix axes, and etcera
+	/*
+	@Override
 	public boolean equivalent ( Object obj )
 	{
 
@@ -205,10 +210,12 @@ implements MatrixQuantity
 		}
 		return false;
 	}
+	*/
 
-	/** Quick internal class to hold all relationships between our object 
+	/* Quick internal class to hold all relationships between our object 
 	 * and other SO's. 
 	 */
+	/*
 	class AltValuesList<ListQuantity> 
 	extends AbstractXMLSerializableObjectList
 	{ 
@@ -225,6 +232,7 @@ implements MatrixQuantity
 		}
 
 	}
+	*/
 
 }
 
