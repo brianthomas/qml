@@ -96,16 +96,16 @@ public class TestCreatedAPI extends BaseCase {
 			// check the API a bit
 			validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
 
-			logger.debug("check axisframe");
+			logger.debug("check reference frame API");
 			for (ReferenceFrame r : q.getReferenceFrames())
 			{
 					List<ListQuantity> maxisList = r.getAxes();
-					assertEquals("number of axes in axis frame is 1", maxisList.size(), 1);
+					assertEquals("number of axes in reference frame is 1", maxisList.size(), 1);
 					logger.debug("number of axes in frame is:"+maxisList.size());
 			}
 
-			logger.debug("number of axis frames is "+q.getReferenceFrames().size()+" should be 1");
-			assertEquals("Number of axis frames is 1", q.getReferenceFrames().size(), 1);
+			logger.debug("number of ref frames is "+q.getReferenceFrames().size()+" should be 1");
+			assertEquals("Number of ref frames is 1", q.getReferenceFrames().size(), 1);
 
 			// Order of injection should match our list, iterate thru both and compare
 			// nothing has been changed/dropped or inserted erroneously
