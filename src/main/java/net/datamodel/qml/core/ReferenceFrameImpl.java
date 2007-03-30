@@ -77,11 +77,14 @@ implements ReferenceFrame {
     	}
     	
     	// add relationships in both objects
+    	// TODO
+    	/*
     	boolean success = axis.addRelationship(this, Constants.getHasParentReferenceFrameURN());
     	if (success)
+    	*/
     		return addRelationship(axis, Constants.getHasAxisURN()); 
     	
-    	return false; // if we get here we had a problem setting up the relationships 
+    	//return false; // if we get here we had a problem setting up the relationships 
     	
     }
 
@@ -100,12 +103,13 @@ implements ReferenceFrame {
     	}
     	
 //    	 add relationships in both objects
-    	boolean success = axis.removeRelationship(Constants.getHasParentReferenceFrameURN(), this);
+    	// TODO
+    	/*boolean success = axis.removeRelationship(Constants.getHasParentReferenceFrameURN(), this);
     	if (success)
+    	*/
     		return removeRelationship(Constants.getHasAxisURN(), axis); 
     	
-    	// TODO: should we throw an exception instead??
-    	return false; // if we get here we had a problem removing the relationships 
+    	//return false; // if we get here we had a problem removing the relationships 
     }
     
     /*
