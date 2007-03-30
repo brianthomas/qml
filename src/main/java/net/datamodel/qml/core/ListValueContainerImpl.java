@@ -340,12 +340,10 @@ implements ValueContainer
 			Class locatorClass = Class.forName(locatorClassName);
 			Class[] paramType = { this.getClass() };
 			Constructor locConst = locatorClass.getDeclaredConstructor(paramType);
-			Object[] parm = {this};
-			loc = (Locator) locConst.newInstance(parm);
+			loc = (Locator) locConst.newInstance( new Object[] {this});
 		} catch (Exception e) {
 			// shouldnt happen, but..
-			String msg =  "Badly configured value container class can't create indicated locator class:"+locatorClassName+" because:"+e.getMessage();
-			logger.error(msg);
+			logger.error(e.getClass()+" : "+e.getMessage());
 			e.printStackTrace();
 		}
 		locatorList.add(loc);
