@@ -94,7 +94,7 @@ implements ValueContainer
 	
 	/** Name of the locator class we will use.
 	 */
-	protected static String locatorClassName = "net.datamodel.qml.locator.ListLocatorImpl";
+	protected String locatorClassName = "net.datamodel.qml.locator.ListLocatorImpl";
 
 	/** */
 	private boolean cdataSerialization = false;
@@ -128,7 +128,7 @@ implements ValueContainer
 		addField("PCDATA", "", XMLFieldType.PCDATA);
 
 		resetValues(capacity);
-
+		
 	}
 
 	/**
@@ -332,6 +332,8 @@ implements ValueContainer
 	 * @see net.datamodel.qml.ObjectWithValues#createLocator()
 	 */
 	public final Locator createLocator ( ) {
+		
+		System.err.println("CreateLocator called for "+this+" w/ locClassName:"+locatorClassName);
 		
 		// Locator loc = new ListLocatorImpl (this);
 		Locator loc = null;
