@@ -17,7 +17,6 @@ extends BaseCase
 	
 	protected static final String docClassName = "net.datamodel.qml.support.DOMXerces2.QMLDocumentImpl";
 	protected static boolean isSetUp = false;
-	
 			
 	private static final Logger logger = Logger.getLogger(BaseXerces2Case.class);
 	
