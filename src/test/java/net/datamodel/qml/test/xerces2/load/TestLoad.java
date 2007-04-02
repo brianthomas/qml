@@ -3,14 +3,6 @@
  */
 package net.datamodel.qml.test.xerces2.load;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-
-import net.datamodel.qml.support.QMLDocument;
-import net.datamodel.qml.support.Specification;
 import net.datamodel.qml.test.xerces2.BaseXerces2Case;
 
 import org.apache.log4j.Logger;
