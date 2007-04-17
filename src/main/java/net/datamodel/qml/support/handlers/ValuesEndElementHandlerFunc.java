@@ -33,7 +33,7 @@ import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.datatype.VectorDataType;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.xssp.parse.EndElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
@@ -59,7 +59,7 @@ public class ValuesEndElementHandlerFunc implements EndElementHandler {
 
 		if(qhandler.hasCSVValues() || qhandler.hasVectorDataType()) {
 			Locator loc = qhandler.getCurrentLocator();
-			String[] values = qhandler.ValuesBuf.toString().trim().split(Constants.VALUE_SEPARATOR_STRING);
+			String[] values = qhandler.ValuesBuf.toString().trim().split(Constant.VALUE_SEPARATOR_STRING);
 
 			int nrof_components = 0;
 			if(qhandler.hasVectorDataType()) {
@@ -91,7 +91,7 @@ public class ValuesEndElementHandlerFunc implements EndElementHandler {
 				String componentValue = "";
 				for(int i=1; i<=values.length; i++)
 				{
-					componentValue += Constants.VALUE_SEPARATOR_STRING + values[i-1];
+					componentValue += Constant.VALUE_SEPARATOR_STRING + values[i-1];
 					logger.debug("   build vc value is now:["+componentValue+"] i:"+i);
 					if((i % nrof_components) == 0 && i >= nrof_components)
 					{

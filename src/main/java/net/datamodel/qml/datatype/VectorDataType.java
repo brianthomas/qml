@@ -37,7 +37,7 @@ import java.util.List;
 
 import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObjectList;
@@ -60,7 +60,7 @@ implements DataType
 	/** No-argument Constructor. */ 
 	public VectorDataType ( ) { 
 
-		setXMLNodeName(Constants.NodeName.VECTOR_DATATYPE);
+		setXMLNodeName(Constant.NodeName.VECTOR_DATATYPE);
 
 		// order matters! these are in *reverse* order of their
 		// occurence in the schema/DTD
@@ -78,7 +78,7 @@ implements DataType
 		Iterator iter = getComponents().iterator();
 		while (iter.hasNext()) {
 			Component comp = (Component) iter.next();
-			noDataValue += Constants.VALUE_SEPARATOR_STRING + comp.getDataType().getNoDataValue().toString(); 
+			noDataValue += Constant.VALUE_SEPARATOR_STRING + comp.getDataType().getNoDataValue().toString(); 
 		}
 		return noDataValue.trim();
 	}

@@ -39,7 +39,7 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.datatype.StringDataType;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 
 /**
  * A restricted type of atomic quantity. The trivial quantity may only 
@@ -59,7 +59,7 @@ extends AbstractQuantity
 	
 	public TrivialQuantityImpl (URI uri) { 
 		super(uri);
-		setXMLNodeName(Constants.NodeName.TRIVIAL_QUANTITY);
+		setXMLNodeName(Constant.NodeName.TRIVIAL_QUANTITY);
 	}
 
 	/*

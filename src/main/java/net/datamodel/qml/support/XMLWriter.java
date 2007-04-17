@@ -78,7 +78,7 @@ public class XMLWriter {
      * Newline Formatting information
      * @uml.property  name="nEW_LINE"
      */
-    private String NEW_LINE = Constants.NEW_LINE;
+    private String NEW_LINE = Constant.NEW_LINE;
     /**
      * @uml.property  name="isPretty"
      */

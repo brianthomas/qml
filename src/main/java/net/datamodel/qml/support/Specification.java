@@ -55,7 +55,7 @@ public class Specification {
    *  best serialize their values. These settings dont effect how
    *  values are *read in* by the QMLReader.
    */
-  private static int serializeValuesStyle = Constants.VALUE_SERIALIZE_CONTAINER;
+  private static int serializeValuesStyle = Constant.VALUE_SERIALIZE_CONTAINER;
 
   /** Tells how the output referenced Q's should be serialized.
    *  Choices are EXPAND, or COLLAPSE. The first choice results
@@ -64,7 +64,7 @@ public class Specification {
    *  latter choice places a simple "refQuantity" node in place 
    *  of the refrenced Q (with appropriate refId).
    */
-  private static int serializeRefQuantityStyle = Constants.REF_QUANTITY_COLLAPSE;
+  private static int serializeRefQuantityStyle = Constant.REF_QUANTITY_COLLAPSE;
 
   /**
  * Stores whether nicely formatted  should be output from any toXML* method. Nice formatting includes nested indentation and return characters to improve human readability of output  (but blows up the size of the  file!).

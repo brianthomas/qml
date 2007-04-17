@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.qml.support.QMLDocument;
 import net.datamodel.qml.support.QMLReader;
 import net.datamodel.qml.support.Specification;
@@ -43,9 +43,9 @@ public class ReadQML {
 	    // set the output specification
 	    spec.setPrettyOutput(true);
 	    spec.setPrettyOutputIndentation("  ");
-	    //spec.setSerializeValuesStyle(Constants.VALUE_SERIALIZE_TAGGED);
-	    spec.setSerializeValuesStyle(Constants.VALUE_SERIALIZE_CONTAINER);
-	    //spec.setSerializeRefQuantityStyle(Constants.REF_QUANTITY_EXPAND);
+	    //spec.setSerializeValuesStyle(Constant.VALUE_SERIALIZE_TAGGED);
+	    spec.setSerializeValuesStyle(Constant.VALUE_SERIALIZE_CONTAINER);
+	    //spec.setSerializeRefQuantityStyle(Constant.REF_QUANTITY_EXPAND);
 
 	    try {
 

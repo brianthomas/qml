@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.Units;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.qml.support.QMLDocument;
 import net.datamodel.qml.support.QMLElement;
 import net.datamodel.qml.support.QMLReader;
@@ -143,16 +143,16 @@ abstract public class BaseCase extends TestCase {
 		// use the xerces representation
 		QMLDocument doc = new QMLDocumentImpl();
 		// TODO : check setting another prefix on the QML namespace.
-//		doc.setPrefixNamespaceMapping("q", Constants.QML_NAMESPACE_URI);
+//		doc.setPrefixNamespaceMapping("q", Constant.QML_NAMESPACE_URI);
 
 		// create a new element, which will be the document root
-		QMLElement elem = doc.createQMLElementNS (Constants.QML_NAMESPACE_URI, q);
+		QMLElement elem = doc.createQMLElementNS (Constant.QML_NAMESPACE_URI, q);
 		// TODO: try it this way as well
-//		q.setNamespaceURI(Constants.QML_NAMESPACE_URI); // needed? doesnt it default to this? Check! 
+//		q.setNamespaceURI(Constant.QML_NAMESPACE_URI); // needed? doesnt it default to this? Check! 
 //		QMLElement elem = doc.createQMLElement(q);
 	
 		// set the schema location
-		String schemaLoc = Constants.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constants.QML_SCHEMA_NAME;
+		String schemaLoc = Constant.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constant.QML_SCHEMA_NAME;
 		logger.debug("Set schema location:"+schemaLoc);
 		elem.setAttribute("xsi:schemaLocation",schemaLoc);
 		
@@ -160,10 +160,10 @@ abstract public class BaseCase extends TestCase {
 		doc.setDocumentElement(elem);
 		
 		// now check various representations
-		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_TAGGED);
-		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_TAGGED);
-		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_SPACE);
-		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_TAGGED);
+		checkValidXMLRepresentation(doc, true, Constant.VALUE_SERIALIZE_TAGGED);
+		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, true, Constant.VALUE_SERIALIZE_SPACE);
 
 	}
 	

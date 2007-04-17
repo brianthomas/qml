@@ -31,7 +31,7 @@ package net.datamodel.qml.support.handlers;
 import java.net.URI;
 
 import net.datamodel.qml.core.ListQuantityImpl;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.qml.support.Utility;
 import net.datamodel.xssp.parse.StartElementHandler;
@@ -61,7 +61,7 @@ implements StartElementHandler
 
 		qhandler.recordQuantity(listQ);
 
-		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
+		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constant.QML_NAMESPACE_URI);
 		qhandler.addExpectedValues(new Integer(expected));
 
 		try {

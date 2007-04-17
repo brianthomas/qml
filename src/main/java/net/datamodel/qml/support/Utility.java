@@ -32,8 +32,6 @@ package net.datamodel.qml.support;
 
 import java.net.URI;
 
-import net.datamodel.soml.Constant;
-
 import org.xml.sax.Attributes;
 
 
@@ -47,7 +45,7 @@ import org.xml.sax.Attributes;
     /** Determine if passed value is valid integer type. 
      */
     public static boolean isValidIntegerType(String strIntegerType) {
-      String[] integerTypeList = Constants.INTEGER_TYPE_LIST;
+      String[] integerTypeList = Constant.INTEGER_TYPE_LIST;
       int stop = integerTypeList.length;
       for (int i = 0; i < stop; i++) {
         if (strIntegerType.equals(integerTypeList[i]))
@@ -60,7 +58,7 @@ import org.xml.sax.Attributes;
     /** Determine if the passed string is a valid attribute type.
      */
     public static boolean isValidXMLSerializableFieldType(String strXMLSerializableFieldType) {
-      String[] attributeTypeList = Constants.XML_FIELD_TYPE_LIST;
+      String[] attributeTypeList = Constant.XML_FIELD_TYPE_LIST;
       int stop = attributeTypeList.length;
       for (int i = 0; i< stop; i++) {
         if (strXMLSerializableFieldType.equals(attributeTypeList[i]))
@@ -70,7 +68,7 @@ import org.xml.sax.Attributes;
     }
     
     public static URI getURIFromAttribs(Attributes attrs) {
-    	String strValue = attrs.getValue(Constant.SOML_URI_ATTRIBUTE_NAME); 
+    	String strValue = attrs.getValue(net.datamodel.soml.Constant.SOML_URI_ATTRIBUTE_NAME); 
     	URI uri = null;
     	try {
     		uri = new URI (strValue);
@@ -101,7 +99,7 @@ import org.xml.sax.Attributes;
       // the null value set here.
       // if (strEndian == null) return true;
 
-      String[] endianList = Constants.ENDIANS_LIST;
+      String[] endianList = Constant.ENDIANS_LIST;
       int stop = endianList.length;
       for (int i = 0; i < stop; i++) {
         if (strEndian.equals(endianList[i]))
@@ -112,7 +110,7 @@ import org.xml.sax.Attributes;
     }
 
      public static boolean isValidIOEncoding(String strEncoding) {
-      String[] encodingList = Constants.IO_ENCODINGS_LIST;
+      String[] encodingList = Constant.IO_ENCODINGS_LIST;
       int stop = encodingList.length;
       for (int i = 0; i< stop; i++) {
         if (strEncoding.equals(encodingList[i]))
@@ -125,7 +123,7 @@ import org.xml.sax.Attributes;
 
       if (strDatatype == null) return true;
 
-      String[] dataTypeList = Constants.DATATYPE_LIST;
+      String[] dataTypeList = Constant.DATATYPE_LIST;
       int stop = dataTypeList.length;
       for (int i = 0; i < stop; i++) {
         if (strDatatype.equals(dataTypeList[i]))
@@ -135,7 +133,7 @@ import org.xml.sax.Attributes;
     }
 
     public static boolean isValidDataEncoding(String strDataEncoding) {
-      String[] dataEncodingList = Constants.DATA_ENCODING_LIST;
+      String[] dataEncodingList = Constant.DATA_ENCODING_LIST;
       int stop = dataEncodingList.length;
       for (int i = 0; i < stop; i++) {
         if (strDataEncoding.equals(dataEncodingList[i]))
@@ -145,7 +143,7 @@ import org.xml.sax.Attributes;
     }
 
     public static boolean isValidRelationRole(String strRole) {
-       String[] roleList = Constants.RELATION_ROLE_LIST;
+       String[] roleList = Constant.RELATION_ROLE_LIST;
        int stop = roleList.length;
        for (int i = 0; i < stop; i++) {
           if (strRole.equals(roleList[i])) return true;
@@ -154,7 +152,7 @@ import org.xml.sax.Attributes;
     }
 
     public static boolean isValidDataCompression(String strDataCompression) {
-      String[] dataCompressionList = Constants.DATA_COMPRESSION_LIST;
+      String[] dataCompressionList = Constant.DATA_COMPRESSION_LIST;
       int stop = dataCompressionList.length;
       for (int i = 0; i < stop; i++) {
         if (strDataCompression.equals(dataCompressionList[i]))
@@ -164,7 +162,7 @@ import org.xml.sax.Attributes;
     }
 
     public static boolean isValidFloatBits (int bits) {
-      int[] bitList = Constants.FLOATING_POINT_BITS_LIST;
+      int[] bitList = Constant.FLOATING_POINT_BITS_LIST;
       int stop = bitList.length;
       for (int i = 0; i < stop; i++) {
          if (bits == bitList[i]) return true;
@@ -173,7 +171,7 @@ import org.xml.sax.Attributes;
     }
 
     public static boolean isValidIntegerBits (int bits) {
-      int[] bitList = Constants.INTEGER_BITS_LIST;
+      int[] bitList = Constant.INTEGER_BITS_LIST;
       int stop = bitList.length;
       for (int i = 0; i < stop; i++) {
          if (bits == bitList[i]) return true;
@@ -199,7 +197,7 @@ import org.xml.sax.Attributes;
 
     public static boolean isValidValueSpecial(String strValueSpecial) {
       if (strValueSpecial == null) return true;
-      String[] valueSpecialList = Constants.VALUE_SPECIAL_LIST;
+      String[] valueSpecialList = Constant.VALUE_SPECIAL_LIST;
       int stop = valueSpecialList.length;
       for (int i = 0; i < stop; i++) {
         if (strValueSpecial.equals(valueSpecialList[i]))
@@ -210,7 +208,7 @@ import org.xml.sax.Attributes;
 
     public static boolean isValidValueInequality(String strValueInequality) {
       if (strValueInequality == null) return true;
-      String[] valueInequalityList = Constants.VALUE_INEQUALITY_LIST;
+      String[] valueInequalityList = Constant.VALUE_INEQUALITY_LIST;
       int stop = valueInequalityList.length;
       for (int i = 0; i < stop; i++) {
         if (valueInequalityList.equals(valueInequalityList[i]))

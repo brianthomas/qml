@@ -42,7 +42,7 @@ import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
 import net.datamodel.qml.XMLSerializableObjectWithValues;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.xssp.XMLFieldType;
 
 /**
@@ -60,8 +60,8 @@ implements Quantity, XMLSerializableObjectWithValues
 	private boolean hasMapping = false;
 
 	// XML attribute names 
-	private static final String sizeFieldName = Constants.SIZE_ATTRIBUTE_NAME;
-	private static final String dataFieldName = Constants.DATA_FIELD_NAME;
+	private static final String sizeFieldName = Constant.SIZE_ATTRIBUTE_NAME;
+	private static final String dataFieldName = Constant.DATA_FIELD_NAME;
 	
 	// Constructors
 

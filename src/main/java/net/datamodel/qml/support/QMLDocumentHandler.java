@@ -137,94 +137,94 @@ extends SOMLDocumentHandler
 		Map<String,StartElementHandler> qmlStartHandlers = new Hashtable<String,StartElementHandler>();
 		Map<String,StartElementHandler> mapStartHandlers = new Hashtable<String,StartElementHandler>();
 
-		qmlStartHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
-		qmlStartHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
-		qmlStartHandlers.put(Constants.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameStartElementHandlerFunc());
+		qmlStartHandlers.put(Constant.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
+		qmlStartHandlers.put(Constant.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
+		qmlStartHandlers.put(Constant.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameStartElementHandlerFunc());
 		/*
-        qmlStartHandlers.put(Constants.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.FLOAT_DATATYPE, new FloatDataTypeStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.INTEGER_DATATYPE, new IntegerDataTypeStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.LIST_QUANTITY, new ListQuantityStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.MATRIX_QUANTITY, new MatrixQuantityStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.QUANTITY, new IllegalStartElementHandlerFunc()); // its abstract..never invoked as a node! 
-        qmlStartHandlers.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new QuantityContainerStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new RefQuantityStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.STRING_DATATYPE, new StringDataTypeStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new TrivialQuantityStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.VECTOR_DATATYPE, new VectorStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.UNITS, new UnitsStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.VALUE, new ValueStartElementHandlerFunc());
-        qmlStartHandlers.put(Constants.NodeTypeName.VALUES, new ValuesStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.FLOAT_DATATYPE, new FloatDataTypeStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.INTEGER_DATATYPE, new IntegerDataTypeStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.LIST_QUANTITY, new ListQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.MATRIX_QUANTITY, new MatrixQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.QUANTITY, new IllegalStartElementHandlerFunc()); // its abstract..never invoked as a node! 
+        qmlStartHandlers.put(Constant.NodeTypeName.QUANTITY_CONTAINER, new QuantityContainerStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.REFERENCE_QUANTITY, new RefQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.STRING_DATATYPE, new StringDataTypeStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.TRIVIAL_QUANTITY, new TrivialQuantityStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.VECTOR_DATATYPE, new VectorStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.UNITS, new UnitsStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.VALUE, new ValueStartElementHandlerFunc());
+        qmlStartHandlers.put(Constant.NodeTypeName.VALUES, new ValuesStartElementHandlerFunc());
 		 */
 
 		// FIX: hacked in mapping handlers until separate mapping package is built.
-		mapStartHandlers.put(Constants.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
+		mapStartHandlers.put(Constant.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
 
-		this.addStartElementHandlers(qmlStartHandlers, Constants.QML_NAMESPACE_URI);
-		this.addStartElementHandlers(mapStartHandlers, Constants.MAPPING_NAMESPACE_URI);
+		this.addStartElementHandlers(qmlStartHandlers, Constant.QML_NAMESPACE_URI);
+		this.addStartElementHandlers(mapStartHandlers, Constant.MAPPING_NAMESPACE_URI);
 
 		// TODO: init end handlers
 		Map<String,EndElementHandler> mapEndHandlers = new Hashtable<String,EndElementHandler>();
 		Map<String,EndElementHandler> qmlEndHandlers = new Hashtable<String,EndElementHandler>();
 
-		qmlEndHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
+		qmlEndHandlers.put(Constant.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
 		/*
-        qmlEndHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.COMPONENT, new ComponentEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.LIST_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.MATRIX_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.QUANTITY, new IllegalEndElementHandlerFunc()); // its abstract..never invoked as a node! 
-        qmlEndHandlers.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new NullEndElementHandlerFunc()); // metaData 
-        qmlEndHandlers.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.FLOAT_DATATYPE, new NullEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.INTEGER_DATATYPE, new NullEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.STRING_DATATYPE, new NullEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new QuantityEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.UNITS, new NullEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.VALUE, new NullEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.VALUES, new ValuesEndElementHandlerFunc());
-        qmlEndHandlers.put(Constants.NodeTypeName.VECTOR_DATATYPE, new VectorEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.ATOMIC_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.COMPONENT, new ComponentEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.COMPOSITE_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.LIST_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.MATRIX_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.QUANTITY, new IllegalEndElementHandlerFunc()); // its abstract..never invoked as a node! 
+        qmlEndHandlers.put(Constant.NodeTypeName.QUANTITY_CONTAINER, new NullEndElementHandlerFunc()); // metaData 
+        qmlEndHandlers.put(Constant.NodeTypeName.REFERENCE_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.FLOAT_DATATYPE, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.INTEGER_DATATYPE, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.STRING_DATATYPE, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.TRIVIAL_QUANTITY, new QuantityEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.UNITS, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.VALUE, new NullEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.VALUES, new ValuesEndElementHandlerFunc());
+        qmlEndHandlers.put(Constant.NodeTypeName.VECTOR_DATATYPE, new VectorEndElementHandlerFunc());
 		 */
 
 		// TODO: hacked in mapping handlers until separate mapping package is built.
-		// mapEndHandlers.put(Constants.NodeTypeName.MAP, new NullEndElementHandlerFunc());
+		// mapEndHandlers.put(Constant.NodeTypeName.MAP, new NullEndElementHandlerFunc());
 
-		this.addEndElementHandlers(qmlEndHandlers, Constants.QML_NAMESPACE_URI);
-		this.addEndElementHandlers(mapEndHandlers, Constants.MAPPING_NAMESPACE_URI);
+		this.addEndElementHandlers(qmlEndHandlers, Constant.QML_NAMESPACE_URI);
+		this.addEndElementHandlers(mapEndHandlers, Constant.MAPPING_NAMESPACE_URI);
 
 		// TODO: init chardata handlers
 		Map<String,CharDataHandler> mapCharDataHandler = new Hashtable <String,CharDataHandler>();
 		Map<String,CharDataHandler> qmlCharDataHandler = new Hashtable <String,CharDataHandler>();
 
 		/*
-        qmlCharDataHandler.put(Constants.NodeTypeName.ALTERN_VALUES, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.REFERENCE_FRAME, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.COMPONENT, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.COMPOSITE_QUANTITY, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.FLOAT_DATATYPE, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.INTEGER_DATATYPE, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.LIST_QUANTITY, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.MATRIX_QUANTITY, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.QUANTITY, new IllegalCharDataHandlerFunc()); // its abstract..never invoked as a node! 
-        qmlCharDataHandler.put(Constants.NodeTypeName.QUANTITY_CONTAINER, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.REFERENCE_QUANTITY, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.STRING_DATATYPE, new NullCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.TRIVIAL_QUANTITY, new TrivialQuantityCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.UNITS, new UnitsCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.VALUE, new ValueCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.VALUES, new ValuesCharDataHandlerFunc());
-        qmlCharDataHandler.put(Constants.NodeTypeName.VECTOR_DATATYPE, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.ALTERN_VALUES, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.ATOMIC_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.REFERENCE_FRAME, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.COMPONENT, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.COMPOSITE_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.FLOAT_DATATYPE, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.INTEGER_DATATYPE, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.LIST_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.MATRIX_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.QUANTITY, new IllegalCharDataHandlerFunc()); // its abstract..never invoked as a node! 
+        qmlCharDataHandler.put(Constant.NodeTypeName.QUANTITY_CONTAINER, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.REFERENCE_QUANTITY, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.STRING_DATATYPE, new NullCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.TRIVIAL_QUANTITY, new TrivialQuantityCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.UNITS, new UnitsCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.VALUE, new ValueCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.VALUES, new ValuesCharDataHandlerFunc());
+        qmlCharDataHandler.put(Constant.NodeTypeName.VECTOR_DATATYPE, new NullCharDataHandlerFunc());
 		 */
 
 		// FIX: hacked in mapping handlers until separate mapping package is built.
-		// mapCharDataHandler.put(Constants.NodeTypeName.MAP, new NullCharDataHandlerFunc());
+		// mapCharDataHandler.put(Constant.NodeTypeName.MAP, new NullCharDataHandlerFunc());
 
-		addCharDataHandlers(qmlCharDataHandler, Constants.QML_NAMESPACE_URI); 
-		addCharDataHandlers(mapCharDataHandler, Constants.MAPPING_NAMESPACE_URI); 
+		addCharDataHandlers(qmlCharDataHandler, Constant.QML_NAMESPACE_URI); 
+		addCharDataHandlers(mapCharDataHandler, Constant.MAPPING_NAMESPACE_URI); 
 
 		// TODO: init element associations
 
@@ -476,7 +476,7 @@ extends SOMLDocumentHandler
                  doctype.setPublicId((String) DoctypeObjectAttributes.get("pubId")); 
            } else {
               // we have to guess values
-              doctype.setSystemId(Constants.Quantity_DTD_NAME); 
+              doctype.setSystemId(Constant.Quantity_DTD_NAME); 
            }
 
            Quantity.setXMLDeclaration (xmlDecl);
@@ -511,7 +511,7 @@ extends SOMLDocumentHandler
 		// belong to the www.datamodel.net/Quantity namespace. Its not
 		// likely, and, I cant get the namespaced "getIndex" function to
 		// work, so this will have to do for now.
-		int index = attrs.getIndex(Constants.SIZE_ATTRIBUTE_NAME);
+		int index = attrs.getIndex(Constant.SIZE_ATTRIBUTE_NAME);
 
 		if(index > 0) {
 			String value = attrs.getValue(index);
@@ -632,7 +632,7 @@ extends SOMLDocumentHandler
 	// We *could* do this by analysis of the QML.xsd everytime we load the document handler, 
 	// but thats probably overkill, and a performance hit that we dont need to take.
 	//
-	// Optionally, it might be nice to have this table declared in the "Constants" class..that
+	// Optionally, it might be nice to have this table declared in the "Constant" class..that
 	// seems better..
 	// TODO:!!
 	private void initElementTypeAssoc() {
@@ -644,26 +644,26 @@ extends SOMLDocumentHandler
 		// Besure to modify all of the following!!
 		// 
 		/*
-       qmlAssoc.put(Constants.NodeName.ALTERN_VALUES, new HandlerInfo(Constants.NodeTypeName.ALTERN_VALUES));
-       qmlAssoc.put(Constants.NodeName.ATOMIC_QUANTITY, new HandlerInfo(Constants.NodeTypeName.ATOMIC_QUANTITY));
-       qmlAssoc.put(Constants.NodeName.REFERENCE_FRAME, new HandlerInfo(Constants.NodeTypeName.REFERENCE_FRAME));
-       qmlAssoc.put(Constants.NodeName.COMPONENT, new HandlerInfo(Constants.NodeTypeName.COMPONENT));
-       qmlAssoc.put(Constants.NodeName.COMPOSITE_QUANTITY, new HandlerInfo(Constants.NodeTypeName.COMPOSITE_QUANTITY));
-       qmlAssoc.put(Constants.NodeName.FLOAT_DATATYPE, new HandlerInfo(Constants.NodeTypeName.FLOAT_DATATYPE));
-       qmlAssoc.put(Constants.NodeName.INTEGER_DATATYPE, new HandlerInfo(Constants.NodeTypeName.INTEGER_DATATYPE));
-       qmlAssoc.put(Constants.NodeName.LIST_QUANTITY, new HandlerInfo(Constants.NodeTypeName.LIST_QUANTITY));
-       qmlAssoc.put(Constants.NodeName.MATRIX_QUANTITY, new HandlerInfo(Constants.NodeTypeName.MATRIX_QUANTITY));
-       qmlAssoc.put(Constants.NodeName.REFERENCE_QUANTITY, new HandlerInfo(Constants.NodeTypeName.REFERENCE_QUANTITY));
-       qmlAssoc.put(Constants.NodeName.STRING_DATATYPE, new HandlerInfo(Constants.NodeTypeName.STRING_DATATYPE));
-       qmlAssoc.put(Constants.NodeName.TRIVIAL_QUANTITY, new HandlerInfo(Constants.NodeTypeName.TRIVIAL_QUANTITY));
-       qmlAssoc.put(Constants.NodeName.UNITS, new HandlerInfo(Constants.NodeTypeName.UNITS));
-       qmlAssoc.put(Constants.NodeName.VECTOR_DATATYPE, new HandlerInfo(Constants.NodeTypeName.VECTOR_DATATYPE));
-       qmlAssoc.put(Constants.NodeName.VALUE, new HandlerInfo(Constants.NodeTypeName.VALUE));
-       qmlAssoc.put(Constants.NodeName.VALUES, new HandlerInfo(Constants.NodeTypeName.VALUES));
+       qmlAssoc.put(Constant.NodeName.ALTERN_VALUES, new HandlerInfo(Constant.NodeTypeName.ALTERN_VALUES));
+       qmlAssoc.put(Constant.NodeName.ATOMIC_QUANTITY, new HandlerInfo(Constant.NodeTypeName.ATOMIC_QUANTITY));
+       qmlAssoc.put(Constant.NodeName.REFERENCE_FRAME, new HandlerInfo(Constant.NodeTypeName.REFERENCE_FRAME));
+       qmlAssoc.put(Constant.NodeName.COMPONENT, new HandlerInfo(Constant.NodeTypeName.COMPONENT));
+       qmlAssoc.put(Constant.NodeName.COMPOSITE_QUANTITY, new HandlerInfo(Constant.NodeTypeName.COMPOSITE_QUANTITY));
+       qmlAssoc.put(Constant.NodeName.FLOAT_DATATYPE, new HandlerInfo(Constant.NodeTypeName.FLOAT_DATATYPE));
+       qmlAssoc.put(Constant.NodeName.INTEGER_DATATYPE, new HandlerInfo(Constant.NodeTypeName.INTEGER_DATATYPE));
+       qmlAssoc.put(Constant.NodeName.LIST_QUANTITY, new HandlerInfo(Constant.NodeTypeName.LIST_QUANTITY));
+       qmlAssoc.put(Constant.NodeName.MATRIX_QUANTITY, new HandlerInfo(Constant.NodeTypeName.MATRIX_QUANTITY));
+       qmlAssoc.put(Constant.NodeName.REFERENCE_QUANTITY, new HandlerInfo(Constant.NodeTypeName.REFERENCE_QUANTITY));
+       qmlAssoc.put(Constant.NodeName.STRING_DATATYPE, new HandlerInfo(Constant.NodeTypeName.STRING_DATATYPE));
+       qmlAssoc.put(Constant.NodeName.TRIVIAL_QUANTITY, new HandlerInfo(Constant.NodeTypeName.TRIVIAL_QUANTITY));
+       qmlAssoc.put(Constant.NodeName.UNITS, new HandlerInfo(Constant.NodeTypeName.UNITS));
+       qmlAssoc.put(Constant.NodeName.VECTOR_DATATYPE, new HandlerInfo(Constant.NodeTypeName.VECTOR_DATATYPE));
+       qmlAssoc.put(Constant.NodeName.VALUE, new HandlerInfo(Constant.NodeTypeName.VALUE));
+       qmlAssoc.put(Constant.NodeName.VALUES, new HandlerInfo(Constant.NodeTypeName.VALUES));
 		 */
 
 		// set up the associated namespace stuff
-//		ElementTypeAssoc.put(Constants.QML_NAMESPACE_URI, qmlAssoc);
+//		ElementTypeAssoc.put(Constant.QML_NAMESPACE_URI, qmlAssoc);
 
 	}
 

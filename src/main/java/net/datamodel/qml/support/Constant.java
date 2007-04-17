@@ -1,6 +1,6 @@
 // CVS $Id$
 
-// Constants.java Copyright (c) 2004 Brian Thomas. All rights reserved.
+// Constant.java Copyright (c) 2004 Brian Thomas. All rights reserved.
 
 /* LICENSE
 
@@ -43,7 +43,7 @@ import java.net.URISyntaxException;
  * @version $Revision$
  */
 
-public abstract class Constants {
+public abstract class Constant {
 
   /** The name of the relevant version of the DTD file for this package.
   */

@@ -41,7 +41,7 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.qml.support.Specification;
 
 import org.apache.log4j.Logger;
@@ -81,7 +81,7 @@ implements ListQuantity
         if(capacity < 1)
            capacity = Specification.getInstance().getDefaultValueContainerCapacity();
         
-        setXMLNodeName(Constants.NodeName.LIST_QUANTITY);
+        setXMLNodeName(Constant.NodeName.LIST_QUANTITY);
         setSize(1);
         
     }
@@ -112,7 +112,7 @@ implements ListQuantity
        // check if we are full, and if so, expand our array
        if (getValueContainer().getNumberOfValues() == getCapacity())
        {
-          int new_capacity = (int)( getCapacity() * Constants.EXPAND_VALUELIST_FACTOR);
+          int new_capacity = (int)( getCapacity() * Constant.EXPAND_VALUELIST_FACTOR);
           setCapacity(new_capacity);
        }
 
@@ -144,7 +144,7 @@ implements ListQuantity
        // check if we are full, and if so, expand our array
        if (getValueContainer().getNumberOfValues() == getCapacity())
        {
-          int new_capacity = (int)( getCapacity() * Constants.EXPAND_VALUELIST_FACTOR);
+          int new_capacity = (int)( getCapacity() * Constant.EXPAND_VALUELIST_FACTOR);
           setCapacity(new_capacity);
        }
 
@@ -176,7 +176,7 @@ implements ListQuantity
        // check if we are full, and if so, expand our array
        if (getValueContainer().getNumberOfValues() == getCapacity())
        {
-          int new_capacity = (int)( getCapacity() * Constants.EXPAND_VALUELIST_FACTOR);
+          int new_capacity = (int)( getCapacity() * Constant.EXPAND_VALUELIST_FACTOR);
           setCapacity(new_capacity);
        }
        Locator loc = createLocator();
@@ -207,7 +207,7 @@ implements ListQuantity
        // check if we are full, and if so, expand our array
        if (getValueContainer().getNumberOfValues() == getCapacity())
        {
-          int new_capacity = (int)( getCapacity() * Constants.EXPAND_VALUELIST_FACTOR);
+          int new_capacity = (int)( getCapacity() * Constant.EXPAND_VALUELIST_FACTOR);
           setCapacity(new_capacity);
        }
 
@@ -239,7 +239,7 @@ implements ListQuantity
        // check if we are full, and if so, expand our array
        if (getValueContainer().getNumberOfValues() == getCapacity())
        {
-          int new_capacity = (int)( getCapacity() * Constants.EXPAND_VALUELIST_FACTOR);
+          int new_capacity = (int)( getCapacity() * Constant.EXPAND_VALUELIST_FACTOR);
           setCapacity(new_capacity);
        }
 
@@ -271,7 +271,7 @@ implements ListQuantity
        // check if we are full, and if so, expand our array
        if (getValueContainer().getNumberOfValues() == getCapacity())
        {
-          int new_capacity = (int)( getCapacity() * Constants.EXPAND_VALUELIST_FACTOR);
+          int new_capacity = (int)( getCapacity() * Constant.EXPAND_VALUELIST_FACTOR);
           setCapacity(new_capacity);
        }
 

@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Vector;
 
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.qml.support.QMLDocument;
 import net.datamodel.qml.support.QMLElement;
 import net.datamodel.soml.Relationship;
@@ -58,15 +58,15 @@ implements QMLDocument
 
 	/** Create a QMLDocument. This implementation will automatically set up
 	 * the basic default namespace mappings for target namespace 
-	 * (set to {@link Constants.QML_NAMESPACE_URI})
-	 * and "xsi" equal to {@link Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI}.
+	 * (set to {@link Constant.QML_NAMESPACE_URI})
+	 * and "xsi" equal to {@link Constant.XML_SCHEMA_INSTANCE_NAMESPACE_URI}.
 	 * Both of these settings may be overridden after construction using
 	 * the {@link net.datamodel.xssp.parse.XSSPDocument#setPrefixNamespaceMapping(java.lang.String, java.lang.String)} method.
 	 */
 	public QMLDocumentImpl() {
 		super();
-		setPrefixNamespaceMapping("", Constants.QML_NAMESPACE_URI);
-		setPrefixNamespaceMapping("xsi", Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
+		setPrefixNamespaceMapping("", Constant.QML_NAMESPACE_URI);
+		setPrefixNamespaceMapping("xsi", Constant.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
 	}
 	
 	// TODO: remove when done testing.
@@ -207,10 +207,10 @@ implements QMLDocument
 	}
 	
 	@Override
-	public String getNamespaceURI() { return Constants.QML_NAMESPACE_URI; }
+	public String getNamespaceURI() { return Constant.QML_NAMESPACE_URI; }
 
 	@Override
-	public String getSchemaName() { return Constants.QML_SCHEMA_NAME; }
+	public String getSchemaName() { return Constant.QML_SCHEMA_NAME; }
 
 
 	// insert prefix mappings in root element
@@ -231,8 +231,8 @@ implements QMLDocument
 				logger.warn("No prefix namespace table in document...(rootNode:"+root.getTagName()+")...doing slow auto-generation technique.");
 
 				// first add in the necessaries
-				PrefixNamespaceMappingHashtable.put("xsi",Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
-				// PrefixNamespaceMappingHashtable.put("",Constants.QML_NAMESPACE_URI);
+				PrefixNamespaceMappingHashtable.put("xsi",Constant.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
+				// PrefixNamespaceMappingHashtable.put("",Constant.QML_NAMESPACE_URI);
 
 				// pre-add in the root element namespace as the default
 				// this overrides, and is simpler/faster than the following chunk of 

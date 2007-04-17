@@ -8,7 +8,7 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 
 import org.apache.log4j.Logger;
 
@@ -68,7 +68,7 @@ extends AbstractQuantity
 	 */
 	protected AtomicQuantityImpl (URI uri, int capacity) {  
 		super (uri, capacity);  
-		setXMLNodeName(Constants.NodeName.ATOMIC_QUANTITY);
+		setXMLNodeName(Constant.NodeName.ATOMIC_QUANTITY);
 	}
 
 	/* Construct this quantity with mapping rather than explicitly holding 

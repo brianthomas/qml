@@ -28,7 +28,7 @@
 package net.datamodel.qml.support.handlers;
 
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.qml.support.QMLDocumentHandler;
 import net.datamodel.xssp.parse.StartElementHandler;
 import net.datamodel.xssp.parse.XSSPDocumentHandler;
@@ -47,7 +47,7 @@ public class RefQuantityStartElementHandlerFunc implements StartElementHandler {
 
 		Quantity refQ = null;
 
-		String qIdRef = attrs.getValue(Constants.QIDREF_ATTRIBUTE_NAME);
+		String qIdRef = attrs.getValue(Constant.QIDREF_ATTRIBUTE_NAME);
 
 		// Allow it to crash if the cast fails
 		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;

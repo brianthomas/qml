@@ -38,7 +38,7 @@ import java.util.Vector;
 
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.ReferenceFrame;
-import net.datamodel.qml.support.Constants;
+import net.datamodel.qml.support.Constant;
 import net.datamodel.soml.SemanticObject;
 import net.datamodel.soml.impl.SemanticObjectImpl;
 
@@ -60,7 +60,7 @@ implements ReferenceFrame {
 
     public ReferenceFrameImpl (URI uri) {
     	super(uri);
-    	setXMLNodeName(Constants.NodeName.REFERENCE_FRAME);
+    	setXMLNodeName(Constant.NodeName.REFERENCE_FRAME);
     }
 
     /*
@@ -79,10 +79,10 @@ implements ReferenceFrame {
     	// add relationships in both objects
     	// TODO
     	/*
-    	boolean success = axis.addRelationship(this, Constants.getHasParentReferenceFrameURN());
+    	boolean success = axis.addRelationship(this, Constant.getHasParentReferenceFrameURN());
     	if (success)
     	*/
-    		return addRelationship(axis, Constants.getHasAxisURN()); 
+    		return addRelationship(axis, Constant.getHasAxisURN()); 
     	
     	//return false; // if we get here we had a problem setting up the relationships 
     	
@@ -104,10 +104,10 @@ implements ReferenceFrame {
     	
 //    	 add relationships in both objects
     	// TODO
-    	/*boolean success = axis.removeRelationship(Constants.getHasParentReferenceFrameURN(), this);
+    	/*boolean success = axis.removeRelationship(Constant.getHasParentReferenceFrameURN(), this);
     	if (success)
     	*/
-    		return removeRelationship(Constants.getHasAxisURN(), axis); 
+    		return removeRelationship(Constant.getHasAxisURN(), axis); 
     	
     	//return false; // if we get here we had a problem removing the relationships 
     }
@@ -118,7 +118,7 @@ implements ReferenceFrame {
      */
     public List<ListQuantity> getAxes ( ) {
     	List<ListQuantity> axes = new Vector<ListQuantity>();
-    	List<SemanticObject> related = this.getRelatedSemanticObjects(Constants.getHasAxisURN());  
+    	List<SemanticObject> related = this.getRelatedSemanticObjects(Constant.getHasAxisURN());  
     	for (SemanticObject so : related) {
     		// Let it be possible for the cast to fail (e.g. no run time check). Shouldnt 
     		// fail if the package is working as advertised, however.
