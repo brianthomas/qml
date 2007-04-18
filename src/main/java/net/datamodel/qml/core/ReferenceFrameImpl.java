@@ -76,15 +76,15 @@ implements ReferenceFrame {
     		return false;
     	}
     	
-    	// add relationships in both objects
+    	// add Propertys in both objects
     	// TODO
     	/*
-    	boolean success = axis.addRelationship(this, Constant.getHasParentReferenceFrameURN());
+    	boolean success = axis.addProperty(this, Constant.getHasParentReferenceFrameURN());
     	if (success)
     	*/
-    		return addRelationship(axis, Constant.getHasAxisURN()); 
+    		return addProperty(axis, Constant.getHasAxisURN()); 
     	
-    	//return false; // if we get here we had a problem setting up the relationships 
+    	//return false; // if we get here we had a problem setting up the Propertys 
     	
     }
 
@@ -102,14 +102,14 @@ implements ReferenceFrame {
     		return false;
     	}
     	
-//    	 add relationships in both objects
+//    	 add Propertys in both objects
     	// TODO
-    	/*boolean success = axis.removeRelationship(Constant.getHasParentReferenceFrameURN(), this);
+    	/*boolean success = axis.removeProperty(Constant.getHasParentReferenceFrameURN(), this);
     	if (success)
     	*/
-    		return removeRelationship(Constant.getHasAxisURN(), axis); 
+    		return removeObjectProperty(Constant.getHasAxisURN(), axis); 
     	
-    	//return false; // if we get here we had a problem removing the relationships 
+    	//return false; // if we get here we had a problem removing the Propertys 
     }
     
     /*
@@ -118,7 +118,7 @@ implements ReferenceFrame {
      */
     public List<ListQuantity> getAxes ( ) {
     	List<ListQuantity> axes = new Vector<ListQuantity>();
-    	List<SemanticObject> related = this.getRelatedSemanticObjects(Constant.getHasAxisURN());  
+    	List<SemanticObject> related = this.getSemanticObjects(Constant.getHasAxisURN());  
     	for (SemanticObject so : related) {
     		// Let it be possible for the cast to fail (e.g. no run time check). Shouldnt 
     		// fail if the package is working as advertised, however.

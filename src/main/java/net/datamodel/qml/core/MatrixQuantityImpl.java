@@ -35,18 +35,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.Vector;
 
-import net.datamodel.qml.Component;
-import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.MatrixQuantity;
-import net.datamodel.qml.Quantity;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ValueMapping;
 import net.datamodel.qml.support.Constant;
-import net.datamodel.soml.Relationship;
-import net.datamodel.xssp.XMLFieldType;
-import net.datamodel.xssp.impl.AbstractXMLSerializableObjectList;
-
-import org.apache.log4j.Logger;
+import net.datamodel.soml.ObjectProperty;
+import net.datamodel.soml.Property;
 
 /**
  * A quantity which contains a set of one or more values 
@@ -113,7 +107,7 @@ implements MatrixQuantity
 //		throw new IllegalArgumentException("ReferenceFrame has different number of locations ["+axisLocations+"] from parent Q ["+getSize().intValue()+"]");
 //		}
 
-		return this.addRelationship(frame, Constant.getHasReferenceFrameURN());
+		return this.addProperty(frame, Constant.getHasReferenceFrameURN());
 	}
 
 	/*
@@ -124,8 +118,8 @@ implements MatrixQuantity
 		List<ReferenceFrame> rList = new Vector<ReferenceFrame>(); 
 		// tool through our list of related objects and find ones which
 		// match the indicated urn
-		for (Relationship rel : getRelationships(Constant.getHasReferenceFrameURN())) {;
-		rList.add((ReferenceFrame) rel.getTarget());
+		for (Property rel : getProperties(Constant.getHasReferenceFrameURN())) {
+			rList.add((ReferenceFrame) ((ObjectProperty)rel).getTarget());
 		}
 		return rList;
 	}
@@ -135,7 +129,7 @@ implements MatrixQuantity
 	 * @see net.datamodel.qml.MatrixQuantity#removeReferenceFrame(net.datamodel.qml.ReferenceFrame)
 	 */
 	public boolean removeReferenceFrame(ReferenceFrame frame) {
-		return removeRelationship(Constant.getHasReferenceFrameURN(), frame);
+		return removeObjectProperty(Constant.getHasReferenceFrameURN(), frame);
 	}
 
 	/*
@@ -212,14 +206,14 @@ implements MatrixQuantity
 	}
 	*/
 
-	/* Quick internal class to hold all relationships between our object 
+	/* Quick internal class to hold all Propertys between our object 
 	 * and other SO's. 
 	 */
 	/*
 	class AltValuesList<ListQuantity> 
 	extends AbstractXMLSerializableObjectList
 	{ 
-		// simply change the node name to "relationship"
+		// simply change the node name to "Property"
 		// and set no serialization when its empty 
 		AltValuesList() { 
 			super("altValues"); 

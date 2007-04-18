@@ -37,7 +37,8 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.support.Constant;
 import net.datamodel.qml.support.QMLDocument;
 import net.datamodel.qml.support.QMLElement;
-import net.datamodel.soml.Relationship;
+import net.datamodel.soml.ObjectProperty;
+import net.datamodel.soml.Property;
 import net.datamodel.soml.support.DOMXerces2.SOMLDocumentImpl;
 
 import org.apache.log4j.Logger;
@@ -362,11 +363,13 @@ implements QMLDocument
 		List<Quantity> qList = new Vector<Quantity>();
 		// troll thru our relationships looking for objects which
 		// are Quantities
-		for (Relationship r : target.getRelationships()) 
+		for (Property r : target.getProperties()) 
 		{
-			if (r.getTarget() instanceof Quantity)
+			
+			if (r instanceof ObjectProperty 
+					&& ((ObjectProperty)r).getTarget() instanceof Quantity)
 			{
-				Quantity q = (Quantity) r.getTarget();
+				Quantity q = (Quantity) ((ObjectProperty)r).getTarget();
 				qList.add(q);
 				qList.addAll(findQuantities(q));
 			}
