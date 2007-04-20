@@ -333,7 +333,7 @@ implements ValueContainer
 	 */
 	public final Locator createLocator ( ) {
 		
-		System.err.println("CreateLocator called for "+this+" w/ locClassName:"+locatorClassName);
+		logger.debug("CreateLocator called for "+this+" w/ locClassName:"+locatorClassName);
 		
 		// Locator loc = new ListLocatorImpl (this);
 		Locator loc = null;
