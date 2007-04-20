@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!-- test 7: List quantity with dataType and tagged values -->
+<listQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_32.xsd"
+      size="3"
+>
+   <string width="4"/>
+   <!-- 3 string values -->
+   <values><value>some</value><value>data</value><value>here</value></values>
+</listQuantity>

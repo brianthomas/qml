@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- test four: test various quantity datatype settings -->
+<atomicQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_32.xsd"
+>
+      <!-- integer decimal, signed -->
+      <atomicQuantity><integer width="2" type="decimal" signed="no"/><value>10</value></atomicQuantity>
+      <!-- integer octal -->
+      <atomicQuantity><integer width="3" type="octal"/><value>011</value></atomicQuantity>
+      <!-- integer hex -->
+      <atomicQuantity><integer width="4" type="hexadecimal"/><value>0x10</value></atomicQuantity>
+      <!-- float -->
+      <atomicQuantity><float width="4" precision="1"/><value>10.1</value></atomicQuantity>
+      <!-- float in sci notation -->
+      <atomicQuantity><float width="8" precision="1" exponent="3"/><value>10.1e-02</value></atomicQuantity>
+      <!-- string, arb. length -->
+      <atomicQuantity><string/><value>some string</value></atomicQuantity>
+      <!-- string, fixed length -->
+      <atomicQuantity><string width="24"/><value>some fixed length string</value></atomicQuantity>
+   <string width="14"/>
+   <value>some data here</value>
+</atomicQuantity>

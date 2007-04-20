@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!-- test one : an atomic quantity with explicit namespace, and empty units -->
+<q:atomicQuantity 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xmlns:q="http://www.data-model.net/Quantity" 
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_32.xsd"
+      name="test"
+      description="test string quantity"
+      soId="dude"
+>
+   <q:units/>
+   <q:string/>
+   <q:value>some data in a basic node</q:value>
+</q:atomicQuantity>

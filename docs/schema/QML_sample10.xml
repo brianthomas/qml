@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- test seven: list quantity with various types of meta-data -->
+<listQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:a="http://www.data-model.net/Accuracy"
+      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://www.data-model.net/Quantity QML_32.xsd"
+      size="3"
+>
+   <atomicQuantity><units>cm</units><string/><value>meta-data2 here</value></atomicQuantity>
+   <listQuantity size="3"><string/><values>some meta-data3 here</values></listQuantity>
+   <string width="4"/>
+   <values><![CDATA[some data here]]></values> <!-- 3 string values in CDATA section -->
+</listQuantity>

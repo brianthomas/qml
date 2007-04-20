@@ -127,7 +127,7 @@ abstract public class BaseCase extends TestCase {
 		
 		logger.debug("   Document XML is:\n"+xmlRep);
 		
-		assertTrue("Is valid version pretty:"+pretty+" type:"+type, Utility.validateSrc(new InputSource(sr), SaxParserName));
+		assertTrue("Is valid version? pretty:"+pretty, Utility.validateSrc(new InputSource(sr), SaxParserName));
 
 	}
 	
@@ -146,10 +146,11 @@ abstract public class BaseCase extends TestCase {
 //		doc.setPrefixNamespaceMapping("q", Constant.QML_NAMESPACE_URI);
 
 		// create a new element, which will be the document root
-		QMLElement elem = doc.createQMLElementNS (Constant.QML_NAMESPACE_URI, q);
+//		QMLElement elem = doc.createQMLElementNS (Constant.QML_NAMESPACE_URI, q);
+		
 		// TODO: try it this way as well
 //		q.setNamespaceURI(Constant.QML_NAMESPACE_URI); // needed? doesnt it default to this? Check! 
-//		QMLElement elem = doc.createQMLElement(q);
+		QMLElement elem = doc.createQMLElement(q);
 	
 		// set the schema location
 		String schemaLoc = Constant.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constant.QML_SCHEMA_NAME;
@@ -158,6 +159,8 @@ abstract public class BaseCase extends TestCase {
 		
 		// now set the root element
 		doc.setDocumentElement(elem);
+		
+		logger.debug("DOC XML IS:["+doc.toXMLString()+"]");
 		
 		// now check various representations
 		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_TAGGED);

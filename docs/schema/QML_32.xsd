@@ -24,14 +24,16 @@
 
 -->
 <xsd:schema targetNamespace="http://www.data-model.net/Quantity" 
-        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-        xmlns:acc="http://www.data-model.net/Accuracy"
-        xmlns:map="http://www.data-model.net/Mappings" 
-        xmlns="http://www.data-model.net/Quantity" 
-        elementFormDefault="qualified"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            xmlns:acc="http://www.data-model.net/Accuracy"
+            xmlns:map="http://www.data-model.net/Mappings" 
+            xmlns:so="http://www.data-model.net/SemanticObject" 
+            xmlns="http://www.data-model.net/Quantity" 
+            elementFormDefault="qualified"
 >
 
   <xsd:import namespace="http://www.data-model.net/SemanticObject" schemaLocation="SOML_54.xsd"/>
+  <xsd:import namespace="http://www.data-model.net/Accuracy" schemaLocation="QMLAccuracy.xsd"/>
 <!--
   <xsd:import namespace="http://www.data-model.net/Mappings" schemaLocation="QMLMappings.xsd"/>
 -->
@@ -43,18 +45,24 @@
   </xsd:annotation>
 
   <!-- generic quantity type -->
-  <xsd:complexType name="QuantityType"/>
+  <xsd:complexType name="QuantityType">
       <xsd:complexContent>
-      	<xsd:extension base="SemanticObjectType"/>
+       	  <xsd:extension base="so:SemanticObjectType">
+             <xsd:attributeGroup ref="ComponentAttribs"/>
+          </xsd:extension>
       </xsd:complexContent>
-  </xsd:complexType> 
+  </xsd:complexType>
 
   <!-- generic component type -->
-  <xsd:complexType name="AbstractComponentType"/>
+  <xsd:complexType name="AbstractComponentType">
+      <xsd:complexContent>
+       	  <xsd:extension base="so:SemanticObjectType"/>
+      </xsd:complexContent>
+  </xsd:complexType>
 
   <xsd:complexType name="AltValuesContainerType">
       <xsd:complexContent>
-            <xsd:restriction base="QuantityContainer">
+            <xsd:restriction base="quantityContainer">
                <xsd:choice maxOccurs="unbounded">
                   <xsd:element ref="refQuantity"/>
                   <xsd:element ref="ListQuantityGroup"/>
@@ -63,10 +71,10 @@
       </xsd:complexContent>
   </xsd:complexType>
 
-       <!-- a container for axes (which are ListQ's) -->
-  <xsd:complexType name="AxisFrameType">
+  <!-- a container for axes (which are ListQ's) -->
+  <xsd:complexType name="ReferenceFrameType">
       <xsd:complexContent>
-           <xsd:restriction base="QuantityType">
+           <xsd:restriction base="so:SemanticObjectType">
                <xsd:sequence>
             <!-- the "data" are Quantities which will serve as "axes". These Q's
                 are restricted, for time being, to being "list" or "atomic" Q's
@@ -76,47 +84,23 @@
                      <xsd:element ref="QuantityGroup"/>
                      <xsd:element ref="ListQuantityGroup"/>
                   </xsd:choice>
-           </xsd:sequence>
-           <xsd:attributeGroup ref="CompositeQuantityAttribs"/>
+               </xsd:sequence>
            </xsd:restriction>
       </xsd:complexContent>
   </xsd:complexType>
 
-  <!-- composite Quantity -->
-   <xsd:complexType name="CompositeQuantityType">
-        <xsd:complexContent>
-             <xsd:extension base="unmixedQuantityType">
-                  <xsd:sequence>
-                      <xsd:sequence>
-                          <xsd:element name="axisFrame" type="AxisFrameType" minOccurs="0" maxOccurs="unbounded"/>
-                      </xsd:sequence>
-              <!-- The "data" : compQ has members, this may be specified either by just start listing quantities -->
-                      <xsd:choice maxOccurs="unbounded">
-                         <xsd:element ref="QuantityGroup"/>
-                         <xsd:element ref="ListQuantityGroup"/>
-                      </xsd:choice>
-                  </xsd:sequence>
-                  <xsd:attributeGroup ref="CompositeQuantityAttribs"/>
-             </xsd:extension>
-        </xsd:complexContent>
-   </xsd:complexType>
-
   <!-- matrix, matrix quantity .. the full monty -->
-  <xsd:complexType name="MatrixQuantityType">
+  <xsd:complexType name="matrixQuantityType">
     <xsd:complexContent>
-      <xsd:extension base="unmixedQuantityType">
+      <xsd:extension base="QuantityType">
         <xsd:sequence>
-
-          <!-- Other Q's as meta-data -->
-        <xsd:choice minOccurs="0" maxOccurs="unbounded">
-           <xsd:element ref="QuantityGroup"/>
-           <xsd:element ref="ListQuantityGroup"/>
-        </xsd:choice>
-
-          <!-- specification of the (apparent) dimensionality -->
+          <!-- special specification of the (apparent) dimensionality -->
+<!--
           <xsd:sequence>
-              <xsd:element name="axisFrame" type="AxisFrameType" minOccurs="0" maxOccurs="unbounded"/>
+              <xsd:element name="referenceFrame" type="ReferenceFrameType" 
+                           minOccurs="0" maxOccurs="unbounded"/>
           </xsd:sequence>
+-->
 
           <!-- data section. various groupings -->
           <xsd:choice>
@@ -132,72 +116,70 @@
             <xsd:choice>
                <xsd:element ref="ValueGroup"/>
                <xsd:element name="values" type="ValuesContainer"/>
-               <xsd:element name="mapping" type="map:MappingContainer"/>
+               <!--xsd:element name="mapping" type="map:MappingContainer"/-->
             </xsd:choice>
 
             <xsd:element name="altValues" type="AltValuesContainerType" minOccurs="0"/>
 
         </xsd:sequence>
-
-        <xsd:attributeGroup ref="ListQuantityAttribs"/>
+        <xsd:attributeGroup ref="listQuantityAttribs"/>
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
   <!-- list quantity .. a list of values -->
-  <xsd:complexType name="ListQuantityType">
+  <xsd:complexType name="listQuantityType">
     <xsd:complexContent>
-      <xsd:restriction base="MatrixQuantityType">
-
+      <xsd:restriction base="matrixQuantityType">
         <xsd:sequence>
 
-          <!-- Other Q's as meta-data -->
-      <xsd:choice minOccurs="0" maxOccurs="unbounded">
-         <xsd:element ref="QuantityGroup"/>
-         <xsd:element ref="ListQuantityGroup"/>
-      </xsd:choice>
+            <xsd:element name="relationship" type="relationshipType"
+                          minOccurs="0" maxOccurs="unbounded"
+            />
 
-
-          <!-- data section. various groupings -->
-          <xsd:choice>
-              <!-- type 1 : scalar needs dataType + units -->
-              <xsd:sequence>
-                 <xsd:element ref="UnitsGroup" minOccurs="0"/>
-                 <xsd:element ref="ScalarDataTypeGroup" minOccurs="0" maxOccurs="1"/>
-                </xsd:sequence>
-                <!-- type 2 : vector needs dataType only -->
-                <xsd:element name="vector" type="vectorType"/>
+            <!-- data section. various groupings -->
+            <xsd:choice>
+               <!-- type 1 : scalar needs dataType + units -->
+               <xsd:sequence>
+                  <xsd:element ref="UnitsGroup" minOccurs="0"/>
+                  <xsd:element ref="ScalarDataTypeGroup" minOccurs="0" maxOccurs="1"/>
+               </xsd:sequence>
+               <!-- type 2 : vector needs dataType only -->
+               <xsd:element name="vector" type="vectorType"/>
             </xsd:choice>
 
             <xsd:choice>
                <xsd:element ref="ValueGroup"/>
                <xsd:element name="values" type="ValuesContainer"/>
-               <xsd:element name="mapping" type="map:MappingContainer"/>
+               <!-- xsd:element name="mapping" type="map:MappingContainer"/-->
             </xsd:choice>
 
         </xsd:sequence>
-
-        <xsd:attributeGroup ref="ListQuantityAttribs"/>
+        <xsd:attributeGroup ref="listQuantityAttribs"/>
       </xsd:restriction>
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="AtomicQuantityType">
+  <!-- so it may be redefined in a later schema to add QuantityGroup -->
+  <xsd:complexType name="relationshipType">
+     <xsd:complexContent>
+        <xsd:extension base="so:relationshipType"/>
+     </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="atomicQuantityType">
     <xsd:annotation>
         <xsd:documentation>The atomic quantity .. a single "value" only </xsd:documentation>
     </xsd:annotation>
     <xsd:complexContent>
-      <xsd:restriction base="ListQuantityType">
-
+      <xsd:restriction base="listQuantityType">
         <xsd:sequence>
 
-           <!-- Other Q's as meta-data -->
-      <xsd:choice minOccurs="0" maxOccurs="unbounded">
-         <xsd:element ref="QuantityGroup"/>
-         <xsd:element ref="ListQuantityGroup"/>
-      </xsd:choice>
+           <!-- Other SO's as meta-data -->
+            <xsd:element name="relationship" type="relationshipType"
+                          minOccurs="0" maxOccurs="unbounded"
+            />
 
-           <!-- data section. various groupings -->
            <xsd:choice>
               <!-- type 1 : scalar needs dataType + units -->
               <xsd:sequence>
@@ -211,14 +193,13 @@
            <xsd:element ref="ValueGroup"/>
 
         </xsd:sequence>
-
-        <xsd:attributeGroup ref="AtomicQuantityAttribs"/>
-
+        <xsd:attributeGroup ref="atomicQuantityAttribs"/>
       </xsd:restriction>
     </xsd:complexContent>
   </xsd:complexType>
 
   <!-- trivial quantity..can hold pcdata within as well as name/desc attribs -->
+<!--
   <xsd:complexType name="TrivialQuantityType" mixed="true">
     <xsd:complexContent>
       <xsd:extension base="QuantityType">
@@ -226,7 +207,9 @@
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
+-->
 
+<!--
   <xsd:complexType name="unmixedQuantityType" mixed="false">
      <xsd:annotation>
         <xsd:documentation>This is an intermediate to restrict PCDATA in quantity except for trivialQuantities</xsd:documentation>
@@ -235,6 +218,7 @@
         <xsd:restriction base="QuantityType"/>
      </xsd:complexContent>
   </xsd:complexType>
+-->
 
   <!-- value cell container types -->
   <!-- values can be ASCII string of fixed width or not (delimited by whitespace),
@@ -258,30 +242,13 @@
   <xsd:attributeGroup name="ComponentAttribs">
     <xsd:attribute name="name" type="xsd:string"/>
     <xsd:attribute name="description" type="xsd:string"/>
-    <xsd:attribute name="URI" type="xsd:anyURI" use="optional"/> <!-- technically not true..only URN allowed--> 
-    <xsd:attribute name="fid" type="xsd:ID" use="optional"/>
   </xsd:attributeGroup>
 
-  <xsd:attributeGroup name="QuantityAttribs">
-    <xsd:attribute name="name" type="xsd:string"/>
-    <xsd:attribute name="description" type="xsd:string"/>
-    <xsd:attribute name="qid" type="xsd:ID" use="optional"/>
-    <xsd:attribute name="URI" type="xsd:anyURI" use="optional"/> <!-- technically not true..only URN allowed--> 
-    <xsd:anyAttribute namespace="##any"/> <!-- allow other namespaces to add attribs to Q's -->
-  </xsd:attributeGroup>
-
-  <xsd:attributeGroup name="CompositeQuantityAttribs">
-    <xsd:attributeGroup ref="QuantityAttribs"/>
+  <xsd:attributeGroup name="listQuantityAttribs">
     <xsd:attribute name="size" type="xsd:nonNegativeInteger" use="optional"/>
   </xsd:attributeGroup>
 
-  <xsd:attributeGroup name="ListQuantityAttribs">
-    <xsd:attributeGroup ref="QuantityAttribs"/>
-    <xsd:attribute name="size" type="xsd:nonNegativeInteger" use="optional"/>
-  </xsd:attributeGroup>
-
-  <xsd:attributeGroup name="AtomicQuantityAttribs">
-    <xsd:attributeGroup ref="QuantityAttribs"/>
+  <xsd:attributeGroup name="atomicQuantityAttribs">
     <xsd:attribute name="size" use="prohibited"/>
   </xsd:attributeGroup>
 
@@ -296,7 +263,7 @@
     </xsd:complexContent>
   </xsd:complexType>
 
-  <xsd:complexType name="refComponentType">
+  <xsd:complexType name="refcomponentType">
     <xsd:complexContent>
       <xsd:extension base="AbstractComponentType">
         <xsd:attribute name="fidRef" type="xsd:IDREF" use="required"/>
@@ -308,18 +275,18 @@
   <xsd:element name="ScalarDataTypeGroup" type="ScalarDataType" abstract="true"/>
   <xsd:element name="QuantityGroup" type="QuantityType" abstract="true"/>
  <!-- ugh. the need to have only listQ's as altValues drives us to this extreme..-->
-  <xsd:element name="ListQuantityGroup" type="ListQuantityType" abstract="true"/>
+  <xsd:element name="ListQuantityGroup" type="listQuantityType" abstract="true"/>
   <xsd:element name="ComponentGroup" type="AbstractComponentType" abstract="true"/>
 
   <!-- Some quantity element declarations. Ayy of these *could*
        serve as the root node of an instance document. Would be pointless 
        to use refQuantity in this manner.
           -->
-  <xsd:element name="atomicQuantity" type="AtomicQuantityType" substitutionGroup="QuantityGroup"/>
-  <xsd:element name="compositeQuantity" type="CompositeQuantityType" substitutionGroup="QuantityGroup"/>
-  <xsd:element name="listQuantity" type="ListQuantityType" substitutionGroup="ListQuantityGroup"/>
-  <xsd:element name="matrixQuantity" type="MatrixQuantityType" substitutionGroup="QuantityGroup"/>
-  <xsd:element name="trivialQuantity" type="TrivialQuantityType" substitutionGroup="QuantityGroup"/>
+  <xsd:element name="atomicQuantity" type="atomicQuantityType" substitutionGroup="QuantityGroup"/>
+  <xsd:element name="listQuantity" type="listQuantityType" substitutionGroup="ListQuantityGroup"/>
+  <xsd:element name="matrixQuantity" type="matrixQuantityType" substitutionGroup="QuantityGroup"/>
+  <!--<xsd:element name="trivialQuantity" type="TrivialQuantityType" substitutionGroup="QuantityGroup"/>
+-->
   <xsd:element name="refQuantity" type="refQuantityType" substitutionGroup="QuantityGroup"/>
 
   <xsd:element name="float" type="floatType" substitutionGroup="ScalarDataTypeGroup"/>
@@ -327,11 +294,11 @@
   <xsd:element name="string" type="stringType" substitutionGroup="ScalarDataTypeGroup"/>
 
   <!-- a 'vanilla' component declaration and its reference -->
-  <xsd:element name="component" type="ComponentType" substitutionGroup="ComponentGroup"/>
-  <xsd:element name="refComponent" type="refComponentType" substitutionGroup="ComponentGroup"/>
+  <xsd:element name="component" type="componentType" substitutionGroup="ComponentGroup"/>
+  <xsd:element name="refComponent" type="refcomponentType" substitutionGroup="ComponentGroup"/>
 
   <!-- Quantity container -->
-  <xsd:complexType name="QuantityContainer">
+  <xsd:complexType name="quantityContainer">
       <xsd:choice maxOccurs="unbounded">
          <xsd:element ref="QuantityGroup"/>
          <xsd:element ref="ListQuantityGroup"/>
@@ -450,18 +417,14 @@
 
 
   <!-- a component of a vector. -->
-  <xsd:complexType name="ComponentType">
+  <xsd:complexType name="componentType">
     <xsd:complexContent>
         <xsd:extension base="AbstractComponentType">
           <xsd:sequence>
       
-            <!-- Other Q's as meta-data? no for time being. -->
-<!--
-            <xsd:choice minOccurs="0" maxOccurs="unbounded">
-               <xsd:element ref="QuantityGroup"/>
-               <xsd:element ref="ListQuantityGroup"/>
-            </xsd:choice>
--->
+           <xsd:element name="relationship" type="relationshipType"
+                          minOccurs="0" maxOccurs="unbounded"
+            />
 
             <!-- units/dataType section -->
             <xsd:choice>

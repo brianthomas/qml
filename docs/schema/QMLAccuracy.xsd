@@ -35,21 +35,21 @@
         <!-- The basic accuracy type .. for holding single-valued accuracy information.  -->
         <xsd:complexType name="AtomicAccuracyType">
                 <xsd:complexContent>
-                        <xsd:extension base="q:AtomicQuantityType"/>
+                        <xsd:extension base="q:atomicQuantityType"/>
                 </xsd:complexContent>
         </xsd:complexType>
 
         <!-- The list accuracy type .. for holding list-valued accuracy information.  -->
         <xsd:complexType name="ListAccuracyType">
                 <xsd:complexContent>
-                        <xsd:extension base="q:ListQuantityType"/>
+                        <xsd:extension base="q:listQuantityType"/>
                 </xsd:complexContent>
         </xsd:complexType>
 
         <!-- The matrix accuracy type .. for holding list-valued accuracy information.  -->
         <xsd:complexType name="MatrixAccuracyType">
 		<xsd:complexContent>
-			<xsd:extension base="q:MatrixQuantityType"/>
+			<xsd:extension base="q:matrixQuantityType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 
