@@ -47,18 +47,18 @@ public abstract class Constant {
 
   /** The name of the relevant version of the DTD file for this package.
   */
-  public static final String QML_DTD_NAME = "QML_06.dtd";
+  public static final String QML_DTD_NAME = "QML_32.dtd";
 
   /** The name of the relevant version of the schema file for this package.
    */
-  public static final String QML_SCHEMA_NAME = "QML_06.xsd";
+  public static final String QML_SCHEMA_NAME = "QML_32.xsd";
 
   /** The namespace URI of this package.
    */
   public static final String QML_NAMESPACE_URI = "http://www.data-model.net/Quantity";
 
   /** The version of QML spec this package implements */
-  public static final String QML_SPEC_VERSION = "0.06";
+  public static final String QML_SPEC_VERSION = "0.32";
 
   /** The version of XML that will be output from a toXML* method call.
   */
