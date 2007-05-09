@@ -1,7 +1,7 @@
 
 package net.datamodel.qml;
 
-import net.datamodel.xssp.ReferenceableXMLSerializableObject;
+import net.datamodel.xssp.XMLSerializableObject;
 
 
 /** Interface for any object which is serializable in XML and
@@ -11,7 +11,7 @@ import net.datamodel.xssp.ReferenceableXMLSerializableObject;
  *
  */
 public interface XMLSerializableObjectWithValues 
-extends ReferenceableXMLSerializableObject, ObjectWithValues
+extends XMLSerializableObject, ObjectWithValues
 {
 
 	/** Set whether or not we wish to serialize our value 

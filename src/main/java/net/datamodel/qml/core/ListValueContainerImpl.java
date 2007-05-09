@@ -48,7 +48,7 @@ import net.datamodel.qml.support.Specification;
 import net.datamodel.xssp.ReferenceableXMLSerializableObject;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.XMLSerializableField;
-import net.datamodel.xssp.impl.AbstractReferenceableXMLSerializableObject;
+import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
 import net.datamodel.xssp.parse.Utility;
 
 import org.apache.log4j.Logger;
@@ -65,7 +65,7 @@ import org.apache.log4j.Logger;
  * the parent ObjectWithValues.
  */
 public class ListValueContainerImpl 
-extends AbstractReferenceableXMLSerializableObject 
+extends AbstractXMLSerializableObject 
 implements ValueContainer
 {
 
