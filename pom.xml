@@ -69,27 +69,24 @@
       <name>UMD Local Repository</name>
       <url>http://archive.astro.umd.edu/maven</url>
     </repository>
-    <repository>
+    
+    <!--repository>
       <id>ibiblio-repository</id>
       <name>IBIBLIO Maven Repository</name>
       <url>http://www.ibiblio.org/maven2</url>
-    </repository>
+    </repository-->
+    
     <!-- to pick up doxygen -->
-    <repository>
+    <!--repository>
       <id>doodleproject-repo</id>
       <name>Doodleproject Maven 2 Repository</name>
       <url>http://doodleproject.sourceforge.net/maven2/release</url>
-    </repository>
+    </repository-->
+    
   </repositories>
 
   <dependencies>
   
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>2.7.1</version>
-    </dependency>
-    
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
@@ -105,9 +102,14 @@
     <dependency>
       <groupId>net.datamodel</groupId>
       <artifactId>soml</artifactId>
-      <version>0.60</version>
+      <version>0.61</version>
     </dependency>
     
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <version>2.7.1</version>
+    </dependency>
   </dependencies>
 
   <distributionManagement>
