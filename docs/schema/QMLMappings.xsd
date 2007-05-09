@@ -7,9 +7,9 @@
             elementFormDefault="qualified"
 >
 
-	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_06.xsd"/>
+	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_32.xsd"/>
 	<xsd:annotation>
-		<xsd:documentation>Accuracy.xsd - just a place holder for mapping definitions.
+		<xsd:documentation>Mapping.xsd - just a place holder for mapping definitions.
                                   first draft Feb. 23 2004 (brian thomas; baba-luu@earthlink.net)
 
                                   Many types of mappings need to be defined.  The point of

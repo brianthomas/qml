@@ -7,11 +7,11 @@
             elementFormDefault="qualified"
 >
 
- 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_06.xsd"/>
+ 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_32.xsd"/>
 
         <xsd:annotation>
                 <xsd:documentation>QMLAccuracy.xsd - just a place holder for accuracy definitions.
-                                  first draft May. 30 2004 (brian thomas; baba-luu@earthlink.net)
+                                  first draft May. 30 2007 (brian thomas; baba-luu@earthlink.net)
 
 				  Many types of accuracy need to be defined for scientific data, 
                                   as well as practices for adding/restricting types of accuracy allowed. 

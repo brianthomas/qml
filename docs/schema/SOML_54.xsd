@@ -46,6 +46,12 @@
          <xsd:attribute name="URI" type="xsd:anyURI"/>
   </xsd:complexType>
 
+  <xsd:attributeGroup name="SemanticAttribs">
+      <xsd:attribute name="soId" type="xsd:ID" use="optional"/>
+      <xsd:attribute name="URI" type="xsd:anyURI"/>
+      <xsd:anyAttribute namespace="##any"/> <!-- allow other namespaces to add attribs to SO's -->
+  </xsd:attributeGroup>
+
   <!-- Main Class : SemanticObject -->
    <xsd:complexType name="SemanticObjectType">
         <xsd:complexContent>
@@ -55,9 +61,7 @@
                                minOccurs="0" maxOccurs="unbounded"
                    />
               </xsd:sequence>
-              <xsd:attribute name="soid" type="xsd:ID" use="optional"/>
-              <xsd:attribute name="URI" type="xsd:anyURI"/>
-              <xsd:anyAttribute namespace="##any"/> <!-- allow other namespaces to add attribs to SO's -->
+              <xsd:attributeGroup ref="SemanticAttribs"/>
    	  </xsd:extension>
         </xsd:complexContent>
    </xsd:complexType>
