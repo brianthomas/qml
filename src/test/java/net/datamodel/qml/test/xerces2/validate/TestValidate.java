@@ -18,7 +18,7 @@ public class TestValidate extends BaseXerces2Case {
 	// TODO
     public void testValidateSamples () throws Exception {
 		
-		logger.warn("testValidateSamples - TODO");
+		logger.error("testValidateSamples - TODO");
 		assertTrue(true);
     	/*
 		logger.info("testValidateSamples");

@@ -20,7 +20,7 @@ public class TestLoad extends BaseXerces2Case
 	// TODO
 	public void testLoadSamples () throws Exception {
 		
-		logger.warn("testLoadSamples - TODO");
+		logger.error("testLoadSamples - TODO");
 		assertTrue(true);
 		
 	/*

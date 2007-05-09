@@ -16,7 +16,7 @@ public class TestEquals extends BaseCase {
 	private static final Logger logger = Logger.getLogger(TestEquals.class);
 	
 	public void testSomething () {
-		logger.info("testSomething");
+		logger.error("testSomething - TODO");
 		assertTrue(true);
 	}
 
