@@ -4,6 +4,7 @@
 package net.datamodel.qml.test.create;
 
 import net.datamodel.qml.ListQuantity;
+import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 
 import org.apache.log4j.Logger;
@@ -65,11 +66,6 @@ public class TestCreatedSerialization extends BaseCase {
 	// get some sane answers.
 	public void testCreateSimple1DMatrixQuantitySerialization ( ) {
 		
-		// TODO
-		logger.error("reenable created 1DMQSerialization test!");
-		assertTrue(true);
-		/*
-
 		// create an matrix quantity
 		logger.info("testCreateSimple1DMatrixQ - serialization");
 
@@ -86,7 +82,12 @@ public class TestCreatedSerialization extends BaseCase {
 			// fail(e.getMessage());
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 
+	// TODO
+	public void testCreateSimple2DMatrixQuantitySerialization ( ) {
+		logger.error("NEED TO TEST 2D Matrix Represnetation");
+	}
+	
 }
