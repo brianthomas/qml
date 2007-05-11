@@ -2,7 +2,6 @@
 package net.datamodel.qml.test.create;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Vector;
 
@@ -13,7 +12,10 @@ import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.core.ReferenceFrameImpl;
-import net.datamodel.qml.test.Utility;
+import net.datamodel.qml.datatype.FloatDataType;
+import net.datamodel.qml.datatype.IntegerDataType;
+import net.datamodel.qml.datatype.StringDataType;
+import net.datamodel.qml.test.UtilityForTests;
 import net.datamodel.qml.units.UnitsImpl;
 
 /**
@@ -30,7 +32,7 @@ extends net.datamodel.qml.test.BaseCase
 	protected final List<Object> LQvalues = new Vector<Object>();
 	protected final List<Object> AxisValues = new Vector<Object>();
 	protected final Units units = new UnitsImpl("");
-	protected final DataType AQdatatype = Utility.createStringDataType(4); 
+	protected final DataType AQdatatype = UtilityForTests.createStringDataType(4); 
 	protected ReferenceFrame MQrefFrame = null;
 		
 	@Override
@@ -51,7 +53,7 @@ extends net.datamodel.qml.test.BaseCase
 			AxisValues.add("4");
 
 			// create the axisFrame and (1) member axis/dimension for the matrix
-			ListQuantity axis1 = Utility.createListQuantity(noSemanticURI, units, Utility.createIntegerDataType(1, false), AxisValues );
+			ListQuantity axis1 = UtilityForTests.createListQuantity(noSemanticURI, units, UtilityForTests.createIntegerDataType(1, false), AxisValues );
 			MQrefFrame.addAxis(axis1);
 
 		} catch (Exception e) {
@@ -65,7 +67,7 @@ extends net.datamodel.qml.test.BaseCase
 
 		AtomicQuantityImpl q = null;
 		try {
-			q = Utility.createAtomicQuantity(noSemanticURI, units, AQdatatype, AQvalue);
+			q = UtilityForTests.createAtomicQuantity(noSemanticURI, units, AQdatatype, AQvalue);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,7 +80,7 @@ extends net.datamodel.qml.test.BaseCase
 
 		ListQuantity q = null;
 		try {
-			q = Utility.createListQuantity(noSemanticURI, units, AQdatatype, LQvalues);
+			q = UtilityForTests.createListQuantity(noSemanticURI, units, AQdatatype, LQvalues);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -93,12 +95,11 @@ extends net.datamodel.qml.test.BaseCase
 		try {
 			List<ReferenceFrame> frames = new Vector<ReferenceFrame>(); 
 			frames.add(MQrefFrame);
-			q = Utility.createMatrixQuantity(noSemanticURI, units, AQdatatype, LQvalues, frames);
+			q = UtilityForTests.createMatrixQuantity(noSemanticURI, units, AQdatatype, LQvalues, frames);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return q;
 	}
-	
 
 }
