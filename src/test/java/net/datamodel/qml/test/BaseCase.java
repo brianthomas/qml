@@ -127,7 +127,7 @@ abstract public class BaseCase extends TestCase {
 		
 		logger.debug("   Document XML is:\n"+xmlRep);
 		
-		assertTrue("Is valid version? pretty:"+pretty, Utility.validateSrc(new InputSource(sr), SaxParserName));
+		assertTrue("Is valid version? pretty:"+pretty, UtilityForTests.validateSrc(new InputSource(sr), SaxParserName));
 
 	}
 	
@@ -207,7 +207,7 @@ abstract public class BaseCase extends TestCase {
 	protected static boolean validateFile (String filename)
 	throws Exception 
 	{
-		return Utility.validateSrc(new InputSource(filename), SaxParserName);
+		return UtilityForTests.validateSrc(new InputSource(filename), SaxParserName);
 	}
 	
 	/** check basic quantity API on given quantity.

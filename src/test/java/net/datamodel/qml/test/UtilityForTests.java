@@ -33,11 +33,11 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * @author thomas
  *
  */
-public class Utility {
+public class UtilityForTests {
 
-	private static final Logger logger = Logger.getLogger(Utility.class);
+	private static final Logger logger = Logger.getLogger(UtilityForTests.class);
 
-	private Utility () {}
+	private UtilityForTests () {}
 
 	/** General helper method to construct atomic quantities for testing.
 	 * 
