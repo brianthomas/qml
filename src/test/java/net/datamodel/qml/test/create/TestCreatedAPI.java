@@ -1,14 +1,24 @@
 package net.datamodel.qml.test.create;
 
+import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
+import net.datamodel.qml.DataType;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.ReferenceFrame;
+import net.datamodel.qml.Units;
 import net.datamodel.qml.core.AtomicQuantityImpl;
+import net.datamodel.qml.core.ReferenceFrameImpl;
+import net.datamodel.qml.test.UtilityForTests;
+import net.datamodel.qml.units.UnitsImpl;
+import net.datamodel.soml.ObjectProperty;
+import net.datamodel.soml.Property;
+import net.datamodel.soml.SemanticObject;
 
 import org.apache.log4j.Logger;
 
@@ -28,22 +38,22 @@ public class TestCreatedAPI extends BaseCase {
 		logger.info("testCreateSimpleAtomicQuantity");
 
 		try {
-			
+
 			AtomicQuantityImpl q = createSimpleAtomicQuantity(); 
 			assertNotNull(q);
-			
+
 			// check the value of the Atomic Q
 			assertEquals("value OK", q.getValue(), AQvalue);
-			
+
 			// Otherwise check the API a bit
 			validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
-			
+
 		} catch (Exception e) {
-			
+
 			logger.error("test error: "+e.getMessage());
 			// fail(e.getMessage());
 			e.printStackTrace();
-			
+
 		}
 	}
 
@@ -72,9 +82,9 @@ public class TestCreatedAPI extends BaseCase {
 		}
 
 		validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
-	
+
 	}
-	
+
 
 	// Create an matrix quantity and exercise its interface to insure we
 	// get some sane answers.
@@ -89,19 +99,15 @@ public class TestCreatedAPI extends BaseCase {
 			MatrixQuantity q = createSimple1DMatrixQuantity();
 			assertNotNull(q);
 
-			// TODO
-			// check the string representation 
-			// checkVariousValidXMLRepresentations(q);
-
 			// check the API a bit
 			validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
 
 			logger.debug("check reference frame API");
 			for (ReferenceFrame r : q.getReferenceFrames())
 			{
-					List<ListQuantity> maxisList = r.getAxes();
-					assertEquals("number of axes in reference frame is 1", maxisList.size(), 1);
-					logger.debug("number of axes in frame is:"+maxisList.size());
+				List<ListQuantity> maxisList = r.getAxes();
+				assertEquals("number of axes in reference frame is 1", maxisList.size(), 1);
+				logger.debug("number of axes in frame is:"+maxisList.size());
 			}
 
 			logger.debug("number of ref frames is "+q.getReferenceFrames().size()+" should be 1");
@@ -130,7 +136,6 @@ public class TestCreatedAPI extends BaseCase {
 		}
 	}
 
-	/*
 	// Create a matrix quantity with 2 dimensions and exercise its interface to insure we
 	// get some sane answers.
 	public void testCreateSimple2DMatrixQuantity ( ) {
@@ -138,14 +143,17 @@ public class TestCreatedAPI extends BaseCase {
 		// create a matrix quantity
 		logger.info("testCreateSimple2DMatrixQuantity");
 
+
+		// TODO
 		logger.debug("create basic meta-data");
-		String id = "matrix2";
-		DataType datatype = createStringDataType(5); 
+		DataType datatype = UtilityForTests.createStringDataType(5); 
 		Units units = new UnitsImpl("");
-		List values = new Vector ();
+
 		String URIrep_no_meaning = "URI:no-semantic-meaning";
 		String URIrep_x = "URI:x-position";
 		String URIrep_y = "URI:y-position";
+
+		List<Object> values = new Vector<Object>();
 		values.add("data1");
 		values.add("data2");
 		values.add("data3");
@@ -155,12 +163,12 @@ public class TestCreatedAPI extends BaseCase {
 
 		// create our 2D axis frame
 		logger.debug("create axisframe");
-		List axisValues1 = new Vector ();
+		List<Object> axisValues1 = new Vector<Object>();
 		axisValues1.add("1");
 		axisValues1.add("2");
 		axisValues1.add("4");
 
-		List axisValues2 = new Vector ();
+		List<Object> axisValues2 = new Vector<Object>();
 		axisValues2.add("A");
 		axisValues2.add("B");
 
@@ -170,41 +178,39 @@ public class TestCreatedAPI extends BaseCase {
 			URI URI1 = new URI (URIrep_x);
 			URI URI2 = new URI (URIrep_y);
 			// create the axisFrame and (1) member axis/dimension for the matrix
-			ReferenceFrame af = new ReferenceFrameImpl();
-			ListQuantityImpl axis1 = createListQuantity( URI1, new UnitsImpl(""), createIntegerDataType(1, false), axisValues1, new Vector() );
-			ListQuantityImpl axis2 = createListQuantity( URI2, new UnitsImpl(""), createStringDataType(1), axisValues2, new Vector() );
-			af.addAxis(axis1);
-			af.addAxis(axis2);
+			ReferenceFrame frame = new ReferenceFrameImpl(URI_no);
+			ListQuantity axis1 = UtilityForTests.createListQuantity( URI1, new UnitsImpl(""), UtilityForTests.createIntegerDataType(1, false), axisValues1 );
+			ListQuantity axis2 = UtilityForTests.createListQuantity( URI2, new UnitsImpl(""), UtilityForTests.createStringDataType(1), axisValues2);
+			frame.addAxis(axis1);
+			frame.addAxis(axis2);
 
-			// Now the members which bbelong to the parent (matrix) will include our
+			// Now the members which belong to the parent (matrix) will include our
 			// axis frame
-			List members = new Vector();
-			members.add(af);
+			List<ReferenceFrame> members = new Vector<ReferenceFrame>();
+			members.add(frame);
 
-			MatrixQuantityImpl q = createMatrixQuantity( URI_no, units, datatype, values, members);
+			MatrixQuantity q = UtilityForTests.createMatrixQuantity( URI_no, units, datatype, values, members);
 			assertNotNull(q);
 
-			// check the string representation 
-			logger.debug("check representations.."); 
-			checkVariousValidXMLRepresentations(q);
-
 			// check the API a bit
-			validateQuantityAPI((Quantity) q, id, URIrep_no_meaning, units, datatype);
+			validateQuantityAPI((Quantity) q, URIrep_no_meaning, units, datatype);
 
-			logger.debug("check axisframe");
-			List actualMembers = q.getProperties();  
-			Iterator aiter = actualMembers.iterator();
+			logger.debug("check refframe");
+			List<Property> actualMembers = q.getProperties();  
 			int countAxisFrames = 0;
-			while (aiter.hasNext()) {
-				Quantity mem = (Quantity) aiter.next();
-				if (mem instanceof ReferenceFrame) {
-					ReferenceFrame maf = (ReferenceFrame) mem;
-					List maxisList = maf.getAxes();
-					logger.debug("number of axes in frame is:"+maxisList.size());
-					assertEquals("number of axes in axis frame is 2", maxisList.size(), 2);
-					countAxisFrames++;
-				} else {
-					fail ("No non-axis members should exist in simple1DMatrixQ constructed");
+			for(Property prop : actualMembers) {
+				if (prop instanceof ObjectProperty)
+				{
+					SemanticObject mem = ((ObjectProperty) prop).getTarget();
+					if (mem instanceof ReferenceFrame) {
+						ReferenceFrame maf = (ReferenceFrame) mem;
+						List maxisList = maf.getAxes();
+						logger.debug("number of axes in frame is:"+maxisList.size());
+						assertEquals("number of axes in axis frame is 2", maxisList.size(), 2);
+						countAxisFrames++;
+					} else {
+						fail ("No non-axis members should exist in simple1DMatrixQ constructed");
+					}
 				}
 			}
 
@@ -234,7 +240,7 @@ public class TestCreatedAPI extends BaseCase {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
+
 	}
-	*/
 
 }
