@@ -143,8 +143,6 @@ public class TestCreatedAPI extends BaseCase {
 		// create a matrix quantity
 		logger.info("testCreateSimple2DMatrixQuantity");
 
-
-		// TODO
 		logger.debug("create basic meta-data");
 		DataType datatype = UtilityForTests.createStringDataType(5); 
 		Units units = new UnitsImpl("");
