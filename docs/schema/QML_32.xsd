@@ -52,7 +52,7 @@
          <xsd:documentation>Property on Q's. Extended here to allow adding QuantityGroup</xsd:documentation>
      </xsd:annotation>
      <xsd:complexContent>
-        <xsd:extension base="so:propertyType"/>
+        <xsd:extension base="so:PropertyType"/>
      </xsd:complexContent>
   </xsd:complexType>
   
@@ -61,19 +61,15 @@
       <xsd:documentation>A container for coordinate reference frame information (axes)</xsd:documentation>
     </xsd:annotation>
       <xsd:complexContent>
-           <xsd:extension base="so:SemanticObjectType"/>
-            <!-- TODO: make a restriction. the "data" are limited to Quantities? 
-                which will serve as "axes". These Q's
-                are restricted, for time being, to being "list" or "atomic" Q's
-                (or refQuantities).
-             -->
-             <!--
+           <xsd:restriction base="so:SemanticObjectType">
               <xsd:sequence>
-                  <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+                  <xsd:element ref="so:PropertyType"/>
+          <!-- 
+               minOccurs="0" maxOccurs="unbounded">
+          -->
               </xsd:sequence>
-              <xsd:attributeGroup ref="SemanticAttribs"/>
+              <xsd:attributeGroup ref="so:SemanticAttribs"/>
            </xsd:restriction>
-            -->
       </xsd:complexContent>
   </xsd:complexType>
 
@@ -265,9 +261,8 @@
   <xsd:element name="atomicQuantity" substitutionGroup="QuantityGroup" type="atomicQuantityType"/>
   <xsd:element name="listQuantity" substitutionGroup="ListQuantityGroup" type="listQuantityType"/>
   <xsd:element name="matrixQuantity" substitutionGroup="QuantityGroup" type="matrixQuantityType"/>
-  <xsd:element name="axisFrame" substitutionGroup="so:SemanticObjectGroup" type="ReferenceFrameType"/>
-  <!--<xsd:element name="trivialQuantity" type="TrivialQuantityType" substitutionGroup="QuantityGroup"/>
--->
+  <!--xsd:element name="axisFrame" substitutionGroup="so:SemanticObjectGroup" type="ReferenceFrameType"/-->
+  <!--xsd:element name="trivialQuantity" type="TrivialQuantityType" substitutionGroup="QuantityGroup"/-->
   <xsd:element name="refQuantity" substitutionGroup="QuantityGroup" type="refQuantityType"/>
 
   <xsd:element name="float" substitutionGroup="ScalarDataTypeGroup" type="floatType"/>
