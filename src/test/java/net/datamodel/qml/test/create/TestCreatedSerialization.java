@@ -6,6 +6,7 @@ package net.datamodel.qml.test.create;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.core.AtomicQuantityImpl;
+import net.datamodel.xssp.parse.Specification;
 
 import org.apache.log4j.Logger;
 
@@ -73,9 +74,11 @@ public class TestCreatedSerialization extends BaseCase {
 			
 			MatrixQuantity q = createSimple1DMatrixQuantity(); 
 			
+			Specification.getInstance().setPrettyOutput(true); 
 			logger.debug("Test 1D MatrixQ XML output:"+System.getProperty("line.separator")+q.toXMLString());
 			
 			checkVariousValidXMLRepresentations(q);
+			Specification.getInstance().setPrettyOutput(false); 
 			
 		} catch (Exception e) {
 			logger.error("test error: "+e.getMessage());
