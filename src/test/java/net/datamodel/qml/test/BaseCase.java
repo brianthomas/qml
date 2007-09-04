@@ -163,10 +163,10 @@ abstract public class BaseCase extends TestCase {
 		logger.debug("DOC XML IS:["+doc.toXMLString()+"]");
 		
 		// now check various representations
-		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_TAGGED);
 		checkValidXMLRepresentation(doc, true, Constant.VALUE_SERIALIZE_TAGGED);
-		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_TAGGED);
 		checkValidXMLRepresentation(doc, true, Constant.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_SPACE);
 
 	}
 	

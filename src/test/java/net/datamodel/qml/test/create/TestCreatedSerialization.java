@@ -40,6 +40,7 @@ public class TestCreatedSerialization extends BaseCase {
 		}
 	}
 	
+	/*
 	// Create an atomic quantity and exercise its interface to insure we
 	// get some sane answers.
 	public void testCreateSimpleListQuantitySerialization ( ) {
@@ -92,5 +93,6 @@ public class TestCreatedSerialization extends BaseCase {
 	public void testCreateSimple2DMatrixQuantitySerialization ( ) {
 		logger.error("NEED TO TEST 2D Matrix Represnetation");
 	}
+	*/
 	
 }
