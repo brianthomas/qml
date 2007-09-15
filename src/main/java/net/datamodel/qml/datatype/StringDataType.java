@@ -34,7 +34,6 @@
 package net.datamodel.qml.datatype;
 
 import net.datamodel.qml.support.Constant;
-import net.datamodel.qml.support.Constant.NodeName;
 
 /**
  * A (scalar) string datatype.
@@ -55,12 +54,20 @@ public class StringDataType extends ScalarDataType {
 	/**
 	 * The number of bytes this data type represents.
 	 */
-	public int numOfBytes ( ) {
+	public final int numOfBytes ( ) {
 		// TODO: fix.. need to check for encoding..
 		return getWidth().intValue();
 	}
 
-	/** Determine if other units are equivalent to these.
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.DataType#getFortranFormat()
+	 */
+	public final String getFortranFormat() {
+		return "A"+getWidth();
+	}
+	
+	/** Determine if other datatypes are equivalent to these.
 	 */
 	@Override
 	public boolean equals (Object obj)
@@ -73,7 +80,6 @@ public class StringDataType extends ScalarDataType {
 		}
 		return false;
 	}
-
 	// TODO: implement hashCode!
 
 }

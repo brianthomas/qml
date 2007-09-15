@@ -141,8 +141,19 @@ extends NumberDataType
 		}
 		return false;
 	}
-
 	// TODO: implement hashCode!
+	
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.DataType#getFortranFormat()
+	 */
+	public final String getFortranFormat() {
+		if (getExponent() != null)
+		{
+			return "E"+getWidth()+"."+getPrecision();
+		}
+		return "F"+getWidth()+"."+getPrecision();
+	}
 
 }
 

@@ -166,5 +166,21 @@ implements DataType
 		public ComponentList( ) { super(""); }
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.DataType#getFortranFormat()
+	 */
+	public final String getFortranFormat() {
+		StringBuffer buf = new StringBuffer();
+		buf.append("{");
+		int cntr = 0;
+		for (Component comp : getComponents()) {
+			if (cntr++ != 0)
+				buf.append(", ");
+		}
+		buf.append("}");
+		return buf.toString();
+	}
+
 }
 

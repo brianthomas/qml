@@ -137,8 +137,16 @@ public class IntegerDataType extends NumberDataType {
 		}
 		return false;
 	}
-
 	// TODO: implement Hashcode!
+
+	/*
+	 * (non-Javadoc)
+	 * @see net.datamodel.qml.DataType#getFortranFormat()
+	 */
+	public final String getFortranFormat() {
+		return "I"+getWidth();
+	}
+
 
 }
 
