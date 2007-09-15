@@ -148,8 +148,8 @@ extends NumberDataType
 	 * @see net.datamodel.qml.DataType#getFortranFormat()
 	 */
 	public final String getFortranFormat() {
-		if (getExponent() != null)
-		{
+		if (getExponent().intValue() != 0) {
+			// FIXME : this isnt right..being sloppy
 			return "E"+getWidth()+"."+getPrecision();
 		}
 		return "F"+getWidth()+"."+getPrecision();
