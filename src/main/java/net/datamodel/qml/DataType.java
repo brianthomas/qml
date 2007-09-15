@@ -54,5 +54,10 @@ extends XMLSerializableObject
 	 * The number of bytes this data type represents.
 	 */
 	public int numOfBytes ( );
+	
+	/** Get a "human-readable" string representation of 
+	 * the datatype as a fortran-like format.
+	 */
+	public String getFortranFormat();
 
 }
