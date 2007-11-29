@@ -37,7 +37,7 @@ import java.util.List;
 
 import net.datamodel.qml.Component;
 import net.datamodel.qml.DataType;
-import net.datamodel.qml.support.Constant;
+import net.datamodel.qml.dom.Constant;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObjectList;

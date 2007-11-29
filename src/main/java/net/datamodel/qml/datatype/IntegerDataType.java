@@ -32,8 +32,8 @@
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.support.Constant;
-import net.datamodel.qml.support.Utility;
+import net.datamodel.qml.dom.Constant;
+import net.datamodel.qml.dom.Utility;
 import net.datamodel.xssp.XMLFieldType;
 
 import org.apache.log4j.Logger;

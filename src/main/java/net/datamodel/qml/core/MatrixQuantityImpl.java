@@ -38,7 +38,7 @@ import java.util.Vector;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ValueMapping;
-import net.datamodel.qml.support.Constant;
+import net.datamodel.qml.dom.Constant;
 import net.datamodel.soml.ObjectProperty;
 import net.datamodel.soml.Property;
 

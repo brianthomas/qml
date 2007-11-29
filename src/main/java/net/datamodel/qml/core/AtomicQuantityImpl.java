@@ -8,7 +8,7 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
-import net.datamodel.qml.support.Constant;
+import net.datamodel.qml.dom.Constant;
 
 import org.apache.log4j.Logger;
 

@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 
-import net.datamodel.qml.support.Constant;
-import net.datamodel.qml.support.QMLDocument;
-import net.datamodel.qml.support.QMLReader;
-import net.datamodel.qml.support.Specification;
-import net.datamodel.qml.support.DOMXerces2.QMLDocumentImpl;
+import net.datamodel.qml.dom.Constant;
+import net.datamodel.qml.dom.QMLDocument;
+import net.datamodel.qml.dom.QMLReader;
+import net.datamodel.qml.dom.Specification;
+import net.datamodel.qml.dom.xerces2.QMLDocumentImpl;
 
 /**
  * A little example program showing some manipulation of QML

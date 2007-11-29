@@ -39,7 +39,7 @@ import java.io.Writer;
 import java.util.Map;
 
 import net.datamodel.qml.Units;
-import net.datamodel.qml.support.Constant;
+import net.datamodel.qml.dom.Constant;
 import net.datamodel.xssp.ReferenceableXMLSerializableObject;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObject;

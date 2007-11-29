@@ -32,7 +32,7 @@
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.support.Constant;
+import net.datamodel.qml.dom.Constant;
 import net.datamodel.xssp.XMLFieldType;
 
 /**

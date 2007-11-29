@@ -42,7 +42,7 @@ import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
 import net.datamodel.qml.XMLSerializableObjectWithValues;
-import net.datamodel.qml.support.Constant;
+import net.datamodel.qml.dom.Constant;
 import net.datamodel.xssp.XMLFieldType;
 
 /**

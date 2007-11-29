@@ -39,7 +39,7 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.datatype.StringDataType;
-import net.datamodel.qml.support.Constant;
+import net.datamodel.qml.dom.Constant;
 
 /**
  * A restricted type of atomic quantity. The trivial quantity may only 
