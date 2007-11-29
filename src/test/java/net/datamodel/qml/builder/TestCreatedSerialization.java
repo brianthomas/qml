@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.datamodel.qml.create;
+package net.datamodel.qml.builder;
 
 import org.apache.log4j.Logger;
 
