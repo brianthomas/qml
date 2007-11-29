@@ -48,8 +48,8 @@ import net.datamodel.qml.dom.Specification;
 import net.datamodel.xssp.ReferenceableXMLSerializableObject;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.XMLSerializableField;
+import net.datamodel.xssp.dom.Utility;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
-import net.datamodel.xssp.parse.Utility;
 
 import org.apache.log4j.Logger;
 

@@ -29,8 +29,8 @@ package net.datamodel.qml.dom.handlers;
 
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.dom.QMLDocumentHandler;
-import net.datamodel.xssp.parse.EndElementHandler;
-import net.datamodel.xssp.parse.XSSPDocumentHandler;
+import net.datamodel.xssp.dom.EndElementHandler;
+import net.datamodel.xssp.dom.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;

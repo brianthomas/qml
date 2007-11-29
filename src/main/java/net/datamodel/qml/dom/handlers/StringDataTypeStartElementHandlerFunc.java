@@ -30,8 +30,8 @@ package net.datamodel.qml.dom.handlers;
 import net.datamodel.qml.Component;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.dom.QMLDocumentHandler;
-import net.datamodel.xssp.parse.StartElementHandler;
-import net.datamodel.xssp.parse.XSSPDocumentHandler;
+import net.datamodel.xssp.dom.StartElementHandler;
+import net.datamodel.xssp.dom.XSSPDocumentHandler;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -51,5 +51,5 @@ implements StartElementHandler {
 
 		return dataType;
 	}
-
+		
 }

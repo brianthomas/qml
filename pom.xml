@@ -5,7 +5,7 @@
   <groupId>net.datamodel</groupId>
   <artifactId>qml</artifactId>
   <name>Java Quantity Modeling Language</name>
-  <version>0.4</version>
+  <version>0.41</version>
   <description>QML describes a means to model scientific quantities in a general manner.</description>
 
   <build>
@@ -102,7 +102,7 @@
     <dependency>
       <groupId>net.datamodel</groupId>
       <artifactId>soml</artifactId>
-      <version>0.70</version>
+      <version>0.71</version>
     </dependency>
     
     <dependency>

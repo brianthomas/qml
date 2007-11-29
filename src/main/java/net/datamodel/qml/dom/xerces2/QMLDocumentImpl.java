@@ -39,7 +39,7 @@ import net.datamodel.qml.dom.QMLDocument;
 import net.datamodel.qml.dom.QMLElement;
 import net.datamodel.soml.ObjectProperty;
 import net.datamodel.soml.Property;
-import net.datamodel.soml.dom.DOMXerces2.SOMLDocumentImpl;
+import net.datamodel.soml.dom.xerces2.SOMLDocumentImpl;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.DOMException;

@@ -34,7 +34,7 @@ import java.io.IOException;
 
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.dom.QMLElement;
-import net.datamodel.soml.dom.DOMXerces2.SOMLElementImpl;
+import net.datamodel.soml.dom.xerces2.SOMLElementImpl;
 
 import org.apache.log4j.Logger;
 import org.apache.xerces.dom.DocumentImpl;

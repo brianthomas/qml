@@ -27,8 +27,8 @@
 
 package net.datamodel.qml.dom.handlers;
 
-import net.datamodel.xssp.parse.EndElementHandler;
-import net.datamodel.xssp.parse.XSSPDocumentHandler;
+import net.datamodel.xssp.dom.EndElementHandler;
+import net.datamodel.xssp.dom.XSSPDocumentHandler;
 
 public class NullEndElementHandlerFunc implements EndElementHandler {
 	public void action (XSSPDocumentHandler handler )

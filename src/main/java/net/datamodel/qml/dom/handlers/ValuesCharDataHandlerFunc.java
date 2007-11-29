@@ -28,8 +28,8 @@
 package net.datamodel.qml.dom.handlers;
 
 import net.datamodel.qml.dom.QMLDocumentHandler;
-import net.datamodel.xssp.parse.CharDataHandler;
-import net.datamodel.xssp.parse.XSSPDocumentHandler;
+import net.datamodel.xssp.dom.CharDataHandler;
+import net.datamodel.xssp.dom.XSSPDocumentHandler;
 
 import org.xml.sax.SAXException;
 

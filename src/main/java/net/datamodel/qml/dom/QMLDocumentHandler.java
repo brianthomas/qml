@@ -47,10 +47,10 @@ import net.datamodel.qml.dom.handlers.AtomicQuantityStartElementHandlerFunc;
 import net.datamodel.qml.dom.handlers.ReferenceFrameStartElementHandlerFunc;
 import net.datamodel.soml.dom.SOMLDocument;
 import net.datamodel.soml.dom.SOMLDocumentHandler;
-import net.datamodel.xssp.parse.CharDataHandler;
-import net.datamodel.xssp.parse.EndElementHandler;
-import net.datamodel.xssp.parse.StartElementHandler;
-import net.datamodel.xssp.parse.XSSPDocumentHandler;
+import net.datamodel.xssp.dom.CharDataHandler;
+import net.datamodel.xssp.dom.EndElementHandler;
+import net.datamodel.xssp.dom.StartElementHandler;
+import net.datamodel.xssp.dom.XSSPDocumentHandler;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;

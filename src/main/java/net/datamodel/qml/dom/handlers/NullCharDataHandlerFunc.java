@@ -27,8 +27,8 @@
 
 package net.datamodel.qml.dom.handlers;
 
-import net.datamodel.xssp.parse.CharDataHandler;
-import net.datamodel.xssp.parse.XSSPDocumentHandler;
+import net.datamodel.xssp.dom.CharDataHandler;
+import net.datamodel.xssp.dom.XSSPDocumentHandler;
 
 public class NullCharDataHandlerFunc implements CharDataHandler {
 	public void action (XSSPDocumentHandler handler, char buf [], int offset, int len)
