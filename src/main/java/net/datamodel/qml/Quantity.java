@@ -40,6 +40,8 @@ public interface Quantity
 extends Component, XMLSerializableObjectWithValues, Cloneable 
 {
 	
+	public static final String ClassURI = "http://archive.astro.umd.edu/ont/Quantity.owl#Quantity";
+	
 	/** Determine if this object is similar to the comparison object.
 	 *  Similarity means that all child-objects, fields of the two quantities 
 	 *  are the same with the exception of the values held by both Quantities,

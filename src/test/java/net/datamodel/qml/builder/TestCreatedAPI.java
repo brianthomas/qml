@@ -13,7 +13,7 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.UtilityForTests;
-import net.datamodel.qml.builder.QuantityBuilder;
+import net.datamodel.qml.builder.SimpleQuantityBuilder;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.core.ReferenceFrameImpl;
 import net.datamodel.qml.units.UnitsImpl;
@@ -145,7 +145,7 @@ public class TestCreatedAPI extends BaseCase {
 		logger.info("testCreateSimple2DMatrixQuantity");
 
 		logger.debug("create basic meta-data");
-		DataType datatype = QuantityBuilder.createStringDataType(5); 
+		DataType datatype = SimpleQuantityBuilder.createStringDataType(5); 
 		Units units = new UnitsImpl("");
 
 		String URIrep_no_meaning = "URI:no-semantic-meaning";
@@ -178,8 +178,8 @@ public class TestCreatedAPI extends BaseCase {
 			URI URI2 = new URI (URIrep_y);
 			// create the axisFrame and (1) member axis/dimension for the matrix
 			ReferenceFrame frame = new ReferenceFrameImpl(URI_no);
-			ListQuantity axis1 = QuantityBuilder.createListQuantity( URI1, new UnitsImpl(""), QuantityBuilder.createIntegerDataType(1, false), axisValues1 );
-			ListQuantity axis2 = QuantityBuilder.createListQuantity( URI2, new UnitsImpl(""), QuantityBuilder.createStringDataType(1), axisValues2);
+			ListQuantity axis1 = SimpleQuantityBuilder.createListQuantity( URI1, new UnitsImpl(""), SimpleQuantityBuilder.createIntegerDataType(1, false), axisValues1 );
+			ListQuantity axis2 = SimpleQuantityBuilder.createListQuantity( URI2, new UnitsImpl(""), SimpleQuantityBuilder.createStringDataType(1), axisValues2);
 			frame.addAxis(axis1);
 			frame.addAxis(axis2);
 
@@ -188,7 +188,7 @@ public class TestCreatedAPI extends BaseCase {
 			List<ReferenceFrame> members = new Vector<ReferenceFrame>();
 			members.add(frame);
 
-			MatrixQuantity q = QuantityBuilder.createMatrixQuantity( URI_no, units, datatype, values, members);
+			MatrixQuantity q = SimpleQuantityBuilder.createMatrixQuantity( URI_no, units, datatype, values, members);
 			assertNotNull(q);
 
 			// check the API a bit

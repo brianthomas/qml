@@ -28,7 +28,7 @@ extends net.datamodel.qml.BaseCase
 	protected final List<Object> LQvalues = new Vector<Object>();
 	protected final List<Object> AxisValues = new Vector<Object>();
 	protected final Units units = new UnitsImpl("");
-	protected final DataType AQdatatype = QuantityBuilder.createStringDataType(4); 
+	protected final DataType AQdatatype = SimpleQuantityBuilder.createStringDataType(4); 
 	protected ReferenceFrame MQrefFrame = null;
 		
 	@Override
@@ -49,7 +49,7 @@ extends net.datamodel.qml.BaseCase
 			AxisValues.add("4");
 
 			// create the axisFrame and (1) member axis/dimension for the matrix
-			ListQuantity axis1 = QuantityBuilder.createListQuantity(noSemanticURI, units, QuantityBuilder.createIntegerDataType(1, false), AxisValues );
+			ListQuantity axis1 = SimpleQuantityBuilder.createListQuantity(noSemanticURI, units, SimpleQuantityBuilder.createIntegerDataType(1, false), AxisValues );
 			MQrefFrame.addAxis(axis1);
 
 		} catch (Exception e) {
@@ -63,7 +63,7 @@ extends net.datamodel.qml.BaseCase
 
 		AtomicQuantityImpl q = null;
 		try {
-			q = QuantityBuilder.createAtomicQuantity(noSemanticURI, units, AQdatatype, AQvalue);
+			q = SimpleQuantityBuilder.createAtomicQuantity(noSemanticURI, units, AQdatatype, AQvalue);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,7 +76,7 @@ extends net.datamodel.qml.BaseCase
 
 		ListQuantity q = null;
 		try {
-			q = QuantityBuilder.createListQuantity(noSemanticURI, units, AQdatatype, LQvalues);
+			q = SimpleQuantityBuilder.createListQuantity(noSemanticURI, units, AQdatatype, LQvalues);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -91,7 +91,7 @@ extends net.datamodel.qml.BaseCase
 		try {
 			List<ReferenceFrame> frames = new Vector<ReferenceFrame>(); 
 			frames.add(MQrefFrame);
-			q = QuantityBuilder.createMatrixQuantity(noSemanticURI, units, AQdatatype, LQvalues, frames);
+			q = SimpleQuantityBuilder.createMatrixQuantity(noSemanticURI, units, AQdatatype, LQvalues, frames);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
