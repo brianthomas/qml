@@ -23,9 +23,9 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 -->
-<xsd:schema targetNamespace="http://www.data-model.net/SemanticObject" 
+<xsd:schema targetNamespace="http://archive.astro.umd.edu/ont/SemanticObject" 
         xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-        xmlns="http://www.data-model.net/SemanticObject" 
+        xmlns="http://archive.astro.umd.edu/ont/SemanticObject" 
         elementFormDefault="qualified"
 >
 

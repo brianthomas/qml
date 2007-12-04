@@ -3,6 +3,11 @@
  */
 package net.datamodel.qml.builder;
 
+import net.datamodel.qml.ListQuantity;
+import net.datamodel.qml.MatrixQuantity;
+import net.datamodel.qml.core.AtomicQuantityImpl;
+import net.datamodel.xssp.dom.Specification;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -20,15 +25,13 @@ extends BaseCase
 	public void testCreateSimpleAtomicQuantitySerialization ( ) {
 
 		logger.warn("TODO : reenable tests");
-		assertTrue(true);
 		
-		/*
 		// create an atomic quantity
 		logger.info("testCreateSimpleAtomicQuantity - serialization");
 
 		try {
 			
-			AtomicQuantityImpl q = createSimpleAtomicQuantity(); 
+			AtomicQuantityImpl q = createSimpleAtomicQuantity();
 			
 			logger.debug("Test AtomicQ XML output:"+System.getProperty("line.separator")+q.toXMLString());
 			
@@ -39,10 +42,9 @@ extends BaseCase
 			// fail(e.getMessage());
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 	
-	/*
 	// Create an atomic quantity and exercise its interface to insure we
 	// get some sane answers.
 	public void testCreateSimpleListQuantitySerialization ( ) {
@@ -95,6 +97,5 @@ extends BaseCase
 	public void testCreateSimple2DMatrixQuantitySerialization ( ) {
 		logger.error("NEED TO TEST 2D Matrix Represnetation");
 	}
-	*/
 	
 }

@@ -32,7 +32,7 @@
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.dom.Constant;
+import net.datamodel.qml.Constants;
 import net.datamodel.qml.dom.Utility;
 import net.datamodel.xssp.XMLFieldType;
 
@@ -59,7 +59,7 @@ public class IntegerDataType extends NumberDataType {
 	/** No-arg Constructor.*/ 
 	public IntegerDataType ( ) { 
 
-		setXMLNodeName(Constant.NodeName.INTEGER_DATATYPE);
+		setXMLNodeName(Constants.NodeName.INTEGER_DATATYPE);
 
 		setWidth(new Integer(2));
 

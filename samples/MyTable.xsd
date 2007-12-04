@@ -5,15 +5,16 @@
      This schema extends (rather than aggregates element in) the QML namespace.
   -->
 <xsd:schema 
-            targetNamespace="http://www.data-model.net/Quantity"
+            targetNamespace="http://archive.astro.umd.edu/ont/Quantity.owl"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:map="http://www.data-model.net/Mappings"
-            xmlns="http://www.data-model.net/Quantity"
+            xmlns:map="http://archive.astro.umd.edu/ont/Mappings.owl"
+            xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
 	    elementFormDefault="qualified"
 >
 
- 	<xsd:import namespace="http://www.data-model.net/Mappings" schemaLocation="QMLMappings.xsd"/>
- 	<xsd:include schemaLocation="QML_06.xsd"/>
+ 	<xsd:import namespace="http://archive.astro.umd.edu/ont/Mappings.owl" 
+ 	            schemaLocation="QMLMappings.xsd"/>
+ 	<xsd:include schemaLocation="QML_10.xsd"/>
 
         <!-- some new directly-inheriting quantity element declarations -->
         <xsd:element name="table" substitutionGroup="QuantityGroup" type="CompositeQuantityType"/>

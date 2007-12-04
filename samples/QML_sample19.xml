@@ -3,8 +3,8 @@
 <matrixQuantity
       name="Velocity"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
-      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_10.xsd"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
       size="12"
       urn="urn:velocity"
 >

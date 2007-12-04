@@ -5,8 +5,8 @@
 <compositeQuantity
       description="a bag of quantities which is itself, a quantity"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns="http://www.data-model.net/Quantity"
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_10.xsd"
       size="3"
 >
    <!-- 3 quantities which are members -->

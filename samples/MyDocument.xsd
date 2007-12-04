@@ -8,12 +8,13 @@
 <xsd:schema 
             targetNamespace="http://noplace.org/MyDocument"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:q="http://www.data-model.net/Quantity"
+            xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl"
             xmlns="http://noplace.org/MyDocument"
 	    elementFormDefault="qualified"
 >
 
- 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_06.xsd"/>
+ 	<xsd:import namespace="http://archive.astro.umd.edu/ont/Quantity.owl" 
+ 	                       schemaLocation="QML_10.xsd"/>
  	<xsd:import namespace="http://noplace.org/Ellipse" schemaLocation="Ellipse.xsd"/>
 
         <!-- some new directly-inheriting quantity element declarations -->

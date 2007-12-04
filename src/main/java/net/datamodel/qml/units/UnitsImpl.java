@@ -38,8 +38,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
+import net.datamodel.qml.Constants;
 import net.datamodel.qml.Units;
-import net.datamodel.qml.dom.Constant;
 import net.datamodel.xssp.ReferenceableXMLSerializableObject;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
@@ -66,7 +66,7 @@ implements Units
 	/** Construct these units with some value.
 	 */
 	public UnitsImpl ( String value ) { 
-		setXMLNodeName(Constant.NodeName.UNITS);
+		setXMLNodeName(Constants.NodeName.UNITS);
 		addField(valueFieldName, value, XMLFieldType.PCDATA); 
 	}
 

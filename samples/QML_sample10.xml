@@ -2,9 +2,9 @@
 <!-- test seven: list quantity with various types of meta-data -->
 <listQuantity
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:a="http://www.data-model.net/Accuracy"
-      xmlns="http://www.data-model.net/Quantity"
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_06.xsd"
+      xmlns:a="http://archive.astro.umd.edu/ont/Accuracy.owl.owl"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_10.xsd"
       size="3"
 >
    <trivialQuantity>some meta-data here</trivialQuantity>

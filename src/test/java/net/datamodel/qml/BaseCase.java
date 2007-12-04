@@ -18,7 +18,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import junit.framework.TestCase;
-import net.datamodel.qml.dom.Constant;
 import net.datamodel.qml.dom.QMLDocument;
 import net.datamodel.qml.dom.QMLElement;
 import net.datamodel.qml.dom.QMLReader;
@@ -44,7 +43,8 @@ abstract public class BaseCase extends TestCase {
 	private static final Logger logger = Logger.getLogger(BaseCase.class);
 	
 	protected static final String schemaDirectory = "docs/schema";
-	protected static final String samplesDirectory = "samples";
+//	protected static final String samplesDirectory = "samples";
+	protected static final String samplesDirectory = "docs/examples";
 	protected static final String testDirectory = "target/test-samples";
 	
 	protected static final String unknownURNStr = "urn:qml:unknown-object";
@@ -148,7 +148,7 @@ abstract public class BaseCase extends TestCase {
 		QMLElement elem = doc.createQMLElement(q);
 	
 		// set the schema location
-		String schemaLoc = Constant.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constant.QML_SCHEMA_NAME;
+		String schemaLoc = Constants.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constants.QML_SCHEMA_NAME;
 		logger.debug("Set schema location:"+schemaLoc);
 		elem.setAttribute("xsi:schemaLocation",schemaLoc);
 		
@@ -158,10 +158,10 @@ abstract public class BaseCase extends TestCase {
 		logger.debug("DOC XML IS:["+doc.toXMLString()+"]");
 		
 		// now check various representations
-		checkValidXMLRepresentation(doc, true, Constant.VALUE_SERIALIZE_TAGGED);
-		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_TAGGED);
-		checkValidXMLRepresentation(doc, true, Constant.VALUE_SERIALIZE_SPACE);
-		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_TAGGED);
+		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_TAGGED);
+		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_SPACE);
 
 	}
 	

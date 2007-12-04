@@ -20,7 +20,6 @@ public class TestValidate extends BaseXerces2Case {
 		
 		logger.warn("testValidateSamples - TODO");
 		assertTrue(true);
-    	/*
 		logger.info("testValidateSamples");
 		
 		try {
@@ -35,7 +34,7 @@ public class TestValidate extends BaseXerces2Case {
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
-		*/
+		
 	}
     
 }

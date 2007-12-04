@@ -33,8 +33,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
+import net.datamodel.qml.Constants;
 import net.datamodel.qml.Quantity;
-import net.datamodel.qml.dom.Constant;
 import net.datamodel.qml.dom.QMLDocument;
 import net.datamodel.qml.dom.QMLElement;
 import net.datamodel.soml.ObjectProperty;
@@ -59,15 +59,15 @@ implements QMLDocument
 
 	/** Create a QMLDocument. This implementation will automatically set up
 	 * the basic default namespace mappings for target namespace 
-	 * (set to {@link Constant.QML_NAMESPACE_URI})
-	 * and "xsi" equal to {@link Constant.XML_SCHEMA_INSTANCE_NAMESPACE_URI}.
+	 * (set to {@link Constants.QML_NAMESPACE_URI})
+	 * and "xsi" equal to {@link Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI}.
 	 * Both of these settings may be overridden after construction using
 	 * the {@link net.datamodel.xssp.parse.XSSPDocument#setPrefixNamespaceMapping(java.lang.String, java.lang.String)} method.
 	 */
 	public QMLDocumentImpl() {
 		super();
-		setPrefixNamespaceMapping("", Constant.QML_NAMESPACE_URI);
-		setPrefixNamespaceMapping("xsi", Constant.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
+		setPrefixNamespaceMapping("", Constants.QML_NAMESPACE_URI);
+		setPrefixNamespaceMapping("xsi", Constants.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
 	}
 	
 	// TODO: remove when done testing.
@@ -208,10 +208,10 @@ implements QMLDocument
 	}
 	
 	@Override
-	public String getNamespaceURI() { return Constant.QML_NAMESPACE_URI; }
+	public String getNamespaceURI() { return Constants.QML_NAMESPACE_URI; }
 
 	@Override
-	public String getSchemaName() { return Constant.QML_SCHEMA_NAME; }
+	public String getSchemaName() { return Constants.QML_SCHEMA_NAME; }
 
 
 	// insert prefix mappings in root element

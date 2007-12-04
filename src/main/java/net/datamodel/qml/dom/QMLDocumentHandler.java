@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import net.datamodel.qml.Component;
+import net.datamodel.qml.Constants;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
@@ -137,9 +138,9 @@ extends SOMLDocumentHandler
 		Map<String,StartElementHandler> qmlStartHandlers = new Hashtable<String,StartElementHandler>();
 		Map<String,StartElementHandler> mapStartHandlers = new Hashtable<String,StartElementHandler>();
 
-		qmlStartHandlers.put(Constant.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
-		qmlStartHandlers.put(Constant.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
-		qmlStartHandlers.put(Constant.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameStartElementHandlerFunc());
+		qmlStartHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
+		qmlStartHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
+		qmlStartHandlers.put(Constants.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameStartElementHandlerFunc());
 		/*
         qmlStartHandlers.put(Constant.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
         qmlStartHandlers.put(Constant.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
@@ -159,16 +160,16 @@ extends SOMLDocumentHandler
 		 */
 
 		// FIX: hacked in mapping handlers until separate mapping package is built.
-		mapStartHandlers.put(Constant.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
+		mapStartHandlers.put(Constants.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
 
-		this.addStartElementHandlers(qmlStartHandlers, Constant.QML_NAMESPACE_URI);
-		this.addStartElementHandlers(mapStartHandlers, Constant.MAPPING_NAMESPACE_URI);
+		this.addStartElementHandlers(qmlStartHandlers, Constants.QML_NAMESPACE_URI);
+		this.addStartElementHandlers(mapStartHandlers, Constants.MAPPING_NAMESPACE_URI);
 
 		// TODO: init end handlers
 		Map<String,EndElementHandler> mapEndHandlers = new Hashtable<String,EndElementHandler>();
 		Map<String,EndElementHandler> qmlEndHandlers = new Hashtable<String,EndElementHandler>();
 
-		qmlEndHandlers.put(Constant.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
+		qmlEndHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
 		/*
         qmlEndHandlers.put(Constant.NodeTypeName.ATOMIC_QUANTITY, new QuantityEndElementHandlerFunc());
         qmlEndHandlers.put(Constant.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameEndElementHandlerFunc());
@@ -192,8 +193,8 @@ extends SOMLDocumentHandler
 		// TODO: hacked in mapping handlers until separate mapping package is built.
 		// mapEndHandlers.put(Constant.NodeTypeName.MAP, new NullEndElementHandlerFunc());
 
-		this.addEndElementHandlers(qmlEndHandlers, Constant.QML_NAMESPACE_URI);
-		this.addEndElementHandlers(mapEndHandlers, Constant.MAPPING_NAMESPACE_URI);
+		this.addEndElementHandlers(qmlEndHandlers, Constants.QML_NAMESPACE_URI);
+		this.addEndElementHandlers(mapEndHandlers, Constants.MAPPING_NAMESPACE_URI);
 
 		// TODO: init chardata handlers
 		Map<String,CharDataHandler> mapCharDataHandler = new Hashtable <String,CharDataHandler>();
@@ -223,8 +224,8 @@ extends SOMLDocumentHandler
 		// FIX: hacked in mapping handlers until separate mapping package is built.
 		// mapCharDataHandler.put(Constant.NodeTypeName.MAP, new NullCharDataHandlerFunc());
 
-		addCharDataHandlers(qmlCharDataHandler, Constant.QML_NAMESPACE_URI); 
-		addCharDataHandlers(mapCharDataHandler, Constant.MAPPING_NAMESPACE_URI); 
+		addCharDataHandlers(qmlCharDataHandler, Constants.QML_NAMESPACE_URI); 
+		addCharDataHandlers(mapCharDataHandler, Constants.MAPPING_NAMESPACE_URI); 
 
 		// TODO: init element associations
 
@@ -511,7 +512,7 @@ extends SOMLDocumentHandler
 		// belong to the www.datamodel.net/Quantity namespace. Its not
 		// likely, and, I cant get the namespaced "getIndex" function to
 		// work, so this will have to do for now.
-		int index = attrs.getIndex(Constant.SIZE_ATTRIBUTE_NAME);
+		int index = attrs.getIndex(Constants.SIZE_ATTRIBUTE_NAME);
 
 		if(index > 0) {
 			String value = attrs.getValue(index);

@@ -1,9 +1,9 @@
 <?xml version ="1.0"?>
 <mydocument
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.data-model.net/Quantity MyTable.xsd"
-      xmlns:m="http://www.data-model.net/Mappings"
-      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl MyTable.xsd"
+      xmlns:m="http://archive.astro.umd.edu/ont/Mappings.owl"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
 >
   <table name="Catalog 1215" description="Tables of membership for 43 open clusters (1994 Version)" size="60">
    <axisFrame qid="rowAxes" size="1">

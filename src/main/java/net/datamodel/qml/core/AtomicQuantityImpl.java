@@ -3,12 +3,12 @@ package net.datamodel.qml.core;
 import java.net.URI;
 import java.util.List;
 
+import net.datamodel.qml.Constants;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
-import net.datamodel.qml.dom.Constant;
 
 import org.apache.log4j.Logger;
 
@@ -68,7 +68,7 @@ extends AbstractQuantity
 	 */
 	protected AtomicQuantityImpl (URI uri, int capacity) {  
 		super (uri, capacity);  
-		setXMLNodeName(Constant.NodeName.ATOMIC_QUANTITY);
+		setXMLNodeName(Constants.NodeName.ATOMIC_QUANTITY);
 	}
 
 	/* Construct this quantity with mapping rather than explicitly holding 

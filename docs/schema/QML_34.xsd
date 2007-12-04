@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns="http://www.data-model.net/Quantity" xmlns:map="http://www.data-model.net/Mappings" xmlns:so="http://www.data-model.net/SemanticObject" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.data-model.net/Quantity">
+<xsd:schema xmlns="http://archive.astro.umd.edu/ont/Quantity.owl" 
+            xmlns:map="http://archive.astro.umd.edu/ont/Mappings.owl" 
+            xmlns:so="http://archive.astro.umd.edu/ont/SemanticObject" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            elementFormDefault="qualified" 
+            targetNamespace="http://archive.astro.umd.edu/ont/Quantity.owl"
+>
 
-  <xsd:import namespace="http://www.data-model.net/SemanticObject" schemaLocation="SOML_55.xsd"/>
+  <xsd:import namespace="http://archive.astro.umd.edu/ont/SemanticObject" 
+              schemaLocation="SOML_55.xsd"/>
 
   <xsd:annotation>
     <xsd:documentation>
    QML (Quantity Modeling Language) XML schema. 
-   Version 0.33. May 2007.
+   Version 0.34. Dec 2007.
 
    Copyright (c) 2004-2007 Brian Thomas and Edward Shaya. All rights reserved.
 
@@ -52,7 +59,28 @@
          <xsd:documentation>Property on Q's. Extended here to allow adding QuantityGroup</xsd:documentation>
      </xsd:annotation>
      <xsd:complexContent>
-        <xsd:extension base="so:PropertyType"/>
+        <xsd:restriction base="so:PropertyType">
+           <xsd:choice minOccurs="1">
+              <xsd:element ref="QuantityGroup"/>
+              <xsd:element ref="ListQuantityGroup"/>
+              <xsd:element ref="so:SemanticObjectGroup"/>
+           </xsd:choice>
+           <xsd:attribute name="URI" type="xsd:anyURI"/>
+        </xsd:restriction>
+     </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="listPropertyType">
+     <xsd:annotation>
+         <xsd:documentation>Property on Q's. Extended here to allow adding QuantityGroup</xsd:documentation>
+     </xsd:annotation>
+     <xsd:complexContent>
+        <xsd:restriction base="so:PropertyType">
+           <xsd:choice minOccurs="1">
+              <xsd:element ref="ListQuantityGroup"/>
+           </xsd:choice>
+           <xsd:attribute name="URI" type="xsd:anyURI"/>
+        </xsd:restriction>
      </xsd:complexContent>
   </xsd:complexType>
   
@@ -63,10 +91,7 @@
       <xsd:complexContent>
            <xsd:restriction base="so:SemanticObjectType">
               <xsd:sequence>
-                  <xsd:element ref="so:PropertyType"/>
-          <!-- 
-               minOccurs="0" maxOccurs="unbounded">
-          -->
+                  <xsd:element name="property" type="listPropertyType" minOccurs="1" maxOccurs="unbounded"/>
               </xsd:sequence>
               <xsd:attributeGroup ref="so:SemanticAttribs"/>
            </xsd:restriction>
@@ -261,7 +286,7 @@
   <xsd:element name="atomicQuantity" substitutionGroup="QuantityGroup" type="atomicQuantityType"/>
   <xsd:element name="listQuantity" substitutionGroup="ListQuantityGroup" type="listQuantityType"/>
   <xsd:element name="matrixQuantity" substitutionGroup="QuantityGroup" type="matrixQuantityType"/>
-  <!--xsd:element name="axisFrame" substitutionGroup="so:SemanticObjectGroup" type="ReferenceFrameType"/-->
+  <xsd:element name="axisFrame" substitutionGroup="so:SemanticObjectGroup" type="ReferenceFrameType"/>
   <!--xsd:element name="trivialQuantity" type="TrivialQuantityType" substitutionGroup="QuantityGroup"/-->
   <xsd:element name="refQuantity" substitutionGroup="QuantityGroup" type="refQuantityType"/>
 

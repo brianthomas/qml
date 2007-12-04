@@ -33,13 +33,13 @@ import java.net.URI;
 import java.util.List;
 import java.util.Vector;
 
+import net.datamodel.qml.Constants;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.datatype.StringDataType;
-import net.datamodel.qml.dom.Constant;
 
 /**
  * A restricted type of atomic quantity. The trivial quantity may only 
@@ -59,7 +59,7 @@ extends AbstractQuantity
 	
 	public TrivialQuantityImpl (URI uri) { 
 		super(uri);
-		setXMLNodeName(Constant.NodeName.TRIVIAL_QUANTITY);
+		setXMLNodeName(Constants.NodeName.TRIVIAL_QUANTITY);
 	}
 
 	/*

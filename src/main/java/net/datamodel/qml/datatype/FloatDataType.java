@@ -32,7 +32,7 @@
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.dom.Constant;
+import net.datamodel.qml.Constants;
 import net.datamodel.xssp.XMLFieldType;
 
 /**
@@ -65,7 +65,7 @@ extends NumberDataType
 	/** No-argument Constructor
 	 */
 	public FloatDataType ( ) { 
-		setXMLNodeName(Constant.NodeName.FLOAT_DATATYPE);
+		setXMLNodeName(Constants.NodeName.FLOAT_DATATYPE);
 
 		setWidth(new Integer(4));
 

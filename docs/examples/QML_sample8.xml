@@ -2,8 +2,8 @@
 <!-- test 8: list quantity with dataType and CSV separated values -->
 <listQuantity
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns="http://www.data-model.net/Quantity"
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_32.xsd"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_34.xsd"
       size="3"
 >
    <string width="4"/>

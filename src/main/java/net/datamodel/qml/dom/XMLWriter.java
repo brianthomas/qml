@@ -34,6 +34,9 @@ package net.datamodel.qml.dom;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.lang.reflect.Method;
+
+import net.datamodel.qml.Constants;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
@@ -78,7 +81,7 @@ public class XMLWriter {
      * Newline Formatting information
      * @uml.property  name="nEW_LINE"
      */
-    private String NEW_LINE = Constant.NEW_LINE;
+    private String NEW_LINE = Constants.NEW_LINE;
     /**
      * @uml.property  name="isPretty"
      */

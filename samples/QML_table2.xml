@@ -2,9 +2,9 @@
 <!-- as for table1, but more fieilds. ALso, we add in the "refQuantity" -->
 <mydocument
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.data-model.net/Quantity MyTable.xsd"
-      xmlns:m="http://www.data-model.net/Mappings"
-      xmlns="http://www.data-model.net/Quantity"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl MyTable.xsd"
+      xmlns:m="http://archive.astro.umd.edu/ont/Mappings.owl"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
 >
 <!-- 
   An example serialization of a table using table. 

@@ -35,10 +35,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.Vector;
 
+import net.datamodel.qml.Constants;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ValueMapping;
-import net.datamodel.qml.dom.Constant;
 import net.datamodel.soml.ObjectProperty;
 import net.datamodel.soml.Property;
 
@@ -74,7 +74,7 @@ implements MatrixQuantity
 	public MatrixQuantityImpl (URI uri, int capacity) { 
 		super(uri, capacity);
 
-		setXMLNodeName (Constant.NodeName.MATRIX_QUANTITY);
+		setXMLNodeName (Constants.NodeName.MATRIX_QUANTITY);
 
 		setValueContainer (new MatrixValueContainerImpl(this));
 
@@ -107,7 +107,7 @@ implements MatrixQuantity
 //		throw new IllegalArgumentException("ReferenceFrame has different number of locations ["+axisLocations+"] from parent Q ["+getSize().intValue()+"]");
 //		}
 
-		return this.addProperty(frame, Constant.getHasReferenceFrameURN());
+		return this.addProperty(frame, Constants.getHasReferenceFrameURN());
 	}
 
 	/*
@@ -118,7 +118,7 @@ implements MatrixQuantity
 		List<ReferenceFrame> rList = new Vector<ReferenceFrame>(); 
 		// tool through our list of related objects and find ones which
 		// match the indicated urn
-		for (Property rel : getProperties(Constant.getHasReferenceFrameURN())) {
+		for (Property rel : getProperties(Constants.getHasReferenceFrameURN())) {
 			rList.add((ReferenceFrame) ((ObjectProperty)rel).getTarget());
 		}
 		return rList;
@@ -129,7 +129,7 @@ implements MatrixQuantity
 	 * @see net.datamodel.qml.MatrixQuantity#removeReferenceFrame(net.datamodel.qml.ReferenceFrame)
 	 */
 	public boolean removeReferenceFrame(ReferenceFrame frame) {
-		return removeObjectProperty(Constant.getHasReferenceFrameURN(), frame);
+		return removeObjectProperty(Constants.getHasReferenceFrameURN(), frame);
 	}
 
 	/*

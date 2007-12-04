@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
-            targetNamespace="http://www.data-model.net/Accuracy"
+            targetNamespace="http://archive.astro.umd.edu/ont/Accuracy.owl"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:q="http://www.data-model.net/Quantity"
-            xmlns="http://www.data-model.net/Accuracy"
+            xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl"
+            xmlns="http://archive.astro.umd.edu/ont/Accuracy.owl"
             elementFormDefault="qualified"
 >
 
- 	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_32.xsd"/>
+ 	<xsd:import namespace="http://archive.astro.umd.edu/ont/Quantity.owl" 
+                    schemaLocation="QML_34.xsd"/>
 
         <xsd:annotation>
                 <xsd:documentation>QMLAccuracy.xsd - just a place holder for accuracy definitions.
-                                  first draft May. 30 2007 (brian thomas; baba-luu@earthlink.net)
-
 				  Many types of accuracy need to be defined for scientific data, 
                                   as well as practices for adding/restricting types of accuracy allowed. 
                                   The point of this document is to carve out a namespace for these things and

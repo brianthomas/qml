@@ -20,13 +20,14 @@ import com.hp.hpl.jena.rdf.model.StmtIterator;
  * @author thomas
  *
  */
+
 public class QuantityBuilder 
-extends SemanticObjectBuilder 
+extends SemanticObjectBuilder
 {
-	
+
 	// our trusty logger
 	private static final Logger logger = Logger.getLogger(QuantityBuilder.class);
-	
+
 	public QuantityBuilder(OntModel model) 
 	{
 		super(model);

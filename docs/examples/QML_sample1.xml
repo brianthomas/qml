@@ -2,8 +2,8 @@
 <!-- test one : an atomic quantity with explicit namespace, and empty units -->
 <q:atomicQuantity 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-      xmlns:q="http://www.data-model.net/Quantity" 
-      xsi:schemaLocation="http://www.data-model.net/Quantity QML_32.xsd"
+      xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl" 
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_34.xsd"
       name="test"
       description="test string quantity"
       soId="dude"

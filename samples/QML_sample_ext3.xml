@@ -6,7 +6,7 @@
 <doc:mydocument
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:doc="http://noplace.org/MyDocument"
-      xmlns:q="http://www.data-model.net/Quantity"
+      xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl"
       xmlns="http://noplace.org/Ellipse"
       xsi:schemaLocation="http://noplace.org/MyDocument MyDocument.xsd"
 >

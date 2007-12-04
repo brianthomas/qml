@@ -32,6 +32,8 @@ package net.datamodel.qml.dom;
 
 import java.net.URI;
 
+import net.datamodel.qml.Constants;
+
 import org.xml.sax.Attributes;
 
 
@@ -45,7 +47,7 @@ import org.xml.sax.Attributes;
     /** Determine if passed value is valid integer type. 
      */
     public static boolean isValidIntegerType(String strIntegerType) {
-      String[] integerTypeList = Constant.INTEGER_TYPE_LIST;
+      String[] integerTypeList = Constants.INTEGER_TYPE_LIST;
       int stop = integerTypeList.length;
       for (int i = 0; i < stop; i++) {
         if (strIntegerType.equals(integerTypeList[i]))
@@ -58,7 +60,7 @@ import org.xml.sax.Attributes;
     /** Determine if the passed string is a valid attribute type.
      */
     public static boolean isValidXMLSerializableFieldType(String strXMLSerializableFieldType) {
-      String[] attributeTypeList = Constant.XML_FIELD_TYPE_LIST;
+      String[] attributeTypeList = Constants.XML_FIELD_TYPE_LIST;
       int stop = attributeTypeList.length;
       for (int i = 0; i< stop; i++) {
         if (strXMLSerializableFieldType.equals(attributeTypeList[i]))

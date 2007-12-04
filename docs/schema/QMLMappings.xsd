@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- core (list) quanity schema -->
-<xsd:schema targetNamespace="http://www.data-model.net/Mappings" 
-            xmlns:q="http://www.data-model.net/Quantity" 
+<xsd:schema targetNamespace="http://archive.astro.umd.edu/ont/Mappings.owl" 
+            xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl" 
             xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-            xmlns="http://www.data-model.net/Mappings" 
+            xmlns="http://archive.astro.umd.edu/ont/Mappings.owl" 
             elementFormDefault="qualified"
 >
 
-	<xsd:import namespace="http://www.data-model.net/Quantity" schemaLocation="QML_32.xsd"/>
+	<xsd:import namespace="http://archive.astro.umd.edu/ont/Quantity.owl" 
+                    schemaLocation="QML_34.xsd"/>
 	<xsd:annotation>
-		<xsd:documentation>Mapping.xsd - just a place holder for mapping definitions.
-                                  first draft Feb. 23 2004 (brian thomas; baba-luu@earthlink.net)
-
+		<xsd:documentation>QMLMappings.xsd - just a place holder for mapping definitions.
                                   Many types of mappings need to be defined.  The point of
                                   this document is to carve out a namespace for these things and
                                   to show how it might be done for the QML package.

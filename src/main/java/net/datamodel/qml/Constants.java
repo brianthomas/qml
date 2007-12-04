@@ -27,7 +27,7 @@
 
 */
 
-package net.datamodel.qml.dom;
+package net.datamodel.qml;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,22 +43,22 @@ import java.net.URISyntaxException;
  * @version $Revision$
  */
 
-public abstract class Constant {
+public abstract class Constants {
 
   /** The name of the relevant version of the DTD file for this package.
   */
-  public static final String QML_DTD_NAME = "QML_32.dtd";
+  public static final String QML_DTD_NAME = "QML_34.dtd";
 
   /** The name of the relevant version of the schema file for this package.
    */
-  public static final String QML_SCHEMA_NAME = "QML_32.xsd";
+  public static final String QML_SCHEMA_NAME = "QML_34.xsd";
 
   /** The namespace URI of this package.
    */
-  public static final String QML_NAMESPACE_URI = "http://www.data-model.net/Quantity";
+  public static final String QML_NAMESPACE_URI = "http://archive.astro.umd.edu/ont/Quantity.owl";
 
   /** The version of QML spec this package implements */
-  public static final String QML_SPEC_VERSION = "0.32";
+  public static final String QML_SPEC_VERSION = "0.34";
 
   /** The version of XML that will be output from a toXML* method call.
   */
@@ -76,8 +76,7 @@ public abstract class Constant {
    */
 // FIX : this is a quick hack to avoid creation of the separate mappings package
 // right now.
-  public static final String MAPPING_NAMESPACE_URI = "http://www.data-model.net/Mappings";
- 
+  public static final String MAPPING_NAMESPACE_URI = "http://archive.umd.astro.edu/ont/Mappings.owl";
   
   // URI's
   
@@ -98,6 +97,7 @@ public abstract class Constant {
   // Axis/ListQ 'hasParentReferenceFrame' relationship
   public static final String QML_HAS_PARENT_REF_FRAME_URN_STRVALUE = "urn:qml:hasParentRefFrame";
   private static URI QML_HAS_PARENT_REF_FRAME_URN = null;
+  
   public static final URI getHasParentReferenceFrameURN() {
 	  if (null == QML_HAS_PARENT_REF_FRAME_URN) {
 		  try {

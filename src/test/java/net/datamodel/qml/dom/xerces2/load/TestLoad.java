@@ -3,6 +3,14 @@
  */
 package net.datamodel.qml.dom.xerces2.load;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+
+import net.datamodel.qml.dom.QMLDocument;
+import net.datamodel.qml.dom.Specification;
 import net.datamodel.qml.dom.xerces2.BaseXerces2Case;
 
 import org.apache.log4j.Logger;
@@ -17,13 +25,8 @@ public class TestLoad extends BaseXerces2Case
 	private static final Logger logger = Logger.getLogger(TestLoad.class);
 	
 	// Attempt to simply load all of the test samples in the samples directory
-	// TODO
 	public void testLoadSamples () throws Exception {
 		
-		logger.error("testLoadSamples - TODO");
-		assertTrue(true);
-		
-	/*
 		logger.info("testLoadSamples");
 		try {
 			for (int i = 0; i< samplefiles.length; i++)
@@ -36,7 +39,7 @@ public class TestLoad extends BaseXerces2Case
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
-	*/
+		
 	}
 	
 	// A test of being able to read, and write the sample.
@@ -45,10 +48,6 @@ public class TestLoad extends BaseXerces2Case
 	// TODO
 	public void testLoadAndWriteSamples () throws Exception {
 		
-		logger.warn("testLoadAndWriteSamples - TODO");
-		assertTrue(true);
-		
-	/*
 		logger.info("testLoadAndWriteSamples");
 		// set the output specification
 	    Specification.getInstance().setPrettyOutput(true);
@@ -82,17 +81,13 @@ public class TestLoad extends BaseXerces2Case
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
-	*/
+		
 	}
 	
 	// Test our ability to get consistent results from loading and reloading
 	// files. We compare between the products of the first and second loadings.
-	// TODO
 	public void testMulitLoadAndWriteSamples () throws Exception {
 		
-		logger.warn("testMultiLoadAndWriteSamples - TODO");
-		assertTrue(true);
-		/*
 		logger.info("testMultiLoadAndWriteSamples");
 		
 		// set the output specification
@@ -149,7 +144,6 @@ public class TestLoad extends BaseXerces2Case
 			e.printStackTrace();
 		}
 		
-	*/
 	}
 	
 }

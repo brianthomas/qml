@@ -36,9 +36,9 @@ import java.net.URI;
 import java.util.List;
 import java.util.Vector;
 
+import net.datamodel.qml.Constants;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.ReferenceFrame;
-import net.datamodel.qml.dom.Constant;
 import net.datamodel.soml.SemanticObject;
 import net.datamodel.soml.impl.SemanticObjectImpl;
 
@@ -60,7 +60,7 @@ implements ReferenceFrame {
 
     public ReferenceFrameImpl (URI uri) {
     	super(uri);
-    	setXMLNodeName(Constant.NodeName.REFERENCE_FRAME);
+    	setXMLNodeName(Constants.NodeName.REFERENCE_FRAME);
     }
 
     /*
@@ -82,7 +82,7 @@ implements ReferenceFrame {
     	boolean success = axis.addProperty(this, Constant.getHasParentReferenceFrameURN());
     	if (success)
     	*/
-    		return addProperty(axis, Constant.getHasAxisURN()); 
+    		return addProperty(axis, Constants.getHasAxisURN()); 
     	
     	//return false; // if we get here we had a problem setting up the Propertys 
     	
@@ -107,7 +107,7 @@ implements ReferenceFrame {
     	/*boolean success = axis.removeProperty(Constant.getHasParentReferenceFrameURN(), this);
     	if (success)
     	*/
-    		return removeObjectProperty(Constant.getHasAxisURN(), axis); 
+    		return removeObjectProperty(Constants.getHasAxisURN(), axis); 
     	
     	//return false; // if we get here we had a problem removing the Propertys 
     }
@@ -118,7 +118,7 @@ implements ReferenceFrame {
      */
     public List<ListQuantity> getAxes ( ) {
     	List<ListQuantity> axes = new Vector<ListQuantity>();
-    	List<SemanticObject> related = this.getSemanticObjects(Constant.getHasAxisURN());  
+    	List<SemanticObject> related = this.getSemanticObjects(Constants.getHasAxisURN());  
     	for (SemanticObject so : related) {
     		// Let it be possible for the cast to fail (e.g. no run time check). Shouldnt 
     		// fail if the package is working as advertised, however.

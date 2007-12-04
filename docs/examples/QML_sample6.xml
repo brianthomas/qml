@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!-- test four: test various quantity datatype settings -->
+<atomicQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_34.xsd"
+>
+      <!-- integer decimal, signed -->
+      <property URI="urn:qml:hasMember">
+         <atomicQuantity><integer width="2" type="decimal" signed="no"/><value>10</value></atomicQuantity>
+      </property>
+      
+      <!-- integer octal -->
+      <property URI="urn:qml:hasMember">
+         <atomicQuantity><integer width="3" type="octal"/><value>011</value></atomicQuantity>
+      </property>
+      
+      <!-- integer hex -->
+      <property URI="urn:qml:hasMember">
+          <atomicQuantity><integer width="4" type="hexadecimal"/><value>0x10</value></atomicQuantity>
+      </property>
+      
+      <!-- float -->
+      <property URI="urn:qml:hasMember">
+          <atomicQuantity><float width="4" precision="1"/><value>10.1</value></atomicQuantity>
+      </property>
+      
+      <!-- float in sci notation -->
+      <property URI="urn:qml:hasMember">
+          <atomicQuantity><float width="8" precision="1" exponent="3"/><value>10.1e-02</value></atomicQuantity>
+      </property>
+      
+      <!-- string, arb. length -->
+      <property URI="urn:qml:hasMember">
+           <atomicQuantity><string/><value>some string</value></atomicQuantity>
+      </property>
+      
+      <!-- string, fixed length -->
+      <property URI="urn:qml:hasMember">
+          <atomicQuantity><string width="24"/><value>some fixed length string</value></atomicQuantity>
+      </property>
+      
+   <string width="14"/>
+   <value>some data here</value>
+</atomicQuantity>
