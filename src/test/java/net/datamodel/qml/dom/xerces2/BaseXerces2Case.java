@@ -23,7 +23,10 @@ extends BaseCase
 	/**
 	 */
 	@Override
-	public void setUp() {
+	protected void setUp() 
+	throws Exception
+	{
+		
 		logger.debug(" baseXerces2Case setup");
 		super.setUp();
 		

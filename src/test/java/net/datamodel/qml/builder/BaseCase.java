@@ -32,7 +32,10 @@ extends net.datamodel.qml.BaseCase
 	protected ReferenceFrame MQrefFrame = null;
 		
 	@Override
-	public void setUp() {
+	protected void setUp() 
+	throws Exception
+	{
+		
 		super.setUp();
 		try {
 			noSemanticURI = new URI (URIrep);

@@ -56,7 +56,9 @@ abstract public class BaseCase extends TestCase {
 	
 	protected static String [] samplefiles = null;
 		
-	public void setUp() {
+	protected void setUp()
+	throws Exception
+	{
 		
 		logger.debug("Setup test directory");
 		
