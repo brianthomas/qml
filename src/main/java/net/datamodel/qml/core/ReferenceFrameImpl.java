@@ -82,7 +82,7 @@ implements ReferenceFrame {
     	boolean success = axis.addProperty(this, Constant.getHasParentReferenceFrameURN());
     	if (success)
     	*/
-    		return addProperty(axis, Constants.getHasAxisURN()); 
+    		return addProperty(Constants.getHasAxisURN(), axis); 
     	
     	//return false; // if we get here we had a problem setting up the Propertys 
     	

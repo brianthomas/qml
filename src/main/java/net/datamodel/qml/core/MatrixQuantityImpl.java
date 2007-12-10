@@ -107,7 +107,7 @@ implements MatrixQuantity
 //		throw new IllegalArgumentException("ReferenceFrame has different number of locations ["+axisLocations+"] from parent Q ["+getSize().intValue()+"]");
 //		}
 
-		return this.addProperty(frame, Constants.getHasReferenceFrameURN());
+		return this.addProperty(Constants.getHasReferenceFrameURN(), frame);
 	}
 
 	/*
