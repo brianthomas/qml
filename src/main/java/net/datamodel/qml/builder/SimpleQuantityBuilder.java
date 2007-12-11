@@ -92,7 +92,7 @@ public class SimpleQuantityBuilder
 	throws SetDataException, IllegalAccessException
 	{
 
-		ListQuantity q = new ListQuantityImpl(uri);
+		ListQuantityImpl q = new ListQuantityImpl(uri);
 
 		// populate all of the known fields to test if they are working
 		q.setUnits(units);
@@ -127,7 +127,7 @@ public class SimpleQuantityBuilder
 	throws SetDataException, IllegalAccessException
 	{
 
-		MatrixQuantity q = new MatrixQuantityImpl (uri);
+		MatrixQuantityImpl q = new MatrixQuantityImpl (uri);
 
 		// populate all of the known fields to test if they are working
 		q.setUnits(units);
