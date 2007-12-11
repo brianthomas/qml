@@ -53,7 +53,6 @@ extends Component, XMLSerializableObjectWithValues, Cloneable
 	 * 
 	 * @return Integer value of number of values contained within the quantity.
 	 */
-	// TODO: merge with ObjectWValues.getNumberOfValues() method..
 	public Integer getSize();
 	
 	
