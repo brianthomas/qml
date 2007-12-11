@@ -229,17 +229,17 @@ public abstract class Constants {
 
   /** The character sequence to use if we serialize values in non-tagged format. 
    */
-  public static String VALUE_SEPARATOR_STRING = " ";
+  public static final String VALUE_SEPARATOR_STRING = " ";
 
   /** The name of the XML "size" attribute in Quantities. 
    */
-  public static String QID_ATTRIBUTE_NAME = "qid";
-  public static String QIDREF_ATTRIBUTE_NAME = "qidRef";
-  public static String SIZE_ATTRIBUTE_NAME = "size";
+  public static final String QID_ATTRIBUTE_NAME = "qid";
+  public static final String QIDREF_ATTRIBUTE_NAME = "qidRef";
+  public static final String SIZE_ATTRIBUTE_NAME = "size";
 
   /** The key used for finding the data/value(s) field.
    */
-  public static String DATA_FIELD_NAME = "data";
+  public static final String DATA_FIELD_NAME = "data";
 
   /*
        Now, Some defines based on the DTD/schema.
