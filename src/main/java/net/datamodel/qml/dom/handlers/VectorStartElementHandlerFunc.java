@@ -27,7 +27,7 @@
 
 package net.datamodel.qml.dom.handlers;
 
-import net.datamodel.qml.Component;
+import net.datamodel.qml.core.ComponentImpl;
 import net.datamodel.qml.datatype.VectorDataType;
 import net.datamodel.qml.dom.QMLDocumentHandler;
 import net.datamodel.xssp.dom.StartElementHandler;
@@ -47,7 +47,7 @@ public class VectorStartElementHandlerFunc implements StartElementHandler {
 		// Allow it to crash if the cast fails
 		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 
-		Component cp = qhandler.getCurrentComponent();
+		ComponentImpl cp = qhandler.getCurrentComponent();
 		cp.setDataType(dataType);
 
 		qhandler.setHasVectorDataType(true);

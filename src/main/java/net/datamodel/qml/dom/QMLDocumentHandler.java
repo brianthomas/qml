@@ -38,6 +38,7 @@ import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.ReferenceFrame;
+import net.datamodel.qml.core.ComponentImpl;
 import net.datamodel.qml.datatype.FloatDataType;
 import net.datamodel.qml.datatype.IntegerDataType;
 import net.datamodel.qml.datatype.StringDataType;
@@ -97,7 +98,7 @@ extends SOMLDocumentHandler
 
 	// Sigh. a list of fields which should be private/protected but arent
 	// (yet) because Im too lazy to make the proper accessor methods.
-	private Component LastComponent; // the last component object we worked on
+	private ComponentImpl LastComponent; // the last component object we worked on
 
 	// Various fields which tell us the state of the values we are 
 	// dealing with as we parse along.
@@ -254,9 +255,9 @@ extends SOMLDocumentHandler
 
 	public final boolean isAddingAltValues () { return AddingAltValues; }
 
-	public final Component getLastComponent () { return LastComponent; }
+	public final ComponentImpl getLastComponent () { return LastComponent; }
 
-	public final void setLastComponent (Component val) { LastComponent = val; }
+	public final void setLastComponent (ComponentImpl val) { LastComponent = val; }
 
 	public final void setAddingAltValues (boolean value) { AddingAltValues = value; }
 
@@ -361,13 +362,13 @@ extends SOMLDocumentHandler
 	/** Gets the last component-compliant object we worked on.
 	 * This could be some types of Quantity as well as components.
 	 */
-	public Component getCurrentComponent() {
-		Component lastC = LastComponent;
+	public ComponentImpl getCurrentComponent() {
+		ComponentImpl lastC = LastComponent;
 		if (lastC == null)
 		{
 			Quantity lastQ = getCurrentQuantity();
 			if(lastQ != null)
-				lastC = (Component) lastQ;
+				lastC = (ComponentImpl) lastQ;
 		} 
 		return lastC;
 	}

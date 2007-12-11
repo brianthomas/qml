@@ -27,7 +27,7 @@
 
 package net.datamodel.qml.dom.handlers;
 
-import net.datamodel.qml.Component;
+import net.datamodel.qml.core.ComponentImpl;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.dom.QMLDocumentHandler;
 import net.datamodel.xssp.dom.StartElementHandler;
@@ -46,7 +46,7 @@ implements StartElementHandler {
 		dataType.setAttributeFields(attrs);
 
 		// allow the cast the chance to bomb
-		Component cp = ((QMLDocumentHandler) handler).getLastComponent();
+		ComponentImpl cp = ((QMLDocumentHandler) handler).getLastComponent();
 		cp.setDataType(dataType);
 
 		return dataType;
