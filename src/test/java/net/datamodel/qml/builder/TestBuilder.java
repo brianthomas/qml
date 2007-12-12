@@ -107,7 +107,8 @@ public class TestBuilder extends BaseCase {
 		queryModel.add(fm.loadModel(ontoUri, null, "RDF/XML-ABBREV"));
 		
 		for (Model m : getImports(queryModel)) {
-			queryModel.addSubModel(m);
+			// queryModel.addSubModel(m);
+			queryModel.add(m);
 		}
 		return queryModel;
 	}

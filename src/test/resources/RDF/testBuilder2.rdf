@@ -8,6 +8,7 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+    xmlns:ui="http://archive.astro.umd.edu/ont/unit_instances.owl#" 
     xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl#" 
     > 
     
@@ -25,9 +26,9 @@
     <owl:sameAs rdf:resource="http://test.org/testOps.owl#quantity1"/>
   </rdf:Description>
   
-  <rdf:Description rdf:about="http://test.org/testOps.owl#unit1">
-    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-  </rdf:Description>
+  <q:Units rdf:about="http://test.org/testOps.owl#unit1"> 
+     <q:symbol>s</q:symbol>
+  </q:Units>
   
   <rdf:Description rdf:about="http://test.org/testOps.owl#datatype1">
     <q:width>1</q:width>

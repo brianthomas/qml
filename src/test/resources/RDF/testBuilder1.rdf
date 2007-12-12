@@ -8,6 +8,8 @@
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
     xmlns:owl="http://www.w3.org/2002/07/owl#"
     xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+    xmlns:ui="http://archive.astro.umd.edu/ont/unit_instances.owl#" 
+    xmlns:u="http://archive.astro.umd.edu/ont/unit_ontology.owl#" 
     xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl#" 
     > 
     
@@ -15,6 +17,8 @@
   <!--
     <q:name>Time Passed</q:name>
     <q:description>the amount of time passed</q:description>
+    <q:hasUnits rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#second"/>
+    <q:hasUnits><q:second/></q:hasUnits>
     -->
     <q:hasUnits rdf:resource="http://test.org/testOps.owl#unit1"/>
     <q:hasDataType rdf:resource="http://test.org/testOps.owl#datatype1"/>
@@ -26,8 +30,12 @@
     <owl:sameAs rdf:resource="http://test.org/testOps.owl#quantity1"/>
   </rdf:Description>
   
-  <rdf:Description rdf:about="http://test.org/testOps.owl#unit1">
-  </rdf:Description>
+  <!--
+  <q:second rdf:about="http://test.org/testOps.owl#unit1"/> 
+  -->
+  <q:Units rdf:about="http://test.org/testOps.owl#unit1"> 
+     <q:symbol>s</q:symbol>
+  </q:Units>
   
   <rdf:Description rdf:about="http://test.org/testOps.owl#datatype1">
     <q:width>3</q:width>

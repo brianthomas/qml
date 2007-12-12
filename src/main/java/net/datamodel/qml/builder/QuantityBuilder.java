@@ -3,10 +3,13 @@
  */
 package net.datamodel.qml.builder;
 
+import java.util.Iterator;
+
 import net.datamodel.qml.Constants;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
+import net.datamodel.qml.Units;
 import net.datamodel.qml.core.AtomicQuantityImpl;
 import net.datamodel.qml.datatype.FloatDataType;
 import net.datamodel.qml.datatype.IntegerDataType;
@@ -43,9 +46,12 @@ extends SemanticObjectBuilder
 //	private static final String nameUri = Constants.QML_NAMESPACE_URI+"#name";
 //	private static final String descUri = Constants.QML_NAMESPACE_URI+"#description";
 
+	private static final String BooleanDataTypeURI = Constants.QML_NAMESPACE_URI+"#BooleanDataType";
 	private static final String FloatDataTypeURI = Constants.QML_NAMESPACE_URI+"#FloatDataType";
 	private static final String IntegerDataTypeURI = Constants.QML_NAMESPACE_URI+"#IntegerDataType";
 	private static final String StringDataTypeURI = Constants.QML_NAMESPACE_URI+"#StringDataType";
+	
+	private static final String UnitsTypeURI = Constants.QML_NAMESPACE_URI+"#Units";
 	
 	private static final String hasValueURI = Constants.QML_NAMESPACE_URI+"#value";
 	private static final String hasDataTypeURI = Constants.QML_NAMESPACE_URI+"#hasDataType";
@@ -57,6 +63,11 @@ extends SemanticObjectBuilder
 	private Property dataTypeWidthProperty = null;
 	private static final String dtPrecisionPropURI = Constants.QML_NAMESPACE_URI+"#precision";
 	private Property dataTypePrecisionProperty = null;
+	private static final String dtExponentPropURI = Constants.QML_NAMESPACE_URI+"#exponent";
+	private Property dataTypeExponentProperty = null;
+	
+	private static final String unitSymbolPropURI = Constants.QML_NAMESPACE_URI+"#symbol";
+	private Property unitSymbolProperty = null;
 
 	public QuantityBuilder(OntModel model) 
 	{
@@ -69,6 +80,8 @@ extends SemanticObjectBuilder
 		// init property stuff
 		dataTypeWidthProperty = model.getProperty(dtWidthPropURI);
 		dataTypePrecisionProperty = model.getProperty(dtPrecisionPropURI);
+		dataTypeExponentProperty = model.getProperty(dtExponentPropURI);
+		unitSymbolProperty = model.getProperty(unitSymbolPropURI);
 		
 	}
 
@@ -102,13 +115,11 @@ extends SemanticObjectBuilder
 				} else if (propUri.equals(hasDataTypeURI)) {
 					q.setDataType(rdfNodeToDataType(s.getObject())); 
 				} else if (propUri.equals(hasUnitsURI)) {
-					logger.error(" Cant yet set units!");
+					q.setUnits(rdfNodeToUnits(s.getObject())); 
 				} else if (propUri.equals(owlSameAsURI)) {
 					// pass...for now 
-					logger.debug("pass owl:sameAs property");
 				} else if (propUri.equals(rdfTypeURI)) {
 					// pass...for now 
-					logger.debug("pass rdf:type property");
 				} else {
 					logger.warn("Unused Q statement:"+s);
 				}
@@ -122,12 +133,19 @@ extends SemanticObjectBuilder
 		DataType dt = null;
 		if(vnode.canAs(Individual.class)) {
 			Individual in = (Individual) vnode.as(Individual.class);
+			
 			String rdfType = findRDFTypes(in).get(0);
-			if (rdfType.equals(FloatDataTypeURI)) {
+			if (rdfType.equals(BooleanDataTypeURI)) {
+				// TODO: add real boolean type??
+				dt = new IntegerDataType(1);
+			} else if (rdfType.equals(FloatDataTypeURI)) {
 				int width = in.getProperty(dataTypeWidthProperty).getInt();
 				int prec = in.getProperty(dataTypePrecisionProperty).getInt();
+				int exp = 1;
+				if(in.hasProperty(dataTypeExponentProperty))
+					exp = in.getProperty(dataTypeExponentProperty).getInt();
 				logger.debug(" GOT width:"+width+" precision:"+prec);
-				dt = new FloatDataType(width,prec);
+				dt = new FloatDataType(width,prec,exp);
 			} else if (rdfType.equals(StringDataTypeURI)) {
 				int width = in.getProperty(dataTypeWidthProperty).getInt();
 				dt = new StringDataType(width);
@@ -141,6 +159,31 @@ extends SemanticObjectBuilder
 				
 		}
 		return dt;
+	}
+
+	protected Units rdfNodeToUnits (RDFNode vnode) {
+		Units units = null;
+		if(vnode.canAs(Individual.class)) {
+			Individual in = (Individual) vnode.as(Individual.class);
+			
+			logger.debug("Got unit uri:"+in.getURI());
+			for (Iterator i = in.listRDFTypes(true); i.hasNext();) {
+				logger.debug("UNIT TYPE : "+i.next());
+			}
+			for (String type : findRDFTypes(in)) {
+				logger.debug("Unit rdf:type => "+type);
+			}
+			String rdfType = findRDFTypes(in).get(0);
+			if (rdfType.equals(UnitsTypeURI)) {
+				String symbol =  in.getProperty(unitSymbolProperty).getString();
+				units = new UnitsImpl(symbol);
+			} else {
+				logger.error("CANT HANDLE units:"+rdfType);
+				throw new IllegalArgumentException("Cant handle units in RDF of type:"+rdfType);
+			}
+				
+		}
+		return units;
 	}
 
 }
