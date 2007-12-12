@@ -23,9 +23,9 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 -->
-<xsd:schema targetNamespace="http://www.data-model.net/SemanticObject" 
+<xsd:schema targetNamespace="http://archive.astro.umd.edu/ont/SemanticObject" 
         xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-        xmlns="http://www.data-model.net/SemanticObject" 
+        xmlns="http://archive.astro.umd.edu/ont/SemanticObject" 
         elementFormDefault="qualified"
 >
 
@@ -61,12 +61,16 @@
                   <xsd:element name="property" type="propertyType"/>
                   <xsd:element name="dtproperty" type="simplePropertyType"/>
               </xsd:choice>
-              <xsd:attribute name="soId" type="xsd:ID" use="optional"/>
-              <xsd:attribute name="URI" type="xsd:anyURI"/>
+              <xsd:attributeGroup ref="SemanticAttribs"/>
               <xsd:anyAttribute namespace="##any"/> <!-- allow other namespaces to add attribs to SO's -->
    	  </xsd:extension>
         </xsd:complexContent>
    </xsd:complexType>
+   
+  <xsd:attributeGroup name="SemanticAttribs">
+     <xsd:attribute name="soId" type="xsd:ID" use="optional"/>
+     <xsd:attribute name="URI" type="xsd:anyURI"/>
+  </xsd:attributeGroup>
 
    <!-- this type of quantity just references other types, allows some 
         compresson of the document -->
