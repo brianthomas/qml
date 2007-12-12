@@ -17,6 +17,7 @@ Version Description
   
   0.4   Xerces Factory/Document Builder support
         and confirm support for XML version 1.1 under Xerces 
+        Parse RDF to Q
 
   0.5   Quantity Math Function support (just basic stuff: Add, Subtract, 
         Divide, Multiply, Exponent, Log only) [Note: this may wait for a
