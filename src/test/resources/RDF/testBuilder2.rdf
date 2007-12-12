@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- Builder quantity test, build from RDF model where all of the components
-     are present.
+ are present. This one is simple AQ with integer value.
   -->
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
