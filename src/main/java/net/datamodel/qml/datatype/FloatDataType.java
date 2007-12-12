@@ -62,12 +62,17 @@ extends NumberDataType
 
 	// Constructors
 
-	/** No-argument Constructor
-	 */
-	public FloatDataType ( ) { 
+	public FloatDataType ( )  { 
+		this(4,1,1);
+	}
+	
+	public FloatDataType (int width, int precision )  { 
+		this(width,precision,1);
+	}
+	
+	public FloatDataType (int width, int precision, int exponent) { 
+		super(width);
 		setXMLNodeName(Constants.NodeName.FLOAT_DATATYPE);
-
-		setWidth(new Integer(4));
 
 		try {
 			setNoDataValue(new Double(-9.9));
@@ -75,8 +80,8 @@ extends NumberDataType
 
 		// now initialize XML fields
 		// order matters!
-		addField(precisionFieldName, (Integer)null, XMLFieldType.ATTRIBUTE);
-		addField(exponentFieldName, new Integer(1), XMLFieldType.ATTRIBUTE);
+		addField(precisionFieldName, new Integer(precision), XMLFieldType.ATTRIBUTE);
+		addField(exponentFieldName, new Integer(exponent), XMLFieldType.ATTRIBUTE);
 
 	}
 	// Accessor Methods

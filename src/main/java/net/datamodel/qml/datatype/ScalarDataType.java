@@ -51,15 +51,13 @@ abstract public class ScalarDataType extends BaseDataType {
 
 	// Constructors
 
-	// No-arguement Constructor
-	public ScalarDataType ( ) { 
-
+	public ScalarDataType ( int width ) 
+	{ 
 		setXMLNodeName("");
 
 		// now initialize XML fields
 		// order matters!
-		addField(widthFieldName, null, XMLFieldType.ATTRIBUTE);
-
+		addField(widthFieldName, new Integer(width), XMLFieldType.ATTRIBUTE);
 	}
 
 	// Accessor Methods

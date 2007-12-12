@@ -2,9 +2,9 @@
 <!-- 
 
    SOML (Semantic Object Modeling Language) XML schema. 
-   Version 0.55 
+   Version 0.56 
 
-   Copyright (c) 2005,2007 Brian Thomas. All rights reserved.
+   Copyright (c) 2005-2007 Brian Thomas. All rights reserved.
 
    LICENSE
 
@@ -23,9 +23,9 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 -->
-<xsd:schema targetNamespace="http://archive.astro.umd.edu/ont/SemanticObject" 
+<xsd:schema targetNamespace="http://www.data-model.net/SemanticObject" 
         xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-        xmlns="http://archive.astro.umd.edu/ont/SemanticObject" 
+        xmlns="http://www.data-model.net/SemanticObject" 
         elementFormDefault="qualified"
 >
 
@@ -38,35 +38,39 @@
   <!-- abstract SO type -->
   <xsd:complexType name="AbstractSOType"/>
 
-  <!-- properties of the source and target SO's -->
-  <xsd:complexType name="PropertyType">
+  <!-- one-way properties between the source and target SO's -->
+  <xsd:complexType name="propertyType">
          <xsd:sequence>
              <xsd:element ref="SemanticObjectGroup" minOccurs="1" maxOccurs="1"/>
          </xsd:sequence>
          <xsd:attribute name="URI" type="xsd:anyURI"/>
   </xsd:complexType>
   
-  <xsd:attributeGroup name="SemanticAttribs">
-       <xsd:attribute name="soId" type="xsd:ID" use="optional"/>
-       <xsd:attribute name="URI" type="xsd:anyURI"/>
-       <xsd:anyAttribute namespace="##any"/> <!-- allow other namespaces to add attribs to SO's -->
-  </xsd:attributeGroup>
+  <!-- to hold DataTypeProperties -->
+  <xsd:complexType name="simplePropertyType">
+     <xsd:attribute name="URI" type="xsd:anyURI"/>
+     <xsd:attribute name="datatypeURI" type="xsd:anyURI"/>
+     <xsd:attribute name="value" type="xsd:string"/>
+  </xsd:complexType>
 
   <!-- Main Class : SemanticObject -->
    <xsd:complexType name="SemanticObjectType">
         <xsd:complexContent>
    	  <xsd:extension base="AbstractSOType">	
-              <xsd:sequence minOccurs="0" maxOccurs="unbounded">   
- 				  <xsd:element name="property" type="PropertyType"/>
-              </xsd:sequence>
-              <xsd:attributeGroup ref="SemanticAttribs"/>
+              <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                  <xsd:element name="property" type="propertyType"/>
+                  <xsd:element name="dtproperty" type="simplePropertyType"/>
+              </xsd:choice>
+              <xsd:attribute name="soId" type="xsd:ID" use="optional"/>
+              <xsd:attribute name="URI" type="xsd:anyURI"/>
+              <xsd:anyAttribute namespace="##any"/> <!-- allow other namespaces to add attribs to SO's -->
    	  </xsd:extension>
         </xsd:complexContent>
    </xsd:complexType>
 
    <!-- this type of quantity just references other types, allows some 
         compresson of the document -->
-   <xsd:complexType name="RefSOType">
+   <xsd:complexType name="refSOType">
       <xsd:complexContent>
         <xsd:extension base="AbstractSOType">
           <xsd:attribute name="soIdRef" type="xsd:IDREF" use="required"/>
@@ -77,8 +81,8 @@
   <!-- group declarations -->
   <xsd:element name="SemanticObjectGroup" type="AbstractSOType" abstract="true"/>
 
-  <!-- elements which may stand alone in the schema -->
+  <!-- elements -->
   <xsd:element name="semanticObject" type="SemanticObjectType" substitutionGroup="SemanticObjectGroup"/>
-  <xsd:element name="semanticObjectRef" type="RefSOType" substitutionGroup="SemanticObjectGroup"/>
+  <xsd:element name="semanticObjectRef" type="refSOType" substitutionGroup="SemanticObjectGroup"/>
 
 </xsd:schema>

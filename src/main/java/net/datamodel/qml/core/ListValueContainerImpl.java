@@ -105,7 +105,7 @@ implements ValueContainer
 	/** Vanilla constructor. Will create a list with default capacity
 	 * (Specification.getDefaultValueContainerCapacity() 
 	 */
-	public ListValueContainerImpl (Quantity parent) { this(parent, -1); }
+	public ListValueContainerImpl ( Quantity parent) { this(parent, -1); }
 
 	/** Constuct the container with a number of pre-allocated capacity of the list.
 	 */

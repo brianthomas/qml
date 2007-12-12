@@ -8,7 +8,7 @@
 >
 
   <xsd:import namespace="http://archive.astro.umd.edu/ont/SemanticObject" 
-              schemaLocation="SOML_55.xsd"/>
+              schemaLocation="SOML_56.xsd"/>
 
   <xsd:annotation>
     <xsd:documentation>
@@ -90,9 +90,10 @@
     </xsd:annotation>
       <xsd:complexContent>
            <xsd:restriction base="so:SemanticObjectType">
-              <xsd:sequence>
+              <xsd:choice>
                   <xsd:element name="property" type="listPropertyType" minOccurs="1" maxOccurs="unbounded"/>
-              </xsd:sequence>
+                  <xsd:element name="dtproperty" type="so:simplePropertyType" minOccurs="0" maxOccurs="unbounded"/>
+              </xsd:choice>
               <xsd:attributeGroup ref="so:SemanticAttribs"/>
            </xsd:restriction>
       </xsd:complexContent>
@@ -106,7 +107,10 @@
       <xsd:extension base="QuantityType">
         <xsd:sequence>
           <!-- special specification of the (apparent) dimensionality -->
-          <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+          <xsd:choice>
+             <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+             <xsd:element maxOccurs="unbounded" minOccurs="0" name="dtproperty" type="so:simplePropertyType"/>
+          </xsd:choice>
 
           <!-- data section. various groupings -->
           <xsd:choice>
@@ -137,7 +141,10 @@
       <xsd:restriction base="matrixQuantityType">
         <xsd:sequence>
 
-            <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+          <xsd:choice>
+             <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+             <xsd:element maxOccurs="unbounded" minOccurs="0" name="dtproperty" type="so:simplePropertyType"/>
+          </xsd:choice>
 
             <!-- data section. various groupings -->
             <xsd:choice>
@@ -170,8 +177,10 @@
       <xsd:restriction base="listQuantityType">
         <xsd:sequence>
 
-           <!-- Other SO's as meta-data -->
-            <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+          <xsd:choice>
+             <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+             <xsd:element maxOccurs="unbounded" minOccurs="0" name="dtproperty" type="so:simplePropertyType"/>
+          </xsd:choice>
 
            <xsd:choice>
               <!-- type 1 : scalar needs dataType + units -->
@@ -423,7 +432,10 @@
         <xsd:extension base="AbstractComponentType">
           <xsd:sequence>
       
-           <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+          <xsd:choice>
+             <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
+             <xsd:element maxOccurs="unbounded" minOccurs="0" name="dtproperty" type="so:simplePropertyType"/>
+          </xsd:choice>
 
             <!-- units/dataType section -->
             <xsd:choice>

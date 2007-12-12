@@ -42,6 +42,12 @@ public class StringDataType extends ScalarDataType {
 
 	/** No-arg Constructor */ 
 	public StringDataType ( ) { 
+		this(0);
+	}
+	
+	public StringDataType (int width) 
+	{ 
+		super(width);
 
 		setXMLNodeName(Constants.NodeName.STRING_DATATYPE);
 

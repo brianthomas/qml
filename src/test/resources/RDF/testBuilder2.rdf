@@ -27,13 +27,13 @@
   </rdf:Description>
   
   <rdf:Description rdf:about="http://test.org/testOps.owl#unit1">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
   </rdf:Description>
   
   <rdf:Description rdf:about="http://test.org/testOps.owl#datatype1">
     <q:width>3</q:width>
     <q:precision>1</q:precision>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
-    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#NumericalDataType"/>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#FloatDataType"/>
   </rdf:Description>
   

@@ -58,10 +58,13 @@ public class IntegerDataType extends NumberDataType {
 
 	/** No-arg Constructor.*/ 
 	public IntegerDataType ( ) { 
+		this(2);
+	}
+	
+	public IntegerDataType (int width) { 
+		super(width);
 
 		setXMLNodeName(Constants.NodeName.INTEGER_DATATYPE);
-
-		setWidth(new Integer(2));
 
 		try {
 			setNoDataValue(new Integer(-9));
@@ -71,7 +74,6 @@ public class IntegerDataType extends NumberDataType {
 		// order matters!
 		addField(signedFieldName, (String) null, XMLFieldType.ATTRIBUTE);
 		addField(inttypeFieldName, new Boolean(DEFAULT_SIGNED), XMLFieldType.ATTRIBUTE);
-
 	}
 
 	// Accessor Methods

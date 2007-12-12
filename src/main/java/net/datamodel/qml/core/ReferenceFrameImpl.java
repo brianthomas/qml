@@ -118,7 +118,7 @@ implements ReferenceFrame {
      */
     public List<ListQuantity> getAxes ( ) {
     	List<ListQuantity> axes = new Vector<ListQuantity>();
-    	List<SemanticObject> related = this.getSemanticObjects(Constants.getHasAxisURN());  
+    	List<SemanticObject> related = this.getSemanticObjectsByType(Constants.getHasAxisURN());  
     	for (SemanticObject so : related) {
     		// Let it be possible for the cast to fail (e.g. no run time check). Shouldnt 
     		// fail if the package is working as advertised, however.

@@ -54,8 +54,13 @@ abstract public class NumberDataType extends ScalarDataType
 	// Constructors
 	/** No-argument Constructor
 	 */
-	public NumberDataType ( ) 
+	public NumberDataType ( ) {
+		this(0);
+	}
+	
+	public NumberDataType (int width ) 
 	{ 
+		super(width);
 		addField(infiniteFieldName, null, XMLFieldType.ATTRIBUTE);
 		addField(negativeInfiniteFieldName, null, XMLFieldType.ATTRIBUTE);
 		addField(notANumberFieldName, null, XMLFieldType.ATTRIBUTE);

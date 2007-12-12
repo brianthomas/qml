@@ -221,9 +221,9 @@ abstract public class BaseCase extends TestCase {
 		logger.debug("- validateQuantityAPI (no values check) id:"+q.getId()); 
 		logger.debug("   is id OK? "+q.getId()); 
 		assertNotNull("id is not NULL", q.getId());
-		assertNotNull("Stored URI is not null.", q.getURI());
-		logger.debug("   is urn OK? ["+q.getURI().toASCIIString() +"] vs ["+URNrep+"]"); 
-		assertEquals("URN OK", q.getURI().toString(), URNrep);
+		assertNotNull("Stored URI is not null.", q.getRDFTypeURI());
+		logger.debug("   is urn OK? ["+q.getRDFTypeURI().toASCIIString() +"] vs ["+URNrep+"]"); 
+		assertEquals("URN OK", q.getRDFTypeURI().toString(), URNrep);
 		logger.debug("   are units OK?"); 
 		assertEquals("units OK", q.getUnits().toString(), units.toString());
 		logger.debug("   is datatype OK?"); 

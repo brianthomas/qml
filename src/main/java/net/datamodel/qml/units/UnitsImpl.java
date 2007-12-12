@@ -51,12 +51,13 @@ import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
  * readable representation is desirable.
  */
 
-public class UnitsImpl extends AbstractXMLSerializableObject 
+public class UnitsImpl 
+extends AbstractXMLSerializableObject 
 implements Units
 {
 
 	// fields
-	private static final String valueFieldName = new String("value");
+	private static final String valueFieldName = "value";
 
 	// Constructors
 
@@ -68,6 +69,7 @@ implements Units
 	public UnitsImpl ( String value ) { 
 		setXMLNodeName(Constants.NodeName.UNITS);
 		addField(valueFieldName, value, XMLFieldType.PCDATA); 
+		setSerializeWhenEmpty(true);
 	}
 
 	/** Get the value of these units.
