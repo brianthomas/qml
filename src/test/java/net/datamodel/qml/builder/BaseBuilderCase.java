@@ -4,9 +4,11 @@ package net.datamodel.qml.builder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import net.datamodel.qml.Quantity;
 import net.datamodel.soml.SemanticObject;
 import net.datamodel.soml.builder.SemanticObjectBuilderException;
 import net.datamodel.xssp.dom.Specification;
@@ -19,38 +21,34 @@ import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.util.FileManager;
 
 /**
  * @author thomas
  *
  */
-public class TestBuilder extends BaseCase {
+abstract public class BaseBuilderCase 
+extends BaseCase 
+{
 
 	// our trusty logger
-	private static final Logger logger = Logger.getLogger(TestBuilder.class);
+	private static final Logger logger = Logger.getLogger(BaseBuilderCase.class);
 
 	protected static String BASE_TEST_RESOURCE_DIR = "src/test/resources/RDF";
-
-	private static final String BaseOntModelUri = "http://test.org/testThings.owl";
+	
 //	private static final OntModelSpec modelSpec = OntModelSpec.OWL_MEM;
 	private static final OntModelSpec modelSpec = PelletReasonerFactory.THE_SPEC; // dont need a reasoner..we are just counting sub/super classes 
 
-	private static final String testQtyURI = "http://test.org/testOps.owl#quantity1";
+	protected static List<OntModel> testModels = new Vector<OntModel>();
 	
-	protected static String[] testModelFile = { 
-		BASE_TEST_RESOURCE_DIR + "/testBuilder1.rdf",
-		BASE_TEST_RESOURCE_DIR + "/testBuilder2.rdf"
-	}; 
-
-	// This rdf:type has a special handler we will check for
-	private static String SpecialInstanceURI = "http://test.org/testOps.owl#quantity1";
-
-	private static OntModel[] testModels = new OntModel[testModelFile.length];
-
 	private static boolean isSetup = false;
 	private static QuantityBuilder builder = null;
 
+	abstract protected String[] getTestModelFiles();
+	
+	abstract protected String getBaseOntModelUri();
+	
 	@Override
 	protected void setUp() 
 	throws Exception 
@@ -62,7 +60,7 @@ public class TestBuilder extends BaseCase {
 			logger.debug("Setting up tests");
 
 			try {
-				OntModel model = createOntModel(BaseOntModelUri);
+				OntModel model = createOntModel(getBaseOntModelUri());
 				builder = new QuantityBuilder(model);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -72,11 +70,12 @@ public class TestBuilder extends BaseCase {
 			logger.debug(" created builder:"+builder);
 
 			// create the test model query
+			String[] tModelFile = getTestModelFiles();
 			try {
-				for (int i = 0; i < testModelFile.length; i++) {
-					logger.debug(" Create model:"+testModelFile[i]);
-					testModels[i] = createOntModel(new File(testModelFile[i]));
-					logger.debug(" finished Create model:"+testModelFile[i]);
+				for (int i = 0; i < tModelFile.length; i++) {
+					logger.debug(" Create model:"+tModelFile[i]);
+					testModels.add(createOntModel(new File(tModelFile[i])));
+					logger.debug(" finished Create model:"+tModelFile[i]);
 				}
 			} catch (Exception e) {
 				logger.error("error in constructing test rdf models:" + e.getMessage());
@@ -135,30 +134,44 @@ public class TestBuilder extends BaseCase {
 		return ontModel;
 	}
 
-	public void test1() {
+	public void do_test1() {
 		logger.info("test builder construction");
 		assertNotNull(builder);
 	}
 
-	public void test2() {
+	public void do_test2() {
+		
 		logger.info("test builder on various RDF serializations of Q");
 		
+		String[] tMF = getTestModelFiles();
 
+		int modelnum = 0;
 		for (OntModel model: testModels) {
 			
-			Individual in = model.getIndividual(testQtyURI);
-			assertNotNull("got test individual from RDF model",in);
+			logger.debug("Test2 running on model:"+modelnum);
+			Resource qClass = model.getResource(Quantity.ClassURI);
+			assertNotNull("Model has Quantity class defined", qClass);
 			
-			try {
+			int num_quantities_in_model = 0;
+			for (Iterator i = model.listIndividuals(qClass); i.hasNext(); ) 
+			{
 				
-				SemanticObject so = builder.createSemanticObject(in);
-				assertNotNull("SO from builder is not null",so);
+				Individual in = (Individual) i.next();
+				num_quantities_in_model++;
+			
+				try {
 				
-				logger.debug("Resulting SO:\n"+so.toXMLString());
+					SemanticObject so = builder.createSemanticObject(in);
+					assertNotNull("SO from builder is not null",so);
 				
-			} catch (SemanticObjectBuilderException e) {
-				fail (e.getMessage());
+					logger.debug("Resulting SO:\n"+so.toXMLString());
+				
+				} catch (SemanticObjectBuilderException e) {
+					fail (e.getMessage());
+				}
 			}
+			assertTrue("Model in "+tMF[modelnum]+" has quantities",num_quantities_in_model > 0);
+			modelnum++;
 		}
 
 	}
