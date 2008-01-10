@@ -3,13 +3,15 @@
  */
 package net.datamodel.qml.builder;
 
-import com.hp.hpl.jena.ontology.OntModel;
 
-/**
+/** Test the Qbuilder on some astronomy data which uses it.
+ * 
  * @author thomas
  *
  */
-public class TestBuilderOnAstro extends BaseBuilderCase {
+public class TestBuilderOnAstro 
+extends BaseBuilderCase 
+{
 	
 	private static final String BaseOntModelUri = "http://archive.astro.umd.edu/ont/Astronomy.owl";
 	

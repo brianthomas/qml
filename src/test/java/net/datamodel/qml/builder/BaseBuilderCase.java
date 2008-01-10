@@ -4,8 +4,10 @@ package net.datamodel.qml.builder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import net.datamodel.qml.Quantity;
@@ -98,6 +100,14 @@ extends BaseCase
 	 * @return OntModel which represents the query 
 	 */
 	private static OntModel createOntModel (String ontoUri) {
+		return createOntModel(ontoUri, new Hashtable<String,Boolean>(), true);
+	}
+	
+	private static OntModel createOntModel (
+			String ontoUri, 
+			Map<String,Boolean> loaded, 
+			boolean loadImports ) 
+	{
 
 		logger.debug("CreateOntModel uri:"+ontoUri);
 		OntModel queryModel = ModelFactory.createOntologyModel(modelSpec);
@@ -105,24 +115,30 @@ extends BaseCase
 		logger.debug("  file manager:"+fm);
 		queryModel.add(fm.loadModel(ontoUri, null, "RDF/XML-ABBREV"));
 		
-		for (Model m : getImports(queryModel)) {
-			// queryModel.addSubModel(m);
-			queryModel.add(m);
+		if (loadImports) {
+			logger.debug(" =======> LOAD imports for uri:"+ontoUri);
+			for (Model m : getImports(queryModel, loaded)) {  queryModel.add(m); }
+			logger.debug(" =======> LOAD imports for uri:"+ontoUri+" END **********");
 		}
+		
 		return queryModel;
 	}
-
-	private static List<Model> getImports (OntModel model) {
-		List<Model> ml = new Vector<Model>();
+	
+	private static List<OntModel> getImports (OntModel model, Map<String,Boolean> loaded) {
+		List<OntModel> ml = new Vector<OntModel>();
 		for (Object uri : model.listImportedOntologyURIs()) {
-			logger.debug("IMPORTED URI:"+uri.toString());
-			Model m =  FileManager.get().loadModel(uri.toString(),null, "RDF/XML");
-			ml.add(m);
-			if (m instanceof OntModel)
-				ml.addAll(getImports((OntModel)m));
+			logger.debug(" IMPORTED URI:"+uri.toString());
+			
+			if (!loaded.containsKey(uri.toString())) {
+				loaded.put(uri.toString(), new Boolean(true));
+				OntModel m = createOntModel(uri.toString(), loaded, true);
+				ml.add(m);
+			}
+			
 		}
 		return ml;
 	}
+	
 	private static OntModel createOntModel (File ontoFile) 
 	throws FileNotFoundException 
 	{

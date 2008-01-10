@@ -26,6 +26,7 @@ import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.OWL;
@@ -95,17 +96,23 @@ extends SemanticObjectBuilder
 			logger.info("QuantityHandler called");
 
 			AtomicQuantityImpl q = new AtomicQuantityImpl(SemanticObjectImpl.createURI(rdfType));
-			q.setUnits(new UnitsImpl("dude"));
-			// TODO: set units, datatype, value, name, description
+			
+			// TODO: set name, description
+			
 			// a loop is probably NOT the way to do this..we should call
 			// out specific properties with known rdf:types
+			
 			for (StmtIterator si = in.listProperties(); si.hasNext(); ) {
 				Statement s = si.nextStatement();
 				String propUri = s.getPredicate().getURI();
 				if (propUri.equals(hasValueURI)) {
 					try {
-						q.setValue(s.getObject().toString());
-					} catch (SetDataException e) { }
+						// this call is kosher because by the Q spec, 
+						// all values are held as literals (of xsd:string type) 
+						q.setValue(s.getString()); 
+					} catch (SetDataException e) { 
+						logger.error("Can't set value on quantity uri:"+in.getURI()+" from RDF");
+					}
 					/*
 				} else if (propUri.equals(nameUri)) {
 					logger.error(" Cant yet set name!");
@@ -121,7 +128,7 @@ extends SemanticObjectBuilder
 				} else if (propUri.equals(rdfTypeURI)) {
 					// pass...for now 
 				} else {
-					logger.warn("Unused Q statement:"+s);
+					logger.warn("Bad Quantity (uri:"+in.getURI()+") parse: Couldnt figure what to do with child statement:"+s);
 				}
 			}
 			return q;
@@ -134,7 +141,13 @@ extends SemanticObjectBuilder
 		if(vnode.canAs(Individual.class)) {
 			Individual in = (Individual) vnode.as(Individual.class);
 			
+			logger.debug("trying to get datatype for uri:"+vnode.asNode().getURI());
+			logger.debug(" DT node:"+vnode.asNode());
+			for (String type : findRDFTypes(in)) {
+				logger.debug("Got type:"+type);
+			}
 			String rdfType = findRDFTypes(in).get(0);
+			
 			if (rdfType.equals(BooleanDataTypeURI)) {
 				// TODO: add real boolean type??
 				dt = new IntegerDataType(1);
