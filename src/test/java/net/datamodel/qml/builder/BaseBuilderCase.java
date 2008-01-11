@@ -111,42 +111,21 @@ extends BaseCase
 
 		logger.debug("CreateOntModel uri:"+ontoUri);
 		OntModel queryModel = ModelFactory.createOntologyModel(modelSpec);
+		queryModel.setDynamicImports(loadImports);
+		
 		FileManager fm = FileManager.get();
 		logger.debug("  file manager:"+fm);
 		queryModel.add(fm.loadModel(ontoUri, null, "RDF/XML-ABBREV"));
 		
-		if (loadImports) {
-			logger.debug(" =======> LOAD imports for uri:"+ontoUri);
-			for (Model m : getImports(queryModel, loaded)) {  queryModel.add(m); }
-			logger.debug(" =======> LOAD imports for uri:"+ontoUri+" END **********");
-		}
-		
 		return queryModel;
-	}
-	
-	private static List<OntModel> getImports (OntModel model, Map<String,Boolean> loaded) {
-		List<OntModel> ml = new Vector<OntModel>();
-		for (Object uri : model.listImportedOntologyURIs()) {
-			logger.debug(" IMPORTED URI:"+uri.toString());
-			
-			if (!loaded.containsKey(uri.toString())) {
-				loaded.put(uri.toString(), new Boolean(true));
-				OntModel m = createOntModel(uri.toString(), loaded, true);
-				ml.add(m);
-			}
-			
-		}
-		return ml;
 	}
 	
 	private static OntModel createOntModel (File ontoFile) 
 	throws FileNotFoundException 
 	{
-		logger.debug("CreateOntMOdel w/ file");
+		logger.debug("CreateOntMOdel w/ file:"+ontoFile);
 		OntModel ontModel = ModelFactory.createOntologyModel(modelSpec);
-		logger.debug(" TRY TO READ ONTOFILE:"+ontoFile);
 		ontModel.read(new FileInputStream(ontoFile), null);
-		logger.debug(" return MODEL:"+ontModel);
 		return ontModel;
 	}
 
@@ -158,6 +137,14 @@ extends BaseCase
 	public void do_test2() {
 		
 		logger.info("test builder on various RDF serializations of Q");
+		build_test(Quantity.ClassURI);
+		
+	}
+	
+	protected void build_test (String uriToBuild) 
+	{
+		
+		logger.info("test builder on various RDF serializations of "+uriToBuild);
 		
 		String[] tMF = getTestModelFiles();
 
@@ -165,15 +152,16 @@ extends BaseCase
 		for (OntModel model: testModels) {
 			
 			logger.debug("Test2 running on model:"+modelnum);
-			Resource qClass = model.getResource(Quantity.ClassURI);
-			assertNotNull("Model has Quantity class defined", qClass);
 			
-			int num_quantities_in_model = 0;
-			for (Iterator i = model.listIndividuals(qClass); i.hasNext(); ) 
+			Resource bClass = model.getResource(uriToBuild);
+			assertNotNull("Model has class to build defined", bClass);
+			
+			int num_items_in_model = 0;
+			for (Iterator i = model.listIndividuals(bClass); i.hasNext(); ) 
 			{
 				
 				Individual in = (Individual) i.next();
-				num_quantities_in_model++;
+				num_items_in_model++;
 			
 				try {
 				
@@ -186,7 +174,8 @@ extends BaseCase
 					fail (e.getMessage());
 				}
 			}
-			assertTrue("Model in "+tMF[modelnum]+" has quantities",num_quantities_in_model > 0);
+			logger.debug("Test QuantityBuilder parsed "+num_items_in_model+" items from model.");
+			assertTrue("Model in "+tMF[modelnum]+" has quantities",num_items_in_model > 0);
 			modelnum++;
 		}
 

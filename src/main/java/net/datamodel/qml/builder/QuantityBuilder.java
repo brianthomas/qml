@@ -75,7 +75,7 @@ extends SemanticObjectBuilder
 		super(model);
 		addHandler(Quantity.ClassURI, new QuantityHandler()); 
 		// null these out..we will handle from grabbing the Q in the QuantityHandler
-		addHandler(Constants.QML_NAMESPACE_URI+"#Units", getNullHandler()); 
+//		addHandler(Constants.QML_NAMESPACE_URI+"#Units", getNullHandler()); 
 //		addHandler(Constants.QML_NAMESPACE_URI+"#DataType", getNullHandler(); 
 
 		// init property stuff

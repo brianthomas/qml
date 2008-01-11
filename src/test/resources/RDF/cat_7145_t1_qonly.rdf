@@ -31,6 +31,7 @@
     <rdfs:label>Hubble Class</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/2">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -39,6 +40,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1/5">
     <q:hasQuantity rdf:resource="cat_7145_t1_ac4/5"/>
@@ -58,6 +60,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/8">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -66,6 +69,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac4/2">
     <q:hasDataType rdf:resource="db:quantity_datatype/2"/>
@@ -74,6 +78,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/1">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -82,6 +87,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1953</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/2">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -90,6 +96,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1047</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/7">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -98,6 +105,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/7">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -106,6 +114,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col5/1">
     <q:hasDataType rdf:resource="db:quantity_datatype/1"/>
@@ -114,6 +123,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/6">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -122,6 +132,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">207</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/9">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -130,6 +141,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">9</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col5/2">
     <q:hasDataType rdf:resource="db:quantity_datatype/1"/>
@@ -138,6 +150,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1/8">
     <q:hasQuantity rdf:resource="cat_7145_t1_ac4/8"/>
@@ -162,6 +175,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">9</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1/9">
     <q:hasQuantity rdf:resource="cat_7145_t1_ac4/9"/>
@@ -187,7 +201,7 @@
   </rdf:Description>
   <rdf:Description rdf:about="db:quantity_datatype/4">
     <q:width rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">7</q:width>
-    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#StringDatatype"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#StringDataType"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/8">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -196,6 +210,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">561</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/10">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -204,6 +219,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/5">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -212,6 +228,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1542</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col5/9">
     <q:hasDataType rdf:resource="db:quantity_datatype/1"/>
@@ -220,6 +237,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/4">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -228,6 +246,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/9">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -236,6 +255,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/3">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -244,6 +264,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">881</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/5">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -252,6 +273,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac4/3">
     <q:hasDataType rdf:resource="db:quantity_datatype/2"/>
@@ -260,6 +282,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/2">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -268,6 +291,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">50</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac4/7">
     <q:hasDataType rdf:resource="db:quantity_datatype/2"/>
@@ -276,6 +300,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/10">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -284,6 +309,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1744</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/6">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -292,6 +318,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/3">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -300,6 +327,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="db:quantity_datatype/2">
     <q:width rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">6</q:width>
@@ -333,6 +361,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/1">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -341,6 +370,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1/10">
     <q:hasQuantity rdf:resource="cat_7145_t1_ac4/10"/>
@@ -360,6 +390,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1/7">
     <q:hasQuantity rdf:resource="cat_7145_t1_ac4/7"/>
@@ -379,6 +410,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/1">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -387,6 +419,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">20</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1/1">
     <q:hasQuantity rdf:resource="cat_7145_t1_ac4/1"/>
@@ -406,6 +439,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1/6">
     <q:hasQuantity rdf:resource="cat_7145_t1_ac4/6"/>
@@ -435,6 +469,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col5/10">
     <q:hasDataType rdf:resource="db:quantity_datatype/1"/>
@@ -443,6 +478,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">9</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/6">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -451,6 +487,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col5/4">
     <q:hasDataType rdf:resource="db:quantity_datatype/1"/>
@@ -459,6 +496,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">4</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col5/7">
     <q:hasDataType rdf:resource="db:quantity_datatype/1"/>
@@ -467,6 +505,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac4/1">
     <q:hasDataType rdf:resource="db:quantity_datatype/2"/>
@@ -475,6 +514,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac4/5">
     <q:hasDataType rdf:resource="db:quantity_datatype/2"/>
@@ -483,6 +523,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/3">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -491,6 +532,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/9">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -499,6 +541,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1546</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/9">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -507,6 +550,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac4/10">
     <q:hasDataType rdf:resource="db:quantity_datatype/2"/>
@@ -515,6 +559,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/7">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -523,6 +568,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">860</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/3">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -531,6 +577,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">3</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/10">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -539,6 +586,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/4">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -547,6 +595,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/8">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -555,6 +604,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/8">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -563,6 +613,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">8</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="db:quantity_datatype/1">
     <q:width rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">2</q:width>
@@ -575,6 +626,7 @@
     <rdfs:label>de</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#DE"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/7">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -583,6 +635,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col15/10">
     <q:hasDataType rdf:resource="db:quantity_datatype/6"/>
@@ -591,6 +644,7 @@
     <rdfs:label>e_radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">10</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Accuracy.owl#GaussianError"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/6">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -599,6 +653,7 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">6</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col5/5">
     <q:hasDataType rdf:resource="db:quantity_datatype/1"/>
@@ -607,6 +662,7 @@
     <rdfs:label>HubbleClass</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">7</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#HubbleClass"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_ac3/5">
     <q:hasDataType rdf:resource="db:quantity_datatype/4"/>
@@ -615,6 +671,7 @@
     <rdfs:label>ra</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">-1</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RA"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col14/4">
     <q:hasDataType rdf:resource="db:quantity_datatype/3"/>
@@ -623,6 +680,7 @@
     <rdfs:label>radvel</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">2316</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#RotationalVelocity"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
   <rdf:Description rdf:about="cat_7145_t1_col1/5">
     <q:hasDataType rdf:resource="db:quantity_datatype/5"/>
@@ -631,5 +689,6 @@
     <rdfs:label>seq</rdfs:label>
     <q:value rdf:datatype="http://www.w3.org/2001/XMLSchema#string">5</q:value>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Astronomy.owl#seq"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
   </rdf:Description>
 </rdf:RDF>

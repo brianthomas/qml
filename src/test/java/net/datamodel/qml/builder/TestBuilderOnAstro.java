@@ -24,14 +24,16 @@ extends BaseBuilderCase
 		return testModelFiles;
 	}
 
-	public void test1() {
-		do_test1();
+	/*
+	public void test1() { do_test1(); }
+	
+	public void test2() { do_test2(); }
+	*/
+	
+	public void test3() {
+		build_test("http://archive.astro.umd.edu/ont/Astronomy.owl#SpiralGalaxy");
 	}
 	
-	public void test2() {
-		do_test2();
-	}
-
 	@Override
 	protected String getBaseOntModelUri() { return BaseOntModelUri; }
 	
