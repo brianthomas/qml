@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+        elementFormDefault="qualified"
+>
+
+  <xsd:annotation>
+    <xsd:documentation>
+        RDF.xsd -- A very minimal schema to support other ones.
+    </xsd:documentation>
+  </xsd:annotation>
+
+  <!-- Main Class : SemanticObject -->
+  <xsd:complexType name="rdfPropertyType" mixed="false">
+	<xsd:attribute name="resource" type="xsd:anyURI" use="required"/>
+  </xsd:complexType>
+ 
+  <xsd:element name="type" type="rdfPropertyType"/>
+
+</xsd:schema>
+

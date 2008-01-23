@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- core (list) quanity schema -->
-<xsd:schema targetNamespace="http://archive.astro.umd.edu/ont/Mappings.owl" 
-            xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl" 
+<xsd:schema targetNamespace="http://archive.astro.umd.edu/ont/Mappings.owl#" 
+            xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl#" 
             xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-            xmlns="http://archive.astro.umd.edu/ont/Mappings.owl" 
+            xmlns="http://archive.astro.umd.edu/ont/Mappings.owl#" 
             elementFormDefault="qualified"
 >
 
-	<xsd:import namespace="http://archive.astro.umd.edu/ont/Quantity.owl" 
-                    schemaLocation="QML_34.xsd"/>
+	<xsd:import namespace="http://archive.astro.umd.edu/ont/Quantity.owl#" 
+                    schemaLocation="QML_35.xsd"/>
 	<xsd:annotation>
 		<xsd:documentation>QMLMappings.xsd - just a place holder for mapping definitions.
                                   Many types of mappings need to be defined.  The point of
