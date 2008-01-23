@@ -43,6 +43,7 @@ public interface QMLDocument extends SOMLDocument
 {
 
 	/** Create an XML element node which represents the passed Quantity.
+	 * The namespace of the ELement is pulled from the value in the quantity.
 	 * 
 	 * @param quantity
 	 * @return
@@ -51,18 +52,6 @@ public interface QMLDocument extends SOMLDocument
 	public QMLElement createQMLElement (Quantity quantity) 
 	throws DOMException;
 
-	/** Create a namespaced XML element node which represents the passed Quantity
-	 * under the indicated namespaceURI.
-	 * 
-	 * @param namespaceURI
-	 * @param quantity
-	 * @return
-	 * @throws DOMException
-	 */
-	public QMLElement createQMLElementNS (
-			String namespaceURI, 
-			Quantity quantity) 
-	throws DOMException;
 
 	/** Return a list of Quantities which are represented in the document.
 	 * 

@@ -47,7 +47,7 @@ public class TestCreatedAPI extends BaseCase {
 			assertEquals("value OK", q.getValue(), AQvalue);
 
 			// Otherwise check the API a bit
-			validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
+			validateQuantityAPI((Quantity) q, units, AQdatatype);
 
 		} catch (Exception e) {
 
@@ -82,7 +82,7 @@ public class TestCreatedAPI extends BaseCase {
 			loc.next();
 		}
 
-		validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
+		validateQuantityAPI((Quantity) q, units, AQdatatype);
 
 	}
 
@@ -101,7 +101,7 @@ public class TestCreatedAPI extends BaseCase {
 			assertNotNull(q);
 
 			// check the API a bit
-			validateQuantityAPI((Quantity) q, URIrep, units, AQdatatype);
+			validateQuantityAPI((Quantity) q, units, AQdatatype);
 
 			logger.debug("check reference frame API");
 			for (ReferenceFrame r : q.getReferenceFrames())
@@ -192,7 +192,7 @@ public class TestCreatedAPI extends BaseCase {
 			assertNotNull(q);
 
 			// check the API a bit
-			validateQuantityAPI((Quantity) q, URIrep_no_meaning, units, datatype);
+			validateQuantityAPI((Quantity) q, units, datatype);
 
 			logger.debug("check refframe");
 			List<Property> actualMembers = q.getProperties();  

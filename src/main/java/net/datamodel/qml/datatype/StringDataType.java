@@ -33,7 +33,7 @@
 
 package net.datamodel.qml.datatype;
 
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 
 /**
  * A (scalar) string datatype.
@@ -49,7 +49,7 @@ public class StringDataType extends ScalarDataType {
 	{ 
 		super(width);
 
-		setXMLNodeName(Constants.NodeName.STRING_DATATYPE);
+		setXMLNodeName(Constant.NodeName.STRING_DATATYPE);
 
 		try {
 			setNoDataValue("");

@@ -43,19 +43,22 @@ import java.net.URISyntaxException;
  * @version $Revision$
  */
 
-public abstract class Constants {
+public abstract class Constant {
 
   /** The name of the relevant version of the DTD file for this package.
   */
-  public static final String QML_DTD_NAME = "QML_34.dtd";
+  public static final String QML_DTD_NAME = "QML_35.dtd";
 
   /** The name of the relevant version of the schema file for this package.
    */
-  public static final String QML_SCHEMA_NAME = "QML_34.xsd";
+  public static final String QML_SCHEMA_NAME = "QML_35.xsd";
 
   /** The namespace URI of this package.
    */
-  public static final String QML_NAMESPACE_URI = "http://archive.astro.umd.edu/ont/Quantity.owl";
+  public static final String QML_NAMESPACE_URI = "http://archive.astro.umd.edu/ont/Quantity.owl#";
+  
+  public static final String QUANTITY_URI = QML_NAMESPACE_URI + "Quantity";
+  public static final String REFERENCEFRAME_URI = QML_NAMESPACE_URI + "ReferenceFrame";
 
   /** The version of QML spec this package implements */
   public static final String QML_SPEC_VERSION = "0.34";
@@ -76,12 +79,12 @@ public abstract class Constants {
    */
 // FIX : this is a quick hack to avoid creation of the separate mappings package
 // right now.
-  public static final String MAPPING_NAMESPACE_URI = "http://archive.umd.astro.edu/ont/Mappings.owl";
+  public static final String MAPPING_NAMESPACE_URI = "http://archive.umd.astro.edu/ont/Mappings.owl#";
   
   // URI's
   
   // MatrixQ 'hasReferenceFrame' relationship
-  public static final String QML_HAS_REF_FRAME_URN_STRVALUE = "urn:qml:hasRefFrame";
+  public static final String QML_HAS_REF_FRAME_URN_STRVALUE = QML_NAMESPACE_URI+"hasReferenceFrame";
   private static URI QML_HAS_REF_FRAME_URN = null;
   public static final URI getHasReferenceFrameURN() {
 	  if(null == QML_HAS_REF_FRAME_URN) {
@@ -95,7 +98,7 @@ public abstract class Constants {
   }
   
   // Axis/ListQ 'hasParentReferenceFrame' relationship
-  public static final String QML_HAS_PARENT_REF_FRAME_URN_STRVALUE = "urn:qml:hasParentRefFrame";
+  public static final String QML_HAS_PARENT_REF_FRAME_URN_STRVALUE = QML_NAMESPACE_URI+"hasParentRefFrame";
   private static URI QML_HAS_PARENT_REF_FRAME_URN = null;
   
   public static final URI getHasParentReferenceFrameURN() {
@@ -110,7 +113,7 @@ public abstract class Constants {
   }
   
   // ReferenceFrame 'hasAxis' relationship
-  public static final String QML_HAS_AXIS_URN_STRVALUE = "urn:qml:hasAxis";
+  public static final String QML_HAS_AXIS_URN_STRVALUE = QML_NAMESPACE_URI+"hasAxis";
   private static URI QML_HAS_AXIS_URN = null;
   public static final URI getHasAxisURN() {
 	  if (null == QML_HAS_AXIS_URN) {

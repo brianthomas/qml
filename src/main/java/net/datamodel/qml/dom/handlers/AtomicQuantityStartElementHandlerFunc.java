@@ -49,11 +49,9 @@ public class AtomicQuantityStartElementHandlerFunc implements StartElementHandle
 		// let it bomb if the cast doesnt go right
 		QMLDocumentHandler qhandler = (QMLDocumentHandler) handler;
 		
-		URI uri = Utility.getURIFromAttribs(attrs);
-		AtomicQuantityImpl atomicQ = new AtomicQuantityImpl(uri);
-		
+		AtomicQuantityImpl atomicQ = new AtomicQuantityImpl();
 		atomicQ.setAttributeFields(attrs); // set XML attributes from passed list
-
+		
 		qhandler.recordQuantity(atomicQ);
 
 		qhandler.addExpectedValues(new Integer(1));

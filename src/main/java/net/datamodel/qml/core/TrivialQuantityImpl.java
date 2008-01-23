@@ -30,16 +30,14 @@
 package net.datamodel.qml.core;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Vector;
 
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.datatype.StringDataType;
+import net.datamodel.soml.Utility;
 
 /**
  * A restricted type of atomic quantity. The trivial quantity may only 
@@ -54,12 +52,11 @@ extends AbstractQuantity
 
 	/** No-arg constructor  */
 	public TrivialQuantityImpl () { 
-		this(null);
+		this(Utility.createURI(Constant.QUANTITY_URI));
 	}
 	
 	public TrivialQuantityImpl (URI uri) { 
-		super(uri);
-		setXMLNodeName(Constants.NodeName.TRIVIAL_QUANTITY);
+		super(uri, Constant.NodeName.TRIVIAL_QUANTITY,1);
 	}
 
 	/*

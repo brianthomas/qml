@@ -35,6 +35,7 @@ package net.datamodel.qml.core;
 import java.net.URI;
 
 import net.datamodel.qml.Component;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.datatype.StringDataType;
@@ -64,20 +65,23 @@ implements Component
 
 	// Constructors
 	public ComponentImpl () {
-		this (null);
+		this(null);
 	}
 	
 	/** Create a Component with indicated URI. 
 	 */ 
 	public ComponentImpl (URI uri) { 
-		super(uri);
-		setXMLNodeName("component");
+		this(uri, Constant.NodeName.COMPONENT);
+	}
 
+	public ComponentImpl (URI uri, String nodeName) { 
+		super(uri, nodeName);
+		
 		// initialize XML fields
 		addField(datatypeFieldName, new StringDataType(), XMLFieldType.CHILD);
 		addField(unitsFieldName, new UnitsImpl(""), XMLFieldType.CHILD);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see net.datamodel.qml.Component#getUnits()

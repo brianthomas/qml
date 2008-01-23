@@ -36,7 +36,7 @@ import java.net.URI;
 import java.util.List;
 
 import net.datamodel.qml.Component;
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
@@ -60,24 +60,18 @@ implements Quantity, XMLSerializableObjectWithValues
 	private boolean hasMapping = false;
 
 	// XML attribute names 
-	private static final String sizeFieldName = Constants.SIZE_ATTRIBUTE_NAME;
-	private static final String dataFieldName = Constants.DATA_FIELD_NAME;
+	private static final String sizeFieldName = Constant.SIZE_ATTRIBUTE_NAME;
+	private static final String dataFieldName = Constant.DATA_FIELD_NAME;
 	
 	// Constructors
 
-	/** URI argument constructor. Values will be explicitly held.
-	 * @param uri of the Quantity
-	 */
-	public AbstractQuantity(URI uri) {  this(uri,1); }
-	
 	/** Construct a quantity for a given capacity.
 	 * 
 	 * @param uri of the Quantity
 	 * @param capacity
 	 */
-	protected AbstractQuantity (URI uri, int capacity) { 
-		
-		super(uri);
+	protected AbstractQuantity (URI uri, String nodeName, int capacity) { 
+		super(uri, nodeName);
 
 		ValueContainer dataContainer = new ListValueContainerImpl(this, capacity);
 
@@ -99,9 +93,9 @@ implements Quantity, XMLSerializableObjectWithValues
 	// Make this protected as some quantities (like trivial, atomic) wont
 	// need it...there is little sense in creating a mapping
 	// when you have 1 value (!)
-	protected AbstractQuantity ( URI uri, ValueMapping mapping ) 
+	protected AbstractQuantity ( URI uri, String nodeName, ValueMapping mapping ) 
 	{ 
-		this(uri, 1);
+		this(uri,nodeName,1);
 		setValueContainer ((ValueContainer) mapping);
 	}
 

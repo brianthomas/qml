@@ -52,10 +52,13 @@ implements StartElementHandler
 	)
 	throws SAXException {
 		
-		URI uri = Utility.getURIFromAttribs(attrs);
-		ReferenceFrameImpl refFrame = new ReferenceFrameImpl(uri);
+		QMLDocumentHandler qhandler =  (QMLDocumentHandler) handler;
+		
+		ReferenceFrameImpl refFrame = new ReferenceFrameImpl();
 		refFrame.setAttributeFields(attrs); // set XML attributes from passed list
-		((QMLDocumentHandler) handler).addExpectedValues(new Integer(0));
+		qhandler.addExpectedValues(new Integer(0));
+		
+		qhandler.recordReferenceFrame(refFrame);
 
 		return refFrame;
 	}

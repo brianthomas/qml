@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
@@ -454,10 +454,10 @@ implements ValueContainer
 		Specification spec = Specification.getInstance();
 		boolean writeTaggedValues = true;
 		int serialize_style = spec.getSerializeValuesStyle();
-		if(serialize_style == Constants.VALUE_SERIALIZE_SPACE) 
+		if(serialize_style == Constant.VALUE_SERIALIZE_SPACE) 
 			writeTaggedValues = false;
-		else if(serialize_style == Constants.VALUE_SERIALIZE_TAGGED 
-				|| serialize_style == Constants.VALUE_SERIALIZE_CONTAINER )
+		else if(serialize_style == Constant.VALUE_SERIALIZE_TAGGED 
+				|| serialize_style == Constant.VALUE_SERIALIZE_CONTAINER )
 			writeTaggedValues = taggedValuesSerialization;
 
 		// the opening "values" tag is already closed, so no need for check here
@@ -485,7 +485,7 @@ implements ValueContainer
 
 			String prefix = Utility.getPrefix(parent.getNamespaceURI(), prefixTable);
 
-			String nodeName = Constants.TAGGED_DATA_NODE_NAME;
+			String nodeName = Constant.TAGGED_DATA_NODE_NAME;
 			if(prefix != null && !prefix.equals("") && nodeName != null)
 				nodeName = prefix + ":" + nodeName;
 
@@ -512,7 +512,7 @@ implements ValueContainer
 
 		} else { 
 
-			String separator = Constants.VALUE_SEPARATOR_STRING;
+			String separator = Constant.VALUE_SEPARATOR_STRING;
 
 			if(cdataSerialization)
 				outputWriter.write("<![CDATA[");

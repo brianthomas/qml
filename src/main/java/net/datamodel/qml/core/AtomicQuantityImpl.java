@@ -1,14 +1,13 @@
 package net.datamodel.qml.core;
 
 import java.net.URI;
-import java.util.List;
 
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.Locator;
-import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
+import net.datamodel.soml.Utility;
 
 import org.apache.log4j.Logger;
 
@@ -52,23 +51,25 @@ extends AbstractQuantity
 
 	private static final Logger logger = Logger.getLogger(AtomicQuantityImpl.class);
 
-	/** no-arg constructor. */
-	// I dont think we want to allow this
-	protected AtomicQuantityImpl () { this (null, 1); }
+	/** No-arg constructor. */
+	public AtomicQuantityImpl () { 
+		this (Utility.createURI(Constant.QUANTITY_URI));
+	}
 	
 	/** Construct the Quantity with the indicated URI.
 	 * 
 	 * @param uri
 	 */
-	public AtomicQuantityImpl (URI uri) { this(uri, 1); }
+	public AtomicQuantityImpl (URI uri) { 
+		this(uri, Constant.NodeName.ATOMIC_QUANTITY, 1); 
+	}
 
 	/** Construct a quantity for a given capacity.
 	 * 
 	 * @param capacity
 	 */
-	protected AtomicQuantityImpl (URI uri, int capacity) {  
-		super (uri, capacity);  
-		setXMLNodeName(Constants.NodeName.ATOMIC_QUANTITY);
+	protected AtomicQuantityImpl (URI uri, String nodeName, int capacity) {  
+		super (uri, nodeName, capacity);  
 	}
 
 	/* Construct this quantity with mapping rather than explicitly holding 
@@ -76,9 +77,9 @@ extends AbstractQuantity
 	 */
 	// Make this protected as there is little sense in creating a mapping
 	// when you have 1 value (!)
-	protected AtomicQuantityImpl (URI uri, ValueMapping mapping ) 
+	protected AtomicQuantityImpl (URI uri, String nodeName, ValueMapping mapping ) 
 	{ 
-		this(uri, 1);
+		this(uri, nodeName, 1);
 		setValueContainer ((ValueContainer) mapping);
 	}
 

@@ -35,12 +35,13 @@ import java.net.URI;
 import java.util.List;
 import java.util.Vector;
 
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.MatrixQuantity;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ValueMapping;
 import net.datamodel.soml.ObjectProperty;
 import net.datamodel.soml.Property;
+import net.datamodel.soml.Utility;
 
 /**
  * A quantity which contains a set of one or more values 
@@ -57,24 +58,24 @@ implements MatrixQuantity
 //	private static final String alternValuesFieldName = "altValue";
 
 	/** No-argument Constructor. */
-	protected MatrixQuantityImpl () {  this(null, -1); }
+	public MatrixQuantityImpl () {  
+		this(Utility.createURI(Constant.QUANTITY_URI)); 
+	}
 
 	/** Construct with the indicated uri.
 	 * 
 	 * @param uri
 	 */
 	public MatrixQuantityImpl (URI uri) { 
-		this (uri, -1);
+		this (uri, Constant.NodeName.MATRIX_QUANTITY, -1);
 	}
 
 	/** Construct with some initial capacity.
 	 * 
 	 * @param capacity
 	 */
-	public MatrixQuantityImpl (URI uri, int capacity) { 
-		super(uri, capacity);
-
-		setXMLNodeName (Constants.NodeName.MATRIX_QUANTITY);
+	public MatrixQuantityImpl (URI uri, String nodeName, int capacity) { 
+		super(uri, nodeName, capacity);
 
 		setValueContainer (new MatrixValueContainerImpl(this));
 
@@ -82,11 +83,15 @@ implements MatrixQuantity
 		// addField(alternValuesFieldName, new AltValuesList(), XMLFieldType.CHILD);
 	}
 
-	/** Construct this quantity with mapping rather than explicitly holding
-	 * values. Values will be generated on demand from the (value) mapping.
-	 */
-	public MatrixQuantityImpl (URI uri, ValueMapping mapping) {
-		this(uri, -1);
+	/** Construct this quantity with mapping rather than explicitly holding values. 
+	 * Values will be generated on demand from the (value) mapping.
+	 * 
+	 * @param uri
+	 * @param nodeName
+	 * @param mapping
+	 */ 
+	protected MatrixQuantityImpl (URI uri, String nodeName, ValueMapping mapping) {
+		this(uri, nodeName, -1);
 		setValueContainer(mapping);
 	}
 
@@ -107,7 +112,7 @@ implements MatrixQuantity
 //		throw new IllegalArgumentException("ReferenceFrame has different number of locations ["+axisLocations+"] from parent Q ["+getSize().intValue()+"]");
 //		}
 
-		return this.addProperty(Constants.getHasReferenceFrameURN(), frame);
+		return this.addProperty(Constant.getHasReferenceFrameURN(), frame);
 	}
 
 	/*
@@ -118,7 +123,7 @@ implements MatrixQuantity
 		List<ReferenceFrame> rList = new Vector<ReferenceFrame>(); 
 		// tool through our list of related objects and find ones which
 		// match the indicated urn
-		for (Property rel : getProperties(Constants.getHasReferenceFrameURN())) {
+		for (Property rel : getProperties(Constant.getHasReferenceFrameURN())) {
 			rList.add((ReferenceFrame) ((ObjectProperty)rel).getTarget());
 		}
 		return rList;
@@ -129,7 +134,7 @@ implements MatrixQuantity
 	 * @see net.datamodel.qml.MatrixQuantity#removeReferenceFrame(net.datamodel.qml.ReferenceFrame)
 	 */
 	public boolean removeReferenceFrame(ReferenceFrame frame) {
-		return removeObjectProperty(Constants.getHasReferenceFrameURN(), frame);
+		return removeObjectProperty(Constant.getHasReferenceFrameURN(), frame);
 	}
 
 	/*

@@ -36,10 +36,11 @@ import java.net.URI;
 import java.util.List;
 import java.util.Vector;
 
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.ListQuantity;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.soml.SemanticObject;
+import net.datamodel.soml.Utility;
 import net.datamodel.soml.impl.SemanticObjectImpl;
 
 import org.apache.log4j.Logger;
@@ -58,9 +59,12 @@ implements ReferenceFrame {
 
 	private static final Logger logger = Logger.getLogger(ReferenceFrameImpl.class);
 
+    public ReferenceFrameImpl () {
+    	this(Utility.createURI(Constant.REFERENCEFRAME_URI));
+    }
+    
     public ReferenceFrameImpl (URI uri) {
-    	super(uri);
-    	setXMLNodeName(Constants.NodeName.REFERENCE_FRAME);
+    	super(uri,Constant.NodeName.REFERENCE_FRAME);
     }
 
     /*
@@ -82,7 +86,7 @@ implements ReferenceFrame {
     	boolean success = axis.addProperty(this, Constant.getHasParentReferenceFrameURN());
     	if (success)
     	*/
-    		return addProperty(Constants.getHasAxisURN(), axis); 
+    		return addProperty(Constant.getHasAxisURN(), axis); 
     	
     	//return false; // if we get here we had a problem setting up the Propertys 
     	
@@ -107,7 +111,7 @@ implements ReferenceFrame {
     	/*boolean success = axis.removeProperty(Constant.getHasParentReferenceFrameURN(), this);
     	if (success)
     	*/
-    		return removeObjectProperty(Constants.getHasAxisURN(), axis); 
+    		return removeObjectProperty(Constant.getHasAxisURN(), axis); 
     	
     	//return false; // if we get here we had a problem removing the Propertys 
     }
@@ -118,7 +122,7 @@ implements ReferenceFrame {
      */
     public List<ListQuantity> getAxes ( ) {
     	List<ListQuantity> axes = new Vector<ListQuantity>();
-    	List<SemanticObject> related = this.getSemanticObjectsByType(Constants.getHasAxisURN());  
+    	List<SemanticObject> related = this.getSemanticObjectsByType(Constant.getHasAxisURN());  
     	for (SemanticObject so : related) {
     		// Let it be possible for the cast to fail (e.g. no run time check). Shouldnt 
     		// fail if the package is working as advertised, however.

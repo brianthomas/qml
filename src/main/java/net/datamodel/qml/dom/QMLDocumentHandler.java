@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import net.datamodel.qml.Component;
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
 import net.datamodel.qml.MatrixQuantity;
@@ -139,9 +139,9 @@ extends SOMLDocumentHandler
 		Map<String,StartElementHandler> qmlStartHandlers = new Hashtable<String,StartElementHandler>();
 		Map<String,StartElementHandler> mapStartHandlers = new Hashtable<String,StartElementHandler>();
 
-		qmlStartHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
-		qmlStartHandlers.put(Constants.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
-		qmlStartHandlers.put(Constants.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameStartElementHandlerFunc());
+		qmlStartHandlers.put(Constant.NodeTypeName.ALTERN_VALUES, new AltValuesContainerStartElementHandlerFunc());
+		qmlStartHandlers.put(Constant.NodeTypeName.ATOMIC_QUANTITY, new AtomicQuantityStartElementHandlerFunc());
+		qmlStartHandlers.put(Constant.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameStartElementHandlerFunc());
 		/*
         qmlStartHandlers.put(Constant.NodeTypeName.COMPONENT, new ComponentStartElementHandlerFunc());
         qmlStartHandlers.put(Constant.NodeTypeName.COMPOSITE_QUANTITY, new ObjectWithQuantitesStartElementHandlerFunc());
@@ -161,16 +161,16 @@ extends SOMLDocumentHandler
 		 */
 
 		// FIX: hacked in mapping handlers until separate mapping package is built.
-		mapStartHandlers.put(Constants.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
+		mapStartHandlers.put(Constant.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
 
-		this.addStartElementHandlers(qmlStartHandlers, Constants.QML_NAMESPACE_URI);
-		this.addStartElementHandlers(mapStartHandlers, Constants.MAPPING_NAMESPACE_URI);
+		this.addStartElementHandlers(qmlStartHandlers, Constant.QML_NAMESPACE_URI);
+		this.addStartElementHandlers(mapStartHandlers, Constant.MAPPING_NAMESPACE_URI);
 
 		// TODO: init end handlers
 		Map<String,EndElementHandler> mapEndHandlers = new Hashtable<String,EndElementHandler>();
 		Map<String,EndElementHandler> qmlEndHandlers = new Hashtable<String,EndElementHandler>();
 
-		qmlEndHandlers.put(Constants.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
+		qmlEndHandlers.put(Constant.NodeTypeName.ALTERN_VALUES, new AltValuesContainerEndElementHandlerFunc());
 		/*
         qmlEndHandlers.put(Constant.NodeTypeName.ATOMIC_QUANTITY, new QuantityEndElementHandlerFunc());
         qmlEndHandlers.put(Constant.NodeTypeName.REFERENCE_FRAME, new ReferenceFrameEndElementHandlerFunc());
@@ -194,8 +194,8 @@ extends SOMLDocumentHandler
 		// TODO: hacked in mapping handlers until separate mapping package is built.
 		// mapEndHandlers.put(Constant.NodeTypeName.MAP, new NullEndElementHandlerFunc());
 
-		this.addEndElementHandlers(qmlEndHandlers, Constants.QML_NAMESPACE_URI);
-		this.addEndElementHandlers(mapEndHandlers, Constants.MAPPING_NAMESPACE_URI);
+		this.addEndElementHandlers(qmlEndHandlers, Constant.QML_NAMESPACE_URI);
+		this.addEndElementHandlers(mapEndHandlers, Constant.MAPPING_NAMESPACE_URI);
 
 		// TODO: init chardata handlers
 		Map<String,CharDataHandler> mapCharDataHandler = new Hashtable <String,CharDataHandler>();
@@ -225,8 +225,8 @@ extends SOMLDocumentHandler
 		// FIX: hacked in mapping handlers until separate mapping package is built.
 		// mapCharDataHandler.put(Constant.NodeTypeName.MAP, new NullCharDataHandlerFunc());
 
-		addCharDataHandlers(qmlCharDataHandler, Constants.QML_NAMESPACE_URI); 
-		addCharDataHandlers(mapCharDataHandler, Constants.MAPPING_NAMESPACE_URI); 
+		addCharDataHandlers(qmlCharDataHandler, Constant.QML_NAMESPACE_URI); 
+		addCharDataHandlers(mapCharDataHandler, Constant.MAPPING_NAMESPACE_URI); 
 
 		// TODO: init element associations
 
@@ -270,6 +270,7 @@ extends SOMLDocumentHandler
 			ReferencedFrames.put(id, r); // add this into the list of objects we have
 		}
 		CurrentRefFrameList.add(r);
+		recordSemanticObject(r);
 	}
 
 	/** Remove the current quantity.
@@ -277,6 +278,7 @@ extends SOMLDocumentHandler
 	 */
 	public final ReferenceFrame unrecordReferenceFrame() 
 	{
+		unrecordLastSemanticObject();
 		return  CurrentRefFrameList.remove(CurrentRefFrameList.size()-1);
 	}
 
@@ -303,9 +305,9 @@ extends SOMLDocumentHandler
 		CurrentQuantityList.add(q);
 
 		// also record a locator from it
-		if(q instanceof Quantity) {
-			CurrentLocatorList.add(((Quantity) q).createLocator());
-		}
+		CurrentLocatorList.add(q.createLocator());
+		
+		recordSemanticObject(q);
 
 	}
 
@@ -329,8 +331,10 @@ extends SOMLDocumentHandler
 		if(q != null && q instanceof Quantity)
 		{
 			removeCurrentLocator();
+			unrecordLastSemanticObject();
 		}
 
+		
 		return q;
 
 	}
@@ -439,7 +443,7 @@ extends SOMLDocumentHandler
 			// treat this here rather repeat this code in all Quantity handlers..
 
 			// TODO: make a handler for this...
-			startHandlerAddQuantityToParent(namespaceURI, (Quantity) thisObject, lastQ);
+			startHandlerAddQuantityToParent((Quantity) thisObject, lastQ);
 
 			// record this as our "current" quantity (no, done in individual handlers now) 
 			// recordQuantity(q);
@@ -513,7 +517,7 @@ extends SOMLDocumentHandler
 		// belong to the www.datamodel.net/Quantity namespace. Its not
 		// likely, and, I cant get the namespaced "getIndex" function to
 		// work, so this will have to do for now.
-		int index = attrs.getIndex(Constants.SIZE_ATTRIBUTE_NAME);
+		int index = attrs.getIndex(Constant.SIZE_ATTRIBUTE_NAME);
 
 		if(index > 0) {
 			String value = attrs.getValue(index);
@@ -584,7 +588,7 @@ extends SOMLDocumentHandler
 	 */
 	// FIXME: this amounts to a dedicated handler for all quantities.. need to 
 	// implement differently as an actual handler?
-	private void startHandlerAddQuantityToParent(String namespaceURI, Quantity q, Quantity lastQ) 
+	private void startHandlerAddQuantityToParent(Quantity q, Quantity lastQ) 
 	{
 
 		if(lastQ != null) {
@@ -617,7 +621,7 @@ extends SOMLDocumentHandler
 
 			// Add as a QElement to our document, as appropriate (e.g.
 			// either to current node or as document root).
-			Element elem = ((QMLDocument) getDocument()).createQMLElementNS(namespaceURI, q);
+			Element elem = ((QMLDocument) getDocument()).createQMLElement(q);
 			Node current = getCurrentNode();
 			if(current != null)
 				current.appendChild(elem);

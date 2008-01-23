@@ -28,12 +28,9 @@
 
 package net.datamodel.qml.dom.handlers;
 
-import java.net.URI;
-
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.core.MatrixQuantityImpl;
 import net.datamodel.qml.dom.QMLDocumentHandler;
-import net.datamodel.qml.dom.Utility;
 import net.datamodel.xssp.dom.StartElementHandler;
 import net.datamodel.xssp.dom.XSSPDocumentHandler;
 
@@ -45,8 +42,7 @@ public class MatrixQuantityStartElementHandlerFunc implements StartElementHandle
 			String localName, String qName, Attributes attrs)
 	throws SAXException {
 
-		URI uri = Utility.getURIFromAttribs(attrs);
-		MatrixQuantityImpl matrixQ = new MatrixQuantityImpl(uri);
+		MatrixQuantityImpl matrixQ = new MatrixQuantityImpl();
 		matrixQ.setAttributeFields(attrs); // set XML attributes from passed list
 		
 		// Allow it to crash if the cast fails
@@ -55,7 +51,7 @@ public class MatrixQuantityStartElementHandlerFunc implements StartElementHandle
 		// In order to look for referenced Quantities, we "record" this one if it has a qid
 		qhandler.recordQuantity(matrixQ);
 
-		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
+		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constant.QML_NAMESPACE_URI);
 		qhandler.addExpectedValues(new Integer(expected));
 
 		try {

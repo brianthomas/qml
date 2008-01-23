@@ -16,6 +16,7 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import junit.framework.TestCase;
 import net.datamodel.qml.dom.QMLDocument;
@@ -150,7 +151,7 @@ abstract public class BaseCase extends TestCase {
 		QMLElement elem = doc.createQMLElement(q);
 	
 		// set the schema location
-		String schemaLoc = Constants.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constants.QML_SCHEMA_NAME;
+		String schemaLoc = Constant.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constant.QML_SCHEMA_NAME;
 		logger.debug("Set schema location:"+schemaLoc);
 		elem.setAttribute("xsi:schemaLocation",schemaLoc);
 		
@@ -160,10 +161,10 @@ abstract public class BaseCase extends TestCase {
 		logger.debug("DOC XML IS:["+doc.toXMLString()+"]");
 		
 		// now check various representations
-		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_TAGGED);
-		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_TAGGED);
-		checkValidXMLRepresentation(doc, true, Constants.VALUE_SERIALIZE_SPACE);
-		checkValidXMLRepresentation(doc, false, Constants.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, true, Constant.VALUE_SERIALIZE_TAGGED);
+		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_TAGGED);
+		checkValidXMLRepresentation(doc, true, Constant.VALUE_SERIALIZE_SPACE);
+		checkValidXMLRepresentation(doc, false, Constant.VALUE_SERIALIZE_SPACE);
 
 	}
 	
@@ -214,16 +215,17 @@ abstract public class BaseCase extends TestCase {
 	 * @param units
 	 * @param datatype
 	 */
-	protected static void validateQuantityAPI (Quantity q, String URNrep, Units units, 
+	protected static void validateQuantityAPI (
+			Quantity q, 
+			Units units, 
 			DataType datatype)
 	{
 	
 		logger.debug("- validateQuantityAPI (no values check) id:"+q.getId()); 
 		logger.debug("   is id OK? "+q.getId()); 
 		assertNotNull("id is not NULL", q.getId());
-		assertNotNull("Stored URI is not null.", q.getRDFTypeURI());
-		logger.debug("   is urn OK? ["+q.getRDFTypeURI().toASCIIString() +"] vs ["+URNrep+"]"); 
-		assertEquals("URN OK", q.getRDFTypeURI().toString(), URNrep);
+		assertNotNull("Stored URI is not empty.", q.getRDFTypeURIs().size()>0);
+		
 		logger.debug("   are units OK?"); 
 		assertEquals("units OK", q.getUnits().toString(), units.toString());
 		logger.debug("   is datatype OK?"); 

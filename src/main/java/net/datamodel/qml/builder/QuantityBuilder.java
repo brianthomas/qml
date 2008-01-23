@@ -5,7 +5,7 @@ package net.datamodel.qml.builder;
 
 import java.util.Iterator;
 
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
@@ -46,27 +46,27 @@ extends SemanticObjectBuilder
 //	private static final String nameUri = Constants.QML_NAMESPACE_URI+"#name";
 //	private static final String descUri = Constants.QML_NAMESPACE_URI+"#description";
 
-	private static final String BooleanDataTypeURI = Constants.QML_NAMESPACE_URI+"#BooleanDataType";
-	private static final String FloatDataTypeURI = Constants.QML_NAMESPACE_URI+"#FloatDataType";
-	private static final String IntegerDataTypeURI = Constants.QML_NAMESPACE_URI+"#IntegerDataType";
-	private static final String StringDataTypeURI = Constants.QML_NAMESPACE_URI+"#StringDataType";
+	private static final String BooleanDataTypeURI = Constant.QML_NAMESPACE_URI+"#BooleanDataType";
+	private static final String FloatDataTypeURI = Constant.QML_NAMESPACE_URI+"#FloatDataType";
+	private static final String IntegerDataTypeURI = Constant.QML_NAMESPACE_URI+"#IntegerDataType";
+	private static final String StringDataTypeURI = Constant.QML_NAMESPACE_URI+"#StringDataType";
 	
-	private static final String UnitsTypeURI = Constants.QML_NAMESPACE_URI+"#Units";
+	private static final String UnitsTypeURI = Constant.QML_NAMESPACE_URI+"#Units";
 	
-	private static final String hasValueURI = Constants.QML_NAMESPACE_URI+"#value";
-	private static final String hasDataTypeURI = Constants.QML_NAMESPACE_URI+"#hasDataType";
-	private static final String hasUnitsURI = Constants.QML_NAMESPACE_URI+"#hasUnits";
+	private static final String hasValueURI = Constant.QML_NAMESPACE_URI+"#value";
+	private static final String hasDataTypeURI = Constant.QML_NAMESPACE_URI+"#hasDataType";
+	private static final String hasUnitsURI = Constant.QML_NAMESPACE_URI+"#hasUnits";
 	private static final String rdfTypeURI = RDF.getURI()+"type";
 	private static final String owlSameAsURI = OWL.getURI()+"sameAs";
 	
-	private static final String dtWidthPropURI = Constants.QML_NAMESPACE_URI+"#width";
+	private static final String dtWidthPropURI = Constant.QML_NAMESPACE_URI+"#width";
 	private Property dataTypeWidthProperty = null;
-	private static final String dtPrecisionPropURI = Constants.QML_NAMESPACE_URI+"#precision";
+	private static final String dtPrecisionPropURI = Constant.QML_NAMESPACE_URI+"#precision";
 	private Property dataTypePrecisionProperty = null;
-	private static final String dtExponentPropURI = Constants.QML_NAMESPACE_URI+"#exponent";
+	private static final String dtExponentPropURI = Constant.QML_NAMESPACE_URI+"#exponent";
 	private Property dataTypeExponentProperty = null;
 	
-	private static final String unitSymbolPropURI = Constants.QML_NAMESPACE_URI+"#symbol";
+	private static final String unitSymbolPropURI = Constant.QML_NAMESPACE_URI+"#symbol";
 	private Property unitSymbolProperty = null;
 
 	public QuantityBuilder(OntModel model) 

@@ -30,7 +30,7 @@ package net.datamodel.qml.dom.handlers;
 
 import java.net.URI;
 
-import net.datamodel.qml.Constants;
+import net.datamodel.qml.Constant;
 import net.datamodel.qml.core.ListQuantityImpl;
 import net.datamodel.qml.dom.QMLDocumentHandler;
 import net.datamodel.qml.dom.Utility;
@@ -51,8 +51,7 @@ implements StartElementHandler
 			String localName, String qName, Attributes attrs)
 	throws SAXException {
 
-		URI uri = Utility.getURIFromAttribs(attrs);
-		ListQuantityImpl listQ = new ListQuantityImpl(uri);
+		ListQuantityImpl listQ = new ListQuantityImpl();
 		logger.debug("Handler creates List Quantity:"+listQ);
 		listQ.setAttributeFields(attrs); // set XML attributes from passed list
 
@@ -61,7 +60,7 @@ implements StartElementHandler
 
 		qhandler.recordQuantity(listQ);
 
-		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constants.QML_NAMESPACE_URI);
+		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constant.QML_NAMESPACE_URI);
 		qhandler.addExpectedValues(new Integer(expected));
 
 		try {
