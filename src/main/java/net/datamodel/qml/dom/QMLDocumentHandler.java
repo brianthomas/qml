@@ -229,6 +229,11 @@ extends SOMLDocumentHandler
 		addCharDataHandlers(mapCharDataHandler, Constant.MAPPING_NAMESPACE_URI); 
 
 		// TODO: init element associations
+		addElementToComplexTypeAssociation(Constant.NodeName.ATOMIC_QUANTITY, Constant.QML_NAMESPACE_URI, 
+				Constant.NodeTypeName.ATOMIC_QUANTITY, Constant.QML_NAMESPACE_URI);
+		addElementToComplexTypeAssociation(Constant.NodeName.REFERENCE_QUANTITY, Constant.QML_NAMESPACE_URI, 
+				Constant.NodeTypeName.REFERENCE_QUANTITY, Constant.QML_NAMESPACE_URI);
+		
 
 	}
 

@@ -2,8 +2,8 @@
 <!-- test four: test various quantity datatype settings -->
 <atomicQuantity
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
-      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_34.xsd"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl#"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl# QML_35.xsd"
 >
       <!-- integer decimal, signed -->
       <property URI="urn:qml:hasMember">

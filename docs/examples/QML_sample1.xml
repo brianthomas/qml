@@ -2,13 +2,19 @@
 <!-- test one : an atomic quantity with explicit namespace, and empty units -->
 <q:atomicQuantity 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-      xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl" 
-      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_34.xsd"
+      xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl#" 
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl# QML_35.xsd"
+>
+<!--
+      soId="dude"
       name="test"
       description="test string quantity"
-      soId="dude"
->
-   <q:units/>
-   <q:string/>
-   <q:value>some data in a basic node</q:value>
+-->
+<!-- most basic Q lacks units and DataType defs?
+   <q:hasUnits><u:unitless/></q:hasUnits>
+   <q:hasDataType><q:string/></q:hasUnits>
+-->
+   <q:hasValue><q:value>some data in a basic node</q:value></q:hasValue>
+   <rdf:type resource="http://test.org/test/SomeObjectWhichIsAQuantity"/>
 </q:atomicQuantity>

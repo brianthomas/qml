@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- test 5: accuracy on node -->
+<q:atomicQuantity
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl#"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl# QML_35.xsd"
+>
+   <q:property URI="urn:qml:hasSomeProperty">
+  	 <q:atomicQuantity URI="urn:acc:binsize"><q:integer width="2"/><q:value>10</q:value></q:atomicQuantity>
+   </q:property>
+   <q:integer width="4"/>
+   <q:value>1000</q:value>
+</q:atomicQuantity>

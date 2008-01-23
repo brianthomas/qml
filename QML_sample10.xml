@@ -2,9 +2,8 @@
 <!-- test seven: list quantity with various types of meta-data -->
 <listQuantity
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:a="http://archive.astro.umd.edu/ont/Accuracy.owl"
-      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl"
-      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_34.xsd"
+      xmlns="http://archive.astro.umd.edu/ont/Quantity.owl#"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl# QML_35.xsd"
       size="3"
 >
    <property URI="urn:some-property">

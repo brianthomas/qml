@@ -4,6 +4,7 @@
             xmlns:so="http://archive.astro.umd.edu/ont/SemanticObject#" 
             xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
             elementFormDefault="qualified" 
+            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
             targetNamespace="http://archive.astro.umd.edu/ont/Quantity.owl#"
 >
 
@@ -65,7 +66,6 @@
               <xsd:element ref="ListQuantityGroup"/>
               <xsd:element ref="so:SemanticObjectGroup"/>
            </xsd:choice>
-           <xsd:attribute name="URI" type="xsd:anyURI"/>
         </xsd:restriction>
      </xsd:complexContent>
   </xsd:complexType>
@@ -105,12 +105,9 @@
     </xsd:annotation>
     <xsd:complexContent>
       <xsd:extension base="QuantityType">
+      
         <xsd:sequence>
-          <!-- special specification of the (apparent) dimensionality -->
-          <xsd:choice>
-             <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="propertyType"/>
-             <xsd:element maxOccurs="unbounded" minOccurs="0" name="dtproperty" type="so:simplePropertyType"/>
-          </xsd:choice>
+          <!-- TODO: special specification of the (apparent) dimensionality -->
 
           <!-- data section. various groupings -->
           <xsd:choice>

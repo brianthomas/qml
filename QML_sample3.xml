@@ -2,9 +2,9 @@
 <!-- test 3: meta data on node -->
 <q:atomicQuantity
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns:so="http://archive.astro.umd.edu/ont/SemanticObject"
-      xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl"
-      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl QML_34.xsd"
+      xmlns:so="http://archive.astro.umd.edu/ont/SemanticObject#"
+      xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl#"
+      xsi:schemaLocation="http://archive.astro.umd.edu/ont/Quantity.owl# QML_35.xsd"
 >
    <q:property URI="urn:qml:hasMember">
        <q:atomicQuantity name="a value"><q:value>data</q:value></q:atomicQuantity>

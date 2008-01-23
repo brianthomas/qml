@@ -25,7 +25,7 @@ public class TestLoad extends BaseXerces2Case
 	private static final Logger logger = Logger.getLogger(TestLoad.class);
 	
 	// Attempt to simply load all of the test samples in the samples directory
-	public void testLoadSamples () throws Exception {
+	public void test1() throws Exception {
 		
 		logger.info("testLoadSamples");
 		try {
@@ -45,8 +45,8 @@ public class TestLoad extends BaseXerces2Case
 	// A test of being able to read, and write the sample.
 	// We don't compare the 2 file contents because there may have been
 	// some dropped XML comments from the initial parse (which is OK). 
-	// TODO
-	public void testLoadAndWriteSamples () throws Exception {
+	/*
+	public void test2() throws Exception {
 		
 		logger.info("testLoadAndWriteSamples");
 		// set the output specification
@@ -83,10 +83,12 @@ public class TestLoad extends BaseXerces2Case
 		}
 		
 	}
+	*/
 	
 	// Test our ability to get consistent results from loading and reloading
 	// files. We compare between the products of the first and second loadings.
-	public void testMulitLoadAndWriteSamples () throws Exception {
+	/*
+	public void test3() throws Exception {
 		
 		logger.info("testMultiLoadAndWriteSamples");
 		
@@ -145,5 +147,6 @@ public class TestLoad extends BaseXerces2Case
 		}
 		
 	}
+	*/
 	
 }
