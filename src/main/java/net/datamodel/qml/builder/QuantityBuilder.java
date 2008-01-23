@@ -16,9 +16,9 @@ import net.datamodel.qml.datatype.IntegerDataType;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.units.UnitsImpl;
 import net.datamodel.soml.SemanticObject;
+import net.datamodel.soml.Utility;
 import net.datamodel.soml.builder.SemanticObjectBuilder;
 import net.datamodel.soml.builder.SemanticObjectBuilderException;
-import net.datamodel.soml.impl.SemanticObjectImpl;
 
 import org.apache.log4j.Logger;
 
@@ -26,7 +26,6 @@ import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.vocabulary.OWL;
@@ -95,7 +94,7 @@ extends SemanticObjectBuilder
 		{
 			logger.info("QuantityHandler called");
 
-			AtomicQuantityImpl q = new AtomicQuantityImpl(SemanticObjectImpl.createURI(rdfType));
+			AtomicQuantityImpl q = new AtomicQuantityImpl(Utility.createURI(rdfType));
 			
 			// TODO: set name, description
 			
