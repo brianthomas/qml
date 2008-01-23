@@ -45,10 +45,10 @@ import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.dom.Specification;
+import net.datamodel.xssp.Utility;
 import net.datamodel.xssp.ReferenceableXMLSerializableObject;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.XMLSerializableField;
-import net.datamodel.xssp.dom.Utility;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
 
 import org.apache.log4j.Logger;
