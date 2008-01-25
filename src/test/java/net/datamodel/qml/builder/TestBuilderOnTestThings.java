@@ -3,9 +3,8 @@
  */
 package net.datamodel.qml.builder;
 
-import com.hp.hpl.jena.ontology.OntModel;
-
-/**
+/** Testing Q's serialized in testThings ontology.
+ * 
  * @author thomas
  *
  */

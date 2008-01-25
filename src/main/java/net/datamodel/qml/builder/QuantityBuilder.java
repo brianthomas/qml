@@ -46,30 +46,32 @@ extends SemanticObjectBuilder
 //	private static final String nameUri = Constants.QML_NAMESPACE_URI+"#name";
 //	private static final String descUri = Constants.QML_NAMESPACE_URI+"#description";
 
-	private static final String BooleanDataTypeURI = Constant.QML_NAMESPACE_URI+"#BooleanDataType";
-	private static final String FloatDataTypeURI = Constant.QML_NAMESPACE_URI+"#FloatDataType";
-	private static final String IntegerDataTypeURI = Constant.QML_NAMESPACE_URI+"#IntegerDataType";
-	private static final String StringDataTypeURI = Constant.QML_NAMESPACE_URI+"#StringDataType";
+	private static final String BooleanDataTypeURI = Constant.QML_NAMESPACE_URI+"BooleanDataType";
+	private static final String FloatDataTypeURI = Constant.QML_NAMESPACE_URI+"FloatDataType";
+	private static final String IntegerDataTypeURI = Constant.QML_NAMESPACE_URI+"IntegerDataType";
+	private static final String StringDataTypeURI = Constant.QML_NAMESPACE_URI+"StringDataType";
 	
-	private static final String UnitsTypeURI = Constant.QML_NAMESPACE_URI+"#Units";
+	private static final String UnitsTypeURI = Constant.QML_NAMESPACE_URI+"Units";
 	
-	private static final String hasValueURI = Constant.QML_NAMESPACE_URI+"#value";
-	private static final String hasDataTypeURI = Constant.QML_NAMESPACE_URI+"#hasDataType";
-	private static final String hasUnitsURI = Constant.QML_NAMESPACE_URI+"#hasUnits";
+	private static final String hasValueURI = Constant.QML_NAMESPACE_URI+"value";
+	private static final String hasDataTypeURI = Constant.QML_NAMESPACE_URI+"hasDataType";
+	private static final String hasUnitsURI = Constant.QML_NAMESPACE_URI+"hasUnits";
 	private static final String rdfTypeURI = RDF.getURI()+"type";
 	private static final String owlSameAsURI = OWL.getURI()+"sameAs";
 	
-	private static final String dtWidthPropURI = Constant.QML_NAMESPACE_URI+"#width";
+	private static final String dtWidthPropURI = Constant.QML_NAMESPACE_URI+"width";
 	private Property dataTypeWidthProperty = null;
-	private static final String dtPrecisionPropURI = Constant.QML_NAMESPACE_URI+"#precision";
+	private static final String dtPrecisionPropURI = Constant.QML_NAMESPACE_URI+"precision";
 	private Property dataTypePrecisionProperty = null;
-	private static final String dtExponentPropURI = Constant.QML_NAMESPACE_URI+"#exponent";
+	private static final String dtExponentPropURI = Constant.QML_NAMESPACE_URI+"exponent";
 	private Property dataTypeExponentProperty = null;
 	
-	private static final String unitSymbolPropURI = Constant.QML_NAMESPACE_URI+"#symbol";
+	private boolean laxQuantityParsingAllowed = false;
+	
+	private static final String unitSymbolPropURI = Constant.QML_NAMESPACE_URI+"symbol";
 	private Property unitSymbolProperty = null;
 
-	public QuantityBuilder(OntModel model) 
+	public QuantityBuilder (OntModel model) 
 	{
 		super(model);
 		addHandler(Quantity.ClassURI, new QuantityHandler()); 
@@ -85,18 +87,37 @@ extends SemanticObjectBuilder
 		
 	}
 
+	/** Determine whether or not the builder will create Quantities, trying 
+	 * a best effort to treat properties which have no pre-defined handlers.
+	 * If this value is false, then any structure in the seriailzation which 
+	 * is not explicitly handled by the builder will cause a   
+	 * {@link QuantityBuilderException} to be thrown.
+	 * 
+	 * @param val of whether to lax Quantity parse or not.
+	 * 
+	 */
+	public final void setLaxQuantityParsing (boolean val) { laxQuantityParsingAllowed = val; }
+	
+	/** Determine whether or not the builder will create Quantities, trying 
+	 * a best effort to treat properties which have no pre-defined handlers.
+	 * If this value is false, then any structure in the seriailzation which 
+	 * is not explicitly handled by the builder will cause a   
+	 * {@link QuantityBuilderException} to be thrown.
+	 * 
+	 * @return boolean 
+	 */
+	public final boolean getLaxQuantityParsing () { return laxQuantityParsingAllowed; }
+	
 	class QuantityHandler 
 	implements SemanticObjectHandler
 	{
 
 		public SemanticObject create (SemanticObjectBuilder b, Individual in, String rdfType)
-		throws SemanticObjectBuilderException 
+		throws QuantityBuilderException 
 		{
 			logger.info("QuantityHandler called");
 
 			AtomicQuantityImpl q = new AtomicQuantityImpl(Utility.createURI(rdfType));
-			
-			// TODO: set name, description
 			
 			// a loop is probably NOT the way to do this..we should call
 			// out specific properties with known rdf:types
@@ -112,24 +133,35 @@ extends SemanticObjectBuilder
 					} catch (SetDataException e) { 
 						logger.error("Can't set value on quantity uri:"+in.getURI()+" from RDF");
 					}
-					/*
-				} else if (propUri.equals(nameUri)) {
-					logger.error(" Cant yet set name!");
-				} else if (propUri.equals(descUri)) {
-					logger.error(" Cant yet set description!");
-					 */
 				} else if (propUri.equals(hasDataTypeURI)) {
 					q.setDataType(rdfNodeToDataType(s.getObject())); 
 				} else if (propUri.equals(hasUnitsURI)) {
 					q.setUnits(rdfNodeToUnits(s.getObject())); 
 				} else if (propUri.equals(owlSameAsURI)) {
-					// pass...for now 
+					// pass... the SemanticObjectBuilder will handle this
 				} else if (propUri.equals(rdfTypeURI)) {
-					// pass...for now 
+					// pass...the RDF:Type property handler will catch this
 				} else {
-					logger.warn("Bad Quantity (uri:"+in.getURI()+") parse: Couldnt figure what to do with child statement:"+s);
+					if (((QuantityBuilder)b).getLaxQuantityParsing()) {
+						// If Lax, then we try to add prop in as a vannila, 
+						// datatype property
+						if (s.getObject().isLiteral()) {
+							q.addProperty(Utility.createURI(propUri), s.getObject().toString());
+						} else {
+							throw new QuantityBuilderException("Bad Quantity :"+in.getURI()
+									+" dont know what to do with object statement:"
+									+s);
+						}
+					} else {
+						throw new QuantityBuilderException (
+								"Got an extended Quantity, has property but no handler? " +
+								"(uri:"+in.getURI()+") parse: " +
+								"Couldnt figure what to do with child statement:"+s
+							);
+					}
 				}
 			}
+			
 			return q;
 		}
 

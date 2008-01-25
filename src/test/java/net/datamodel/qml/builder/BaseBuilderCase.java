@@ -64,6 +64,7 @@ extends BaseCase
 			try {
 				OntModel model = createOntModel(getBaseOntModelUri());
 				builder = new QuantityBuilder(model);
+				builder.setLaxQuantityParsing(true);
 			} catch (Exception e) {
 				e.printStackTrace();
 				//logger.error(e.getMessage());
