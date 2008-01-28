@@ -115,7 +115,7 @@ extends SemanticObjectBuilder
 		public SemanticObject create (SemanticObjectBuilder b, Individual in, String rdfType)
 		throws QuantityBuilderException 
 		{
-			logger.info("QuantityHandler called");
+			logger.info("QuantityHandler called for "+in.getURI());
 
 			AtomicQuantityImpl q = new AtomicQuantityImpl(Utility.createURI(rdfType));
 			
