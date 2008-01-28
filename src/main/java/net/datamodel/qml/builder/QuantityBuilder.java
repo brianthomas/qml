@@ -112,7 +112,7 @@ extends SemanticObjectBuilder
 	implements SemanticObjectHandler
 	{
 
-		public SemanticObject create (SemanticObjectBuilder b, Individual in, String rdfType)
+		public Quantity create (SemanticObjectBuilder b, Individual in, String rdfType)
 		throws QuantityBuilderException 
 		{
 			logger.info("QuantityHandler called for "+in.getURI());
@@ -162,6 +162,7 @@ extends SemanticObjectBuilder
 				}
 			}
 			
+			logger.debug("QHandler returns:"+q.toXMLString());
 			return q;
 		}
 
@@ -174,9 +175,7 @@ extends SemanticObjectBuilder
 			
 			logger.debug("trying to get datatype for uri:"+vnode.asNode().getURI());
 			logger.debug(" DT node:"+vnode.asNode());
-			for (String type : findRDFTypes(in)) {
-				logger.debug("Got type:"+type);
-			}
+//			for (String type : findRDFTypes(in)) { logger.debug("  got datatype rdf:type = "+type); }
 			String rdfType = findRDFTypes(in).get(0);
 			
 			if (rdfType.equals(BooleanDataTypeURI)) {
