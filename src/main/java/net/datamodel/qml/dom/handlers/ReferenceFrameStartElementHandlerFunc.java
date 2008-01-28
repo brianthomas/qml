@@ -28,11 +28,8 @@
 package net.datamodel.qml.dom.handlers;
 
 
-import java.net.URI;
-
 import net.datamodel.qml.core.ReferenceFrameImpl;
 import net.datamodel.qml.dom.QMLDocumentHandler;
-import net.datamodel.qml.dom.Utility;
 import net.datamodel.xssp.dom.StartElementHandler;
 import net.datamodel.xssp.dom.XSSPDocumentHandler;
 

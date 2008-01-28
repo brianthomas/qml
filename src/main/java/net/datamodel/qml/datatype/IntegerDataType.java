@@ -33,7 +33,6 @@
 package net.datamodel.qml.datatype;
 
 import net.datamodel.qml.Constant;
-import net.datamodel.qml.dom.Utility;
 import net.datamodel.xssp.XMLFieldType;
 
 import org.apache.log4j.Logger;
@@ -91,7 +90,7 @@ public class IntegerDataType extends NumberDataType {
 
 		if( value != null)
 		{
-			if(!Utility.isValidIntegerType(value) ) {
+			if(!isValidIntegerType(value) ) {
 				logger.warn("Warning: "+value+" is not a valid value for the type attribute, ignoring set request.");
 				return;
 			}
@@ -100,6 +99,22 @@ public class IntegerDataType extends NumberDataType {
 		getFields().get(inttypeFieldName).setValue(value); 
 	}
 
+	/** Determine if the passed string represents a valid integer type.
+	 * 
+	 * @param strIntegerType
+	 * @return
+	 */
+	public static final boolean isValidIntegerType(String strIntegerType) {
+	      String[] integerTypeList = Constant.INTEGER_TYPE_LIST;
+	      int stop = integerTypeList.length;
+	      for (int i = 0; i < stop; i++) {
+	        if (strIntegerType.equals(integerTypeList[i]))
+	          return true;
+	      }
+
+	      return false;
+	}
+	      
 	/**
 	 * Whether or not the integers represented by this data type are signed.
 	 */
@@ -122,8 +137,9 @@ public class IntegerDataType extends NumberDataType {
 		return getWidth().intValue();
 	}
 
-	/** Determine if other units are equivalent to these.
-	 */
+	 
+	/*
+	// Determine if other units are equivalent to these.
 	@Override
 	public boolean equals (Object obj) 
 	{
@@ -139,6 +155,7 @@ public class IntegerDataType extends NumberDataType {
 		}
 		return false;
 	}
+	*/
 	// TODO: implement Hashcode!
 
 	/*
