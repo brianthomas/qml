@@ -2,12 +2,8 @@
 package net.datamodel.qml.builder;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import net.datamodel.qml.Quantity;
@@ -21,10 +17,9 @@ import org.mindswap.pellet.jena.PelletReasonerFactory;
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
 import com.hp.hpl.jena.ontology.OntModelSpec;
-import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.util.FileManager;
+
+import edu.umd.astro.jenahelper.Utility;
 
 /**
  * @author thomas
@@ -62,7 +57,7 @@ extends BaseCase
 			logger.debug("Setting up tests");
 
 			try {
-				OntModel model = createOntModel(getBaseOntModelUri());
+				OntModel model = Utility.createOntModel(getBaseOntModelUri(), modelSpec, "RDF/XML");
 				builder = new QuantityBuilder(model);
 				builder.setLaxQuantityParsing(true);
 			} catch (Exception e) {
@@ -77,7 +72,7 @@ extends BaseCase
 			try {
 				for (int i = 0; i < tModelFile.length; i++) {
 					logger.debug(" Create model:"+tModelFile[i]);
-					testModels.add(createOntModel(new File(tModelFile[i])));
+					testModels.add(Utility.createOntModel(new File(tModelFile[i]),modelSpec,"RDF/XML"));
 					logger.debug(" finished Create model:"+tModelFile[i]);
 				}
 			} catch (Exception e) {
@@ -92,42 +87,6 @@ extends BaseCase
 			isSetup = true;
 		}
 
-	}
-
-	/** Build an OntModel for the passed query string.
-	 * 
-	 * @param queryStr
-	 * 
-	 * @return OntModel which represents the query 
-	 */
-	private static OntModel createOntModel (String ontoUri) {
-		return createOntModel(ontoUri, new Hashtable<String,Boolean>(), true);
-	}
-	
-	private static OntModel createOntModel (
-			String ontoUri, 
-			Map<String,Boolean> loaded, 
-			boolean loadImports ) 
-	{
-
-		logger.debug("CreateOntModel uri:"+ontoUri);
-		OntModel queryModel = ModelFactory.createOntologyModel(modelSpec);
-		queryModel.setDynamicImports(loadImports);
-		
-		FileManager fm = FileManager.get();
-		logger.debug("  file manager:"+fm);
-		queryModel.add(fm.loadModel(ontoUri, null, "RDF/XML-ABBREV"));
-		
-		return queryModel;
-	}
-	
-	private static OntModel createOntModel (File ontoFile) 
-	throws FileNotFoundException 
-	{
-		logger.debug("CreateOntMOdel w/ file:"+ontoFile);
-		OntModel ontModel = ModelFactory.createOntologyModel(modelSpec);
-		ontModel.read(new FileInputStream(ontoFile), null);
-		return ontModel;
 	}
 
 	public void do_test1() {
