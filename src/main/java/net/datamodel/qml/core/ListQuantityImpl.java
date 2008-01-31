@@ -63,7 +63,7 @@ implements ListQuantity
      * default capacity.
      */
     public ListQuantityImpl () {  
-    	this(Utility.createURI(Constant.QUANTITY_URI));
+    	this(Utility.createURI(Quantity.ClassURI));
     }
     
     /** Construct with the indicated URI.

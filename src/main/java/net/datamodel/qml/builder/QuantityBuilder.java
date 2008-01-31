@@ -46,29 +46,29 @@ extends SemanticObjectBuilder
 //	private static final String nameUri = Constants.QML_NAMESPACE_URI+"#name";
 //	private static final String descUri = Constants.QML_NAMESPACE_URI+"#description";
 
-	private static final String BooleanDataTypeURI = Constant.QML_NAMESPACE_URI+"BooleanDataType";
-	private static final String FloatDataTypeURI = Constant.QML_NAMESPACE_URI+"FloatDataType";
-	private static final String IntegerDataTypeURI = Constant.QML_NAMESPACE_URI+"IntegerDataType";
-	private static final String StringDataTypeURI = Constant.QML_NAMESPACE_URI+"StringDataType";
+	private static final String BooleanDataTypeURI = Quantity.namespaceURI+"BooleanDataType";
+	private static final String FloatDataTypeURI = Quantity.namespaceURI+"FloatDataType";
+	private static final String IntegerDataTypeURI = Quantity.namespaceURI+"IntegerDataType";
+	private static final String StringDataTypeURI = Quantity.namespaceURI+"StringDataType";
 	
-	private static final String UnitsTypeURI = Constant.QML_NAMESPACE_URI+"Units";
+	private static final String UnitsTypeURI = Quantity.namespaceURI+"Units";
 	
-	private static final String hasValueURI = Constant.QML_NAMESPACE_URI+"value";
-	private static final String hasDataTypeURI = Constant.QML_NAMESPACE_URI+"hasDataType";
-	private static final String hasUnitsURI = Constant.QML_NAMESPACE_URI+"hasUnits";
+	private static final String hasValueURI = Quantity.namespaceURI+"value";
+	private static final String hasDataTypeURI = Quantity.namespaceURI+"hasDataType";
+	private static final String hasUnitsURI = Quantity.namespaceURI+"hasUnits";
 	private static final String rdfTypeURI = RDF.getURI()+"type";
 	private static final String owlSameAsURI = OWL.getURI()+"sameAs";
 	
-	private static final String dtWidthPropURI = Constant.QML_NAMESPACE_URI+"width";
+	private static final String dtWidthPropURI = Quantity.namespaceURI+"width";
 	private Property dataTypeWidthProperty = null;
-	private static final String dtPrecisionPropURI = Constant.QML_NAMESPACE_URI+"precision";
+	private static final String dtPrecisionPropURI = Quantity.namespaceURI+"precision";
 	private Property dataTypePrecisionProperty = null;
-	private static final String dtExponentPropURI = Constant.QML_NAMESPACE_URI+"exponent";
+	private static final String dtExponentPropURI = Quantity.namespaceURI+"exponent";
 	private Property dataTypeExponentProperty = null;
 	
 	private boolean laxQuantityParsingAllowed = false;
 	
-	private static final String unitSymbolPropURI = Constant.QML_NAMESPACE_URI+"symbol";
+	private static final String unitSymbolPropURI = Quantity.namespaceURI+"symbol";
 	private Property unitSymbolProperty = null;
 
 	public QuantityBuilder (OntModel model) 

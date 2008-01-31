@@ -151,7 +151,7 @@ abstract public class BaseCase extends TestCase {
 		QMLElement elem = doc.createQMLElement(q);
 	
 		// set the schema location
-		String schemaLoc = Constant.QML_NAMESPACE_URI+" "+testDirectory+"/"+Constant.QML_SCHEMA_NAME;
+		String schemaLoc = Quantity.namespaceURI+" "+testDirectory+"/"+Constant.QML_SCHEMA_NAME;
 		logger.debug("Set schema location:"+schemaLoc);
 		elem.setAttribute("xsi:schemaLocation",schemaLoc);
 		

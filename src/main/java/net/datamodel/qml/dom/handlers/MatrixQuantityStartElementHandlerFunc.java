@@ -28,7 +28,7 @@
 
 package net.datamodel.qml.dom.handlers;
 
-import net.datamodel.qml.Constant;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.core.MatrixQuantityImpl;
 import net.datamodel.qml.dom.QMLDocumentHandler;
 import net.datamodel.xssp.dom.StartElementHandler;
@@ -51,7 +51,7 @@ public class MatrixQuantityStartElementHandlerFunc implements StartElementHandle
 		// In order to look for referenced Quantities, we "record" this one if it has a qid
 		qhandler.recordQuantity(matrixQ);
 
-		int expected = QMLDocumentHandler.findExpectedSize(attrs, Constant.QML_NAMESPACE_URI);
+		int expected = QMLDocumentHandler.findExpectedSize(attrs, Quantity.namespaceURI);
 		qhandler.addExpectedValues(new Integer(expected));
 
 		try {

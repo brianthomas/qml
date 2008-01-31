@@ -66,7 +66,7 @@ implements QMLDocument
 	 */
 	public QMLDocumentImpl() {
 		super();
-		setPrefixNamespaceMapping("", Constant.QML_NAMESPACE_URI);
+		setPrefixNamespaceMapping("", Quantity.namespaceURI);
 		setPrefixNamespaceMapping("xsi", Constant.XML_SCHEMA_INSTANCE_NAMESPACE_URI);
 	}
 	
@@ -187,7 +187,7 @@ implements QMLDocument
 	}
 
 	@Override
-	public String getNamespaceURI() { return Constant.QML_NAMESPACE_URI; }
+	public String getNamespaceURI() { return Quantity.namespaceURI; }
 
 	@Override
 	public String getSchemaName() { return Constant.QML_SCHEMA_NAME; }

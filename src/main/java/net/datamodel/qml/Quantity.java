@@ -40,7 +40,11 @@ public interface Quantity
 extends Component, XMLSerializableObjectWithValues, Cloneable 
 {
 	
-	public static final String ClassURI = "http://archive.astro.umd.edu/ont/Quantity.owl#Quantity";
+	/** The namespace URI of this package.
+	   */
+	public static final String namespaceURI = "http://archive.astro.umd.edu/ont/Quantity.owl#";
+	
+	public static final String ClassURI = namespaceURI+ "Quantity";
 	
 	/** Determine if this object is similar to the comparison object.
 	 *  Similarity means that all child-objects, fields of the two quantities 

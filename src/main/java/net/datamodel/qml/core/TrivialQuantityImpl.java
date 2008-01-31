@@ -34,6 +34,7 @@ import java.net.URI;
 import net.datamodel.qml.Constant;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Locator;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.Units;
 import net.datamodel.qml.datatype.StringDataType;
@@ -52,7 +53,7 @@ extends AbstractQuantity
 
 	/** No-arg constructor  */
 	public TrivialQuantityImpl () { 
-		this(Utility.createURI(Constant.QUANTITY_URI));
+		this(Utility.createURI(Quantity.ClassURI));
 	}
 	
 	public TrivialQuantityImpl (URI uri) { 

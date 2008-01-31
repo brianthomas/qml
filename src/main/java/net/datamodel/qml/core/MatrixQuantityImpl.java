@@ -37,6 +37,7 @@ import java.util.Vector;
 
 import net.datamodel.qml.Constant;
 import net.datamodel.qml.MatrixQuantity;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.ReferenceFrame;
 import net.datamodel.qml.ValueMapping;
 import net.datamodel.soml.ObjectProperty;
@@ -59,7 +60,7 @@ implements MatrixQuantity
 
 	/** No-argument Constructor. */
 	public MatrixQuantityImpl () {  
-		this(Utility.createURI(Constant.QUANTITY_URI)); 
+		this(Utility.createURI(Quantity.ClassURI)); 
 	}
 
 	/** Construct with the indicated uri.

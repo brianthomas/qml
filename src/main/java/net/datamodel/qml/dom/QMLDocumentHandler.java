@@ -163,7 +163,7 @@ extends SOMLDocumentHandler
 		// FIX: hacked in mapping handlers until separate mapping package is built.
 		mapStartHandlers.put(Constant.NodeTypeName.MAP, new mappingStartElementHandlerFunc());
 
-		this.addStartElementHandlers(qmlStartHandlers, Constant.QML_NAMESPACE_URI);
+		this.addStartElementHandlers(qmlStartHandlers, Quantity.namespaceURI);
 		this.addStartElementHandlers(mapStartHandlers, Constant.MAPPING_NAMESPACE_URI);
 
 		// TODO: init end handlers
@@ -194,7 +194,7 @@ extends SOMLDocumentHandler
 		// TODO: hacked in mapping handlers until separate mapping package is built.
 		// mapEndHandlers.put(Constant.NodeTypeName.MAP, new NullEndElementHandlerFunc());
 
-		this.addEndElementHandlers(qmlEndHandlers, Constant.QML_NAMESPACE_URI);
+		this.addEndElementHandlers(qmlEndHandlers, Quantity.namespaceURI);
 		this.addEndElementHandlers(mapEndHandlers, Constant.MAPPING_NAMESPACE_URI);
 
 		// TODO: init chardata handlers
@@ -225,14 +225,14 @@ extends SOMLDocumentHandler
 		// FIX: hacked in mapping handlers until separate mapping package is built.
 		// mapCharDataHandler.put(Constant.NodeTypeName.MAP, new NullCharDataHandlerFunc());
 
-		addCharDataHandlers(qmlCharDataHandler, Constant.QML_NAMESPACE_URI); 
+		addCharDataHandlers(qmlCharDataHandler, Quantity.namespaceURI); 
 		addCharDataHandlers(mapCharDataHandler, Constant.MAPPING_NAMESPACE_URI); 
 
 		// TODO: init element associations
-		addElementToComplexTypeAssociation(Constant.NodeName.ATOMIC_QUANTITY, Constant.QML_NAMESPACE_URI, 
-				Constant.NodeTypeName.ATOMIC_QUANTITY, Constant.QML_NAMESPACE_URI);
-		addElementToComplexTypeAssociation(Constant.NodeName.REFERENCE_QUANTITY, Constant.QML_NAMESPACE_URI, 
-				Constant.NodeTypeName.REFERENCE_QUANTITY, Constant.QML_NAMESPACE_URI);
+		addElementToComplexTypeAssociation(Constant.NodeName.ATOMIC_QUANTITY, Quantity.namespaceURI, 
+				Constant.NodeTypeName.ATOMIC_QUANTITY, Quantity.namespaceURI);
+		addElementToComplexTypeAssociation(Constant.NodeName.REFERENCE_QUANTITY, Quantity.namespaceURI, 
+				Constant.NodeTypeName.REFERENCE_QUANTITY, Quantity.namespaceURI);
 		
 
 	}

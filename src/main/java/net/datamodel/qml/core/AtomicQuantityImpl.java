@@ -4,6 +4,7 @@ import java.net.URI;
 
 import net.datamodel.qml.Constant;
 import net.datamodel.qml.Locator;
+import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
 import net.datamodel.qml.ValueContainer;
 import net.datamodel.qml.ValueMapping;
@@ -53,7 +54,7 @@ extends AbstractQuantity
 
 	/** No-arg constructor. */
 	public AtomicQuantityImpl () { 
-		this (Utility.createURI(Constant.QUANTITY_URI));
+		this (Utility.createURI(Quantity.ClassURI));
 	}
 	
 	/** Construct the Quantity with the indicated URI.

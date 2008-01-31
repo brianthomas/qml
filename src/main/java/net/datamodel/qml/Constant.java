@@ -53,15 +53,10 @@ public abstract class Constant {
    */
   public static final String QML_SCHEMA_NAME = "QML_35.xsd";
 
-  /** The namespace URI of this package.
-   */
-  public static final String QML_NAMESPACE_URI = "http://archive.astro.umd.edu/ont/Quantity.owl#";
-  
-  public static final String QUANTITY_URI = QML_NAMESPACE_URI + "Quantity";
-  public static final String REFERENCEFRAME_URI = QML_NAMESPACE_URI + "ReferenceFrame";
+  public static final String REFERENCEFRAME_URI = Quantity.namespaceURI+ "ReferenceFrame";
 
   /** The version of QML spec this package implements */
-  public static final String QML_SPEC_VERSION = "0.34";
+  public static final String QML_SPEC_VERSION = "0.35";
 
   /** The version of XML that will be output from a toXML* method call.
   */
@@ -84,7 +79,7 @@ public abstract class Constant {
   // URI's
   
   // MatrixQ 'hasReferenceFrame' relationship
-  public static final String QML_HAS_REF_FRAME_URN_STRVALUE = QML_NAMESPACE_URI+"hasReferenceFrame";
+  public static final String QML_HAS_REF_FRAME_URN_STRVALUE = Quantity.namespaceURI+"hasReferenceFrame";
   private static URI QML_HAS_REF_FRAME_URN = null;
   public static final URI getHasReferenceFrameURN() {
 	  if(null == QML_HAS_REF_FRAME_URN) {
@@ -98,7 +93,7 @@ public abstract class Constant {
   }
   
   // Axis/ListQ 'hasParentReferenceFrame' relationship
-  public static final String QML_HAS_PARENT_REF_FRAME_URN_STRVALUE = QML_NAMESPACE_URI+"hasParentRefFrame";
+  public static final String QML_HAS_PARENT_REF_FRAME_URN_STRVALUE = Quantity.namespaceURI+"hasParentRefFrame";
   private static URI QML_HAS_PARENT_REF_FRAME_URN = null;
   
   public static final URI getHasParentReferenceFrameURN() {
@@ -113,7 +108,7 @@ public abstract class Constant {
   }
   
   // ReferenceFrame 'hasAxis' relationship
-  public static final String QML_HAS_AXIS_URN_STRVALUE = QML_NAMESPACE_URI+"hasAxis";
+  public static final String QML_HAS_AXIS_URN_STRVALUE = Quantity.namespaceURI+"hasAxis";
   private static URI QML_HAS_AXIS_URN = null;
   public static final URI getHasAxisURN() {
 	  if (null == QML_HAS_AXIS_URN) {
