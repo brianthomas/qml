@@ -38,6 +38,11 @@ package net.datamodel.qml;
  * Interface for units held by all value-based quantities and component classes.
  */
 public interface Units {
+	
+	/** The class URI of the base DataType class in the ontology.
+	 */
+	public static final String ClassURI = Quantity.namespaceURI+ "Units";
+	
     /**
      * Get a string presentation of the units. This is provided for human readability.
      * @uml.property  name="string"

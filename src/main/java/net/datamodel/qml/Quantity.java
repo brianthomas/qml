@@ -44,7 +44,22 @@ extends Component, XMLSerializableObjectWithValues, Cloneable
 	   */
 	public static final String namespaceURI = "http://archive.astro.umd.edu/ont/Quantity.owl#";
 	
+	/** The class URI for the base class of all Quantities.
+	 * 
+	 */
 	public static final String ClassURI = namespaceURI+ "Quantity";
+	
+	/** The uri of the property which specifies relationship between
+	 * the Quantity and its DataType.
+	 * 
+	 */
+	public static final String hasDataTypePropertyURI = namespaceURI+ "hasDataType";
+	
+	/** The uri of the property which specifies relationship between
+	 * the Quantity and its Units.
+	 * 
+	 */
+	public static final String hasUnitsPropertyURI = namespaceURI+ "hasUnits";
 	
 	/** Determine if this object is similar to the comparison object.
 	 *  Similarity means that all child-objects, fields of the two quantities 

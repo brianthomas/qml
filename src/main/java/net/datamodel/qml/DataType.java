@@ -39,6 +39,11 @@ public interface DataType
 extends XMLSerializableObject 
 {
 
+
+	/** The class URI of the base DataType class in the ontology.
+	 */
+	public static final String ClassURI = Quantity.namespaceURI+ "DataType";
+	
 	/**
 	 * The object which represents the "no data available" value.
 	 * @throws IllegalAccessException if called for some datatypes (e.g. VectorDataType).
