@@ -21,7 +21,7 @@
     <q:hasUnits><q:second/></q:hasUnits>
     -->
     <q:hasUnits rdf:resource="http://test.org/testOps.owl#unit1"/>
-    <q:hasDataType rdf:resource="http://test.org/testOps.owl#datatype1"/>
+    <q:hasDatatype rdf:resource="http://test.org/testOps.owl#datatype1"/>
     <q:value>1.0</q:value>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
     <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>

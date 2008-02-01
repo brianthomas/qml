@@ -46,6 +46,7 @@ extends SemanticObjectBuilder
 //	private static final String nameUri = Constants.QML_NAMESPACE_URI+"#name";
 //	private static final String descUri = Constants.QML_NAMESPACE_URI+"#description";
 
+	// TODO: define these in their respective datatypes
 	private static final String BooleanDataTypeURI = Quantity.namespaceURI+"BooleanDataType";
 	private static final String FloatDataTypeURI = Quantity.namespaceURI+"FloatDataType";
 	private static final String IntegerDataTypeURI = Quantity.namespaceURI+"IntegerDataType";
@@ -53,9 +54,9 @@ extends SemanticObjectBuilder
 	
 	private static final String UnitsTypeURI = Quantity.namespaceURI+"Units";
 	
-	private static final String hasValueURI = Quantity.namespaceURI+"value";
-	private static final String hasDataTypeURI = Quantity.namespaceURI+"hasDataType";
-	private static final String hasUnitsURI = Quantity.namespaceURI+"hasUnits";
+//	private static final String hasDataTypeURI = Quantity.hasDataTypePropertyURI;
+//	private static final String hasUnitsURI = Quantity.hasUnitsPropertyURI;
+	
 	private static final String rdfTypeURI = RDF.getURI()+"type";
 	private static final String owlSameAsURI = OWL.getURI()+"sameAs";
 	
@@ -125,7 +126,7 @@ extends SemanticObjectBuilder
 			for (StmtIterator si = in.listProperties(); si.hasNext(); ) {
 				Statement s = si.nextStatement();
 				String propUri = s.getPredicate().getURI();
-				if (propUri.equals(hasValueURI)) {
+				if (propUri.equals(Quantity.hasValueURI)) {
 					try {
 						// this call is kosher because by the Q spec, 
 						// all values are held as literals (of xsd:string type) 
@@ -133,9 +134,9 @@ extends SemanticObjectBuilder
 					} catch (SetDataException e) { 
 						logger.error("Can't set value on quantity uri:"+in.getURI()+" from RDF");
 					}
-				} else if (propUri.equals(hasDataTypeURI)) {
+				} else if (propUri.equals(Quantity.hasDataTypePropertyURI)) {
 					q.setDataType(rdfNodeToDataType(s.getObject())); 
-				} else if (propUri.equals(hasUnitsURI)) {
+				} else if (propUri.equals(Quantity.hasUnitsPropertyURI)) {
 					q.setUnits(rdfNodeToUnits(s.getObject())); 
 				} else if (propUri.equals(owlSameAsURI)) {
 					// pass... the SemanticObjectBuilder will handle this

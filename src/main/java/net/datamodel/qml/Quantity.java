@@ -53,13 +53,17 @@ extends Component, XMLSerializableObjectWithValues, Cloneable
 	 * the Quantity and its DataType.
 	 * 
 	 */
-	public static final String hasDataTypePropertyURI = namespaceURI+ "hasDataType";
+	public static final String hasDataTypePropertyURI = namespaceURI+ "hasDatatype";
 	
 	/** The uri of the property which specifies relationship between
 	 * the Quantity and its Units.
 	 * 
 	 */
 	public static final String hasUnitsPropertyURI = namespaceURI+ "hasUnits";
+	
+	/** The uri of the (datatype) property which specifies the value of the Quantity.
+	 */ 
+	public static final String hasValueURI = namespaceURI+"value";
 	
 	/** Determine if this object is similar to the comparison object.
 	 *  Similarity means that all child-objects, fields of the two quantities 
