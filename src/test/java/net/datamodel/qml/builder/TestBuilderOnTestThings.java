@@ -15,6 +15,7 @@ public class TestBuilderOnTestThings extends BaseBuilderCase {
 	private static String[] testModelFiles = { 
 		BASE_TEST_RESOURCE_DIR + "/testBuilder1.rdf",
 		BASE_TEST_RESOURCE_DIR + "/testBuilder2.rdf", 
+		BASE_TEST_RESOURCE_DIR + "/testBuilder3.rdf", 
 	}; 
 
 	@Override

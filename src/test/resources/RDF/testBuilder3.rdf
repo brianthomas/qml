@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!-- Builder quantity test, build from RDF model where 
+ not all of the components are present (no units specified). 
+ This one is simple AQ with integer value.
+  -->
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://test.org/testThings.owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:daml="http://www.daml.org/2001/03/daml+oil#"
+    xmlns:ui="http://archive.astro.umd.edu/ont/unit_instances.owl#" 
+    xmlns:q="http://archive.astro.umd.edu/ont/Quantity.owl#" 
+    > 
+    
+  <rdf:Description rdf:about="http://test.org/testOps.owl#quantity1">
+  <!--
+    <q:name>Time Passed</q:name>
+    <q:description>the amount of time passed</q:description>
+    -->
+    <q:hasUnits rdf:resource="http://test.org/testOps.owl#unit1"/>
+    <q:hasDatatype rdf:resource="http://test.org/testOps.owl#datatype1"/>
+    <q:value>3</q:value>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#Quantity"/>
+    <rdf:type rdf:resource="http://test.org/testThings.owl#IntQ"/>
+    <owl:sameAs rdf:resource="http://test.org/testOps.owl#quantity1"/>
+  </rdf:Description>
+  
+  <rdf:Description rdf:about="http://test.org/testOps.owl#datatype1">
+    <q:width>1</q:width>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://archive.astro.umd.edu/ont/Quantity.owl#IntegerDataType"/>
+  </rdf:Description>
+  
+</rdf:RDF>

@@ -120,6 +120,8 @@ extends SemanticObjectBuilder
 		{
 			logger.info("QuantityHandler called for "+in.getURI());
 
+			boolean laxParsingAllowed = ((QuantityBuilder)b).getLaxQuantityParsing();
+			
 			AtomicQuantityImpl q = new AtomicQuantityImpl(Utility.createURI(rdfType));
 			
 			// a loop is probably NOT the way to do this..we should call
@@ -139,14 +141,40 @@ extends SemanticObjectBuilder
 					} catch (SetDataException e) { 
 						logger.error("Can't set value on quantity uri:"+in.getURI()+" from RDF");
 					}
-				} else if (propUri.equals(Quantity.hasDataTypePropertyURI)) {
-					q.setDataType(rdfNodeToDataType(s.getObject())); 
-				} else if (propUri.equals(Quantity.hasUnitsPropertyURI)) {
-					q.setUnits(rdfNodeToUnits(s.getObject())); 
-				} else if (propUri.equals(rdfTypeURI)) {
+				} 
+				else if (propUri.equals(Quantity.hasDataTypePropertyURI)) 
+				{
+					
+					DataType dt = rdfNodeToDataType(s.getObject());
+					
+					if(dt == null && !laxParsingAllowed) {	
+						throw new IllegalArgumentException("Can't marshall Datatype unknown rdf:type.");
+					}
+				
+					if (dt != null)
+						q.setDataType(dt);
+					
+				} 
+				else if (propUri.equals(Quantity.hasUnitsPropertyURI)) 
+				{
+					Units u = rdfNodeToUnits(s.getObject());
+					
+					if(u == null && !laxParsingAllowed) {	
+						throw new IllegalArgumentException("Can't marshall Units: unknown rdf:type.");
+					}
+						
+					if (u != null)
+						q.setUnits(u);
+					
+				} 
+				else if (propUri.equals(rdfTypeURI)) 
+				{
 					// q.addRDFTypeURI(Utility.createURI(s.getObject().toString())); 
 					// pass...
-				} else {
+				}
+				else 
+				{
+					
 					if (((QuantityBuilder)b).getLaxQuantityParsing()) {
 						// If Lax, then we try to add prop in as a vannila, 
 						// datatype property
@@ -183,26 +211,33 @@ extends SemanticObjectBuilder
 //			for (String type : findRDFTypes(in)) { logger.debug("  got datatype rdf:type = "+type); }
 			String rdfType = findRDFTypes(in).get(0);
 			
-			if (rdfType.equals(BooleanDataTypeURI)) {
+			if (rdfType.equals(BooleanDataTypeURI)) 
+			{
+				
 				// TODO: add real boolean type??
 				dt = new IntegerDataType(1);
+				
 			} else if (rdfType.equals(FloatDataTypeURI)) {
+				
 				int width = in.getProperty(dataTypeWidthProperty).getInt();
 				int prec = in.getProperty(dataTypePrecisionProperty).getInt();
 				int exp = 1;
 				if(in.hasProperty(dataTypeExponentProperty))
 					exp = in.getProperty(dataTypeExponentProperty).getInt();
-				logger.debug(" GOT width:"+width+" precision:"+prec);
 				dt = new FloatDataType(width,prec,exp);
+				
 			} else if (rdfType.equals(StringDataTypeURI)) {
+				
 				int width = in.getProperty(dataTypeWidthProperty).getInt();
 				dt = new StringDataType(width);
+				
 			} else if (rdfType.equals(IntegerDataTypeURI)) {
+				
 				int width = in.getProperty(dataTypeWidthProperty).getInt();
 				dt = new IntegerDataType(width);
+				
 			} else {
-				logger.error("CANT HANDLE datatype:"+rdfType);
-				throw new IllegalArgumentException("Cant handle datatype in RDF of type:"+rdfType);
+				logger.info( "Can't handle datatype:"+rdfType+" builder will assume the default IF lax parsing is enabled (or throw an exception otherwise).");
 			}
 				
 		}
@@ -226,8 +261,7 @@ extends SemanticObjectBuilder
 				String symbol =  in.getProperty(unitSymbolProperty).getString();
 				units = new UnitsImpl(symbol);
 			} else {
-				logger.error("CANT HANDLE units:"+rdfType);
-				throw new IllegalArgumentException("Cant handle units in RDF of type:"+rdfType);
+				logger.info( "Can't handle units :"+rdfType+" builder will assume the default IF lax parsing is enabled (or throw an exception otherwise).");
 			}
 				
 		}
