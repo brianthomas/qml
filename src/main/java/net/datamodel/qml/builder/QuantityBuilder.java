@@ -58,7 +58,9 @@ extends SemanticObjectBuilder
 //	private static final String hasUnitsURI = Quantity.hasUnitsPropertyURI;
 	
 	private static final String rdfTypeURI = RDF.getURI()+"type";
-	private static final String owlSameAsURI = OWL.getURI()+"sameAs";
+	
+//	private static final String owlSameAsURI = OWL.getURI()+"sameAs";
+//	private static final String owlDifferentFromURI = OWL.getURI()+"differentFrom";
 	
 	private static final String dtWidthPropURI = Quantity.namespaceURI+"width";
 	private Property dataTypeWidthProperty = null;
@@ -126,7 +128,10 @@ extends SemanticObjectBuilder
 			for (StmtIterator si = in.listProperties(); si.hasNext(); ) {
 				Statement s = si.nextStatement();
 				String propUri = s.getPredicate().getURI();
-				if (propUri.equals(Quantity.hasValueURI)) {
+				if (s.getPredicate().getNameSpace().equals(OWL.getURI())) {
+					// pass all owl namespace properties..we don't use them in Q
+				} else if(propUri.equals(Quantity.hasValueURI)) {
+				
 					try {
 						// this call is kosher because by the Q spec, 
 						// all values are held as literals (of xsd:string type) 
@@ -138,10 +143,9 @@ extends SemanticObjectBuilder
 					q.setDataType(rdfNodeToDataType(s.getObject())); 
 				} else if (propUri.equals(Quantity.hasUnitsPropertyURI)) {
 					q.setUnits(rdfNodeToUnits(s.getObject())); 
-				} else if (propUri.equals(owlSameAsURI)) {
-					// pass... the SemanticObjectBuilder will handle this
 				} else if (propUri.equals(rdfTypeURI)) {
-					// pass...the RDF:Type property handler will catch this
+					// q.addRDFTypeURI(Utility.createURI(s.getObject().toString())); 
+					// pass...
 				} else {
 					if (((QuantityBuilder)b).getLaxQuantityParsing()) {
 						// If Lax, then we try to add prop in as a vannila, 
