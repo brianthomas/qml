@@ -417,7 +417,8 @@ implements ValueContainer
 			Writer outputWriter,
 			String indent,
 			String newNodeNameString, 
-			boolean doFirstIndent
+			boolean doFirstIndent,
+			boolean isRootNode
 	)
 	throws IOException
 	{
@@ -426,9 +427,9 @@ implements ValueContainer
 		// If there are fewer than 2 values, serialize with NO node name
 		// so that only the child "value" will appear instead of <values><value>..</value></values>
 		if(getNumberOfValues() < 2 && newNodeNameString == null)
-			return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, "", doFirstIndent);
+			return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, "", doFirstIndent, isRootNode);
 		else
-			return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, newNodeNameString, doFirstIndent );
+			return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, newNodeNameString, doFirstIndent, isRootNode );
 
 	}
 	

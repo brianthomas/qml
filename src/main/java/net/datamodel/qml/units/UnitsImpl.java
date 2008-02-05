@@ -100,7 +100,8 @@ implements Units
 			Writer outputWriter,
 			String indent,
 			String newNodeNameString, 
-			boolean doFirstIndent 
+			boolean doFirstIndent,
+			boolean isRootNode
 	)
 	throws IOException
 	{
@@ -108,7 +109,7 @@ implements Units
 		if (getString().equals(""))
 			return false;
 
-		return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, newNodeNameString, doFirstIndent);
+		return super.basicXMLWriter(idTable, prefixTable, outputWriter, indent, newNodeNameString, doFirstIndent, isRootNode);
 	}
 
 
