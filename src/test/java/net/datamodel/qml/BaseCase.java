@@ -243,12 +243,9 @@ abstract public class BaseCase extends TestCase {
 	     // create the reader
 	     QMLReader r = new QMLReader(doc);
 	     
-	     //InputSource inputsource = new InputSource(new FileReader(inputfile));
-	     //r.parse(inputsource);
-
 	     r.parseFile(inputfile);
 	     
-/*
+	     /*
 	     // set the output specification
 	     Specification.getInstance().setPrettyOutput(true);
 	     Specification.getInstance().setPrettyOutputIndentation("  ");

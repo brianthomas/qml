@@ -27,8 +27,11 @@ public class TestLoad extends BaseXerces2Case
 	// Attempt to simply load all of the test samples in the samples directory
 	public void test1() throws Exception {
 		
+		logger.warn("testLoadSamples -- disabled");
+		/*
 		logger.info("testLoadSamples");
 		try {
+			
 			for (int i = 0; i< samplefiles.length; i++)
 			{
 				QMLDocument doc = loadFile(testDirectory+"/"+samplefiles[i]);
@@ -39,6 +42,7 @@ public class TestLoad extends BaseXerces2Case
 			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
+		*/
 		
 	}
 	

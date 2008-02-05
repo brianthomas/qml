@@ -31,6 +31,7 @@
 package net.datamodel.qml.datatype;
 
 import net.datamodel.qml.DataType;
+import net.datamodel.qml.Quantity;
 import net.datamodel.xssp.XMLFieldType;
 import net.datamodel.xssp.impl.AbstractXMLSerializableObject;
 
@@ -47,8 +48,8 @@ implements DataType
 	// The object which represents the "no data available" value.
 	private static final String noDataValueFieldName = "noDataValue";
 
-	/** no-arg constructor. */
 	public BaseDataType ( ) { 
+		setNamespaceURI(Quantity.namespaceURI);
 		addField(noDataValueFieldName, null, XMLFieldType.ATTRIBUTE);
 	}
 

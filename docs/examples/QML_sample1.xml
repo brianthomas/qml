@@ -15,6 +15,12 @@
    <q:hasUnits><u:unitless/></q:hasUnits>
    <q:hasDataType><q:string/></q:hasUnits>
 -->
-   <q:hasValue><q:value>some data in a basic node</q:value></q:hasValue>
+   <!--
+<q:hasValue>
+   -->
+   <q:value>some data in a basic node</q:value>
+   <!--
+   </q:hasValue>
    <rdf:type resource="http://test.org/test/SomeObjectWhichIsAQuantity"/>
+   -->
 </q:atomicQuantity>

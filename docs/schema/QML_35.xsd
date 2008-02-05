@@ -79,7 +79,6 @@
            <xsd:choice minOccurs="1">
               <xsd:element ref="ListQuantityGroup"/>
            </xsd:choice>
-           <xsd:attribute name="URI" type="xsd:anyURI"/>
         </xsd:restriction>
      </xsd:complexContent>
   </xsd:complexType>
@@ -177,6 +176,7 @@
           <xsd:choice>
              <xsd:element maxOccurs="unbounded" minOccurs="0" name="property" type="PropertyType"/>
              <xsd:element maxOccurs="unbounded" minOccurs="0" name="dtproperty" type="so:simplePropertyType"/>
+             <xsd:element ref="rdf:type" minOccurs="1" maxOccurs="unbounded"/>
           </xsd:choice>
 
            <xsd:choice>

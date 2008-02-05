@@ -35,6 +35,7 @@ extends BaseCase
 			
 			logger.debug("Test AtomicQ XML output:"+System.getProperty("line.separator")+q.toXMLString());
 			
+			logger.debug(q.toXMLString());
 			checkVariousValidXMLRepresentations(q);
 			
 		} catch (Exception e) {
