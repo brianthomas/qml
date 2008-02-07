@@ -169,8 +169,9 @@ extends SemanticObjectBuilder
 				} 
 				else if (propUri.equals(rdfTypeURI)) 
 				{
-					// q.addRDFTypeURI(Utility.createURI(s.getObject().toString())); 
-					// pass...
+					String val = s.getObject().toString();
+					if (!val.equals(OWL.Thing.getURI()))
+						q.addRDFTypeURI(Utility.createURI(val));
 				}
 				else 
 				{
