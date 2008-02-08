@@ -134,6 +134,7 @@ extends SemanticObjectBuilder
 					// pass all owl namespace properties..we don't use them in Q
 				} else if(propUri.equals(Quantity.hasValueURI)) {
 				
+					logger.debug("GotValueURI");
 					try {
 						// this call is kosher because by the Q spec, 
 						// all values are held as literals (of xsd:string type) 
@@ -211,6 +212,8 @@ extends SemanticObjectBuilder
 			logger.debug(" DT node:"+vnode.asNode());
 //			for (String type : findRDFTypes(in)) { logger.debug("  got datatype rdf:type = "+type); }
 			String rdfType = findRDFTypes(in).get(0);
+			
+			logger.debug(" found datatype:"+rdfType);
 			
 			if (rdfType.equals(BooleanDataTypeURI)) 
 			{
