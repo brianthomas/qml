@@ -42,12 +42,12 @@ extends Component, XMLSerializableObjectWithValues, Cloneable
 	
 	/** The namespace URI of this package.
 	   */
-	public static final String namespaceURI = "http://archive.astro.umd.edu/ont/Quantity.owl#";
+	public static String namespaceURI = "http://archive.astro.umd.edu/ont/Quantity.owl#";
 	
 	/** The class URI for the base class of all Quantities.
 	 * 
 	 */
-	public static final String ClassURI = namespaceURI+ "Quantity";
+	public static String ClassURI = namespaceURI+ "Quantity";
 	
 	/** The uri of the property which specifies relationship between
 	 * the Quantity and its DataType.
