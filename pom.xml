@@ -108,7 +108,7 @@
     <dependency>
       <groupId>edu.umd.astro</groupId>
       <artifactId>sdr</artifactId>
-      <version>0.97.1</version>
+      <version>0.98.0</version>
       <scope>test</scope>
     </dependency>
     
@@ -125,7 +125,8 @@
       <version>2.9.1</version>
     </dependency>
     
-       <!-- pellet-related dependencies, we only need for testing? -->
+    <!-- pellet-related dependencies, we only need for testing? -->
+    <!--
     <dependency>
       <groupId>org.mindswap</groupId>
       <artifactId>pellet</artifactId>
@@ -195,6 +196,7 @@
       <version>1.1.1-dev</version>
       <scope>test</scope>
     </dependency>
+    -->
     
   </dependencies>
 

@@ -12,7 +12,6 @@ import net.datamodel.soml.builder.SemanticObjectBuilderException;
 import net.datamodel.xssp.dom.Specification;
 
 import org.apache.log4j.Logger;
-import org.mindswap.pellet.jena.PelletReasonerFactory;
 
 import com.hp.hpl.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntModel;
@@ -35,7 +34,8 @@ extends BaseCase
 	protected static String BASE_TEST_RESOURCE_DIR = "src/test/resources/RDF";
 	
 //	private static final OntModelSpec modelSpec = OntModelSpec.OWL_MEM;
-	private static final OntModelSpec modelSpec = PelletReasonerFactory.THE_SPEC; // dont need a reasoner..we are just counting sub/super classes 
+	private static final OntModelSpec modelSpec = OntModelSpec.OWL_MEM_MICRO_RULE_INF;
+//	private static final OntModelSpec modelSpec = PelletReasonerFactory.THE_SPEC; // dont need a reasoner..we are just counting sub/super classes 
 
 	protected static List<OntModel> testModels = new Vector<OntModel>();
 	

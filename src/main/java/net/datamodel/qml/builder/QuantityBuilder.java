@@ -3,9 +3,9 @@
  */
 package net.datamodel.qml.builder;
 
+import java.net.URI;
 import java.util.Iterator;
 
-import net.datamodel.qml.Constant;
 import net.datamodel.qml.DataType;
 import net.datamodel.qml.Quantity;
 import net.datamodel.qml.SetDataException;
@@ -15,10 +15,8 @@ import net.datamodel.qml.datatype.FloatDataType;
 import net.datamodel.qml.datatype.IntegerDataType;
 import net.datamodel.qml.datatype.StringDataType;
 import net.datamodel.qml.units.UnitsImpl;
-import net.datamodel.soml.SemanticObject;
 import net.datamodel.soml.Utility;
 import net.datamodel.soml.builder.SemanticObjectBuilder;
-import net.datamodel.soml.builder.SemanticObjectBuilderException;
 
 import org.apache.log4j.Logger;
 
@@ -171,8 +169,16 @@ extends SemanticObjectBuilder
 				else if (propUri.equals(rdfTypeURI)) 
 				{
 					String val = s.getObject().toString();
-					if (!val.equals(OWL.Thing.getURI()))
-						q.addRDFTypeURI(Utility.createURI(val));
+					if (val != null && !val.equals(OWL.Thing.getURI()))
+					{
+						try {
+							// some reasonerspass us rdf:type to blank node (!)
+							URI vUri = Utility.createURI(val);
+							q.addRDFTypeURI(vUri);
+						} catch (NullPointerException e) {
+							// pass; reasoner error.. 
+						}
+					}
 				}
 				else 
 				{
