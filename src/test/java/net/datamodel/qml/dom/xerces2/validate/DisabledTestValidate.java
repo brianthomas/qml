@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
  * @author thomas
  *
  */
-public class TestValidate extends BaseXerces2Case {
+public class DisabledTestValidate extends BaseXerces2Case {
 	
-	private static final Logger logger = Logger.getLogger(TestValidate.class);
+	private static final Logger logger = Logger.getLogger(DisabledTestValidate.class);
 	
 	// TODO
     public void testValidateSamples () throws Exception {

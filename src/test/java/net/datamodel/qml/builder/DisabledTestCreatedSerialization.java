@@ -14,11 +14,11 @@ import org.apache.log4j.Logger;
  * @author thomas
  *
  */
-public class TestCreatedSerialization 
+public class DisabledTestCreatedSerialization 
 extends BaseCase 
 {
 	
-	private static final Logger logger = Logger.getLogger(TestCreatedSerialization.class);
+	private static final Logger logger = Logger.getLogger(DisabledTestCreatedSerialization.class);
 	
 	// Create an atomic quantity and exercise its interface to insure we
 	// get some sane answers.
