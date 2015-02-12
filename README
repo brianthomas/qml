@@ -1,46 +1,33 @@
 
-  Hi all,
+  Quanity Modelling Language (QML)
+  --------------------------------
 
-  First off: Thanks for taking a look at QML (Quantity modeling
-  language). I bet you are wondering what "QML" is, eh? Ok, here's
-  a quick shot at defining it: 
+  First off: thanks for taking a look at QML. I bet you are wondering 
+  what "QML" is, eh? Ok, here's a quick shot at defining it: 
 
      QML is a "thing"-based language for scientific and 
      mathematical data modeling. Each "thing" is a "quantity" which 
      is be associated with a structure and a semantic definition..which
      for our purposes is a physical phenomena (like "star" or 
-     "fluid temperature"). 
+     "fluid temperature"). It has much in common with ontology-based 
+     languages like OWL/RDF but is streamlined to just focus on percieved 
+     needs in science data modeling and data serialization for archiving
+     and transport.
 
-     Quantities in turn, may hold other Quantities or values (numbers
-     or strings). Higher-level data models, which associate/define 
-     semantic meanings to various quantities (e.g. "velocity", "position"), 
-     can be built from these basic quantities. The higher-level data model (XML)
-     schema that inherit from QML may be understood and its instance 
-     documents parsed into QML documents / objects by the QMLReader. QML 
-     is serialized in XML and useful for describing the things within an
-     XML-based (aka "OWL") ontology.
+  Second, this software consitutes a research effort/interest by myself
+  and this software is not guarrenteed to be complete or fit for any 
+  purpose whatsoever. As it happens, I would consider this package to
+  currently be "alpha" (see the TODO file for missing things). Certainly
+  there may also be some significant bugs and some existing features may 
+  break from version to version. The majority of my effort is to test 
+  ideas and add planned features from the development roadmap; stability 
+  will come afterwards.
 
+  Third, if you just want to install this and run it, proceed directly 
+  to the "INSTALL" file.
 
-  Second: This is an *alpha* release of the QML Java IO package.
-  "alpha" means that the package is feature incomplete (see the TODO
-  file) and that the interface to existing package functionality may
-  vary from version to version as well. Certainly, there can also be 
-  some significant bugs. Some existing features may break from version
-  to version. Right now the majority of my effort is to add the new planned 
-  features from the development roadmap, stability will come afterwards.
-
-  My expectation is that a "beta" package can be produced some time by 
-  the end of the fall, 2006, and a "stable" package for the winter 2007.
-
-  Third: if you just want to install this and run it, you can stop
-  wasting time with this README. Proceed directly to the "INSTALL"
-  file.
-
-  fourth: We have a development roadmap (finally!). Clear(er) definition
-  about what the version numbers mean!!
-
-  fifth: I am very open to contributions and development help. Please 
-  contact me if you are interested.
+  I am very open to contributions and development help. Please contact me 
+  if you are interested.
 
   Lastly, as a notice to my employers, and whomever else is concerned:
 
@@ -57,9 +44,7 @@
   that I ask is that if you develop a good patch, to let be know 
   about it so that it might be incorporated within QML.
 
-
-  =b.t.
-  (baba-luu@earthlink.net)
+  -brian
 
   --- 
 
