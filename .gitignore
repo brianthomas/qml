@@ -1,0 +1,7 @@
+.classpath
+.project
+.settings
+target
+docs/doxygen
+doxygen
+src//log4j.properties
